@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metrics>
+  <!--  [TODO#3] Declare the descriptions of your all the QR in the Assessment Model -->
+  <metric id="2000000" type="quality-rule" originalName="Avoid classes with a number of constructors > X (parameter value X= 4)" section="output">
+    <english>Avoid classes with more than 4 constructors.</english>
+  </metric>
+</metrics>
