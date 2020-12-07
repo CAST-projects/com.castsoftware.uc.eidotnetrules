@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UnitTestTemplateCastQualityRules.Properties {
+namespace UnitTests.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace UnitTestTemplateCastQualityRules.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UnitTestTemplateCastQualityRules.Properties.SourcesToTest", typeof(SourcesToTest).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UnitTests.Properties.SourcesToTest", typeof(SourcesToTest).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

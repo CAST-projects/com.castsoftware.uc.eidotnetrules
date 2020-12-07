@@ -7,8 +7,8 @@
     <ProjectGuid>{012417DA-998A-47E8-90F4-801F63D9AB4C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestTemplateCastQualityRules</RootNamespace>
-    <AssemblyName>UnitTestTemplateCastQualityRules</AssemblyName>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -38,10 +38,6 @@
     </Reference>
     <Reference Include="CastDotNetExtensionTestTools">
       <HintPath>..\Packages\CastDotNetExtension.1.0.0\CastDotNetExtensionTestTools.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetExampleCastQualityRules, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Build\x64\Release\DotNetExampleCastQualityRules.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\Packages\Microsoft.CodeAnalysis.Common.3.3.1\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>

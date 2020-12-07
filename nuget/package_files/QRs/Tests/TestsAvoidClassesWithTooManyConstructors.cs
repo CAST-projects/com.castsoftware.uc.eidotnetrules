@@ -15,7 +15,7 @@ namespace CastDotNetExtension.UnitTest
 
             /// [TODO#9] load the source code to test from resources
             // note: a source file should have been added to the resources using the Resource file "SourcesToTest.resx"
-            var testSrc = UnitTestTemplateCastQualityRules.Properties.SourcesToTest.AvoidClassesWithTooManyConstructors_QualUatExample;
+            var testSrc = UnitTests.Properties.SourcesToTest.AvoidClassesWithTooManyConstructors_QualUatExample;
 
             /// [TODO#10] create the checker object, parametrized with the type of the QR to test
             var checker = CastDotNetExtensionChecker<AvoidClassesWithTooManyConstructorsAnalyzer>.CreateInstance();

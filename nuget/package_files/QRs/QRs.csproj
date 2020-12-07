@@ -42,17 +42,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\Languages\DotNet\DotNetExampleMetaModel.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MasterFiles\IMPLQualityRules.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="CastDotNetExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Packages\CastDotNetExtension.1.0.0\CastDotNetExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>Packages\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>Packages\Microsoft.CodeAnalysis.Common.3.3.1\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
@@ -74,4 +69,12 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <MetaModel Include="..\Configuration\**" />
+      <MasterFiles Include="..\MasterFiles\**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(MetaModel)" DestinationFolder="$(OutputPath)\Configuration\Languges\DotNet" ContinueOnError="false" />
+    <Copy SourceFiles="@(MasterFiles)" DestinationFolder="$(OutputPath)\MasterFiles" ContinueOnError="false" />
+  </Target>
 </Project>
