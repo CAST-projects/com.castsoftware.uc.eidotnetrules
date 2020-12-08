@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AvoidClassesWithTooManyConstructorsAnalyzer.cs" />
+    <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

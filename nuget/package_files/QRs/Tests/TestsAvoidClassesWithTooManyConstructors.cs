@@ -28,13 +28,13 @@ namespace CastDotNetExtension.UnitTest
                 //.AddAssemblyRef(@"C:\packages\assembly.dll")
                 .Apply(testSrc);
 
-            checker
-                .AddExpected(10, 8)
-                .AddExpected(15, 8)
-                .AddExpected(20, 8)
-                .AddExpected(25, 8)
-                .AddExpected(30, 8)
-                .Validate();
+            //checker
+            //    .AddExpected(10, 8)
+            //    .AddExpected(15, 8)
+            //    .AddExpected(20, 8)
+            //    .AddExpected(25, 8)
+            //    .AddExpected(30, 8)
+            //    .Validate();
 
             /// [TODO#13] Check the results
             Assert.IsTrue(checker.IsValid(), checker.getStatus());

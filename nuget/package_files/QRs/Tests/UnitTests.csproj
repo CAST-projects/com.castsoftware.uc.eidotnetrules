@@ -75,13 +75,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SourcesToTest.resx</DependentUpon>
     </Compile>
+    <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
+    <Compile Include="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
     <None Include="TestSources\AvoidClassesWithTooManyConstructors_QualUatExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\SourcesToTest.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SourcesToTest.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

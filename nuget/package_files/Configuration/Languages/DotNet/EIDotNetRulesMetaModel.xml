@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metaModel file_level="client" file_no="99">
+<metaModel file_level="client" file_no="118">
 
   <!--  [TODO#1] Declare the category for the QR -->
   
@@ -14,7 +14,16 @@
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
-	
+
+     <property name="AvoidLocalVariablesShadowingClassFields" type="integer"  rid="1">
+        <description>Avoid Local Variables Shadowing Class Fields</description>
+        <attribute name="INF_TYPE"       intValue="3333333"/>
+        <attribute name="INF_SUB_TYPE"   intValue="1"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>     
+     
   </category>
 
 
