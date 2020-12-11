@@ -67,10 +67,7 @@ namespace CastDotNetExtension {
                         } while (null != type && !type.ToString().Equals("object"));
                      }
 
-                     ISymbol field;
-                     if (members.TryGetValue(name, out field)) {
-                        var reference = field.DeclaringSyntaxReferences.FirstOrDefault();
-                        SyntaxNode syntaxNode = (null != reference) ? reference.GetSyntax() : null;
+                     if (members.ContainsKey(name)) {
                         var pos = context.Node.GetLocation().GetMappedLineSpan();
                         //Console.WriteLine("Thread ID: " + System.Threading.Thread.CurrentThread.ManagedThreadId +
                         //   " Adding violation at " + pos.StartLinePosition.ToString());

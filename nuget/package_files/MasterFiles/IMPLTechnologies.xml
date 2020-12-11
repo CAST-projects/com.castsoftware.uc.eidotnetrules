@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" filter="138383" filterLabel="C#" />
+</root>

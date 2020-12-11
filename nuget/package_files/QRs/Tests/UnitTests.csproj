@@ -77,7 +77,7 @@
     </Compile>
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
-    <Compile Include="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
+    <None Include="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
     <None Include="TestSources\AvoidClassesWithTooManyConstructors_QualUatExample.cs" />
   </ItemGroup>
   <ItemGroup>

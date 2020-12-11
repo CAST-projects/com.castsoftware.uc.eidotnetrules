@@ -1,7 +1,80 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<metrics>
-  <!--  [TODO#3] Declare the descriptions of your all the QR in the Assessment Model -->
-  <metric id="2000000" type="quality-rule" originalName="Avoid classes with a number of constructors > X (parameter value X= 4)" section="output">
-    <english>Avoid classes with more than 4 constructors.</english>
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" section="name">
+    <english>Programming Practices - Unexpected Behavior</english>
   </metric>
-</metrics>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="description">
+    <english>This rule will check whether local variables are shadowing class fields.
+
+In case of C#, classes as well as structs are considered.
+In case of Visual Basic, modules also considered in addition to classes.
+
+In case of classes, only non-private fields of Base classes are considered.</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="name">
+    <english>Avoid local variables shadowing class fields</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code
+- Bookmark to field that is being shadowed</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="rationale">
+    <english>Both overriding or shadowing a class field (typically non-private)  can strongly impact the readability, and therefore the maintainability, of a piece of code.</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="reference">
+    <english>CERT, DCL01-C. - Do not reuse variable names in subscopes
+CERT, DCL51-J. - Do not shadow or obscure identifiers in subscopes</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediation">
+    <english>Ensure you have an explicit way, usually in form of naming conventions, to name your local variable to avoid conflict with class fields.</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediationSample">
+    <english>// Field Shadowing
+
+class MyVector {
+  private int val = 1;
+  private void doLogic() {
+    int newValue;
+    //...
+  }
+}
+
+// Variable Shadowing
+
+class MyVector {
+  private void doLogic() {
+    for (int i = 0; i &lt; 10; i++) {/* ... */}
+    for (int i = 0; i &lt; 20; i++) {/* ... */}
+  }
+}</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="sample">
+    <english>// Field Shadowing
+
+class MyVector {
+  private int val = 1;
+  private void doLogic() {
+    int val;
+    //...
+  }
+}
+
+// Variable shadowing
+
+class MyVector {
+  private int i = 0;
+  private void doLogic() {
+    for (i = 0; i &lt; 10; i++) {/* ... */}
+    for (int i = 0; i &lt; 20; i++) {/* ... */}
+  }
+}</english>
+  </metric>
+  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
+    <english>Number of Methods</english>
+  </metric>
+</root>
