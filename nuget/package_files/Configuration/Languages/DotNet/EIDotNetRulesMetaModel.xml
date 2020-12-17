@@ -3,12 +3,12 @@
 
   <!--  [TODO#1] Declare the category for the QR -->
   
-  <category name="DotNetQualityRules" rid="0">
+  <category name="EIDotNetQualityRules" rid="0">
     <description>Custom Quality Rules for DotNet</description>
 	
     <property name="avoidClassesWithTooManyConstructorsAnalyzer" type="integer"  rid="0">
       <description>Avoid classes with a number of constructors > X (parameter value X= 4)</description>
-      <attribute name="INF_TYPE"       intValue="3333333"/>
+      <attribute name="INF_TYPE"       intValue="1118000"/>
       <attribute name="INF_SUB_TYPE"   intValue="0"  />
       <attribute name="ACCESS_APPVIEW" intValue="1"   />
       <attribute name="ACCESS_HTML"    intValue="1"   />
@@ -17,12 +17,21 @@
 
      <property name="AvoidLocalVariablesShadowingClassFields" type="integer"  rid="1">
         <description>Avoid Local Variables Shadowing Class Fields</description>
-        <attribute name="INF_TYPE"       intValue="3333333"/>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="1"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
-     </property>     
+     </property>
+
+     <property name="ChildClassFieldsShouldNotShadowParentClassFields" type="integer"  rid="2">
+        <description>Child class fields should not shadow parent class fields</description>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="2"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
      
   </category>
 
@@ -30,7 +39,7 @@
   <!--  [TODO#2] Add the category to the list of metrics -->
   
   <partialCategory name="CAST_DotNet_Metricable">
-    <inheritedCategory name="DotNetQualityRules"/>
+    <inheritedCategory name="EIDotNetQualityRules"/>
   </partialCategory>
 
 

@@ -35,7 +35,6 @@ namespace UnitTests.UnitTest {
             .AddExpected(54, 19)
             .AddExpected(62, 19)
             .AddExpected(69, 19)
-            
             .Validate();
 
          /// [TODO#13] Check the results
