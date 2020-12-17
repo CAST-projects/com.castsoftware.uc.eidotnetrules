@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Threading;
 
-
 namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -22,8 +21,8 @@ namespace CastDotNetExtension {
    )]
    public class AvoidLocalVariablesShadowingClassFields : AbstractRuleChecker {
 
-      private Dictionary<INamedTypeSymbol, Dictionary<string, ISymbol>> _klazzToMembers
-         = new Dictionary<INamedTypeSymbol, Dictionary<string, ISymbol>>();
+      private Dictionary<string, Dictionary<string, ISymbol>> _klazzToMembers
+         = new Dictionary<string, Dictionary<string, ISymbol>>();
 
       public AvoidLocalVariablesShadowingClassFields() {
       }
@@ -37,52 +36,51 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(AddViolationIfLocalVariableViolates, Microsoft.CodeAnalysis.CSharp.SyntaxKind.VariableDeclarator, Microsoft.CodeAnalysis.CSharp.SyntaxKind.EndOfFileToken);
       }
 
-      private object tLock = new object();  
+      private object _fieldLock = new object();  
 
       protected void AddViolationIfLocalVariableViolates(SyntaxNodeAnalysisContext context) {
-         Monitor.Enter(tLock);
-         try {
-            if (Microsoft.CodeAnalysis.SymbolKind.Method == context.ContainingSymbol.Kind) {
-               var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
-               string name = csharpNode.Identifier.ValueText;
-               if (null != name) {
-                  var type = context.ContainingSymbol.ContainingType as INamedTypeSymbol;
-                  if (null != type) {
-                     Dictionary<string, ISymbol> members = null;
-                     if (!_klazzToMembers.TryGetValue(type, out members)) {
-                        members = new Dictionary<string, ISymbol>();
-                        _klazzToMembers[type] = members;
-                        string baseName = type.Name;
-                        bool considerPrivateMembers = true;
-                        do {
-                           foreach (var member in type.GetMembers()) {
-                              if (Microsoft.CodeAnalysis.SymbolKind.Field == member.Kind) {
-                                 if (considerPrivateMembers || Accessibility.Private != member.DeclaredAccessibility) {
-                                    members[member.Name] = member;
+         lock (_fieldLock) {
+            try {
+               if (Microsoft.CodeAnalysis.SymbolKind.Method == context.ContainingSymbol.Kind) {
+                  var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
+                  string name = csharpNode.Identifier.ValueText;
+                  if (null != name) {
+                     var type = context.ContainingSymbol.ContainingType as INamedTypeSymbol;
+                     if (null != type) {
+                        string fullname = type.OriginalDefinition.ToString();
+                        Dictionary<string, ISymbol> fields = null;
+                        if (!_klazzToMembers.TryGetValue(fullname, out fields)) {
+                           fields = new Dictionary<string, ISymbol>();
+                           _klazzToMembers[fullname] = fields;
+                           string baseName = type.Name;
+                           bool considerPrivateMembers = true;
+                           do {
+                              foreach (var field in type.GetMembers()) {
+                                 if (Microsoft.CodeAnalysis.SymbolKind.Field == field.Kind) {
+                                    if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility) {
+                                       fields[field.Name] = field;
+                                    }
                                  }
                               }
-                           }
-                           considerPrivateMembers = false;
-                           type = type.BaseType;
-                        } while (null != type && !type.ToString().Equals("object"));
-                     }
+                              considerPrivateMembers = false;
+                              type = type.BaseType;
+                           } while (null != type && !type.ToString().Equals("object"));
+                        }
 
-                     if (members.ContainsKey(name)) {
-                        var pos = context.Node.GetLocation().GetMappedLineSpan();
-                        //Console.WriteLine("Thread ID: " + System.Threading.Thread.CurrentThread.ManagedThreadId +
-                        //   " Adding violation at " + pos.StartLinePosition.ToString());
-                        AddViolation(context, new List<FileLinePositionSpan>() { pos });
+                        if (fields.ContainsKey(name)) {
+                           var pos = context.Node.GetLocation().GetMappedLineSpan();
+                           //Console.WriteLine("Thread ID: " + System.Threading.Thread.CurrentThread.ManagedThreadId +
+                           //   " Adding violation at " + pos.StartLinePosition.ToString());
+                           AddViolation(context, new List<FileLinePositionSpan>() { pos });
+                        }
                      }
                   }
                }
             }
-         }
-         catch (Exception e) {
-            Console.WriteLine(e.StackTrace);
-            System.Console.WriteLine("Exception in ... " + e.Message);
-         }
-         finally {
-            Monitor.Exit(tLock);
+            catch (Exception e) {
+               Console.WriteLine(e.StackTrace);
+               System.Console.WriteLine("Exception in ... " + e.Message);
+            }
          }
       }
 
