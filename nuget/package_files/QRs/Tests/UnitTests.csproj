@@ -76,7 +76,9 @@
       <DependentUpon>SourcesToTest.resx</DependentUpon>
     </Compile>
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
+    <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
+    <None Include="TestSources\ChildClassFieldsShouldNotShadowParentClassFields_Source.cs" />
     <None Include="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
     <None Include="TestSources\AvoidClassesWithTooManyConstructors_QualUatExample.cs" />
   </ItemGroup>

@@ -114,5 +114,24 @@ namespace UnitTests.Properties {
                 return ResourceManager.GetString("AvoidLocalVariablesShadowingClassFields_Source", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class ChildClassFieldsShouldNotShadowParentClassFields_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string ChildClassFieldsShouldNotShadowParentClassFields_Source {
+            get {
+                return ResourceManager.GetString("ChildClassFieldsShouldNotShadowParentClassFields_Source", resourceCulture);
+            }
+        }
     }
 }

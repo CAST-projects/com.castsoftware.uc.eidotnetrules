@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" section="name">
-    <english>Programming Practices - Unexpected Behavior</english>
+  <metric id="61003" type="technical-criterion" originalName="Programming Practices - OO Inheritance and Polymorphism" section="name">
+    <english>Programming Practices - OO Inheritance and Polymorphism</english>
   </metric>
   <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
@@ -76,5 +76,52 @@ class MyVector {
   </metric>
   <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
     <english>Number of Methods</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
+    <english>Child class fields should not shadow parent class fields</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="rationale">
+    <english>Having a variable with the same name in two unrelated classes is fine, but do the same thing within a class hierarchy and you'll get confusion at best, chaos at worst.</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="reference">
+    <english>https://rules.sonarsource.com/csharp/RSPEC-2387</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="remediationSample">
+    <english>public class Fruit
+{
+  protected Season ripe;
+  protected Color flesh;
+
+  // ...
+}
+
+public class Raspberry : Fruit
+{
+  private bool ripened;
+  private static Color FLESH_COLOR;
+}</english>
+  </metric>
+  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="sample">
+    <english>public class Fruit
+{
+  protected Season ripe;
+  protected Color flesh;
+
+  // ...
+}
+
+public class Raspberry : Fruit
+{
+  private bool ripe; // Noncompliant
+  private static Color FLESH; // Noncompliant
+}</english>
   </metric>
 </root>
