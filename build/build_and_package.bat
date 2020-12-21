@@ -112,8 +112,6 @@ if errorlevel 1 (
 	goto endclean
 )
 
-exit /b 1
-
 pushd %RELEASE64%
 echo.
 echo ==============================================
