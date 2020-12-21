@@ -101,7 +101,7 @@ echo ==============================================
 echo Compiling main and tests ...
 echo ==============================================
 if errorlevel 1 goto endclean
-call "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
+call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
 @echo %LOGDEBUG%
 if errorlevel 1 goto endclean
 call dotnet.exe clean -c Release sources\QRs.sln
