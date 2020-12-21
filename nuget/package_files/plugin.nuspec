@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+	<metadata>
+		<id>com.castsoftware.aip.eidotnetrules</id>
+        <!-- !!! NEVER remove the _BUILDNO_ in the version !!! -->
+		<version>_THE_VERSION_-build_BUILDNO_</version>		
+		<title>blablabla</title>
+		<projectUrl>http://doc.castsoftware.com/display/TECHNOS/blablabla+-+_THE_SHORT_VERSION_</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/CAST-Extend/resources/master/com.castsoftware.aip.eidotnetrules.png</iconUrl>
+		<description>blablabla.</description>		
+		<authors>CAST Product</authors>
+		<owners>CAST</owners>
+		<licenseUrl>https://help.castsoftware.com/hc/en-us/articles/212612648-AIP-Extension-License</licenseUrl>
+		<releaseNotes>https://doc.castsoftware.com/display/TECHNOS/blablabla+-+_THE_SHORT_VERSION_+-+Release+Notes</releaseNotes>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>		
+		<dependencies>
+			<dependency id="CAIP" version="8.2.5" />
+		</dependencies>
+		<tags>eidotnetrules</tags>
+	</metadata>
+</package>
+
+
