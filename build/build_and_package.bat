@@ -51,7 +51,7 @@ if not defined ENGTOOLS set ENGTOOLS=%FILESRV%\EngTools
 set SIGNDIR=%ENGTOOLS%\certificates
 set PATH=%PATH%;C:\CAST-Caches\Win64
 set INNODIR=%WKSP%\InnoSetup5
-set RELEASE64=%SRCDIR%\sources\Build\x64\Release
+set RELEASE64=%WKSP%\Release
 set VERSION=1.0.0
 
 for /f "delims=. tokens=1,2" %%a in ('echo %VERSION%') do set SHORT_VERSION=%%a.%%b
@@ -101,27 +101,18 @@ echo ==============================================
 echo Compiling main and tests ...
 echo ==============================================
 if errorlevel 1 goto endclean
-call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 @echo %LOGDEBUG%
 if errorlevel 1 goto endclean
-call dotnet.exe clean -c Release sources\QRs.sln
-if errorlevel 1 (
-	echo.
-	echo ERROR: Main clean failed
-	goto endclean
-)
-call dotnet.exe build -c Release sources\QRs.sln
+
+msbuild sources\QRs.sln /p:Configuration="Release",OutputPath=%RELEASE64%
 if errorlevel 1 (
 	echo.
 	echo ERROR: Main compilation failed
 	goto endclean
 )
-call dotnet.exe test -l trx sources\QRs.sln
-if errorlevel 1 (
-	echo.
-	echo ERROR: Main compilation failed
-	goto endclean
-)
+
+exit /b 1
 
 pushd %RELEASE64%
 echo.
