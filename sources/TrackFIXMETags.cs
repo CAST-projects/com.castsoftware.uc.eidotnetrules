@@ -38,7 +38,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
 
-         foreach (var comment in Utils.Utils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
+         foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
             var pos = comment.GetLocation().GetMappedLineSpan();
             //Console.WriteLine("Pos: " + pos.ToString());
             ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);

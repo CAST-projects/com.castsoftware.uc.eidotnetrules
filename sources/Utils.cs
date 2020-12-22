@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 
 namespace CastDotNetExtension.Utils {
-   public class Utils {
+   public class CommentUtils {
       public static List<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null) {
          List<SyntaxTrivia> comments = new List<SyntaxTrivia>();
          var root = semanticModel.SyntaxTree.GetCompilationUnitRoot(cancellationToken) as CompilationUnitSyntax;
