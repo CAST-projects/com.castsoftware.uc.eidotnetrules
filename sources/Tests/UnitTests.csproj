@@ -79,6 +79,8 @@
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
+    <Compile Include="TestSources\TrackTODOTags_Source.cs" />
+    <Compile Include="TestTrackTODOTags.cs" />
     <None Include="TestSources\TrackFIXMETags_Source.cs" />
     <Compile Include="TestTrackFIXMETags.cs" />
     <None Include="TestSources\InheritedMemberVisibilityShouldNotBeDecreased_Source.cs" />

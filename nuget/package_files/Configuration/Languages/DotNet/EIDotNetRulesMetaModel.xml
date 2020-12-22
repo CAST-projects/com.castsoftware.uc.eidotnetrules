@@ -42,7 +42,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="TrackUsesOfFIXMETags" type="integer"  rid="4">
+     <property name="TrackFIXMETags" type="integer"  rid="4">
         <description>Track uses of FIXME tags</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="4"  />
@@ -50,6 +50,16 @@
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
+
+     <property name="TrackTODOTags" type="integer"  rid="5">
+        <description>Track uses of FIXME tags</description>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="5"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+
 
   </category>
 

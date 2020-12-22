@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 
 
 namespace CastDotNetExtension.Utils {
+   //https://johnkoerner.com/csharp/how-do-i-analyze-comments/
    public class CommentUtils {
       public static List<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null) {
          List<SyntaxTrivia> comments = new List<SyntaxTrivia>();
