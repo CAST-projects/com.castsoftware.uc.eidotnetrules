@@ -133,5 +133,12 @@ namespace UnitTests.Properties {
                 return ResourceManager.GetString("ChildClassFieldsShouldNotShadowParentClassFields_Source", resourceCulture);
             }
         }
+
+        internal static string InheritedMemberVisibilityShouldNotBeDecreased_Source {
+            get {
+                return ResourceManager.GetString("InheritedMemberVisibilityShouldNotBeDecreased_Source", resourceCulture);
+            }
+        }
+
     }
 }

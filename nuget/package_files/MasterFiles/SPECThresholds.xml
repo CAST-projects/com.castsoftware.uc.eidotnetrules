@@ -2,4 +2,5 @@
 <root>
   <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

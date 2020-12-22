@@ -11,7 +11,7 @@ namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
    [RuleDescription(
-       Id = "TODO: Add prefix_ChildClassFieldsShouldNotShadowParentClassFields",
+       Id = "EI_ChildClassFieldsShouldNotShadowParentClassFields",
        Title = "Child Class Fields Should Not Shadow Parent Class Fields",
        MessageFormat = "Child Class Fields Should Not Shadow Parent Class Fields",
        Category = "Unexpected Behavior",
