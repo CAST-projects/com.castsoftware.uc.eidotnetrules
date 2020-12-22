@@ -77,7 +77,7 @@
       <MetaModel Include="..\nuget\package_files\Configuration\**" />
       <MasterFiles Include="..\nuget\package_files\MasterFiles\**" />
     </ItemGroup>
-    <Copy SourceFiles="@(MetaModel)" DestinationFolder="$(OutputPath)\Configuration\Languges\DotNet" ContinueOnError="false" />
+    <Copy SourceFiles="@(MetaModel)" DestinationFolder="$(OutputPath)\Configuration\Languages\DotNet" ContinueOnError="false" />
     <Copy SourceFiles="@(MasterFiles)" DestinationFolder="$(OutputPath)\MasterFiles" ContinueOnError="false" />
   </Target>
 </Project>
