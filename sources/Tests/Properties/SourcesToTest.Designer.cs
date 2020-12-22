@@ -77,7 +77,8 @@ namespace UnitTests.Properties {
         ///        }
         ///
         ///        public AvoidClassesWithTooManyConstructors_QualUatExample(string maChaine)
-        ///      [rest of string was truncated]&quot;;.
+        ///        {
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidClassesWithTooManyConstructors_QualUatExample {
             get {
@@ -107,7 +108,8 @@ namespace UnitTests.Properties {
         ///            }
         ///         }
         ///
-        ///         void DontShadow_aMemb [rest of string was truncated]&quot;;.
+        ///         void DontShadow_aMemberOK() {
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidLocalVariablesShadowingClassFields_Source {
             get {
@@ -124,21 +126,74 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class ChildClassFieldsShouldNotShadowParentClassFields_Source {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      class Base {
+        ///         protected int ripe;
+        ///         protected int flesh;
+        ///      }
+        ///
+        ///      class Derived : Base {
+        ///         private bool ripe; // Noncompliant
+        ///         private static int FLESH; // Noncompliant
+        ///
+        ///         private bool ripened;
+        ///         private static char FLESH_COL [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ChildClassFieldsShouldNotShadowParentClassFields_Source {
             get {
                 return ResourceManager.GetString("ChildClassFieldsShouldNotShadowParentClassFields_Source", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class InheritedMemberVisibilityShouldNotBeDecreased_Source {
+        ///
+        ///      public class Base {
+        ///         public virtual void VirtualMethod() { }
+        ///         public void BaseMethod(int x) { }
+        ///      }
+        ///
+        ///      public class Foo  : Base {
+        ///         public override void VirtualMethod() { }
+        ///         public void SomeMethod(int count) { }
+        ///         p [rest of string was truncated]&quot;;.
+        /// </summary>
         internal static string InheritedMemberVisibilityShouldNotBeDecreased_Source {
             get {
                 return ResourceManager.GetString("InheritedMemberVisibilityShouldNotBeDecreased_Source", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class TrackUsesOfFIXMETags_Source {
+        ///      // FIXME
+        ///      // FIXME too.
+        ///      // NOT FIXME
+        ///      /* FIXME Again */
+        ///      /* Not Fixme */
+        ///      /* fixme */
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string TrackUsesOfFIXMETags_Source {
+            get {
+                return ResourceManager.GetString("TrackUsesOfFIXMETags_Source", resourceCulture);
+            }
+        }
     }
 }

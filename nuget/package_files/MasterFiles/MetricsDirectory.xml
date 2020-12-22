@@ -2,7 +2,9 @@
 <root>
   <metric id="61003" type="technical-criterion" originalName="Programming Practices - OO Inheritance and Polymorphism" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="61007" type="technical-criterion" originalName="Documentation - Bad Comments" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
+  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" active="true" detached="false" ignored="false" />
 </root>

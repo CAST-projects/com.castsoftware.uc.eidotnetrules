@@ -3,4 +3,5 @@
   <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" filter="138383" filterLabel="C#" />
   <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" filter="138383" filterLabel="C#" />
   <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" filter="138383" filterLabel="C#" />
+  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" filter="138383" filterLabel="C#" />
 </root>

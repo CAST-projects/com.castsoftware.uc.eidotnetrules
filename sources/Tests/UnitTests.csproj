@@ -79,6 +79,8 @@
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
+    <Compile Include="TestSources\TrackUsesOfFIXMETags_Source.cs" />
+    <Compile Include="TestTrackUsesOfFIXMETags.cs" />
     <None Include="TestSources\InheritedMemberVisibilityShouldNotBeDecreased_Source.cs" />
     <None Include="TestSources\ChildClassFieldsShouldNotShadowParentClassFields_Source.cs" />
     <None Include="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
