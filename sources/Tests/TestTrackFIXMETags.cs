@@ -7,15 +7,15 @@ using CastDotNetExtension;
 
 namespace UnitTests.UnitTest {
    [TestFixture]
-   class TestTrackUsesOfFIXMETags {
+   class TestTrackFIXMETags {
       [Test]
       public void Test() {
          /// [TODO#9] load the source code to test from resources
          // note: a source file should have been added to the resources using the Resource file "SourcesToTest.resx"
-         var testSrc = UnitTests.Properties.SourcesToTest.TrackUsesOfFIXMETags_Source;
+         var testSrc = UnitTests.Properties.SourcesToTest.TrackFIXMETags_Source;
 
          /// [TODO#10] create the checker object, parametrized with the type of the QR to test
-         var checker = CastDotNetExtensionChecker<TrackUsesOfFIXMETags>.CreateInstance();
+         var checker = CastDotNetExtensionChecker<TrackFIXMETags>.CreateInstance();
          Assert.IsTrue(checker != null);
 
 

@@ -14,16 +14,16 @@ namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
    [RuleDescription(
-       Id = "EI_TrackUsesOfFIXMETags",
+       Id = "EI_TrackFIXMETags",
        Title = "Track uses of FIXME tags",
        MessageFormat = "Track uses of FIXME tags",
        Category = "Documentation",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.TrackUsesOfFIXMETags"
+       CastProperty = "DotNetQualityRules.TrackFIXMETags"
    )]
-   public class TrackUsesOfFIXMETags : AbstractRuleChecker {
+   public class TrackFIXMETags : AbstractRuleChecker {
       private static readonly Regex FIXME = new Regex("(?i)^[ \t]*fixme\\b");
-      public TrackUsesOfFIXMETags() {
+      public TrackFIXMETags() {
 
       }
 

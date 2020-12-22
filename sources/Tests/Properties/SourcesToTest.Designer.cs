@@ -179,7 +179,7 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
-        ///   public class TrackUsesOfFIXMETags_Source {
+        ///   public class TrackFIXMETags_Source {
         ///      // FIXME
         ///      // FIXME too.
         ///      // NOT FIXME
@@ -190,9 +190,9 @@ namespace UnitTests.Properties {
         ///}
         ///.
         /// </summary>
-        internal static string TrackUsesOfFIXMETags_Source {
+        internal static string TrackFIXMETags_Source {
             get {
-                return ResourceManager.GetString("TrackUsesOfFIXMETags_Source", resourceCulture);
+                return ResourceManager.GetString("TrackFIXMETags_Source", resourceCulture);
             }
         }
     }

@@ -40,7 +40,7 @@
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrackUsesOfFIXMETags.cs" />
+    <Compile Include="TrackFIXMETags.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
