@@ -7,7 +7,7 @@
 		<title>.NET quality rules for Euro Information</title>
 		<projectUrl>http://doc.castsoftware.com/display/TECHNOS/blablabla+-+_THE_SHORT_VERSION_</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/CAST-Extend/resources/master/com.castsoftware.aip.eidotnetrules.png</iconUrl>
-		<description>This extension provides additional quality rules for .NET technology supported by CAST AIP.description>		
+		<description>This extension provides additional quality rules for .NET technology supported by CAST AIP.description</description>		
 		<authors>CAST Product</authors>
 		<owners>CAST</owners>
 		<licenseUrl>https://help.castsoftware.com/hc/en-us/articles/212612648-AIP-Extension-License</licenseUrl>
