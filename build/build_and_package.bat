@@ -121,6 +121,10 @@ call %SIGNDIR%\signtool.bat CastDotNetExtension.dll SHA256
 if errorlevel 1 goto endclean
 call %SIGNDIR%\signtool.bat EIDotNetQualityRules.dll SHA256
 if errorlevel 1 goto endclean
+call %SIGNDIR%\signtool.bat UnitTests.dll SHA256
+if errorlevel 1 goto endclean
+call %SIGNDIR%\signtool.bat CastDotNetExtensionTestTools.dll SHA256
+if errorlevel 1 goto endclean
 popd
 
 echo.
