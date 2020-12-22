@@ -129,7 +129,7 @@ echo Preparing extension folder
 echo ==============================================
 robocopy /mir %SRCDIR%\nuget\package_files %RESDIR%
 if errorlevel 8 goto endclean
-robocopy /s %RELEASE64% %RESDIR% *.* /xf *.pdb /xf *test*.*
+robocopy /s %RELEASE64% %RESDIR% *.* /xf *.pdb
 if errorlevel 8 goto endclean
 
 pushd %WKSP%
