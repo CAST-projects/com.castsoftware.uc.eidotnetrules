@@ -55,10 +55,13 @@ namespace CastDotNetExtension {
                            string baseName = type.Name;
                            bool considerPrivateMembers = true;
                            do {
-                              foreach (var field in type.GetMembers()) {
-                                 if (Microsoft.CodeAnalysis.SymbolKind.Field == field.Kind) {
-                                    if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility) {
-                                       fields[field.Name] = field;
+                              foreach (var member in type.GetMembers()) {
+                                 var field = member as IFieldSymbol;
+                                 if (null != field) {
+                                    if (Microsoft.CodeAnalysis.SymbolKind.Field == field.Kind) {
+                                       if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility) {
+                                          fields[field.Name] = field;
+                                       }
                                     }
                                  }
                               }
