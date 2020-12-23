@@ -153,6 +153,30 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
+        ///   public class ClassesImplementingIEquatableTShouldBeSealed_Source {
+        ///      class EquatableNotSealed : IEquatable&lt;int&gt; {
+        ///         public bool Equals(T other) {
+        ///            return false;
+        ///         }
+        ///      }
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string ClassesImplementingIEquatableTShouldBeSealed_Source {
+            get {
+                return ResourceManager.GetString("ClassesImplementingIEquatableTShouldBeSealed_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
         ///   public class InheritedMemberVisibilityShouldNotBeDecreased_Source {
         ///
         ///      public class Base {
@@ -205,6 +229,12 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class TrackTODOTags_Source {
+        ///      //TODO this
+        ///      // TODO that
+        ///      // Not TODO
+        ///      /* TODO this again */
+        ///      /*todo THAT again*/
+        ///      /* NOT TODO */
         ///   }
         ///}
         ///.

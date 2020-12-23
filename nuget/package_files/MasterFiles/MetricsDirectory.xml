@@ -8,4 +8,5 @@
   <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
   <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" active="true" detached="false" ignored="false" />
   <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" active="true" detached="false" ignored="false" />
+  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" active="true" detached="false" ignored="false" />
 </root>

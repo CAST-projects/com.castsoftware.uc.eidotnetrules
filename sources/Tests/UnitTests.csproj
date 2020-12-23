@@ -77,8 +77,10 @@
     </Compile>
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
+    <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
+    <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <Compile Include="TestSources\TrackTODOTags_Source.cs" />
     <Compile Include="TestTrackTODOTags.cs" />
     <None Include="TestSources\TrackFIXMETags_Source.cs" />
@@ -91,8 +93,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\SourcesToTest.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SourcesToTest.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>SourcesToTest.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

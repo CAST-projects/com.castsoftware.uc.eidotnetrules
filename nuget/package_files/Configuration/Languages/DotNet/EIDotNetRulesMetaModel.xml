@@ -60,6 +60,14 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="ClassesImplementingIEquatableTShouldBeSealed" type="integer"  rid="6">
+        <description>Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed</description>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="6"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
 
   </category>
 

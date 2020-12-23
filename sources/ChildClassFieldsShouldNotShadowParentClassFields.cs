@@ -28,13 +28,12 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         //TODO: register for events
          context.RegisterSymbolAction(this.AnalyzeClass, SymbolKind.NamedType);
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
          var klazz = context.Symbol as INamedTypeSymbol;
-         if (null != klazz) {
+         if (null != klazz && TypeKind.Class == klazz.TypeKind) {
             Dictionary<string, ISymbol> fields = new Dictionary<string, ISymbol>();
             bool isTargetClass = true;
             do {
