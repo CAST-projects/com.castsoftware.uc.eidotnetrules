@@ -69,6 +69,15 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull" type="integer"  rid="7">
+        <description>Empty arrays and collections should be returned instead of null</description>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="7"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>     
+
   </category>
 
 

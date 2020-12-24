@@ -9,4 +9,5 @@
   <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" active="true" detached="false" ignored="false" />
   <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" active="true" detached="false" ignored="false" />
   <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" active="true" detached="false" ignored="false" />
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" active="true" detached="false" ignored="false" />
 </root>

@@ -338,4 +338,79 @@ namespace MyLibrary
   <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="total">
     <english>Number of Classes</english>
   </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="description">
+    <english>This rule will verify that methods\properties that return arrays\collections do not return null.</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="name">
+    <english>Empty arrays and collections should be returned instead of null</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="rationale">
+    <english>Returning null instead of an actual array or collection forces callers of the method to explicitly test for nullity, making them more complex and less readable.
+
+Moreover, in many cases, null is used as a synonym for empty.</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="reference">
+    <english>CERT, MSC19-C. - For functions that return an array, prefer returning an empty array over a null value
+CERT, MET55-J. - Return an empty array or collection instead of a null value for methods that return an array or collection</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediation">
+    <english>Return empty array\collection.</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediationSample">
+    <english>public Result[] GetResults()
+{
+    return new Result[0];
+}
+
+public IEnumerable&lt;Result&gt; GetResults()
+{
+    return Enumerable.Empty&lt;Result&gt;();
+}
+
+public IEnumerable&lt;Result&gt; GetResults() =&gt; Enumerable.Empty&lt;Result&gt;();
+
+public IEnumerable&lt;Result&gt; Results
+{
+    get
+    {
+        return Enumerable.Empty&lt;Result&gt;();
+    }
+}
+
+public IEnumerable&lt;Result&gt; Results =&gt; Enumerable.Empty&lt;Result&gt;();</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="sample">
+    <english>public Result[] GetResults()
+{
+    return null; // Noncompliant
+}
+
+public IEnumerable&lt;Result&gt; GetResults()
+{
+    return null; // Noncompliant
+}
+
+public IEnumerable&lt;Result&gt; GetResults() =&gt; null; // Noncompliant
+
+public IEnumerable&lt;Result&gt; Results
+{
+    get
+    {
+        return null; // Noncompliant
+    }
+}
+
+public IEnumerable&lt;Result&gt; Results =&gt; null; // Noncompliant</english>
+  </metric>
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
+    <english>Number of Artifacts</english>
+  </metric>
 </root>

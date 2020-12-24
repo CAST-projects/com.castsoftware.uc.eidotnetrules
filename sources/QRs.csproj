@@ -39,6 +39,7 @@
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />
+    <Compile Include="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackFIXMETags.cs" />

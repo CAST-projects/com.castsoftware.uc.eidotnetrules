@@ -6,4 +6,5 @@
   <metric id="61007" type="technical-criterion" originalName="Documentation - Bad Comments" contributorId="1118006" contributorType="quality-rule" contributorOriginalName="Track &quot;FIXME&quot; tags" critical="false" weight="5" />
   <metric id="61007" type="technical-criterion" originalName="Documentation - Bad Comments" contributorId="1118008" contributorType="quality-rule" contributorOriginalName="Track &quot;TODO&quot; tags" critical="false" weight="5" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="1118000" contributorType="quality-rule" contributorOriginalName="Avoid local variables shadowing class fields" critical="false" weight="4" />
+  <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="1118012" contributorType="quality-rule" contributorOriginalName="Empty arrays and collections should be returned instead of null" critical="false" weight="5" />
 </root>

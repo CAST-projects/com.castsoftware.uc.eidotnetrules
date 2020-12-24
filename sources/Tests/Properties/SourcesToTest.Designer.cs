@@ -154,18 +154,38 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class ClassesImplementingIEquatableTShouldBeSealed_Source {
-        ///      class EquatableNotSealed : IEquatable&lt;int&gt; {
-        ///         public bool Equals(T other) {
+        ///
+        ///      public class UnSealedEqualsVirtual : IEquatable&lt;int&gt; {
+        ///         public virtual bool Equals(int i) {
         ///            return false;
         ///         }
         ///      }
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      public class UnSealedDerviedFromUnSealedEqualsVirtual : UnSealedEqualsVirtual {
+        ///         public override bool E [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClassesImplementingIEquatableTShouldBeSealed_Source {
             get {
                 return ResourceManager.GetString("ClassesImplementingIEquatableTShouldBeSealed_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {
+            get {
+                return ResourceManager.GetString("EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source", resourceCulture);
             }
         }
         

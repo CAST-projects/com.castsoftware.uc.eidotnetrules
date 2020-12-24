@@ -6,4 +6,5 @@
   <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="90.0" thresholdToGet4="99.0" />
+  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>
