@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="description">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="description">
     <english>This rule will check whether local variables are shadowing class fields.
 
 In case of C#, classes as well as structs are considered.
@@ -11,26 +11,26 @@ In case of Visual Basic, modules also considered in addition to classes.
 
 In case of classes, only non-private fields of Base classes are considered.</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="name">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="name">
     <english>Avoid local variables shadowing class fields</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="output">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code
 - Bookmark to field that is being shadowed</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="rationale">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="rationale">
     <english>Both overriding or shadowing a class field (typically non-private)  can strongly impact the readability, and therefore the maintainability, of a piece of code.</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="reference">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="reference">
     <english>CERT, DCL01-C. - Do not reuse variable names in subscopes
 CERT, DCL51-J. - Do not shadow or obscure identifiers in subscopes</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediation">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediation">
     <english>Ensure you have an explicit way, usually in form of naming conventions, to name your local variable to avoid conflict with class fields.</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediationSample">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediationSample">
     <english>// Field Shadowing
 
 class MyVector {
@@ -50,7 +50,7 @@ class MyVector {
   }
 }</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="sample">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="sample">
     <english>// Field Shadowing
 
 class MyVector {
@@ -71,27 +71,27 @@ class MyVector {
   }
 }</english>
   </metric>
-  <metric id="1118000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
+  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
     <english>Number of Methods</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
     <english>Child class fields should not shadow parent class fields</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="output">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="rationale">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="rationale">
     <english>Having a variable with the same name in two unrelated classes is fine, but do the same thing within a class hierarchy and you'll get confusion at best, chaos at worst.</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="reference">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="reference">
     <english>https://rules.sonarsource.com/csharp/RSPEC-2387</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="remediationSample">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="remediationSample">
     <english>public class Fruit
 {
   protected Season ripe;
@@ -106,7 +106,7 @@ public class Raspberry : Fruit
   private static Color FLESH_COLOR;
 }</english>
   </metric>
-  <metric id="1118002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="sample">
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="sample">
     <english>public class Fruit
 {
   protected Season ripe;
@@ -121,27 +121,27 @@ public class Raspberry : Fruit
   private static Color FLESH; // Noncompliant
 }</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="associatedValueName">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="description">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="description">
     <english>This rule raises an issue when a private method in an unsealed type has a signature that is identical to a public method declared in a base type.</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="name">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="name">
     <english>Inherited member visibility should not be decreased</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="output">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="rationale">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="rationale">
     <english>Changing an inherited member to private will not prevent access to the base class implementation</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="reference">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="reference">
     <english>https://rules.sonarsource.com/csharp/RSPEC-4015</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="remediationSample">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="remediationSample">
     <english>using System;
 
 namespace MyLibrary
@@ -156,7 +156,7 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="1118004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="sample">
+  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="sample">
     <english>using System;
 
 namespace MyLibrary
@@ -171,105 +171,105 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="associatedValueName">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="description">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="description">
     <english>This rule will check the use of FIXME tags in comment for method and classes. All comments, single line and multi-line, are considered that have "FIXME" (case insensitive) at the start of the comment.</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="name">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="name">
     <english>Track "FIXME" tags</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="output">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="rationale">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="rationale">
     <english>FIXME tags are commonly used to mark places where a bug is suspected, but which the developer wants to deal with later.
 
 Sometimes the developer will not have the time or will simply forget to get back to that tag.
 
 This rule is meant to track those tags and to ensure that they do not go unnoticed.</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="reference">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="reference">
     <english>MITRE, CWE-546 - Suspicious Comment</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="remediation">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="remediation">
     <english>Fix the issues in code and remove "FIXME" tags.</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="sample">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="sample">
     <english>private int Divide(int numerator, int denominator)
 {
     return numerator / denominator;  // FIXME denominator value might be  0
 }</english>
   </metric>
-  <metric id="1118006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="total">
+  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="associatedValueName">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="description">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="description">
     <english>This rule will check the use of TODO tags in comment for method and classes. All comments, single line and multi-line, are considered that have "TODO" (case insensitive) at the start of the comment.</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="name">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="name">
     <english>Track "TODO" tags</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="output">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="rationale">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="rationale">
     <english>TODO tags are commonly used to mark places where some more code is required, but which the developer wants to implement later.
 
 Sometimes the developer will not have the time or will simply forget to get back to that tag.
 
 This rule is meant to track those tags and to ensure that they do not go unnoticed.</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="reference">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="reference">
     <english>MITRE, CWE-546 - Suspicious Comment</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="remediation">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="remediation">
     <english>Complete remaining tasks and remove "TODO" tags.</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="sample">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="sample">
     <english>private void DoSomething()
 {
   // TODO
 }</english>
   </metric>
-  <metric id="1118008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="total">
+  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="associatedValueName">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="description">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="description">
     <english>This rule raises an issue when a unsealed, public or protected class implements IEquatable&lt;T&gt; and the Equals is neither virtual nor abstract.</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="name">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="name">
     <english>Classes implementing "IEquatable&lt;T&gt;" should be sealed</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="output">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="rationale">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="rationale">
     <english>When a class implements the IEquatable&lt;T&gt; interface, it enters a contract that, in effect, states "I know how to compare two instances of type T or any type derived from T for equality.". However if that class is derived, it is very unlikely that the base class will know how to make a meaningful comparison. Therefore that implicit contract is now broken.
 
 Alternatively IEqualityComparer&lt;T&gt; provides a safer interface and is used by collections or Equals could be made virtual.</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="reference">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="reference">
     <english>https://msdn.microsoft.com/en-us/library/ms132151(v=vs.110).aspx
 https://rules.sonarsource.com/csharp/RSPEC-4035</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediation">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediation">
     <english>Make class sealed or use IEqualityComparer&lt;T&gt; instead.</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediationSample">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediationSample">
     <english>using System;
 
 namespace MyLibrary
@@ -283,7 +283,7 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="sample">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="sample">
     <english>using System;
 
 namespace MyLibrary
@@ -335,36 +335,36 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="1118010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="total">
+  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="total">
     <english>Number of Classes</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="associatedValueName">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="description">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="description">
     <english>This rule will verify that methods\properties that return arrays\collections do not return null.</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="name">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="name">
     <english>Empty arrays and collections should be returned instead of null</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="output">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="rationale">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="rationale">
     <english>Returning null instead of an actual array or collection forces callers of the method to explicitly test for nullity, making them more complex and less readable.
 
 Moreover, in many cases, null is used as a synonym for empty.</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="reference">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="reference">
     <english>CERT, MSC19-C. - For functions that return an array, prefer returning an empty array over a null value
 CERT, MET55-J. - Return an empty array or collection instead of a null value for methods that return an array or collection</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediation">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediation">
     <english>Return empty array\collection.</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediationSample">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediationSample">
     <english>public Result[] GetResults()
 {
     return new Result[0];
@@ -387,7 +387,7 @@ public IEnumerable&lt;Result&gt; Results
 
 public IEnumerable&lt;Result&gt; Results =&gt; Enumerable.Empty&lt;Result&gt;();</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="sample">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="sample">
     <english>public Result[] GetResults()
 {
     return null; // Noncompliant
@@ -410,7 +410,7 @@ public IEnumerable&lt;Result&gt; Results
 
 public IEnumerable&lt;Result&gt; Results =&gt; null; // Noncompliant</english>
   </metric>
-  <metric id="1118012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
+  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
     <english>Number of Artifacts</english>
   </metric>
 </root>
