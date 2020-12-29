@@ -76,9 +76,9 @@ echo.
 echo ====================================
 echo Get externals tools
 echo ====================================
-robocopy /mir /nc /nfl /ndl %ENGTOOLS%\external_tools\nunit\NUnit-2.6.3 %NUNITDIR%
+robocopy /mir /nc /nfl /ndl /np %ENGTOOLS%\external_tools\nunit\NUnit-2.6.3 %NUNITDIR%
 if errorlevel 8 exit /b 1
-robocopy /mir /nc /nfl /ndl %ENGTOOLS%\external_tools\xsltproc %XSLTDIR%
+robocopy /mir /nc /nfl /ndl /np %ENGTOOLS%\external_tools\xsltproc %XSLTDIR%
 if errorlevel 8 exit /b 1
 
 echo.
@@ -98,7 +98,7 @@ pushd %RESDIR%
 for /f "delims=/" %%a in ('cd') do set RESDIR=%%a
 popd
 
-cd %SRCDIR%
+pushd %SRCDIR%
 echo.
 echo ==============================================
 echo Compiling main and tests ...
@@ -115,6 +115,7 @@ if errorlevel 1 (
 	goto endclean
 )
 
+pushd %WKSP%
 echo.
 echo ==============================================
 echo Running tests ...
