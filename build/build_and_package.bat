@@ -51,6 +51,7 @@ if not defined ENGTOOLS set ENGTOOLS=%FILESRV%\EngTools
 set SIGNDIR=%ENGTOOLS%\certificates
 set PATH=%PATH%;C:\CAST-Caches\Win64
 set NUNITDIR=%WKSP%\nunit
+set XSLTDIR=%WKSP%\xslt
 set RELEASE64=%WKSP%\Release
 set VERSION=1.0.0
 
@@ -76,6 +77,8 @@ echo ====================================
 echo Get externals tools
 echo ====================================
 robocopy /mir /nc /nfl /ndl %ENGTOOLS%\external_tools\nunit\NUnit-2.6.3 %NUNITDIR%
+if errorlevel 8 exit /b 1
+robocopy /mir /nc /nfl /ndl %ENGTOOLS%\external_tools\xsltproc %XSLTDIR%
 if errorlevel 8 exit /b 1
 
 echo.
@@ -117,6 +120,8 @@ echo ==============================================
 echo Running tests ...
 echo ==============================================
 %NUNITDIR%\bin\nunit-console.exe %RELEASE64%\UnitTests.dll
+if errorlevel 1 goto endclean
+%XSLTDIR%xsltproc.exe -o TestResult.junit.xml %NUNITDIR%\bin\nunit-to-junit.xsl TestResult.xml
 if errorlevel 1 goto endclean
 
 pushd %RELEASE64%
