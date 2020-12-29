@@ -120,9 +120,9 @@ echo.
 echo ==============================================
 echo Running tests ...
 echo ==============================================
-%NUNITDIR%\bin\nunit-console.exe %RELEASE64%\UnitTests.dll
+%NUNITDIR%\bin\nunit-console.exe /labels /noshadow %RELEASE64%\UnitTests.dll
 if errorlevel 1 goto endclean
-%XSLTDIR%\xsltproc.exe -o TestResult.junit.xml %NUNITDIR%\bin\nunit-to-junit.xsl TestResult.xml
+%XSLTDIR%\xsltproc.exe -v -o TestResult.junit.xml %NUNITDIR%\bin\nunit-to-junit.xsl TestResult.xml
 if errorlevel 1 goto endclean
 
 pushd %RELEASE64%
