@@ -5,13 +5,13 @@
         <!-- !!! NEVER remove the _BUILDNO_ in the version !!! -->
 		<version>_THE_VERSION_-build_BUILDNO_</version>
 		<title>.NET Quality Rules</title>
-		<projectUrl>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+1.4</projectUrl>
+		<projectUrl>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+_THE_SHORT_VERSION_</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/CAST-Extend/resources/master/com.castsoftware.aip.eidotnetrules.png</iconUrl>
 		<description>This extension provides a specific code-level set of quality rules for .NET.</description>		
 		<authors>CAST Product</authors>
 		<owners>CAST</owners>
 		<licenseUrl>https://help.castsoftware.com/hc/en-us/articles/212612648-AIP-Extension-License</licenseUrl>
-		<releaseNotes>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+1.4+-+Release+Notes</releaseNotes>
+		<releaseNotes>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+_THE_SHORT_VERSION_+-+Release+Notes</releaseNotes>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<dependencies>
 			<dependency id="CAIP" version="8.3.5" />
