@@ -80,9 +80,11 @@
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
+    <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <Compile Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
+    <Compile Include="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
     <Compile Include="TestSources\TrackTODOTags_Source.cs" />
     <Compile Include="TestTrackTODOTags.cs" />
     <None Include="TestSources\TrackFIXMETags_Source.cs" />

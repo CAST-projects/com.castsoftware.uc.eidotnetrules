@@ -179,9 +179,17 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {
-        ///   }
-        ///}
-        ///.
+        ///      class Result {
+        ///
+        ///      }
+        ///
+        ///      class KO {
+        ///         public Result[] GetResultsReturnArray() {
+        ///            return null; // Noncompliant
+        ///         }
+        ///
+        ///         public IEnumerable&lt;Result&gt; GetResultsReturnIEnumerable() {
+        ///            return null; // Noncomplia [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {
             get {
@@ -212,6 +220,32 @@ namespace UnitTests.Properties {
         internal static string InheritedMemberVisibilityShouldNotBeDecreased_Source {
             get {
                 return ResourceManager.GetString("InheritedMemberVisibilityShouldNotBeDecreased_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class InterfaceInstancesShouldNotBeCastToConcreteTypes_Source {
+        ///      interface BaseInterface {
+        ///         void BaseInterfaceMethod();
+        ///      }
+        ///
+        ///      interface DerivedInterface : BaseInterface {
+        ///         void DerivedInterfaceMethod();
+        ///      }
+        ///
+        ///      abstract class AbstractClass : DerivedInterface {
+        ///         public abstract void B [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InterfaceInstancesShouldNotBeCastToConcreteTypes_Source {
+            get {
+                return ResourceManager.GetString("InterfaceInstancesShouldNotBeCastToConcreteTypes_Source", resourceCulture);
             }
         }
         

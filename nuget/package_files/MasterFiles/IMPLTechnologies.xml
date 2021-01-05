@@ -7,4 +7,5 @@
   <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" filter="138383" filterLabel="C#" />
   <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" filter="138383" filterLabel="C#" />
   <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" filter="138383" filterLabel="C#" />
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" filter="138383" filterLabel="C#" />
 </root>

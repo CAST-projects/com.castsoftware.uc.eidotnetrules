@@ -7,4 +7,5 @@
   <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="90.0" thresholdToGet4="99.0" />
   <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

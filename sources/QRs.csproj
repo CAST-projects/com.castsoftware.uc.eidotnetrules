@@ -41,6 +41,7 @@
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />
     <Compile Include="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
+    <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackFIXMETags.cs" />
     <Compile Include="TrackTODOTags.cs" />

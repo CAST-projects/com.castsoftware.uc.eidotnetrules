@@ -77,6 +77,17 @@
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>     
+     
+     <property name="InterfaceInstancesShouldNotBeCastToConcreteTypes" type="integer"  rid="8">
+        <description>Interface Instances Should Not Be Cast To Concrete Types</description>
+        <attribute name="INF_TYPE"       intValue="1118000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="8"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>     
+  
+
 
   </category>
 

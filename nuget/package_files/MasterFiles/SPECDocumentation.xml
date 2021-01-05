@@ -413,4 +413,60 @@ public IEnumerable&lt;Result&gt; Results =&gt; null; // Noncompliant</english>
   <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
     <english>Number of Artifacts</english>
   </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="description">
+    <english>This rule will check whether variable of interface type is converted into concrete type. Struct and Class are considered as Concrete type.
+
+Note: Abstract classes are not considered as concrete classes.</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="name">
+    <english>Interface instances should not be cast to concrete types</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="rationale">
+    <english>Needing to cast from an interface to a concrete type indicates that something is wrong with the abstraction in use, likely that something is missing from the interface. Instead of casting to a discrete type, the missing functionality should be added to the interface. Otherwise there is a risk of runtime exceptions.</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="remediation">
+    <english>Remove the cast.</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="sample">
+    <english>public interface IMyInterface
+{
+  void DoStuff();
+}
+
+public class MyClass1 : IMyInterface
+{
+  public int Data { get { return new Random().Next(); } }
+
+  public void DoStuff()
+  {
+    // TODO...
+  }
+}
+
+public static class DowncastExampleProgram
+{
+  static void EntryPoint(IMyInterface interfaceRef)
+  {
+    MyClass1 class1 = (MyClass1)interfaceRef;  // Noncompliant
+    int privateData = class1.Data;
+
+    class1 = interfaceRef as MyClass1;  // Noncompliant
+    if (class1 != null)
+    {
+      // ...
+    }
+  }
+}</english>
+  </metric>
+  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="total">
+    <english>Number of Artifacts</english>
+  </metric>
 </root>
