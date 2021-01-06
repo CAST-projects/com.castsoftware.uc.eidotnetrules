@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using log4net;
 
 
 namespace CastDotNetExtension {
@@ -17,9 +18,10 @@ namespace CastDotNetExtension {
        MessageFormat = "Interface Instances Should Not Be Cast To Concrete Types",
        Category = "OO - Abstraction",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.InterfaceInstancesShouldNotBeCastToConcreteTypes"
+       CastProperty = "EIDotNetQualityRules.InterfaceInstancesShouldNotBeCastToConcreteTypes"
    )]
    public class InterfaceInstancesShouldNotBeCastToConcreteTypes : AbstractRuleChecker {
+      
       public InterfaceInstancesShouldNotBeCastToConcreteTypes() {
       }
 

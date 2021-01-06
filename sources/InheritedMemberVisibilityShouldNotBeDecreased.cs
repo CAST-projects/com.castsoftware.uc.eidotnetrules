@@ -16,7 +16,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Inherited member visibility should not be decreased",
        Category = "Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.InheritedMemberVisibilityShouldNotBeDecreased"
+       CastProperty = "EIDotNetQualityRules.InheritedMemberVisibilityShouldNotBeDecreased"
    )]
    public class InheritedMemberVisibilityShouldNotBeDecreased : AbstractRuleChecker {
       public InheritedMemberVisibilityShouldNotBeDecreased() {

@@ -15,7 +15,7 @@ namespace CastDotNetExtension
         MessageFormat = "Avoid classes with a number of constructors > X (parameter value X= 4)",
         Category = "Maintainability",
         DefaultSeverity = DiagnosticSeverity.Warning,        
-        CastProperty = "DotNetQualityRules.avoidClassesWithTooManyConstructorsAnalyzer"
+        CastProperty = "EIDotNetQualityRules.avoidClassesWithTooManyConstructorsAnalyzer"
     )]
     public class AvoidClassesWithTooManyConstructorsAnalyzer : AbstractRuleChecker
     {

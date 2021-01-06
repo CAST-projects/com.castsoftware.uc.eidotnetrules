@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Track TODO Tags",
        Category = "Comments - TODO",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.TrackTODOTags"
+       CastProperty = "EIDotNetQualityRules.TrackTODOTags"
    )]
    public class TrackTODOTags : AbstractRuleChecker {
       private static readonly Regex TODO = new Regex("(?i)^[ \t]*todo\\b");

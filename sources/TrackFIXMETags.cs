@@ -19,7 +19,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Track uses of FIXME tags",
        Category = "Documentation",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.TrackFIXMETags"
+       CastProperty = "EIDotNetQualityRules.TrackFIXMETags"
    )]
    public class TrackFIXMETags : AbstractRuleChecker {
       private static readonly Regex FIXME = new Regex("(?i)^[ \t]*fixme\\b");

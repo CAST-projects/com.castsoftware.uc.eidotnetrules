@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Avoid Local Variables Shadowing Class Fields",
        Category = "Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.AvoidLocalVariablesShadowingClassFields"
+       CastProperty = "EIDotNetQualityRules.AvoidLocalVariablesShadowingClassFields"
    )]
    public class AvoidLocalVariablesShadowingClassFields : AbstractRuleChecker {
 

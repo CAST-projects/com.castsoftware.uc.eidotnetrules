@@ -18,7 +18,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Classes implementing \"IEquatable<T>\" should be sealed",
        Category = "Programming Practices",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.ClassesImplementingIEquatableTShouldBeSealed"
+       CastProperty = "EIDotNetQualityRules.ClassesImplementingIEquatableTShouldBeSealed"
    )]
    public class ClassesImplementingIEquatableTShouldBeSealed : AbstractRuleChecker {
       public ClassesImplementingIEquatableTShouldBeSealed() {

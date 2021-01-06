@@ -16,7 +16,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Child Class Fields Should Not Shadow Parent Class Fields",
        Category = "Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.ChildClassFieldsShouldNotShadowParentClassFields"
+       CastProperty = "EIDotNetQualityRules.ChildClassFieldsShouldNotShadowParentClassFields"
    )]
    public class ChildClassFieldsShouldNotShadowParentClassFields : AbstractRuleChecker {
       public ChildClassFieldsShouldNotShadowParentClassFields() {

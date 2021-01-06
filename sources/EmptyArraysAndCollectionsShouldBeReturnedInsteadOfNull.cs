@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        MessageFormat = "Empty arrays and collections should be returned instead of null",
        Category = "Programming Practices",
        DefaultSeverity = DiagnosticSeverity.Warning,
-       CastProperty = "DotNetQualityRules.EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull"
+       CastProperty = "EIDotNetQualityRules.EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull"
    )]
    public class EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull : AbstractRuleChecker {
       public EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull() {

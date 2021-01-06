@@ -132,7 +132,7 @@ echo sign executables
 echo ==============================================
 call %SIGNDIR%\signtool.bat CastDotNetExtension.dll SHA256
 if errorlevel 1 goto endclean
-call %SIGNDIR%\signtool.bat EIDotNetQualityRules.dll SHA256
+call %SIGNDIR%\signtool.bat EICastQualityRules.dll SHA256
 if errorlevel 1 goto endclean
 call %SIGNDIR%\signtool.bat UnitTests.dll SHA256
 if errorlevel 1 goto endclean
