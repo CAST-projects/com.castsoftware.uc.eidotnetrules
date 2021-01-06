@@ -6,7 +6,7 @@
   <category name="EIDotNetQualityRules" rid="0">
     <description>Custom Quality Rules for DotNet</description>
 	
-    <property name="avoidClassesWithTooManyConstructorsAnalyzer" type="integer"  rid="0">
+    <property name="avoidClassesWithTooManyConstructorsAnalyzer" type="integer"  merge="sum" rid="0">
       <description>Avoid classes with a number of constructors > X (parameter value X= 4)</description>
       <attribute name="INF_TYPE"       intValue="1118000"/>
       <attribute name="INF_SUB_TYPE"   intValue="0"  />
@@ -15,7 +15,7 @@
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
 
-     <property name="AvoidLocalVariablesShadowingClassFields" type="integer"  rid="1">
+     <property name="AvoidLocalVariablesShadowingClassFields" type="integer"  merge="sum" rid="1">
         <description>Avoid Local Variables Shadowing Class Fields</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="1"  />
@@ -24,7 +24,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="ChildClassFieldsShouldNotShadowParentClassFields" type="integer"  rid="2">
+     <property name="ChildClassFieldsShouldNotShadowParentClassFields" type="integer"  merge="sum" rid="2">
         <description>Child class fields should not shadow parent class fields</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="2"  />
@@ -33,7 +33,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
      
-     <property name="InheritedMemberVisibilityShouldNotBeDecreased" type="integer"  rid="3">
+     <property name="InheritedMemberVisibilityShouldNotBeDecreased" type="integer"  merge="sum" rid="3">
         <description>Inherited member visibility should not be decreased</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="3"  />
@@ -42,7 +42,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="TrackFIXMETags" type="integer"  rid="4">
+     <property name="TrackFIXMETags" type="integer"  merge="sum" rid="4">
         <description>Track uses of FIXME tags</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="4"  />
@@ -51,7 +51,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="TrackTODOTags" type="integer"  rid="5">
+     <property name="TrackTODOTags" type="integer"  merge="sum" rid="5">
         <description>Track uses of FIXME tags</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="5"  />
@@ -60,7 +60,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="ClassesImplementingIEquatableTShouldBeSealed" type="integer"  rid="6">
+     <property name="ClassesImplementingIEquatableTShouldBeSealed" type="integer"  merge="sum" rid="6">
         <description>Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="6"  />
@@ -69,7 +69,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull" type="integer"  rid="7">
+     <property name="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull" type="integer"  merge="sum" rid="7">
         <description>Empty arrays and collections should be returned instead of null</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="7"  />
@@ -78,7 +78,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>     
      
-     <property name="InterfaceInstancesShouldNotBeCastToConcreteTypes" type="integer"  rid="8">
+     <property name="InterfaceInstancesShouldNotBeCastToConcreteTypes" type="integer"  merge="sum" rid="8">
         <description>Interface Instances Should Not Be Cast To Concrete Types</description>
         <attribute name="INF_TYPE"       intValue="1118000"/>
         <attribute name="INF_SUB_TYPE"   intValue="8"  />
