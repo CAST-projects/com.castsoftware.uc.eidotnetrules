@@ -50,7 +50,7 @@ namespace CastDotNetExtension {
                         var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
                         var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
                         //Console.WriteLine("Main Pos: " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
-                        AddViolation(context.Symbol, new List<FileLinePositionSpan>() { mainPos, additionalPos});
+                        AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
                      }
                   }
                }

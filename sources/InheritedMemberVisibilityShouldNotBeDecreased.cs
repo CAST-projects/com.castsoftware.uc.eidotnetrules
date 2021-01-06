@@ -113,7 +113,7 @@ namespace CastDotNetExtension {
                                        var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
                                        var additionalPos = method.Locations.FirstOrDefault().GetMappedLineSpan();
                                        //Console.WriteLine("Method: " + method.Name + " MainPos " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
-                                       AddViolation(context.Symbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
+                                       AddViolation(sourceMethod, new List<FileLinePositionSpan>() { mainPos, additionalPos });
                                     }
                                  }
                                  methods.Remove(signature);
