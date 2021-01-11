@@ -19,6 +19,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.InheritedMemberVisibilityShouldNotBeDecreased"
    )]
    public class InheritedMemberVisibilityShouldNotBeDecreased : AbstractRuleChecker {
+
+      private Dictionary<string, Dictionary<string, IMethodSymbol>> _klazzToMembers
+         = new Dictionary<string, Dictionary<string, IMethodSymbol>>();
+
       public InheritedMemberVisibilityShouldNotBeDecreased() {
       }
 
@@ -63,37 +67,55 @@ namespace CastDotNetExtension {
 
       private Object _lock = new Object();
 
+      private Dictionary<string, IMethodSymbol> RetrieveClassMethods(INamedTypeSymbol klazz) {
+         var fullname = klazz.OriginalDefinition.ToString();
+         Dictionary<string, IMethodSymbol> methods = null;
+         if (!_klazzToMembers.TryGetValue(fullname, out methods)) {
+            methods = new Dictionary<string, IMethodSymbol>();
+            _klazzToMembers[fullname] = methods;
+
+            foreach (var member in klazz.GetMembers()) {
+               var method = member as IMethodSymbol;
+               if (null != method && !method.IsVirtual && !method.IsOverride) {
+                  string signature = GetMethodSignature(method);
+                  if (null != signature && !isNewedMethod(method)) {
+                     methods[signature] = method;
+                  }
+               }
+            }
+         }
+
+         return methods;
+
+      }
+
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
             var klazz = context.Symbol as INamedTypeSymbol;
-            if (null != klazz) {
+            if (null != klazz && klazz.TypeKind == TypeKind.Class) {
                if (null != klazz.BaseType && "Object" != klazz.BaseType.Name) {
-                  Dictionary<string, IMethodSymbol> methods = new Dictionary<string, IMethodSymbol>();
-                  foreach (var member in klazz.GetMembers()) {
-                     var method = member as IMethodSymbol;
-                     if (null != method && !method.IsVirtual && !method.IsOverride) {
-                        string signature = GetMethodSignature(method);
-                        if (null != signature && !isNewedMethod(method)) {
-                           methods[signature] = method;
-                        }
-                     }
+                  var fullname = klazz.OriginalDefinition.ToString();
+                  Dictionary<string, IMethodSymbol> methods = null;
+                  if (!_klazzToMembers.TryGetValue(fullname, out methods)) {
+                     methods = RetrieveClassMethods(klazz);
                   }
 
-                  if (methods.Any()) {
+
+                  if (null != methods && methods.Any()) {
                      do {
                         klazz = klazz.BaseType;
                         if (null == klazz || klazz.ToString().Equals("Object") || klazz.ToString().Equals("System.Object")) {
                            break;
                         }
-                        foreach (var member in klazz.GetMembers()) {
-                           var method = member as IMethodSymbol;
-                           if (null != method) {
-                              var signature = GetMethodSignature(method);
-                              if (null != signature && methods.ContainsKey(signature)) {
-                                 var sourceMethod = methods[signature];
-                                 if (sourceMethod.DeclaredAccessibility != method.DeclaredAccessibility) {
+                        var baseMethods = RetrieveClassMethods(klazz);
+                        foreach (var aMethod in methods) {
+                           IMethodSymbol targetMethod = null;
+
+                           if (baseMethods.TryGetValue(aMethod.Key, out targetMethod)) {
+                              IMethodSymbol sourceMethod = aMethod.Value;
+                                 if (sourceMethod.DeclaredAccessibility != targetMethod.DeclaredAccessibility) {
                                     bool addViolation = false;
-                                    switch (method.DeclaredAccessibility) {
+                                    switch (targetMethod.DeclaredAccessibility) {
                                        case Accessibility.Public:
                                           addViolation = true;
                                           break;
@@ -111,22 +133,25 @@ namespace CastDotNetExtension {
                                     }
                                     if (addViolation) {
                                        var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
-                                       var additionalPos = method.Locations.FirstOrDefault().GetMappedLineSpan();
+                                       var additionalPos = targetMethod.Locations.FirstOrDefault().GetMappedLineSpan();
                                        //Console.WriteLine("Method: " + method.Name + " MainPos " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
                                        AddViolation(sourceMethod, new List<FileLinePositionSpan>() { mainPos, additionalPos });
                                     }
                                  }
-                                 methods.Remove(signature);
-                              }
+
                            }
                         }
                      } while (null != klazz && !klazz.ToString().Equals("Object"));
-
-
                   }
                }
             }
          }
       }
+
+      public override void Reset() {
+         base.Reset();
+         _klazzToMembers.Clear();
+      }
+
    }
 }
