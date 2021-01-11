@@ -38,14 +38,16 @@ namespace CastDotNetExtension {
 
       private bool isNewedMethod(IMethodSymbol method) {
          var methodDeclaration = method.DeclaringSyntaxReferences.FirstOrDefault();
-         var syntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
-         var signature = syntax.ToString();
          bool newedMethod = false;
-         if (null != syntax) {
-            foreach (var token in syntax.Modifiers) {
-               if ("new" == token.ToString()) {
-                  newedMethod = true;
-                  break;
+         if (null != methodDeclaration) {
+            var syntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
+            //var signature = syntax.ToString();
+            if (null != syntax) {
+               foreach (var token in syntax.Modifiers) {
+                  if ("new" == token.ToString()) {
+                     newedMethod = true;
+                     break;
+                  }
                }
             }
          }
@@ -68,85 +70,91 @@ namespace CastDotNetExtension {
       private Object _lock = new Object();
 
       private Dictionary<string, IMethodSymbol> RetrieveClassMethods(INamedTypeSymbol klazz) {
-         var fullname = klazz.OriginalDefinition.ToString();
          Dictionary<string, IMethodSymbol> methods = null;
-         if (!_klazzToMembers.TryGetValue(fullname, out methods)) {
-            methods = new Dictionary<string, IMethodSymbol>();
-            _klazzToMembers[fullname] = methods;
+         if (null != klazz) {
+            var fullname = klazz.OriginalDefinition.ToString();
+            if (!_klazzToMembers.TryGetValue(fullname, out methods)) {
+               methods = new Dictionary<string, IMethodSymbol>();
+               _klazzToMembers[fullname] = methods;
 
-            foreach (var member in klazz.GetMembers()) {
-               var method = member as IMethodSymbol;
-               if (null != method && !method.IsVirtual && !method.IsOverride) {
-                  string signature = GetMethodSignature(method);
-                  if (null != signature && !isNewedMethod(method)) {
-                     methods[signature] = method;
+               foreach (var member in klazz.GetMembers()) {
+                  var method = member as IMethodSymbol;
+                  if (null != method && !method.IsVirtual && !method.IsOverride) {
+                     string signature = GetMethodSignature(method);
+                     if (null != signature && !isNewedMethod(method)) {
+                        methods[signature] = method;
+                     }
                   }
                }
             }
          }
+         else {
+            methods = new Dictionary<string, IMethodSymbol>();
+         }
 
          return methods;
-
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
             var klazz = context.Symbol as INamedTypeSymbol;
             if (null != klazz && klazz.TypeKind == TypeKind.Class) {
-               if (null != klazz.BaseType && "Object" != klazz.BaseType.Name) {
-                  var fullname = klazz.OriginalDefinition.ToString();
-                  Dictionary<string, IMethodSymbol> methods = null;
-                  if (!_klazzToMembers.TryGetValue(fullname, out methods)) {
-                     methods = RetrieveClassMethods(klazz);
-                  }
-
-
-                  if (null != methods && methods.Any()) {
-                     do {
-                        klazz = klazz.BaseType;
-                        if (null == klazz || klazz.ToString().Equals("Object") || klazz.ToString().Equals("System.Object")) {
+               Dictionary<string, IMethodSymbol> methods = RetrieveClassMethods(klazz);
+               if (null != methods && methods.Any()) {
+                  HashSet<String> foundMethods = new HashSet<string>();
+                  do {
+                     klazz = klazz.BaseType;
+                     if (null != klazz && TypeKind.Class == klazz.TypeKind) {
+                        var baseFullName = klazz.OriginalDefinition.ToString();
+                        if (null == klazz || klazz.ToString().Equals("Object") || klazz.ToString().Equals("System.Object") || "object" == baseFullName) {
                            break;
                         }
+
                         var baseMethods = RetrieveClassMethods(klazz);
                         foreach (var aMethod in methods) {
                            IMethodSymbol targetMethod = null;
 
-                           if (baseMethods.TryGetValue(aMethod.Key, out targetMethod)) {
+                           if (!foundMethods.Contains(aMethod.Key) && baseMethods.TryGetValue(aMethod.Key, out targetMethod)) {
+                              foundMethods.Add(aMethod.Key);
                               IMethodSymbol sourceMethod = aMethod.Value;
-                                 if (sourceMethod.DeclaredAccessibility != targetMethod.DeclaredAccessibility) {
-                                    bool addViolation = false;
-                                    switch (targetMethod.DeclaredAccessibility) {
-                                       case Accessibility.Public:
+                              if (sourceMethod.DeclaredAccessibility != targetMethod.DeclaredAccessibility) {
+                                 bool addViolation = false;
+                                 switch (targetMethod.DeclaredAccessibility) {
+                                    case Accessibility.Public:
+                                       addViolation = true;
+                                       break;
+                                    case Accessibility.Protected:
+                                       if (Accessibility.Private == sourceMethod.DeclaredAccessibility) {
                                           addViolation = true;
-                                          break;
-                                       case Accessibility.Protected:
-                                          if (Accessibility.Private == sourceMethod.DeclaredAccessibility) {
-                                             addViolation = true;
-                                          }
-                                          break;
-                                       case Accessibility.Internal:
-                                          if (Accessibility.Private == sourceMethod.DeclaredAccessibility ||
-                                             Accessibility.Protected == sourceMethod.DeclaredAccessibility) {
-                                             addViolation = true;
-                                          }
-                                          break;
-                                    }
-                                    if (addViolation) {
-                                       var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
-                                       var additionalPos = targetMethod.Locations.FirstOrDefault().GetMappedLineSpan();
-                                       //Console.WriteLine("Method: " + method.Name + " MainPos " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
-                                       AddViolation(sourceMethod, new List<FileLinePositionSpan>() { mainPos, additionalPos });
-                                    }
+                                       }
+                                       break;
+                                    case Accessibility.Internal:
+                                       if (Accessibility.Private == sourceMethod.DeclaredAccessibility ||
+                                          Accessibility.Protected == sourceMethod.DeclaredAccessibility) {
+                                          addViolation = true;
+                                       }
+                                       break;
                                  }
 
+                                 if (addViolation) {
+                                    var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
+                                    var additionalPos = targetMethod.Locations.FirstOrDefault().GetMappedLineSpan();
+                                    //Console.WriteLine("Method: " + method.Name + " MainPos " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
+                                    AddViolation(sourceMethod, new List<FileLinePositionSpan>() { mainPos, additionalPos });
+                                 }
+
+                              }
                            }
                         }
-                     } while (null != klazz && !klazz.ToString().Equals("Object"));
-                  }
+                     }
+                              
+                  } while (null != klazz && !klazz.ToString().Equals("Object"));
                }
             }
          }
       }
+         
+
 
       public override void Reset() {
          base.Reset();
@@ -155,3 +163,4 @@ namespace CastDotNetExtension {
 
    }
 }
+
