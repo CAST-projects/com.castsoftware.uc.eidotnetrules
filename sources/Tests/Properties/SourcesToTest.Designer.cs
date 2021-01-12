@@ -123,12 +123,42 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Threading;
+        ///
+        ///
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source {
+        ///
+        ///    public Task Read(byte [] buffer, int offset, int count, CancellationToken cancellationToken) 
+        ///    {
+        ///        Action&lt;object&gt; action = (object obj) =&gt;
+        ///                        {
+        ///                           Console.WriteLine(&quot;Ta [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source {
+            get {
+                return ResourceManager.GetString("AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Reflection;
+        ///
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      public class KlassAssemblyLoadFrom {
+        ///         public void foo() {
+        ///            Assembly SampleAssembly;
+        ///            SampleAssembly = Assembly.LoadFrom(&quot;c:\\Sample.Assembly.dll&quot;);
+        ///            // Obtain a refe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source {
             get {

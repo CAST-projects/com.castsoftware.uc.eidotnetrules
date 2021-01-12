@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="61014" type="technical-criterion" originalName="Programming Practices - Error and Exception Handling" section="name">
-    <english>Programming Practices - Error and Exception Handling</english>
+  <metric id="61006" type="technical-criterion" originalName="Documentation - Style Conformity" section="name">
+    <english>Documentation - Style Conformity</english>
   </metric>
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
@@ -526,6 +526,115 @@ It prevents a null reference exception should a method try and do something with
 }</english>
   </metric>
   <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="total">
+    <english>Number of methods</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="description">
+    <english>This rule will check the use of Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName methods</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="name">
+    <english>Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="rationale">
+    <english>The trust level of an assembly that is loaded by using this method is the same as the trust level of the calling assembly. To load an assembly from a byte array with the trust level of the application domain, use the Load(Byte[], Byte[], SecurityContextSource) method.</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="reference">
+    <english>https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadfrom?view=netcore-3.1
+https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadfile?view=netcore-3.1
+https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadwithpartialname?view=netcore-3.1</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediation">
+    <english>Always use Assembly.Load as main method to load DLL.</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediationSample">
+    <english>static void Main(string[] args)
+{
+    Assembly.Load(...); // NO VIOLATION
+}</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="sample">
+    <english>static void Main(string[] args)
+{
+    Assembly.LoadFrom(...); // VIOLATION
+    Assembly.LoadFile(...); // VIOLATION
+    Assembly.LoadWithPartialName(...); // VIOLATION
+}</english>
+  </metric>
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="total">
+    <english>Number of methods and fields and properties initialized using a lambda function</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="description">
+    <english>This rule will check if synchronous task could be distinguished as Async or Sync based on name i.e. if async/sync suffixes are used in such methods as expected.</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="name">
+    <english>Avoid methods named without following synchronous/asynchronous convention</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="rationale">
+    <english>According to the Task-based Asynchronous Pattern (TAP), methods returning either a System.Threading.Tasks.Task or a System.Threading.Tasks.Task&lt;TResult&gt; are considered asynchronous. Such methods should use the Async suffix. Conversely methods which do not return such Tasks should not have an "Async" suffix.</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="reference">
+    <english>https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediation">
+    <english>Ensure your methods name are following synchronous/asynchronous convention.</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediationSample">
+    <english>using System.Threading;
+using System.Threading.Tasks;
+
+namespace theLibrary
+{
+
+  public class theClass
+  {
+    public Task ReadAsync(byte [] buffer, int offset, int count, CancellationToken cancellationToken) // fixed violation
+    {
+       // source code
+    }
+
+    public int Read() { // fixed violation
+       return 0;
+    }
+
+  }
+}</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="sample">
+    <english>using System.Threading;
+using System.Threading.Tasks;
+
+namespace theLibrary
+{
+
+  public class theClass
+  {
+    public Task Read(byte [] buffer, int offset, int count, CancellationToken cancellationToken)  // violation
+    {
+       // source code
+    }
+
+    public int ReadAsync() { // violation
+       return 0;
+    }
+  }
+}</english>
+  </metric>
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="total">
     <english>Number of methods</english>
   </metric>
 </root>

@@ -9,4 +9,6 @@
   <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

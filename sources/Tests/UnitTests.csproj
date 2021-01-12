@@ -76,6 +76,7 @@
       <DependentUpon>SourcesToTest.resx</DependentUpon>
     </Compile>
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
+    <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
@@ -90,6 +91,7 @@
     <None Include="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
     <None Include="TestSources\TrackTODOTags_Source.cs" />
     <None Include="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
+    <Compile Include="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />
     <Compile Include="TestTrackTODOTags.cs" />
     <None Include="TestSources\TrackFIXMETags_Source.cs" />
     <Compile Include="TestTrackFIXMETags.cs" />

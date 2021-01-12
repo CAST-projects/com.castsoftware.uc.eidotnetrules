@@ -12,10 +12,10 @@ namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
    [RuleDescription(
-       Id = "TODO: Add prefix_AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName",
-       Title = "TODO: Add Title",
-       MessageFormat = "TODO: Add Message",
-       Category = "TODO: Add Category",
+       Id = "EI_AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName",
+       Title = "Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName",
+       MessageFormat = "Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName",
+       Category = "Security",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName"
    )]
