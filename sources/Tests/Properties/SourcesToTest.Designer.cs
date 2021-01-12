@@ -125,6 +125,26 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
+        ///   public class AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Sou" +
+                        "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
         ///   public class ChildClassFieldsShouldNotShadowParentClassFields_Source {
         ///
         ///      class Base {
@@ -206,9 +226,19 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class EnsureProperArgumentsToEvents_Source {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      public class Klass1 {
+        ///         public event EventHandler foo;
+        ///
+        ///         protected virtual void OnTfoo(EventArgs e) {
+        ///            foo?.Invoke(null, e); // Violation
+        ///         }
+        ///      }
+        ///
+        ///      public class Klass2 {
+        ///         public static event EventHandler foo;
+        ///
+        ///         protect [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureProperArgumentsToEvents_Source {
             get {

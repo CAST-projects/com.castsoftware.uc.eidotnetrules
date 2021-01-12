@@ -148,4 +148,7 @@
   <data name="EnsureProperArgumentsToEvents_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testsources\ensureproperargumentstoevents_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\testsources\avoidusing_assembly_loadfrom_assembly_loadfileandassembly_loadwithpartialname_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
