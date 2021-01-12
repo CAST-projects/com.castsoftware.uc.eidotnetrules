@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="61014" type="technical-criterion" originalName="Programming Practices - Error and Exception Handling" section="name">
+    <english>Programming Practices - Error and Exception Handling</english>
+  </metric>
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -76,6 +79,9 @@ class MyVector {
   </metric>
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="description">
+    <english>This QR will check whether child class fields shadow parent class fields. The check is irrespective of field type and case-sensitivity.</english>
   </metric>
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
     <english>Child class fields should not shadow parent class fields</english>
@@ -468,5 +474,58 @@ public static class DowncastExampleProgram
   </metric>
   <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="total">
     <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="description">
+    <english>The rule will raise a violation in case of event raising when:
+1. NULL is passed as sender when raising an non-static event
+2. NULL is passed as event data when raising an event</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="name">
+    <english>Ensure proper arguments to Events</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="rationale">
+    <english>With respect to guidelines from MSDN the following rules must be followed when raising events:
+
+1. DO NOT pass null as the event data parameter when raising an event.
+2. DO NOT pass null as the sender when raising a non-static event.
+
+It prevents a null reference exception should a method try and do something with the arguments.</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="reference">
+    <english>https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/event?redirectedfrom=MSDN</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediation">
+    <english>You should pass EventArgs.Empty if you don’t want to pass any data to the event-handling method. Developers expect this parameter not to be null.</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediationSample">
+    <english>class AClass {
+   public event EventHandler foo;
+
+   protected virtual void OnTfoo(EventArgs e)
+   {
+       foo?.Invoke(this, e); // Compliant
+   }
+}</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="sample">
+    <english>class AClass {
+   public event EventHandler foo;
+
+   protected virtual void OnTfoo(EventArgs e)
+   {
+       foo?.Invoke(null, e); // Noncompliant
+   }
+}</english>
+  </metric>
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="total">
+    <english>Number of methods</english>
   </metric>
 </root>

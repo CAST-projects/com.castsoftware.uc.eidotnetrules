@@ -40,6 +40,7 @@
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />
     <Compile Include="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
+    <Compile Include="EnsureProperArgumentsToEvents.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

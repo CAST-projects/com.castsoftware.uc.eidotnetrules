@@ -64,7 +64,7 @@ namespace UnitTests.Properties {
         ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
-        ///using System.Text;
+        ///using System.Text;   
         ///using System.Threading.Tasks;
         ///
         ///namespace Sonar.Analyzers.CSharp.Common.Tests.UnitTests.Analyzers.AvoidClassesWithTooManyConstructors
@@ -78,7 +78,7 @@ namespace UnitTests.Properties {
         ///
         ///        public AvoidClassesWithTooManyConstructors_QualUatExample(string maChaine)
         ///        {
-        ///            [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidClassesWithTooManyConstructors_QualUatExample {
             get {
@@ -194,6 +194,25 @@ namespace UnitTests.Properties {
         internal static string EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {
             get {
                 return ResourceManager.GetString("EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class EnsureProperArgumentsToEvents_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EnsureProperArgumentsToEvents_Source {
+            get {
+                return ResourceManager.GetString("EnsureProperArgumentsToEvents_Source", resourceCulture);
             }
         }
         

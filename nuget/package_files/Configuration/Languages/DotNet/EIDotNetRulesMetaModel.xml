@@ -85,8 +85,16 @@
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
-     </property>     
-  
+     </property>
+
+     <property name="EnsureProperArgumentsToEvents" type="integer"  merge="sum" rid="9">
+        <description>Ensure Proper Arguments To Events</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="9"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
 
 
   </category>

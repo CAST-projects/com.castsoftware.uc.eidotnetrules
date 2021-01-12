@@ -3,6 +3,7 @@
   <metric id="61003" type="technical-criterion" originalName="Programming Practices - OO Inheritance and Polymorphism" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61007" type="technical-criterion" originalName="Documentation - Bad Comments" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="61014" type="technical-criterion" originalName="Programming Practices - Error and Exception Handling" active="N/A" detached="false" ignored="N/A" />
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
@@ -11,4 +12,5 @@
   <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" active="true" detached="false" ignored="false" />
   <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" active="true" detached="false" ignored="false" />
   <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" active="true" detached="false" ignored="false" />
+  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" active="true" detached="false" ignored="false" />
 </root>
