@@ -67,7 +67,6 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         //TODO: register for events
          context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
       }
 

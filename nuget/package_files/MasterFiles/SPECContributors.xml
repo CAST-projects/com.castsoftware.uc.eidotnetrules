@@ -11,4 +11,5 @@
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2000012" contributorType="quality-rule" contributorOriginalName="Empty arrays and collections should be returned instead of null" critical="false" weight="5" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2000014" contributorType="quality-rule" contributorOriginalName="Interface instances should not be cast to concrete types" critical="false" weight="5" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2000018" contributorType="quality-rule" contributorOriginalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" critical="false" weight="5" />
+  <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2000022" contributorType="quality-rule" contributorOriginalName="Culture Dependent String operations should specify culture" critical="false" weight="1" />
 </root>

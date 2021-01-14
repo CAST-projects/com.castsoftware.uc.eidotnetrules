@@ -80,6 +80,7 @@
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
+    <Compile Include="TestCultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
@@ -91,7 +92,8 @@
     <None Include="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
     <None Include="TestSources\TrackTODOTags_Source.cs" />
     <None Include="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
-    <Compile Include="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />
+    <None Include="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />
+    <None Include="TestSources\CultureDependentStringOperationsShouldSpecifyCulture_Source.cs" />
     <Compile Include="TestTrackTODOTags.cs" />
     <None Include="TestSources\TrackFIXMETags_Source.cs" />
     <Compile Include="TestTrackFIXMETags.cs" />

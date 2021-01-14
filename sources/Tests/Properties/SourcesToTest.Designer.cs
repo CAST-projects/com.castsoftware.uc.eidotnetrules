@@ -226,6 +226,29 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Globalization;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class CultureDependentStringOperationsShouldSpecifyCulture_Source {
+        ///      private static readonly String str = &quot;abc&quot;;
+        ///      String lowerKO = str.ToLower();
+        ///      String lowerOK = str.ToLower(CultureInfo.InvariantCulture);
+        ///      String lowerOKInvariant = str.ToLowerInvariant();
+        ///
+        ///      String upperKO = st [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CultureDependentStringOperationsShouldSpecifyCulture_Source {
+            get {
+                return ResourceManager.GetString("CultureDependentStringOperationsShouldSpecifyCulture_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source {

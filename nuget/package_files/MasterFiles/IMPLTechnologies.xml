@@ -11,4 +11,5 @@
   <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" filter="138383" filterLabel="C#" />
   <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" filter="138383" filterLabel="C#" />
   <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" filter="138383" filterLabel="C#" />
+  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" filter="138383" filterLabel="C#" />
 </root>
