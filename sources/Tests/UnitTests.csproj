@@ -85,11 +85,13 @@
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
+    <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
     <None Include="TestSources\EnsureProperArgumentsToEvents_Source.cs" />
     <None Include="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
+    <Compile Include="TestSources\MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source.cs" />
     <None Include="TestSources\TrackTODOTags_Source.cs" />
     <None Include="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
     <None Include="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />

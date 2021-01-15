@@ -357,6 +357,28 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Collections.ObjectModel;
+        ///using System.Collections.Immutable;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source {
+        ///
+        ///      public class AClass {
+        ///         public static string[] strings1KO = { &quot;first&quot;, &quot;second&quot; };  // Noncompliant
+        ///         public static List&lt;String&gt; strings2 = new List&lt;String&gt;( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source {
+            get {
+                return ResourceManager.GetString("MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class TrackFIXMETags_Source {

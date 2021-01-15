@@ -10,6 +10,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Work\DotNet\com.castsoftware.eidotnetrules\com.castsoftware.uc.eidotnetrules\sources\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
-    <StartArguments>/run=UnitTests.UnitTest.TestCultureDependentStringOperationsShouldSpecifyCulture.Test UnitTests.dll</StartArguments>
+    <StartArguments>/run=UnitTests.UnitTest.TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.Test UnitTests.dll</StartArguments>
   </PropertyGroup>
 </Project>

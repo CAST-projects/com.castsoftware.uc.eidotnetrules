@@ -157,4 +157,7 @@
   <data name="CultureDependentStringOperationsShouldSpecifyCulture_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testsources\culturedependentstringoperationsshouldspecifyculture_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\testsources\mutablestaticfieldsoftypecollectionorarrayshouldnotbepublicstatic_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
