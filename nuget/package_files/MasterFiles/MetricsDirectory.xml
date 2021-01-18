@@ -5,6 +5,7 @@
   <metric id="61007" type="technical-criterion" originalName="Documentation - Bad Comments" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61014" type="technical-criterion" originalName="Programming Practices - Error and Exception Handling" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
@@ -18,4 +19,5 @@
   <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" active="true" detached="false" ignored="false" />
   <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" active="true" detached="false" ignored="false" />
   <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" active="true" detached="false" ignored="false" />
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" active="true" detached="false" ignored="false" />
 </root>

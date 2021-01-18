@@ -160,4 +160,10 @@
   <data name="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testsources\mutablestaticfieldsoftypecollectionorarrayshouldnotbepublicstatic_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="AvoidLocalVariablesShadowingClassFields_Source1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\testsources\avoidlocalvariablesshadowingclassfields_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="AvoidCreatingExceptionWithoutThrowingThem_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\testsources\avoidcreatingexceptionwithoutthrowingthem_source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

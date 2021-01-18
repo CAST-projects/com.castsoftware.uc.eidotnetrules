@@ -94,6 +94,28 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
+        ///   public class AvoidCreatingExceptionWithoutThrowingThem_Source {
+        ///
+        ///      private NullReferenceException _nullReferenceExceptionNotThrown = new NullReferenceException();
+        ///      private NullReferenceException _nullReferenceExceptionThrown = new NullReferenceException();
+        ///
+        ///      private void ThrowNullReferenceException() {
+        ///         throw _nullRe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidCreatingExceptionWithoutThrowingThem_Source {
+            get {
+                return ResourceManager.GetString("AvoidCreatingExceptionWithoutThrowingThem_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
         ///   class AvoidLocalVariablesShadowingClassFields_Source {
         ///      class Shadow {
         ///         private int aMember;
@@ -114,6 +136,37 @@ namespace UnitTests.Properties {
         internal static string AvoidLocalVariablesShadowingClassFields_Source {
             get {
                 return ResourceManager.GetString("AvoidLocalVariablesShadowingClassFields_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   class AvoidLocalVariablesShadowingClassFields_Source {
+        ///      class Shadow {
+        ///         private int aMember;
+        ///
+        ///         void Shadow_aMemberKO() {
+        ///            int aMember = 0;
+        ///         }
+        ///
+        ///         void Shadow_aMemberInInnerScopeKO() {
+        ///            {
+        ///               int aMember = 0;
+        ///            }
+        ///         }
+        ///
+        ///         void DontShadow_aMemberOK() {
+        ///             [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidLocalVariablesShadowingClassFields_Source1 {
+            get {
+                return ResourceManager.GetString("AvoidLocalVariablesShadowingClassFields_Source1", resourceCulture);
             }
         }
         
@@ -365,7 +418,7 @@ namespace UnitTests.Properties {
         ///
         ///      public class AClass {
         ///         public static string[] strings1KO = { &quot;first&quot;, &quot;second&quot; };  // Noncompliant
-        ///         public static List&lt;String&gt; strings2 = new List&lt;String&gt;( [rest of string was truncated]&quot;;.
+        ///         public static List&lt;String&gt; strings2KO = new List&lt;String [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source {
             get {

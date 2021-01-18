@@ -13,4 +13,5 @@
   <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" filter="138383" filterLabel="C#" />
   <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" filter="138383" filterLabel="C#" />
   <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" filter="138383" filterLabel="C#" />
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" filter="138383" filterLabel="C#" />
 </root>

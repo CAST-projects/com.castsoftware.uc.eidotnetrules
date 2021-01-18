@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="61027" type="technical-criterion" originalName="Dead code (static)" section="name">
+    <english>Dead code (static)</english>
+  </metric>
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -711,6 +714,38 @@ var lowered = someString.ToLowerInvariant();</english>
 }</english>
   </metric>
   <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="total">
+    <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="description">
+    <english>This rule will check whether an exception type object is created but not thrown.</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="name">
+    <english>Avoid creating exception without throwing them</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="rationale">
+    <english>Only creating exception and throwing it would mean that either it is a mistake or it is used for side effect of object creation.</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediation">
+    <english>Throw the exception or remove the statement</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediationSample">
+    <english>var o = new Exception();
+
+throw o;
+
+throw new Exception();</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="sample">
+    <english>var e = new Exception();
+
+new Exception();</english>
+  </metric>
+  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="total">
     <english>Number of Artifacts</english>
   </metric>
 </root>

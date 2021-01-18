@@ -124,14 +124,23 @@
      </property>
 
      <property name="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic" type="integer"  merge="sum" rid="13">
-        <description> Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static</description>
+        <description>Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="13"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
-    
+
+     <property name="AvoidCreatingExceptionWithoutThrowingThem" type="integer"  merge="sum" rid="14">
+        <description>Avoid creating exception without throwing them</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="14"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+
   </category>
 
 

@@ -75,6 +75,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SourcesToTest.resx</DependentUpon>
     </Compile>
+    <Compile Include="TestAvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
@@ -91,7 +92,8 @@
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
     <None Include="TestSources\EnsureProperArgumentsToEvents_Source.cs" />
     <None Include="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
-    <Compile Include="TestSources\MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source.cs" />
+    <None Include="TestSources\AvoidCreatingExceptionWithoutThrowingThem_Source.cs" />
+    <None Include="TestSources\MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source.cs" />
     <None Include="TestSources\TrackTODOTags_Source.cs" />
     <None Include="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
     <None Include="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />

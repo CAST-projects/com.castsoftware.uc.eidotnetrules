@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AvoidClassesWithTooManyConstructorsAnalyzer.cs" />
+    <Compile Include="AvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
