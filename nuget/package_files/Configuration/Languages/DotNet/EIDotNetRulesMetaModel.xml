@@ -141,6 +141,16 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="UseLogicalORInsteadOfBitwiseORInBooleanContext" type="integer"  merge="sum" rid="15">
+        <description>Use Logical OR instead of Bitwise OR in boolean context</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="15"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+
+
   </category>
 
 

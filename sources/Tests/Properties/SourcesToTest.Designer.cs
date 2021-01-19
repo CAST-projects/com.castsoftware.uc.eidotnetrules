@@ -475,5 +475,24 @@ namespace UnitTests.Properties {
                 return ResourceManager.GetString("TrackTODOTags_Source", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class UseLogicalORInsteadOfBitwiseORInBooleanContext_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string UseLogicalORInsteadOfBitwiseORInBooleanContext_Source {
+            get {
+                return ResourceManager.GetString("UseLogicalORInsteadOfBitwiseORInBooleanContext_Source", resourceCulture);
+            }
+        }
     }
 }

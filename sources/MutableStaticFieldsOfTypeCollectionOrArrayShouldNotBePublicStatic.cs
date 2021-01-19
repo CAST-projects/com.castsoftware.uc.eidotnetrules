@@ -37,7 +37,6 @@ namespace CastDotNetExtension {
          lock (_lock) {
             var type = context.Symbol as INamedTypeSymbol;
             if (null != type) {
-               System.Collections.Generic.ICollection<int> x = null;
                var SystemArray = context.Compilation.GetTypeByMetadataName("System.Array");
                var SystemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
                var SystemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
