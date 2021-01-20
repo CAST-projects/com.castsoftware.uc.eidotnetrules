@@ -15,4 +15,5 @@
   <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

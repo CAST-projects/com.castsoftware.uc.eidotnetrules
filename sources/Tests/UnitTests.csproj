@@ -81,6 +81,7 @@
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
+    <Compile Include="TestConditionalStructuresShouldNotHaveIdenticalBranches.cs" />
     <Compile Include="TestCultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
@@ -88,7 +89,8 @@
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
-    <Compile Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
+    <None Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
+    <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />

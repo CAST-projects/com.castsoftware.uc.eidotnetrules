@@ -279,6 +279,25 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
+            get {
+                return ResourceManager.GetString("ConditionalStructuresShouldNotHaveIdenticalBranches_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Globalization;
         ///
         ///namespace UnitTests.UnitTest.Sources {
@@ -485,9 +504,24 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class UseLogicalORInsteadOfBitwiseORInBooleanContext_Source {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      private bool ReturnTrue() {
+        ///         return true;
+        ///      }
+        ///
+        ///      private bool ReturnFalse() {
+        ///         return false;
+        ///      }
+        ///
+        ///      private int Return1() {
+        ///         return 1;
+        ///      }
+        ///
+        ///      private int Return0() {
+        ///         return 0;
+        ///      }
+        ///
+        ///      publ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UseLogicalORInsteadOfBitwiseORInBooleanContext_Source {
             get {

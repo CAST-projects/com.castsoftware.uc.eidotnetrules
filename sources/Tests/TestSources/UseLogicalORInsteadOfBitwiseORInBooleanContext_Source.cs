@@ -39,6 +39,52 @@ namespace UnitTests.UnitTest.Sources {
 
          x = (1 == i1) | b2;
 
+
+         if (true == x) {
+            ReturnTrue();
+         }
+         else if (1 == i1) {
+            ReturnTrue();
+         }
+         else {
+            ReturnTrue();
+         }
+
+
+         if (true == x) {
+            ReturnTrue();
+         }
+         else
+            ReturnTrue();
+
+
+         if (true == x) {
+            ReturnTrue();
+         }
+
+         if (true == x) {
+            ReturnTrue();
+         }
+         else {
+            ReturnTrue();
+         }
+
+         if (true == x) 
+            ReturnTrue();
+         else
+            ReturnTrue();
+
+         if (true == x)
+            ReturnTrue();
+         else {
+            ReturnTrue();
+         }
+
+         if (true == x)
+            ReturnTrue();
+         else {
+            ReturnTrue(); ; ; ;
+         }
       }
    }
 }
