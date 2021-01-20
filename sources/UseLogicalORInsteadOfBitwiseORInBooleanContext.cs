@@ -35,16 +35,23 @@ namespace CastDotNetExtension {
       private object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
-            var expr = context.Node as BinaryExpressionSyntax;
-            if (null != expr) {
-               var booleanType = context.SemanticModel.Compilation.GetTypeByMetadataName("System.Boolean");
-               if ((null != expr.Left && context.SemanticModel.GetTypeInfo(expr.Left).Type.Equals(booleanType)) ||
-               (null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType))) {
-                  var pos = expr.SyntaxTree.GetMappedLineSpan(expr.Span);
-                  //Console.WriteLine(pos);
-                  AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+            try {
+               var expr = context.Node as BinaryExpressionSyntax;
+               if (null != expr) {
+                  var booleanType = context.SemanticModel.Compilation.GetTypeByMetadataName("System.Boolean");
+                  if ((null != expr.Left && context.SemanticModel.GetTypeInfo(expr.Left).Type.Equals(booleanType)) ||
+                  (null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType))) {
+                     var pos = expr.SyntaxTree.GetMappedLineSpan(expr.Span);
+                     //Console.WriteLine(pos);
+                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                  }
                }
             }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
+
          }
       }
 

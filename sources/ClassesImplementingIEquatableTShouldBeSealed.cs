@@ -34,6 +34,7 @@ namespace CastDotNetExtension {
       }
 
       private IEnumerable<IMethodSymbol> GetEqualsMethods(INamedTypeSymbol klazz, bool onlyOverride = true) {
+         
          var methods = from IMethodSymbol aMethod in klazz.GetMembers("Equals")
                        where null != aMethod &&
                        aMethod.Kind == SymbolKind.Method &&
@@ -53,43 +54,50 @@ namespace CastDotNetExtension {
       private Object _lock = new Object();
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
+            try { 
             var klazz = context.Symbol as INamedTypeSymbol;
             if (null != klazz && TypeKind.Class == klazz.TypeKind && !klazz.IsSealed && 
                (Accessibility.Protected == klazz.DeclaredAccessibility || Accessibility.Public == klazz.DeclaredAccessibility)) {
-               foreach (var baseInterface in klazz.AllInterfaces) {
-                  if ("System.IEquatable<T>" == baseInterface.OriginalDefinition.ToString()) {
-                     var equalss = baseInterface.GetMembers().Where(member => member.Name == "Equals");
-                     if (null != equalss && 1 == equalss.Count()) {
-                        var equalsImplementation = klazz.FindImplementationForInterfaceMember(equalss.First()) as IMethodSymbol;
-                        bool addViolation = false;
-                        if (null != equalsImplementation && !equalsImplementation.IsAbstract) {
-                           if (equalsImplementation.IsVirtual) {
-                              if (klazz != equalsImplementation.ContainingType) {
-                                 var thisEqualss = GetEqualsMethods(klazz);
-                                 var thisEqualsImplementation = thisEqualss.Where(thisEqual => thisEqual.Parameters.First().ToString() == equalsImplementation.Parameters.First().ToString());
-                                 if (1 == thisEqualsImplementation.Count() && thisEqualsImplementation.First().IsOverride) {
-                                    addViolation = true;
+                  foreach (var baseInterface in klazz.AllInterfaces) {
+                     if ("System.IEquatable<T>" == baseInterface.OriginalDefinition.ToString()) {
+                        var equalss = baseInterface.GetMembers().Where(member => member.Name == "Equals");
+                        if (null != equalss && 1 == equalss.Count()) {
+                           var equalsImplementation = klazz.FindImplementationForInterfaceMember(equalss.First()) as IMethodSymbol;
+                           bool addViolation = false;
+                           if (null != equalsImplementation && !equalsImplementation.IsAbstract) {
+                              if (equalsImplementation.IsVirtual) {
+                                 if (klazz != equalsImplementation.ContainingType) {
+                                    var thisEqualss = GetEqualsMethods(klazz);
+                                    var thisEqualsImplementation = thisEqualss.Where(thisEqual => thisEqual.Parameters.First().ToString() == equalsImplementation.Parameters.First().ToString());
+                                    if (1 == thisEqualsImplementation.Count() && thisEqualsImplementation.First().IsOverride) {
+                                       addViolation = true;
+                                    }
                                  }
                               }
-                           }
-                           else {
-                              addViolation = true;
-                           }
+                              else {
+                                 addViolation = true;
+                              }
 
-                           if (addViolation) {
-                              var span = klazz.DeclaringSyntaxReferences.First().Span;
-                              var pos = klazz.DeclaringSyntaxReferences.First().SyntaxTree.GetMappedLineSpan(span);
-                              //Console.WriteLine("Violation: Class Name: " + klazz.Name + " .AddExpected(" + pos.StartLinePosition.Line + ", " + pos.StartLinePosition.Character + ")");
-                              AddViolation(klazz, new FileLinePositionSpan[] { pos });
-                           }
-                           else {
-                              //Console.WriteLine("No Violation: Class Name: " + klazz.Name);
+                              if (addViolation) {
+                                 var span = klazz.DeclaringSyntaxReferences.First().Span;
+                                 var pos = klazz.DeclaringSyntaxReferences.First().SyntaxTree.GetMappedLineSpan(span);
+                                 //Console.WriteLine("Violation: Class Name: " + klazz.Name + " .AddExpected(" + pos.StartLinePosition.Line + ", " + pos.StartLinePosition.Character + ")");
+                                 AddViolation(klazz, new FileLinePositionSpan[] { pos });
+                              }
+                              else {
+                                 //Console.WriteLine("No Violation: Class Name: " + klazz.Name);
+                              }
                            }
                         }
                      }
                   }
                }
             }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
+
          }
       }
    }

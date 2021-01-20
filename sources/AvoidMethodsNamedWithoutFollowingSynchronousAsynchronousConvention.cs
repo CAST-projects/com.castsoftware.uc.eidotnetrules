@@ -36,20 +36,26 @@ namespace CastDotNetExtension {
       private object _lock = new object();
       protected void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
-            var method = context.ContainingSymbol as IMethodSymbol;
-            if (null != method) {
-               var typeSymbol = method.ReturnType as ITypeSymbol;
+            try {
+               var method = context.ContainingSymbol as IMethodSymbol;
+               if (null != method) {
+                  var typeSymbol = method.ReturnType as ITypeSymbol;
 
-               var name = method.Name;
-               var typeFullName = typeSymbol.ToString();
-               Boolean returnsAsync = typeFullName.StartsWith("System.Threading.Tasks.Task");
+                  var name = method.Name;
+                  var typeFullName = typeSymbol.ToString();
+                  Boolean returnsAsync = typeFullName.StartsWith("System.Threading.Tasks.Task");
 
-               if (returnsAsync != name.EndsWith("Async")) {
-                  var span = context.Node.Span;
-                  var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                  //Console.WriteLine(pos.ToString());
-                  AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                  if (returnsAsync != name.EndsWith("Async")) {
+                     var span = context.Node.Span;
+                     var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
+                     //Console.WriteLine(pos.ToString());
+                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                  }
                }
+            }
+            catch (Exception e) {
+               Console.WriteLine(e.Message);
+               Console.WriteLine(e.StackTrace);
             }
          }
       }

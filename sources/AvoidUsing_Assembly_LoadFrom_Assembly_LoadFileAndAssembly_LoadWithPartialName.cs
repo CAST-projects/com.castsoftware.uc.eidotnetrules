@@ -70,22 +70,25 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
       }
 
+      private object _lock = new object();
       protected void Analyze(SyntaxNodeAnalysisContext context) {
-         try {
-            Init(context.Compilation);
-            var model = context.SemanticModel;
-            var symbInf = model.GetSymbolInfo(context.Node);
-            var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
-            if (_methodSymbols.Contains(invokedMethod)) {
-               var span = context.Node.Span;
-               var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-               //Console.WriteLine(pos.ToString());
-               AddViolation(context.ContainingSymbol, new FileLinePositionSpan [] { pos });
+         lock (_lock) {
+            try {
+               Init(context.Compilation);
+               var model = context.SemanticModel;
+               var symbInf = model.GetSymbolInfo(context.Node);
+               var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
+               if (_methodSymbols.Contains(invokedMethod)) {
+                  var span = context.Node.Span;
+                  var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
+                  //Console.WriteLine(pos.ToString());
+                  AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+               }
             }
-         }
-         catch (System.Exception e) {
-            System.Console.WriteLine(e.Message);
-            System.Console.WriteLine(e.StackTrace);
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
          }
       }
 

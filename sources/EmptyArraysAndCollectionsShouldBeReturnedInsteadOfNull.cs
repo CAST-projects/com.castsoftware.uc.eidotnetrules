@@ -35,50 +35,45 @@ namespace CastDotNetExtension {
       private Object _lock = new Object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
-            var method = context.Symbol as IMethodSymbol;
-            
-            
-            if (null != method) {
-               if (TypeKind.Array == method.ReturnType.TypeKind ||
-                  method.ReturnType.OriginalDefinition.ToString().StartsWith("System.Collections.Generic.")) {
-                  var syntaxRefs = method.DeclaringSyntaxReferences;
-                  foreach (var syntaxRef in syntaxRefs) {
-                     SyntaxNode syntaxNode = syntaxRef.GetSyntaxAsync(context.CancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
-                     var returnStatements = syntaxNode.DescendantNodes().OfType<ReturnStatementSyntax>();
+            try {
+               var method = context.Symbol as IMethodSymbol;
 
-                     if (null != returnStatements) {
-                        List<FileLinePositionSpan> violations = new List<FileLinePositionSpan>();
-                        foreach (var returnStatement in returnStatements) {
-                           var retVal = returnStatement.Expression as LiteralExpressionSyntax;
-                           if (null != retVal) {
-                              var strRetVal = retVal.ToString();
-                              if ("null" == retVal.ToString()) {
-                                 //Console.WriteLine(returnStatement.GetLocation().GetMappedLineSpan().ToString());
-                                 violations.Add(returnStatement.GetLocation().GetMappedLineSpan());
+
+               if (null != method) {
+                  if (TypeKind.Array == method.ReturnType.TypeKind ||
+                     method.ReturnType.OriginalDefinition.ToString().StartsWith("System.Collections.Generic.")) {
+                     var syntaxRefs = method.DeclaringSyntaxReferences;
+                     foreach (var syntaxRef in syntaxRefs) {
+                        SyntaxNode syntaxNode = syntaxRef.GetSyntaxAsync(context.CancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
+                        var returnStatements = syntaxNode.DescendantNodes().OfType<ReturnStatementSyntax>();
+
+                        if (null != returnStatements) {
+                           List<FileLinePositionSpan> violations = new List<FileLinePositionSpan>();
+                           foreach (var returnStatement in returnStatements) {
+                              var retVal = returnStatement.Expression as LiteralExpressionSyntax;
+                              if (null != retVal) {
+                                 var strRetVal = retVal.ToString();
+                                 if ("null" == retVal.ToString()) {
+                                    //Console.WriteLine(returnStatement.GetLocation().GetMappedLineSpan().ToString());
+                                    violations.Add(returnStatement.GetLocation().GetMappedLineSpan());
+                                 }
                               }
                            }
-                        }
-                        if (violations.Any()) {
-                           AddViolation(method, violations);
+                           if (violations.Any()) {
+                              AddViolation(method, violations);
+                           }
                         }
                      }
                   }
+
                }
-               
             }
-            //else {
-            //   var property = context.Symbol as IPropertySymbol;
-            //   if (null != property) {
-            //      property.GetMethod
-            //      //property.DeclaringSyntaxReferences
-            //   }
-            //}
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
+
          }
-         
-         
-         //var property = context.
       } 
-
-
    }
 }

@@ -36,10 +36,10 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(AddViolationIfLocalVariableViolates, Microsoft.CodeAnalysis.CSharp.SyntaxKind.VariableDeclarator, Microsoft.CodeAnalysis.CSharp.SyntaxKind.EndOfFileToken);
       }
 
-      private object _fieldLock = new object();  
+      private object _lock = new object();  
 
       protected void AddViolationIfLocalVariableViolates(SyntaxNodeAnalysisContext context) {
-         lock (_fieldLock) {
+         lock (_lock) {
             try {
                if (Microsoft.CodeAnalysis.SymbolKind.Method == context.ContainingSymbol.Kind) {
                   var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
@@ -88,8 +88,16 @@ namespace CastDotNetExtension {
       }
 
       public override void Reset() {
-         base.Reset();
-         _klazzToMembers.Clear();
+         lock (_lock) {
+            try {
+               _klazzToMembers.Clear();
+               base.Reset();
+            }
+            catch (Exception e) {
+               Console.WriteLine(e.Message);
+               Console.WriteLine(e.StackTrace);
+            }
+         }
       }
    }
 }

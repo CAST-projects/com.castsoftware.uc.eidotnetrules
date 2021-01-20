@@ -31,35 +31,44 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(this.AnalyzeClass, SymbolKind.NamedType);
       }
 
+      private object _lock = new object();
       private void AnalyzeClass(SymbolAnalysisContext context) {
-         var klazz = context.Symbol as INamedTypeSymbol;
-         if (null != klazz && TypeKind.Class == klazz.TypeKind) {
-            Dictionary<string, ISymbol> fields = new Dictionary<string, ISymbol>();
-            bool isTargetClass = true;
-            do {
-               foreach (var member in klazz.GetMembers()) {
-                  var field = member as IFieldSymbol;
-                  if (null != field) {
-                     string fieldName = field.Name.ToLower();
-                     //Console.WriteLine("Field Name: " + fieldName);
-                     if (isTargetClass) {
-                        fields[fieldName] = field;
+         lock (_lock) {
+            try {
+               var klazz = context.Symbol as INamedTypeSymbol;
+               if (null != klazz && TypeKind.Class == klazz.TypeKind) {
+                  Dictionary<string, ISymbol> fields = new Dictionary<string, ISymbol>();
+                  bool isTargetClass = true;
+                  do {
+                     foreach (var member in klazz.GetMembers()) {
+                        var field = member as IFieldSymbol;
+                        if (null != field) {
+                           string fieldName = field.Name.ToLower();
+                           //Console.WriteLine("Field Name: " + fieldName);
+                           if (isTargetClass) {
+                              fields[fieldName] = field;
+                           }
+                           else if (fields.ContainsKey(fieldName)) {
+                              var fieldSymbol = fields[fieldName];
+                              var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
+                              var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+                              //Console.WriteLine("Main Pos: " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
+                              AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
+                           }
+                        }
                      }
-                     else if (fields.ContainsKey(fieldName)) {
-                        var fieldSymbol = fields[fieldName];
-                        var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                        var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                        //Console.WriteLine("Main Pos: " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
-                        AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
+                     if (!fields.Any()) {
+                        break;
                      }
-                  }
+                     isTargetClass = false;
+                     klazz = klazz.BaseType;
+                  } while (null != klazz && !klazz.ToString().Equals("object"));
                }
-               if (!fields.Any()) {
-                  break;
-               }
-               isTargetClass = false;
-               klazz = klazz.BaseType;
-            } while (null != klazz && !klazz.ToString().Equals("object"));
+            }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
          }
       }
    }

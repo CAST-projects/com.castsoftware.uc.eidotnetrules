@@ -80,9 +80,10 @@ namespace CastDotNetExtension {
       }
 
 
-      private HashSet<IfStatementSyntax> _ifsAnalyzed = new HashSet<IfStatementSyntax>();
+      private Dictionary<ISymbol, HashSet<IfStatementSyntax>> _ifsAnalyzed = new Dictionary<ISymbol, HashSet<IfStatementSyntax>>();
       private void AnalyzeIfBranches(SyntaxNodeAnalysisContext context, IfStatementSyntax ifStatement) {
-         if (null != ifStatement && !_ifsAnalyzed.Contains(ifStatement)) {
+         HashSet<IfStatementSyntax> analyzedIfs = null;
+         if (null != ifStatement && (!_ifsAnalyzed.TryGetValue(context.ContainingSymbol, out analyzedIfs) || !analyzedIfs.Contains(ifStatement))) {
             ElseClauseSyntax elseClause = null;
             bool areEquivalent = true;
             IEnumerable<StatementSyntax> currentStatements = null;
@@ -91,7 +92,11 @@ namespace CastDotNetExtension {
             bool firstTime = true;
             do {
                if (null != ifStatement) {
-                  _ifsAnalyzed.Add(ifStatement);
+                  if (null == analyzedIfs) {
+                     analyzedIfs = new HashSet<IfStatementSyntax>();
+                     _ifsAnalyzed[context.ContainingSymbol] = analyzedIfs;
+                  }
+                  analyzedIfs.Add(ifStatement);
                }
                bool noElse = null == elseClause && null == ifStatement.Else;
                bool ifWithNoElse = firstTime && noElse;
@@ -215,7 +220,15 @@ namespace CastDotNetExtension {
 
       private void OnMethodEnd(SymbolAnalysisContext context) {
          lock (_lock) {
-            _ifsAnalyzed.Clear();
+            try {
+               if (_ifsAnalyzed.Keys.Contains(context.Symbol)) {
+                  _ifsAnalyzed.Remove(context.Symbol);
+               }
+            }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
          }
       }
    }

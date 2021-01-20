@@ -38,40 +38,47 @@ namespace CastDotNetExtension {
       private object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
-            var castNode = context.Node as CastExpressionSyntax;
-            var pos = context.Node.GetLocation().GetMappedLineSpan();
-            INamedTypeSymbol fromType = null, toType = null;
-            if (null != castNode) {
-               var identifier = castNode.Expression as IdentifierNameSyntax;
-               if (null != identifier) {
-                  fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(identifier).Type;
-                  if (null != fromType) {
-                     toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(castNode.Type).Type;
+            try {
+               var castNode = context.Node as CastExpressionSyntax;
+               var pos = context.Node.GetLocation().GetMappedLineSpan();
+               INamedTypeSymbol fromType = null, toType = null;
+               if (null != castNode) {
+                  var identifier = castNode.Expression as IdentifierNameSyntax;
+                  if (null != identifier) {
+                     fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(identifier).Type;
+                     if (null != fromType) {
+                        toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(castNode.Type).Type;
+                     }
                   }
                }
-            }
-            else {
-               var binary = context.Node as BinaryExpressionSyntax;
-               if (null != binary) {
-                  var left = binary.Left as IdentifierNameSyntax;
-                  var right = binary.Right as IdentifierNameSyntax;
-                  if (null != left && null != right) {
-                     fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(left).Type;
-                     if (null != fromType) {
-                        toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(right).Type;
+               else {
+                  var binary = context.Node as BinaryExpressionSyntax;
+                  if (null != binary) {
+                     var left = binary.Left as IdentifierNameSyntax;
+                     var right = binary.Right as IdentifierNameSyntax;
+                     if (null != left && null != right) {
+                        fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(left).Type;
+                        if (null != fromType) {
+                           toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(right).Type;
+                        }
+                     }
+                  }
+               }
+
+               if (null != fromType && null != toType) {
+                  if (TypeKind.Interface == fromType.TypeKind) {
+                     if ((TypeKind.Class == toType.TypeKind && !toType.IsAbstract) || TypeKind.Struct == toType.TypeKind) {
+                        //Console.WriteLine(pos.ToString());
+                        AddViolation(context, new FileLinePositionSpan[] { pos });
                      }
                   }
                }
             }
-
-            if (null != fromType && null != toType) {
-               if (TypeKind.Interface == fromType.TypeKind) {
-                  if ((TypeKind.Class == toType.TypeKind && !toType.IsAbstract) || TypeKind.Struct == toType.TypeKind) {
-                     //Console.WriteLine(pos.ToString());
-                     AddViolation(context, new FileLinePositionSpan[] { pos });
-                  }
-               }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
             }
+
          }
       }
    }

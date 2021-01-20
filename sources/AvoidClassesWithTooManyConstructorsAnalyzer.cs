@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace CastDotNetExtension
 {
@@ -33,19 +34,27 @@ namespace CastDotNetExtension
             context.RegisterSyntaxNodeAction(this.Analyze, SyntaxKind.ClassDeclaration);
         }
 
+        private object _lock = new object();
         private void Analyze(SyntaxNodeAnalysisContext nodeContext)
         {
-            var classDeclarationNode = nodeContext.Node as ClassDeclarationSyntax;
+           lock (_lock) {
+              try {
+                 var classDeclarationNode = nodeContext.Node as ClassDeclarationSyntax;
 
-            var constructorDeclarations = classDeclarationNode.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
+                 var constructorDeclarations = classDeclarationNode.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
 
-            if (constructorDeclarations.Count() > 4)
-            {
-                foreach (var constructorDeclaration in constructorDeclarations)
-                {
-                    AddViolation(nodeContext, new List<FileLinePositionSpan>() { constructorDeclaration.GetLocation().GetMappedLineSpan() });
-                }
-            }
+                 if (constructorDeclarations.Count() > 4) {
+                    foreach (var constructorDeclaration in constructorDeclarations) {
+                       AddViolation(nodeContext, new List<FileLinePositionSpan>() { constructorDeclaration.GetLocation().GetMappedLineSpan() });
+                    }
+                 }
+              }
+              catch (Exception e) {
+                 Console.WriteLine(e.Message);
+                 Console.WriteLine(e.StackTrace);
+
+              }
+           }
         }
     }
 }

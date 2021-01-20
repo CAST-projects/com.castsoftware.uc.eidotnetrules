@@ -36,15 +36,24 @@ namespace CastDotNetExtension {
          context.RegisterSemanticModelAction(this.AnalyzeCommentsUsingSemanticModel);
       }
 
+      private object _lock = new object();
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
-
-         foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
-            var pos = comment.GetLocation().GetMappedLineSpan();
-            //Console.WriteLine("Pos: " + pos.ToString());
-            ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
-            if (null != iSymbol) {
-               AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
+         lock (_lock) {
+            try {
+               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
+                  var pos = comment.GetLocation().GetMappedLineSpan();
+                  //Console.WriteLine("Pos: " + pos.ToString());
+                  ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
+                  if (null != iSymbol) {
+                     AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
+                  }
+               }
             }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
+
          }
       }
    }

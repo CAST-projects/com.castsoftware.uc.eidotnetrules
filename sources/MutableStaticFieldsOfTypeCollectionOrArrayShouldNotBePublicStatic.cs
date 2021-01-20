@@ -35,37 +35,44 @@ namespace CastDotNetExtension {
       private object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
-            var type = context.Symbol as INamedTypeSymbol;
-            if (null != type) {
-               var SystemArray = context.Compilation.GetTypeByMetadataName("System.Array");
-               var SystemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
-               var SystemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
-               if (TypeKind.Class == type.TypeKind || TypeKind.Struct == type.TypeKind) {
-                  var targetFields = type.GetMembers().
-                     OfType<IFieldSymbol>().
-                     Where(field => !field.IsReadOnly &&
-                        Accessibility.Public == field.DeclaredAccessibility &&
-                        field.IsStatic &&
-                        (
-                           field.Type.BaseType == SystemArray || 
+            try {
+               var type = context.Symbol as INamedTypeSymbol;
+               if (null != type) {
+                  var SystemArray = context.Compilation.GetTypeByMetadataName("System.Array");
+                  var SystemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
+                  var SystemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
+                  if (TypeKind.Class == type.TypeKind || TypeKind.Struct == type.TypeKind) {
+                     var targetFields = type.GetMembers().
+                        OfType<IFieldSymbol>().
+                        Where(field => !field.IsReadOnly &&
+                           Accessibility.Public == field.DeclaredAccessibility &&
+                           field.IsStatic &&
                            (
+                              field.Type.BaseType == SystemArray ||
                               (
-                                 (null != SystemGenericICollection && field.Type.AllInterfaces.Contains(SystemGenericICollection)) ||
-                                 (null != SystemCollectionsICollection && field.Type.AllInterfaces.Contains(SystemCollectionsICollection))
-                              ) 
-                              &&
-                              !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")
+                                 (
+                                    (null != SystemGenericICollection && field.Type.AllInterfaces.Contains(SystemGenericICollection)) ||
+                                    (null != SystemCollectionsICollection && field.Type.AllInterfaces.Contains(SystemCollectionsICollection))
+                                 )
+                                 &&
+                                 !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")
+                              )
                            )
-                        )
-                        );
+                           );
 
-                  foreach (IFieldSymbol field in targetFields) {
-                     var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                     //Console.WriteLine(field.Name + ":" + pos);
-                     AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
+                     foreach (IFieldSymbol field in targetFields) {
+                        var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+                        //Console.WriteLine(field.Name + ":" + pos);
+                        AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
+                     }
                   }
                }
             }
+            catch (System.Exception e) {
+               System.Console.WriteLine(e.Message);
+               System.Console.WriteLine(e.StackTrace);
+            }
+
          }
       }
    }

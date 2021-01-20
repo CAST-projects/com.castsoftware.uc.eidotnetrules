@@ -42,9 +42,10 @@ namespace CastDotNetExtension {
       private object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
-            var newSyntax = context.Node as ObjectCreationExpressionSyntax;
-            if (null != newSyntax) {
-               if (!_exceptionsThrown.Contains(newSyntax)) {
+            try {
+               var newSyntax = context.Node as ObjectCreationExpressionSyntax;
+               if (null != newSyntax) {
+                  if (!_exceptionsThrown.Contains(newSyntax)) {
                      var typeName = newSyntax.Type;
                      if (null != typeName) {
                         var type = context.SemanticModel.GetSymbolInfo(typeName).Symbol as INamedTypeSymbol;
@@ -69,32 +70,39 @@ namespace CastDotNetExtension {
                            }
                         }
                      }
-               }
-               else {
-                  _exceptionsThrown.Remove(newSyntax);
-               }
-            }
-            else {
-               var throwStatement = context.Node as ThrowStatementSyntax;
-               if (null != throwStatement) {
-                  var objectCreationSyntax = throwStatement.Expression as ObjectCreationExpressionSyntax;
-                  if (null != objectCreationSyntax) {
-                     if (_exceptionsNotThrown.Keys.Contains(objectCreationSyntax)) {
-                        _exceptionsNotThrown.Remove(objectCreationSyntax);
-                     }
-                     else {
-                        _exceptionsThrown.Add(objectCreationSyntax);
-                     }
                   }
                   else {
-                     var identifierNameSyntax = throwStatement.Expression as IdentifierNameSyntax;
-                     if (_exceptionsVars.Keys.Contains(identifierNameSyntax.Identifier.ToString())) {
-                        _exceptionsVars.Remove(identifierNameSyntax.Identifier.ToString());
+                     _exceptionsThrown.Remove(newSyntax);
+                  }
+               }
+               else {
+                  var throwStatement = context.Node as ThrowStatementSyntax;
+                  if (null != throwStatement) {
+                     var objectCreationSyntax = throwStatement.Expression as ObjectCreationExpressionSyntax;
+                     if (null != objectCreationSyntax) {
+                        if (_exceptionsNotThrown.Keys.Contains(objectCreationSyntax)) {
+                           _exceptionsNotThrown.Remove(objectCreationSyntax);
+                        }
+                        else {
+                           _exceptionsThrown.Add(objectCreationSyntax);
+                        }
+                     }
+                     else {
+                        var identifierNameSyntax = throwStatement.Expression as IdentifierNameSyntax;
+                        if (_exceptionsVars.Keys.Contains(identifierNameSyntax.Identifier.ToString())) {
+                           _exceptionsVars.Remove(identifierNameSyntax.Identifier.ToString());
+                        }
                      }
                   }
                }
             }
+            catch (Exception e) {
+               Console.WriteLine(e.Message);
+               Console.WriteLine(e.StackTrace);
+
+            }
          }
+
       }
 
       private void SemenaticModelAnalysisEnd(SemanticModelAnalysisContext context) {
