@@ -16,4 +16,5 @@
   <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" filter="138383" filterLabel="C#" />
   <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" filter="138383" filterLabel="C#" />
   <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" filter="138383" filterLabel="C#" />
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" filter="138383" filterLabel="C#" />
 </root>

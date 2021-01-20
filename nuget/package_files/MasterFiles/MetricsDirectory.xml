@@ -7,6 +7,7 @@
   <metric id="61024" type="technical-criterion" originalName="Programming Practices - Structuredness" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="61018" type="technical-criterion" originalName="Efficiency - Memory, Network and Disk Space Management" active="N/A" detached="false" ignored="N/A" />
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
@@ -23,4 +24,5 @@
   <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" active="true" detached="false" ignored="false" />
   <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" active="true" detached="false" ignored="false" />
   <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" active="true" detached="false" ignored="false" />
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" active="true" detached="false" ignored="false" />
 </root>

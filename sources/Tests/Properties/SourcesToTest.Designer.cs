@@ -116,6 +116,25 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
+        ///   public class AvoidEmptyFinalizers_Source {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidEmptyFinalizers_Source {
+            get {
+                return ResourceManager.GetString("AvoidEmptyFinalizers_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
         ///   class AvoidLocalVariablesShadowingClassFields_Source {
         ///      class Shadow {
         ///         private int aMember;
@@ -282,9 +301,20 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
-        ///   }
-        ///}
-        ///.
+        ///      private bool ReturnTrue() {
+        ///         return true;
+        ///      }
+        ///
+        ///      private bool ReturnFalse(int i = 0) {
+        ///         return false;
+        ///      }
+        ///
+        ///      private void TestSwitchBranchesKO(int i = 0) {
+        ///
+        ///         switch (i) {
+        ///            case 1:
+        ///               i++;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
             get {

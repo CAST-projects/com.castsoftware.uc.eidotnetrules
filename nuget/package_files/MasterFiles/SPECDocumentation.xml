@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="61018" type="technical-criterion" originalName="Efficiency - Memory, Network and Disk Space Management" section="name">
+    <english>Efficiency - Memory, Network and Disk Space Management</english>
+  </metric>
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -857,5 +860,52 @@ new Exception();</english>
   </metric>
   <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="total">
     <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="description">
+    <english>The rule will raise a violation when a type implements a finalizer that is empty. Even finalizer with only statement with calls to Debug.Fail and it is not in #if DEBUG part, it will be considered as violation since Debug.Fail is omitted for non-DEBUG configuration.</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="name">
+    <english>Avoid empty finalisers</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="rationale">
+    <english>Whenever you can, avoid finalizers because of the additional performance overhead that's involved in tracking object lifetime. The garbage collector runs the finalizer before it collects the object. This means that at least two collections are required to collect the object. An empty finalizer incurs this added overhead without any benefit.</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="reference">
+    <english>https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1821
+
+https://cwe.mitre.org/data/definitions/1069.html</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="remediation">
+    <english>Avoid using empty finalizers</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="sample">
+    <english>public class Class1
+    {
+        // Violation occurs because the finalizer is empty.
+        ~Class1()
+        {
+        }
+    }
+
+    public class Class2
+    {
+        // Violation occurs because Debug.Fail is a conditional method.
+        // The finalizer will contain code only if the DEBUG directive
+        // symbol is present at compile time. When the DEBUG
+        // directive is not present, the finalizer will still exist, but
+        // it will be empty.
+        ~Class2()
+        {
+            Debug.Fail("Finalizer called!");
+        }
+    }</english>
+  </metric>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="total">
+    <english>Number of finalizers</english>
   </metric>
 </root>

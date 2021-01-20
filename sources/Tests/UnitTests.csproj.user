@@ -3,13 +3,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <StartAction>Program</StartAction>
     <StartProgram>.\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
-    <StartArguments>/run=UnitTests.UnitTest.TestUseLogicalORInsteadOfBitwiseORInBooleanContext.Test UnitTests.dll</StartArguments>
+    <StartArguments>/run=UnitTests.UnitTest.TestAvoidEmptyFinalizers.Test UnitTests.dll</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Work\DotNet\com.castsoftware.eidotnetrules\com.castsoftware.uc.eidotnetrules\sources\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
-    <StartArguments>/run=UnitTests.UnitTest.TestConditionalStructuresShouldNotHaveIdenticalBranches.Test UnitTests.dll</StartArguments>
+    <StartArguments>/run=UnitTests.UnitTest.TestAvoidEmptyFinalizers.Test UnitTests.dll</StartArguments>
   </PropertyGroup>
 </Project>
