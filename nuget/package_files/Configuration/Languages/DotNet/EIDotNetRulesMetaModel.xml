@@ -168,6 +168,14 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="AvoidRecursiveTypeInheritance" type="integer"  merge="sum" rid="18">
+        <description>Avoid Recursive Type Inheritance</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="18"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
      
 
   </category>

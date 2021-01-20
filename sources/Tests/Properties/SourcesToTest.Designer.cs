@@ -114,12 +114,22 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Diagnostics;
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class AvoidEmptyFinalizers_Source {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      class FinalizerWithDebugFailInIfDebugKO {
+        ///         ~FinalizerWithDebugFailInIfDebugKO() {
+        ///#if DEBUG
+        ///            Debug.Fail(&quot;Failed&quot;);
+        ///#endif
+        ///         }
+        ///      }
+        ///
+        ///      class FinalizerInIfDebugWithDebugFailOK {
+        ///#if DEBUG
+        ///         ~FinalizerInIfDebugWithDebugF [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidEmptyFinalizers_Source {
             get {
@@ -220,6 +230,39 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///   public class AvoidRecursiveTypeInheritance_Source {
+        ///
+        ///      class C1&lt;T&gt; {
+        ///      }
+        ///
+        ///      class C2KO&lt;S&gt; : C1&lt;C2KO&lt;C1&lt;S&gt;&gt;&gt; // Noncompliant
+        ///      {
+        ///         public int x = 101;
+        ///      }
+        ///
+        ///      class C3KO&lt;S&gt; : C1&lt;C3KO&lt;C3KO&lt;S&gt;&gt;&gt; // Noncompliant
+        ///      {
+        ///         public int x = 101;
+        ///      }
+        ///
+        ///      class C4OK&lt;S&gt; : C1&lt;C1&lt;C1&lt;S&gt;&gt;&gt; 
+        ///      {
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidRecursiveTypeInheritance_Source {
+            get {
+                return ResourceManager.GetString("AvoidRecursiveTypeInheritance_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Reflection;
         ///
         ///
@@ -249,17 +292,20 @@ namespace UnitTests.Properties {
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class ChildClassFieldsShouldNotShadowParentClassFields_Source {
         ///
-        ///      class Base {
-        ///         protected int ripe;
-        ///         protected int flesh;
+        ///      class C1&lt;T&gt; {
         ///      }
         ///
-        ///      class Derived : Base {
-        ///         private bool ripe; // Noncompliant
-        ///         private static int FLESH; // Noncompliant
+        ///      class C2KO&lt;S&gt; : C1&lt;C2KO&lt;C1&lt;S&gt;&gt;&gt; // Noncompliant
+        ///      {
+        ///         public int x = 101;
+        ///      }
         ///
-        ///         private bool ripened;
-        ///         private static char FLESH_COL [rest of string was truncated]&quot;;.
+        ///      class C3KO&lt;S&gt; : C1&lt;C3KO&lt;C3KO&lt;S&gt;&gt;&gt; // Noncompliant
+        ///      {
+        ///         public int x = 101;
+        ///      }
+        ///
+        ///      class C4OK&lt;S&gt; : C1&lt;C1&lt;C1&lt;S&gt;&gt;&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ChildClassFieldsShouldNotShadowParentClassFields_Source {
             get {

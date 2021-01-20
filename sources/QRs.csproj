@@ -40,6 +40,7 @@
     <Compile Include="AvoidEmptyFinalizers.cs" />
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
+    <Compile Include="AvoidRecursiveTypeInheritance.cs" />
     <Compile Include="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />
