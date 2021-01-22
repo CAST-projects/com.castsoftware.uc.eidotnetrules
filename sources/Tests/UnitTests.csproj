@@ -94,7 +94,7 @@
     <None Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
     <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
-    <Compile Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
+    <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
