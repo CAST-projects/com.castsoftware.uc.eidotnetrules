@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension {
    [CastRuleChecker]
@@ -23,8 +25,10 @@ namespace CastDotNetExtension {
       private Dictionary<string, Dictionary<string, IMethodSymbol>> _klazzToMembers
          = new Dictionary<string, Dictionary<string, IMethodSymbol>>();
 
-      public InheritedMemberVisibilityShouldNotBeDecreased() {
-      }
+      public InheritedMemberVisibilityShouldNotBeDecreased()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -140,7 +144,7 @@ namespace CastDotNetExtension {
                                     if (addViolation) {
                                        var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
                                        var additionalPos = targetMethod.Locations.FirstOrDefault().GetMappedLineSpan();
-                                       //Console.WriteLine("Method: " + method.Name + " MainPos " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
+                                       //Log.WarnFormat("Method: {0} MainPos {1} Additional Pos: {2}", method.Name, mainPos.ToString(), additionalPos.ToString());
                                        AddViolation(sourceMethod, new List<FileLinePositionSpan>() { mainPos, additionalPos });
                                     }
 
@@ -154,8 +158,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

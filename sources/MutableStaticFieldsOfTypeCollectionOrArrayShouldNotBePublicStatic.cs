@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic"
    )]
    public class MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic : AbstractRuleChecker {
-      public MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic() {
-      }
+      public MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -62,15 +66,15 @@ namespace CastDotNetExtension {
 
                      foreach (IFieldSymbol field in targetFields) {
                         var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                        //Console.WriteLine(field.Name + ":" + pos);
+                        //Log.WarnFormat("{0}: {1}", field.Name, pos);
                         AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
                      }
                   }
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

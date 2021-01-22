@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidRecursiveTypeInheritance"
    )]
    public class AvoidRecursiveTypeInheritance : AbstractRuleChecker {
-      public AvoidRecursiveTypeInheritance() {
-      }
+      public AvoidRecursiveTypeInheritance()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -53,7 +57,7 @@ namespace CastDotNetExtension {
                               for (int i = 1; i < parts.Length - 1; ++i) {
                                  if (parts.ElementAt(i) == fullName) {
                                     var pos = context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                                    //Console.WriteLine(context.Symbol.Name + ": " + pos);
+                                    //Log.WarnFormat("{0}: {1}", context.Symbol.Name, pos);
                                     AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
                                     break;
                                  }
@@ -65,8 +69,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

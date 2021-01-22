@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -35,8 +37,10 @@ namespace CastDotNetExtension {
         };
 
       private static HashSet<IMethodSymbol> _methodSymbols = null;
-      public AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName() {
-      }
+      public AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       private CompilationType _typeCompilation = CompilationType.None;
 
@@ -81,13 +85,13 @@ namespace CastDotNetExtension {
                if (_methodSymbols.Contains(invokedMethod)) {
                   var span = context.Node.Span;
                   var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                  //Console.WriteLine(pos.ToString());
+                  //Log.Warn(pos.ToString());
                   AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

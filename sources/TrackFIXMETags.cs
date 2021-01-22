@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text.RegularExpressions;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -23,9 +25,10 @@ namespace CastDotNetExtension {
    )]
    public class TrackFIXMETags : AbstractRuleChecker {
       private static readonly Regex FIXME = new Regex("(?i)^[ \t]*fixme\\b");
-      public TrackFIXMETags() {
-
-      }
+      public TrackFIXMETags()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -42,7 +45,7 @@ namespace CastDotNetExtension {
             try {
                foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
                   var pos = comment.GetLocation().GetMappedLineSpan();
-                  //Console.WriteLine("Pos: " + pos.ToString());
+                  //Log.WarnFormat("Pos: {0}", pos.ToString());
                   ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
                   if (null != iSymbol) {
                      AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
@@ -50,8 +53,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

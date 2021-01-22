@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull"
    )]
    public class EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull : AbstractRuleChecker {
-      public EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull() {
-      }
+      public EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -54,7 +58,7 @@ namespace CastDotNetExtension {
                               if (null != retVal) {
                                  var strRetVal = retVal.ToString();
                                  if ("null" == retVal.ToString()) {
-                                    //Console.WriteLine(returnStatement.GetLocation().GetMappedLineSpan().ToString());
+                                    //Log.Warn(returnStatement.GetLocation().GetMappedLineSpan().ToString());
                                     violations.Add(returnStatement.GetLocation().GetMappedLineSpan());
                                  }
                               }
@@ -69,8 +73,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

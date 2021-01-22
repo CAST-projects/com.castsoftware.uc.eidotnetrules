@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -34,8 +36,10 @@ namespace CastDotNetExtension {
       private static IMethodSymbol _EventHandlerWithArgsInvokeMethodSymbols = null;
       private static INamedTypeSymbol _EventArgSymbols = null;
 
-      public EnsureProperArgumentsToEvents() {
-      }
+      public EnsureProperArgumentsToEvents()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -104,22 +108,22 @@ namespace CastDotNetExtension {
                   if (firstArgNode != null && isEventNonStatic) {
                      if (firstArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
                         var pos = invocationNode.GetLocation().GetMappedLineSpan();
-                        //Console.WriteLine(pos.ToString());
+                        //Log.Warn(pos.ToString());
                         AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                      }
                   }
                   if (secondArgNode != null) {
                      if (secondArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
                         var pos = invocationNode.GetLocation().GetMappedLineSpan();
-                        //Console.WriteLine(pos.ToString());
+                        //Log.Warn(pos.ToString());
                         AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                      }
                   }
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

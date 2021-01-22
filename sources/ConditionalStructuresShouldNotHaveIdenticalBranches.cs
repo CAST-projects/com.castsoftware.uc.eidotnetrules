@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.ConditionalStructuresShouldNotHaveIdenticalBranches"
    )]
    public class ConditionalStructuresShouldNotHaveIdenticalBranches : AbstractRuleChecker {
-      public ConditionalStructuresShouldNotHaveIdenticalBranches() {
-      }
+      public ConditionalStructuresShouldNotHaveIdenticalBranches()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -135,7 +139,7 @@ namespace CastDotNetExtension {
 
             if (areEquivalent) {
                var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
-               //Console.WriteLine(context.ContainingSymbol.Name + ":" + pos);
+               //Log.WarnFormat("{0}: {1}", context.ContainingSymbol.Name, pos);
                AddViolation(context);
             }
          }
@@ -184,7 +188,7 @@ namespace CastDotNetExtension {
                }
                if (areEquivalent) {
                   var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
-                  //Console.WriteLine(context.ContainingSymbol.Name + ":" + pos);
+                  //Log.WarnFormat("{0}: {1}", context.ContainingSymbol.Name, pos);
                   AddViolation(context);
                }
             }
@@ -196,7 +200,7 @@ namespace CastDotNetExtension {
          if (null != conditionalExpr && null != conditionalExpr.WhenFalse && null != conditionalExpr.WhenTrue) {
             if (conditionalExpr.WhenFalse.IsEquivalentTo(conditionalExpr.WhenTrue, true)) {
                var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
-               //Console.WriteLine(context.ContainingSymbol.Name + ":" + pos);
+               //Log.WarnFormat("{0}: {1}", context.ContainingSymbol.Name, pos);
                AddViolation(context);
             }
          }
@@ -212,8 +216,8 @@ namespace CastDotNetExtension {
                
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }
@@ -226,8 +230,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }
