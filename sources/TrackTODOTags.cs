@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text.RegularExpressions;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension {
    [CastRuleChecker]
@@ -47,8 +49,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

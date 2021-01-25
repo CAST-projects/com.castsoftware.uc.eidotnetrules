@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.IO;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,16 +22,11 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.ConditionalStructuresShouldNotHaveIdenticalBranches"
    )]
-   public class ConditionalStructuresShouldNotHaveIdenticalBranches : AbstractRuleChecker /*, IDisposable*/ {
-      //private FileStream _log = null;
-      public ConditionalStructuresShouldNotHaveIdenticalBranches() {
-         //_log = new FileStream(@"C:\Temp\ConditionalStructuresShouldNotHaveIdenticalBranches.log", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-      }
-
-      //void IDisposable.Dispose()
-      //{
-      //   _log.Close();
-      //}
+   public class ConditionalStructuresShouldNotHaveIdenticalBranches : AbstractRuleChecker {
+      public ConditionalStructuresShouldNotHaveIdenticalBranches()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -125,20 +122,14 @@ namespace CastDotNetExtension {
                }
             }
          }
-
          return areEquivalent;
       }
 
       
       private void AnalyzeIfBranches(IfStatementSyntax ifStatement, ISymbol iSymbol, ref HashSet<IfStatementSyntax> analyzedIfs) {
-         var pos = ifStatement.SyntaxTree.GetMappedLineSpan(ifStatement.Span);
+         
          if (null != ifStatement && !analyzedIfs.Contains(ifStatement)) {
-            //var bytesEnter = new UTF8Encoding(true).GetBytes("AnalyzeIfBranches: " + iSymbol.OriginalDefinition.ToString() + ": " + pos + "\r\n");
-            //_log.Write(bytesEnter, 0, bytesEnter.Length);
-            //_log.Flush();
-
-            var watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
+            var pos = ifStatement.SyntaxTree.GetMappedLineSpan(ifStatement.Span);
             ElseClauseSyntax elseClause = null;
             bool areEquivalent = true;
             List<StatementSyntax> currentStatements = null;
@@ -176,17 +167,9 @@ namespace CastDotNetExtension {
             } while (null != ifStatement || null != elseClause);
 
             if (areEquivalent) {
-               
-               //Console.WriteLine(iSymbol.Name + ":" + pos);
                AddViolation(iSymbol, new FileLinePositionSpan [] {pos});
             }
-            //watch.Stop();
-            //var bytes = new UTF8Encoding(true).GetBytes("AnalyzeIfBranches: " + iSymbol.OriginalDefinition.ToString() + ": " + watch.ElapsedMilliseconds + ": " + ((null != syntaxKinds) ? syntaxKinds.Count : 0) + "\r\n");
-            //_log.Write(bytes, 0, bytes.Length);
-            //_log.Flush();
-
          }
-
       }
 
       private List<StatementSyntax> GetBlockStatements(SwitchSectionSyntax switchSectionSyntax, ref List<SyntaxKind> syntaxKindsIn) {
@@ -206,13 +189,6 @@ namespace CastDotNetExtension {
 
       private void AnalyzeSwitchBranches(SwitchStatementSyntax switchStatement, ISymbol iSymbol) {
          if (null != switchStatement) {
-            //var bytesEnter = new UTF8Encoding(true).GetBytes("AnalyzeSwitchBranches: " + iSymbol.OriginalDefinition.ToString() + "\r\n");
-            //_log.Write(bytesEnter, 0, bytesEnter.Length);
-            //_log.Flush();
-
-            var watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
-
             var pos = switchStatement.SyntaxTree.GetMappedLineSpan(switchStatement.Span);
 
             List<StatementSyntax> currentStatements = null;
@@ -236,13 +212,7 @@ namespace CastDotNetExtension {
                   }
                }
 
-               //watch.Stop();
-               //var bytes = new UTF8Encoding(true).GetBytes("AnalyzeSwitchBranches: " + iSymbol.OriginalDefinition.ToString() + ": " + watch.ElapsedMilliseconds + ": " + ((null != syntaxKinds) ? syntaxKinds.Count : 0) + "\r\n");
-               //_log.Write(bytes, 0, bytes.Length);
-               //_log.Flush();
-
                if (areEquivalent) {
-                  
                   //Console.WriteLine(context.ContainingSymbol.Name + ":" + pos);
                   AddViolation(iSymbol, new FileLinePositionSpan [] {pos});
                }
@@ -252,14 +222,11 @@ namespace CastDotNetExtension {
 
       }
 
-      private void AnalyzeSwitchBranches(SyntaxNodeAnalysisContext context, SwitchStatementSyntax switchStatement) {
-      }
-
       private void AnalyzeConditionalBranches(SyntaxNodeAnalysisContext context, ConditionalExpressionSyntax conditionalExpr) {
          if (null != conditionalExpr && null != conditionalExpr.WhenFalse && null != conditionalExpr.WhenTrue) {
             if (conditionalExpr.WhenFalse.IsEquivalentTo(conditionalExpr.WhenTrue, true)) {
                var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
-               //Console.WriteLine(context.ContainingSymbol.Name + ":" + pos);
+               //Log.WarnFormat("{0}: {1}", context.ContainingSymbol.Name, pos);
                AddViolation(context);
             }
          }
@@ -272,8 +239,8 @@ namespace CastDotNetExtension {
                AnalyzeConditionalBranches(context, context.Node as ConditionalExpressionSyntax);
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }
@@ -301,8 +268,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

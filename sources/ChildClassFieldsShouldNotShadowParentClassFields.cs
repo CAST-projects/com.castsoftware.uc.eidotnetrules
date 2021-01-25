@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension {
    [CastRuleChecker]
@@ -19,8 +21,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.ChildClassFieldsShouldNotShadowParentClassFields"
    )]
    public class ChildClassFieldsShouldNotShadowParentClassFields : AbstractRuleChecker {
-      public ChildClassFieldsShouldNotShadowParentClassFields() {
-      }
+      public ChildClassFieldsShouldNotShadowParentClassFields()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -44,7 +48,7 @@ namespace CastDotNetExtension {
                         var field = member as IFieldSymbol;
                         if (null != field) {
                            string fieldName = field.Name.ToLower();
-                           //Console.WriteLine("Field Name: " + fieldName);
+                           //Log.WarnFormat("Field Name: {0}", fieldName);
                            if (isTargetClass) {
                               fields[fieldName] = field;
                            }
@@ -52,7 +56,7 @@ namespace CastDotNetExtension {
                               var fieldSymbol = fields[fieldName];
                               var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
                               var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                              //Console.WriteLine("Main Pos: " + mainPos.ToString() + " Additional Pos: " + additionalPos.ToString());
+                              //Log.WarnFormat("Main Pos: {0} Additional Pos: ", mainPos.ToString(), additionalPos.ToString());
                               AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
                            }
                         }
@@ -66,8 +70,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

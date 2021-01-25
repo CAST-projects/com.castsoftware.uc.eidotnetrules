@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention"
    )]
    public class AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention : AbstractRuleChecker {
-      public AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention() {
-      }
+      public AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -48,14 +52,14 @@ namespace CastDotNetExtension {
                   if (returnsAsync != name.EndsWith("Async")) {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                     //Console.WriteLine(pos.ToString());
+                     //Log.Warn(pos.ToString());
                      AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                   }
                }
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

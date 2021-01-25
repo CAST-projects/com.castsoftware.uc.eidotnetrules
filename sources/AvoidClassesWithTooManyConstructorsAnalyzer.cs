@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension
 {
@@ -21,6 +23,7 @@ namespace CastDotNetExtension
     public class AvoidClassesWithTooManyConstructorsAnalyzer : AbstractRuleChecker
     {
         public AvoidClassesWithTooManyConstructorsAnalyzer()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
         {
         }
 
@@ -50,8 +53,8 @@ namespace CastDotNetExtension
                  }
               }
               catch (Exception e) {
-                 Console.WriteLine(e.Message);
-                 Console.WriteLine(e.StackTrace);
+                 Log.Warn(e.Message);
+                 Log.Warn(e.StackTrace);
 
               }
            }

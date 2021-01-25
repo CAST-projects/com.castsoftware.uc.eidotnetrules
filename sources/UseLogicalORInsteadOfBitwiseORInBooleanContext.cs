@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.UseLogicalORInsteadOfBitwiseORInBooleanContext"
    )]
    public class UseLogicalORInsteadOfBitwiseORInBooleanContext : AbstractRuleChecker {
-      public UseLogicalORInsteadOfBitwiseORInBooleanContext() {
-      }
+      public UseLogicalORInsteadOfBitwiseORInBooleanContext()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -42,14 +46,14 @@ namespace CastDotNetExtension {
                   if ((null != expr.Left && context.SemanticModel.GetTypeInfo(expr.Left).Type.Equals(booleanType)) ||
                   (null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType))) {
                      var pos = expr.SyntaxTree.GetMappedLineSpan(expr.Span);
-                     //Console.WriteLine(pos);
+                     //Log.Warn(pos);
                      AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                   }
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

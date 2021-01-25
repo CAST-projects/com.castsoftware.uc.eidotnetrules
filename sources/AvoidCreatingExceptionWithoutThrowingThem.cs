@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension {
    [CastRuleChecker]
@@ -20,15 +21,18 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidCreatingExceptionWithoutThrowingThem"
    )]
    public class AvoidCreatingExceptionWithoutThrowingThem : AbstractRuleChecker {
-      public AvoidCreatingExceptionWithoutThrowingThem() {
-      }
+      public AvoidCreatingExceptionWithoutThrowingThem()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
-      /// <summary>
-      /// Initialize the QR with the given context and register all the syntax nodes
-      /// to listen during the visit and provide a specific callback for each one
-      /// </summary>
-      /// <param name="context"></param>
-      public override void Init(AnalysisContext context) {
+
+        /// <summary>
+        /// Initialize the QR with the given context and register all the syntax nodes
+        /// to listen during the visit and provide a specific callback for each one
+        /// </summary>
+        /// <param name="context"></param>
+        public override void Init(AnalysisContext context) {
          context.RegisterSyntaxNodeAction(this.Analyze, SyntaxKind.ObjectCreationExpression, SyntaxKind.ThrowStatement);
          context.RegisterSemanticModelAction(this.SemenaticModelAnalysisEnd);
       }
@@ -97,8 +101,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
 
             }
          }
@@ -112,15 +116,15 @@ namespace CastDotNetExtension {
                foreach (var exceptions in _exceptionsVars.Values) {
                   foreach (SyntaxNode exception in exceptions.Keys) {
                      var pos = exception.SyntaxTree.GetMappedLineSpan(exception.Span);
-                     //Console.WriteLine(pos.ToString());
+                     //Log.Warn(pos.ToString());
                      AddViolation(exceptions[exception], new FileLinePositionSpan[] { pos });
                   }
                }
 
                foreach (SyntaxNode exception in _exceptionsNotThrown.Keys) {
                   var pos = exception.SyntaxTree.GetMappedLineSpan(exception.Span);
-                  //Console.WriteLine(pos.ToString());
-                  AddViolation(_exceptionsNotThrown[exception], new FileLinePositionSpan[] { pos });
+                        //Log.Warn(pos.ToString());
+                        AddViolation(_exceptionsNotThrown[exception], new FileLinePositionSpan[] { pos });
                }
 
 
@@ -130,8 +134,8 @@ namespace CastDotNetExtension {
 
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

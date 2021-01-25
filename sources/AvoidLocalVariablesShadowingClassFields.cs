@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Threading;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension {
    [CastRuleChecker]
@@ -24,8 +26,10 @@ namespace CastDotNetExtension {
       private Dictionary<string, Dictionary<string, ISymbol>> _klazzToMembers
          = new Dictionary<string, Dictionary<string, ISymbol>>();
 
-      public AvoidLocalVariablesShadowingClassFields() {
-      }
+      public AvoidLocalVariablesShadowingClassFields()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -72,8 +76,7 @@ namespace CastDotNetExtension {
 
                         if (fields.ContainsKey(name)) {
                            var pos = context.Node.GetLocation().GetMappedLineSpan();
-                           //Console.WriteLine("Thread ID: " + System.Threading.Thread.CurrentThread.ManagedThreadId +
-                           //   " Adding violation at " + pos.StartLinePosition.ToString());
+                           //Log.WarnFormat("Thread ID: {0} Adding violation at {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, pos.StartLinePosition.ToString());
                            AddViolation(context, new List<FileLinePositionSpan>() { pos });
                         }
                      }
@@ -81,8 +84,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (Exception e) {
-               Console.WriteLine(e.StackTrace);
-               System.Console.WriteLine("Exception in ... " + e.Message);
+               Log.Warn(e.StackTrace);
+               Log.WarnFormat("Exception in ... {0}", e.Message);
             }
          }
       }
@@ -94,8 +97,8 @@ namespace CastDotNetExtension {
                base.Reset();
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

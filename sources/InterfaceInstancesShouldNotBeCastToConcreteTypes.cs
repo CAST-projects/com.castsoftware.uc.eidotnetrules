@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using log4net;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -22,8 +24,10 @@ namespace CastDotNetExtension {
    )]
    public class InterfaceInstancesShouldNotBeCastToConcreteTypes : AbstractRuleChecker {
       
-      public InterfaceInstancesShouldNotBeCastToConcreteTypes() {
-      }
+      public InterfaceInstancesShouldNotBeCastToConcreteTypes()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -68,15 +72,15 @@ namespace CastDotNetExtension {
                if (null != fromType && null != toType) {
                   if (TypeKind.Interface == fromType.TypeKind) {
                      if ((TypeKind.Class == toType.TypeKind && !toType.IsAbstract) || TypeKind.Struct == toType.TypeKind) {
-                        //Console.WriteLine(pos.ToString());
+                        //Log.Warn(pos.ToString());
                         AddViolation(context, new FileLinePositionSpan[] { pos });
                      }
                   }
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

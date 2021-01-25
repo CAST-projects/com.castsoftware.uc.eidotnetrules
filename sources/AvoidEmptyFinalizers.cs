@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -20,8 +22,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidEmptyFinalizers"
    )]
    public class AvoidEmptyFinalizers : AbstractRuleChecker {
-      public AvoidEmptyFinalizers() {
-      }
+      public AvoidEmptyFinalizers()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -45,15 +49,15 @@ namespace CastDotNetExtension {
                         var statements = body.WithoutTrivia().Statements.Where(statement => !statement.ToString().StartsWith("Debug.Fail")); ;
                         if (!statements.Any()) {
                            var pos = context.ContainingSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                           //Console.WriteLine(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
+                           //Log.Warn(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
                            AddViolation(context.ContainingSymbol, new FileLinePositionSpan [] {pos});
                         }
                      }
                   }
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }

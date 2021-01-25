@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Symbols;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -21,8 +23,10 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.ClassesImplementingIEquatableTShouldBeSealed"
    )]
    public class ClassesImplementingIEquatableTShouldBeSealed : AbstractRuleChecker {
-      public ClassesImplementingIEquatableTShouldBeSealed() {
-      }
+      public ClassesImplementingIEquatableTShouldBeSealed()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -81,11 +85,11 @@ namespace CastDotNetExtension {
                               if (addViolation) {
                                  var span = klazz.DeclaringSyntaxReferences.First().Span;
                                  var pos = klazz.DeclaringSyntaxReferences.First().SyntaxTree.GetMappedLineSpan(span);
-                                 //Console.WriteLine("Violation: Class Name: " + klazz.Name + " .AddExpected(" + pos.StartLinePosition.Line + ", " + pos.StartLinePosition.Character + ")");
+                                 //Log.WarnFormat("Violation: Class Name: {0}.AddExpected({1}, {2})", klazz.Name, pos.StartLinePosition.Line, pos.StartLinePosition.Character);
                                  AddViolation(klazz, new FileLinePositionSpan[] { pos });
                               }
                               else {
-                                 //Console.WriteLine("No Violation: Class Name: " + klazz.Name);
+                                 //Log.WarnFormat("No Violation: Class Name: {0}", klazz.Name);
                               }
                            }
                         }
@@ -94,8 +98,8 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
 
          }

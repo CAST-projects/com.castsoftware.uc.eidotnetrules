@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using CastDotNetExtension.Utils;
+using Roslyn.DotNet.CastDotNetExtension;
+using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -48,8 +50,10 @@ namespace CastDotNetExtension {
       private HashSet<IMethodSymbol> _methodSymbols = null;
       private HashSet<INamedTypeSymbol> _cultureArgTypes = new HashSet<INamedTypeSymbol>();
 
-      public CultureDependentStringOperationsShouldSpecifyCulture() {
-      }
+      public CultureDependentStringOperationsShouldSpecifyCulture()
+            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -71,14 +75,14 @@ namespace CastDotNetExtension {
                   if (null != method) {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                     //Console.WriteLine(method.OriginalDefinition.ToString() + ":" + pos.ToString());
+                     //Log.WarnFormat("{0}: {1}", method.OriginalDefinition.ToString(), pos.ToString());
                      AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                   }
                }
             }
             catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+               Log.Warn(e.Message);
+               Log.Warn(e.StackTrace);
             }
          }
       }
