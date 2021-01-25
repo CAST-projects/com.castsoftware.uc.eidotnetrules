@@ -22,7 +22,7 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.TrackFIXMETags"
    )]
    public class TrackFIXMETags : AbstractRuleChecker {
-      private static readonly Regex FIXME = new Regex("(?i)^[ \t]*fixme\\b");
+      private static readonly Regex FIXME = new Regex("(?i)^(//|/\\*)[ \t]*fixme\\b");
       public TrackFIXMETags() {
 
       }
@@ -40,9 +40,8 @@ namespace CastDotNetExtension {
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
-               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME)) {
+               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME, 7)) {
                   var pos = comment.GetLocation().GetMappedLineSpan();
-                  //Console.WriteLine("Pos: " + pos.ToString());
                   ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
                   if (null != iSymbol) {
                      AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });

@@ -382,5 +382,42 @@ namespace UnitTests.UnitTest.Sources {
          i = 0 == i ? ++i : ++i;
       }
 
+      void TestInLambda() {
+         List<String> items = new List<string>();
+
+         var results = items.Where(i => {
+                        bool result;
+
+                        if (i == "THIS")
+                           result = true;
+                        else if (i == "THAT")
+                           result = true;
+                        else
+                           result = true;
+
+                        return result;
+                     }
+                 );
+      }
+
+      delegate bool Results(string i); 
+      void TestInAnonymousFunction() {
+         List<String> items = new List<string>();
+           
+         Results results = delegate(string i) {
+            bool result;
+
+            if (i == "THIS")
+               result = true;
+            else if (i == "THAT")
+               result = true;
+            else
+               result = true;
+
+            return result;
+         };
+      }
+
+
    }
 }

@@ -20,7 +20,7 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.TrackTODOTags"
    )]
    public class TrackTODOTags : AbstractRuleChecker {
-      private static readonly Regex TODO = new Regex("(?i)^[ \t]*todo\\b");
+      private static readonly Regex TODO = new Regex("(?i)^(//|/\\*)[ \t]*todo\\b");
       public TrackTODOTags() {
       }
 
@@ -38,10 +38,9 @@ namespace CastDotNetExtension {
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
-               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, TODO)) {
-                  var pos = comment.GetLocation().GetMappedLineSpan();
-                  //Console.WriteLine("Pos: " + pos.ToString());
+               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, TODO, 6)) {
                   ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
+                  var pos = comment.GetLocation().GetMappedLineSpan();
                   if (null != iSymbol) {
                      AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
                   }

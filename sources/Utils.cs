@@ -13,35 +13,18 @@ using System.Text.RegularExpressions;
 namespace CastDotNetExtension.Utils {
    //https://johnkoerner.com/csharp/how-do-i-analyze-comments/
    public class CommentUtils {
-      public static List<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null) {
-         List<SyntaxTrivia> comments = new List<SyntaxTrivia>();
+      public static IEnumerable<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null, int minimumLength = 0) {
+         
          var root = semanticModel.SyntaxTree.GetCompilationUnitRoot(cancellationToken) as CompilationUnitSyntax;
          var commentNodes = from node in root.DescendantTrivia()
-                            where node.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
-                            node.IsKind(SyntaxKind.SingleLineCommentTrivia)
+                            where (node.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
+                            node.IsKind(SyntaxKind.SingleLineCommentTrivia)) &&
+                            minimumLength <= node.ToString().Length && 
+                            ((null == regex || 0 < regex.Matches(node.ToString()).Count))
+                            //orderby node.SpanStart
                             select node;
 
-         if (commentNodes.Any()) {
-            foreach (var node in commentNodes) {
-               string commentText = "";
-               switch (node.Kind()) {
-                  case SyntaxKind.SingleLineCommentTrivia:
-                     commentText = node.ToString().TrimStart('/');
-                     break;
-                  case SyntaxKind.MultiLineCommentTrivia:
-                     var nodeText = node.ToString();
-                     commentText = nodeText.Substring(2, nodeText.Length - 4);
-                     break;
-               }
-
-               if (!String.IsNullOrWhiteSpace(commentText)) {
-                  if (null == regex || 0 < regex.Matches(commentText).Count) {
-                     comments.Add(node);
-                  }
-               }
-            }
-         }
-         return comments;
+         return commentNodes;
       }
    }
 

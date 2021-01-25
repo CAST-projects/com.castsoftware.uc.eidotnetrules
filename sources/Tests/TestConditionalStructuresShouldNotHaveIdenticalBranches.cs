@@ -43,6 +43,8 @@ namespace UnitTests.UnitTest {
             .AddExpected(289, 9)
             .AddExpected(295, 9)
             .AddExpected(381, 13)
+            .AddExpected(390, 24)
+            .AddExpected(409, 12)
             .Validate();
 
          /// [TODO#13] Check the results

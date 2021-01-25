@@ -12,5 +12,12 @@ namespace UnitTests.UnitTest.Sources {
       /* TODO this again */
       /*todo THAT again*/
       /* NOT TODO */
+
+      /// TODO <summary>
+      /// 
+      /// </summary>
+      void Test() {
+
+      }
    }
 }
