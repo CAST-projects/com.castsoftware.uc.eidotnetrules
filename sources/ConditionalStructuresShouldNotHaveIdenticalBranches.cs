@@ -43,6 +43,9 @@ namespace CastDotNetExtension {
          if (blockOrExprs is ExpressionStatementSyntax) {
             var expr = blockOrExprs as ExpressionStatementSyntax;
             block = (BlockSyntax)SyntaxFactory.ParseStatement((null != expr ? "{" + expr + "}" : "{}"));
+         } else if (blockOrExprs is ReturnStatementSyntax) {
+            var expr = blockOrExprs as ReturnStatementSyntax;
+            block = (BlockSyntax)SyntaxFactory.ParseStatement((null != expr ? "{" + expr + "}" : "{}"));
          }
          else {
             block = blockOrExprs as BlockSyntax;
@@ -57,9 +60,13 @@ namespace CastDotNetExtension {
 
       private List<StatementSyntax> GetStatementsNoTriviaOrEmptyStatements(BlockSyntax block, ref List<SyntaxKind> syntaxKindsIn)
       {
-         List<StatementSyntax> statements = GetStatementsNoEmptyStatements(block.WithoutTrivia().Statements, ref syntaxKindsIn);
+         if (null != block) {
+            List<StatementSyntax> statements = GetStatementsNoEmptyStatements(block.WithoutTrivia().Statements, ref syntaxKindsIn);
 
-         return statements;
+            return statements;
+         }
+
+         return new List<StatementSyntax>();
       }
 
       private List<StatementSyntax> GetStatementsNoEmptyStatements(SyntaxList<StatementSyntax> statementsIn, ref List<SyntaxKind> syntaxKindsIn)
@@ -176,6 +183,13 @@ namespace CastDotNetExtension {
          List<StatementSyntax> statements = null;
          if (1 == switchSectionSyntax.Statements.Count) {
             var block = switchSectionSyntax.Statements.ElementAt(0) as BlockSyntax;
+            if (null == block) {
+               if (switchSectionSyntax.Statements.ElementAt(0) is ReturnStatementSyntax) {
+                  var statement = switchSectionSyntax.Statements.ElementAt(0);
+                  block = (BlockSyntax)SyntaxFactory.ParseStatement((null != statement ? "{" + statement + "}" : "{}"));
+               }
+            }
+
             if (null != block) {
                statements = GetStatementsNoTriviaOrEmptyStatements(block, ref syntaxKindsIn);
             }
@@ -239,8 +253,7 @@ namespace CastDotNetExtension {
                AnalyzeConditionalBranches(context, context.Node as ConditionalExpressionSyntax);
             }
             catch (Exception e) {
-               Log.Warn(e.Message);
-               Log.Warn(e.StackTrace);
+               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
          }
       }
@@ -268,8 +281,11 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               Log.Warn(e.Message);
-               Log.Warn(e.StackTrace);
+               HashSet<string> filePaths = new HashSet<string>();
+               foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
+                  filePaths.Add(synRef.SyntaxTree.FilePath);
+               }
+               Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
             }
          }
       }
