@@ -98,10 +98,12 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               Log.Warn(e.Message);
-               Log.Warn(e.StackTrace);
+               HashSet<string> filePaths = new HashSet<string>();
+               foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
+                  filePaths.Add(synRef.SyntaxTree.FilePath);
+               }
+               Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
             }
-
          }
       }
    }

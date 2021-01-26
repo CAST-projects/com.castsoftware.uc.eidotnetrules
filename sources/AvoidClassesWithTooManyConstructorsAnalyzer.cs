@@ -38,24 +38,22 @@ namespace CastDotNetExtension
         }
 
         private object _lock = new object();
-        private void Analyze(SyntaxNodeAnalysisContext nodeContext)
+        private void Analyze(SyntaxNodeAnalysisContext context)
         {
            lock (_lock) {
               try {
-                 var classDeclarationNode = nodeContext.Node as ClassDeclarationSyntax;
+                 var classDeclarationNode = context.Node as ClassDeclarationSyntax;
 
                  var constructorDeclarations = classDeclarationNode.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
 
                  if (constructorDeclarations.Count() > 4) {
                     foreach (var constructorDeclaration in constructorDeclarations) {
-                       AddViolation(nodeContext, new List<FileLinePositionSpan>() { constructorDeclaration.GetLocation().GetMappedLineSpan() });
+                       AddViolation(context, new List<FileLinePositionSpan>() { constructorDeclaration.GetLocation().GetMappedLineSpan() });
                     }
                  }
               }
               catch (Exception e) {
-                 Log.Warn(e.Message);
-                 Log.Warn(e.StackTrace);
-
+                 Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
               }
            }
         }

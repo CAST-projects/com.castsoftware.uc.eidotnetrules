@@ -418,6 +418,63 @@ namespace UnitTests.UnitTest.Sources {
          };
       }
 
+      private bool TestBranchesReturnStatementOK(int i = 0) {
+         if (0 == i) {
+            return true;
+         } else {
+            return false;
+         }
+
+         if (0 == i) 
+            return true;
+         else 
+            return false;
+
+         switch (i) {
+            case 1:
+               return true;
+            default:
+               return false;
+         }
+
+         switch (i) {
+            case 1: {
+                  return true;
+               }
+            default: {
+                  return false;
+               }
+         }
+      }
+
+      private bool TestBranchesReturnStatementKO(int i = 0) {
+         if (0 == i) {
+            return true;
+         } else {
+            return true;
+         }
+
+         if (0 == i)
+            return true;
+         else
+            return true;
+
+         switch (i) {
+            case 1:
+               return true;
+            default:
+               return true;
+         }
+
+         switch (i) {
+            case 1: {
+                  return true;
+               }
+            default: {
+                  return true;
+               }
+         }
+      }
 
    }
 }
