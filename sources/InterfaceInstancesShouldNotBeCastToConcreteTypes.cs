@@ -44,8 +44,8 @@ namespace CastDotNetExtension {
          lock (_lock) {
             try {
                var castNode = context.Node as CastExpressionSyntax;
-               var pos = context.Node.GetLocation().GetMappedLineSpan();
                INamedTypeSymbol fromType = null, toType = null;
+               var pos = context.Node.GetLocation().GetMappedLineSpan();
                if (null != castNode) {
                   var identifier = castNode.Expression as IdentifierNameSyntax;
                   if (null != identifier) {
@@ -61,9 +61,15 @@ namespace CastDotNetExtension {
                      var left = binary.Left as IdentifierNameSyntax;
                      var right = binary.Right as IdentifierNameSyntax;
                      if (null != left && null != right) {
-                        fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(left).Type;
-                        if (null != fromType) {
-                           toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(right).Type;
+                        var typeFrom = context.SemanticModel.GetTypeInfo(left).Type;
+                        if (typeFrom is INamedTypeSymbol) {
+                           fromType = (INamedTypeSymbol)typeFrom;
+                           if (null != fromType) {
+                              var typeTo = context.SemanticModel.GetTypeInfo(right).Type;
+                              if (typeTo is INamedTypeSymbol) {
+                                 toType = (INamedTypeSymbol)typeTo;
+                              }
+                           }
                         }
                      }
                   }
