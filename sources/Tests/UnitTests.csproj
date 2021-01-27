@@ -95,7 +95,7 @@
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
-    <None Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
+    <Compile Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
     <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />

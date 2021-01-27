@@ -92,16 +92,18 @@ namespace CastDotNetExtension {
                         }
                      }
                      else {
-                        var identifierNameSyntax = throwStatement.Expression as IdentifierNameSyntax;
-                        if (_exceptionsVars.Keys.Contains(identifierNameSyntax.Identifier.ToString())) {
-                           _exceptionsVars.Remove(identifierNameSyntax.Identifier.ToString());
+                        if (null != throwStatement.Expression && throwStatement.Expression is IdentifierNameSyntax) {
+                           var identifierNameSyntax = throwStatement.Expression as IdentifierNameSyntax;
+                           if (_exceptionsVars.Keys.Contains(identifierNameSyntax.Identifier.ToString())) {
+                              _exceptionsVars.Remove(identifierNameSyntax.Identifier.ToString());
+                           }
                         }
                      }
                   }
                }
             }
             catch (Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
 

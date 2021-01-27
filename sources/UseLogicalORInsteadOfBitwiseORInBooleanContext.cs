@@ -52,7 +52,7 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
       }

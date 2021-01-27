@@ -47,11 +47,13 @@ namespace CastDotNetExtension {
                INamedTypeSymbol fromType = null, toType = null;
                var pos = context.Node.GetLocation().GetMappedLineSpan();
                if (null != castNode) {
-                  var identifier = castNode.Expression as IdentifierNameSyntax;
-                  if (null != identifier) {
-                     fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(identifier).Type;
-                     if (null != fromType) {
-                        toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(castNode.Type).Type;
+                  if (castNode.Expression is IdentifierNameSyntax) {
+                     var identifier = castNode.Expression as IdentifierNameSyntax;
+                     if (null != identifier && context.SemanticModel.GetTypeInfo(identifier).Type is INamedTypeSymbol) {
+                        fromType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(identifier).Type;
+                        if (null != fromType && context.SemanticModel.GetTypeInfo(castNode.Type).Type is INamedTypeSymbol) {
+                           toType = (INamedTypeSymbol)context.SemanticModel.GetTypeInfo(castNode.Type).Type;
+                        }
                      }
                   }
                }
@@ -85,7 +87,7 @@ namespace CastDotNetExtension {
                }
             }
             catch (System.Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
       }

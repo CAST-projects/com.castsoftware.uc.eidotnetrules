@@ -60,63 +60,62 @@ namespace CastDotNetExtension {
                var model = context.SemanticModel;
                var symbInf = model.GetSymbolInfo(context.Node);
                var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
-               string nameInvoked = invokedMethod.Name;// get invocation method name
-               var contSymb = invokedMethod.ContainingSymbol as INamedTypeSymbol;
-               var invocationNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.InvocationExpressionSyntax;
-               var SymbClass = context.ContainingSymbol.ContainingSymbol as INamedTypeSymbol;
+               if (null != invokedMethod) {
+                  string nameInvoked = invokedMethod.Name;// get invocation method name
+                  var contSymb = invokedMethod.ContainingSymbol as INamedTypeSymbol;
+                  var invocationNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.InvocationExpressionSyntax;
+                  var SymbClass = context.ContainingSymbol.ContainingSymbol as INamedTypeSymbol;
 
-               // get instance event variable name
-               string varName = "";
-               if (invocationNode.Parent is Microsoft.CodeAnalysis.CSharp.Syntax.ConditionalAccessExpressionSyntax) {
-                  var condAccessExpression = invocationNode.Parent as Microsoft.CodeAnalysis.CSharp.Syntax.ConditionalAccessExpressionSyntax;
-                  var identifierSyntax = condAccessExpression.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
-                  if (identifierSyntax != null) {
-                     varName = identifierSyntax.Identifier.ValueText;
-                  }
-               }
-               else if (invocationNode.Expression is Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) {
-                  var memberAccessExpression = invocationNode.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax;
-                  var identifierSyntax = memberAccessExpression.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
-                  if (identifierSyntax != null) {
-                     varName = identifierSyntax.Identifier.ValueText;
-                  }
+                  // get instance event variable name
+                  string varName = "";
+                  if (invocationNode.Parent is Microsoft.CodeAnalysis.CSharp.Syntax.ConditionalAccessExpressionSyntax) {
+                     var condAccessExpression = invocationNode.Parent as Microsoft.CodeAnalysis.CSharp.Syntax.ConditionalAccessExpressionSyntax;
+                     var identifierSyntax = condAccessExpression.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
+                     if (identifierSyntax != null) {
+                        varName = identifierSyntax.Identifier.ValueText;
+                     }
+                  } else if (invocationNode.Expression is Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) {
+                     var memberAccessExpression = invocationNode.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax;
+                     var identifierSyntax = memberAccessExpression.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
+                     if (identifierSyntax != null) {
+                        varName = identifierSyntax.Identifier.ValueText;
+                     }
 
-               }
-               else if (invocationNode.Expression is Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax) {
-                  var identifierSyntax = invocationNode.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
-                  if (identifierSyntax != null) {
-                     varName = identifierSyntax.Identifier.ValueText;
+                  } else if (invocationNode.Expression is Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax) {
+                     var identifierSyntax = invocationNode.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
+                     if (identifierSyntax != null) {
+                        varName = identifierSyntax.Identifier.ValueText;
+                     }
+                  } else {
+                     // --------------
                   }
-               }
-               else {
-                  // --------------
-               }
-               // check if event variable is static
-               bool isEventNonStatic = false;
-               if (varName.Length > 0 && SymbClass != null) {
-                  var classMembers = SymbClass.GetMembers(varName);
-                  foreach (ISymbol member in classMembers) {
-                     if (!member.IsStatic) {
-                        isEventNonStatic = true;
+                  // check if event variable is static
+                  bool isEventNonStatic = false;
+                  if (varName.Length > 0 && SymbClass != null) {
+                     var classMembers = SymbClass.GetMembers(varName);
+                     foreach (ISymbol member in classMembers) {
+                        if (!member.IsStatic) {
+                           isEventNonStatic = true;
+                        }
                      }
                   }
-               }
-               // check invocation argument for null sender and null data
-               if ((invokedMethod == _EventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _EventHandlerWithArgsInvokeMethodSymbols) && invocationNode != null) {
-                  var firstArgNode = invocationNode.ArgumentList.Arguments[0].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
-                  var secondArgNode = invocationNode.ArgumentList.Arguments[1].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
-                  if (firstArgNode != null && isEventNonStatic) {
-                     if (firstArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
-                        var pos = invocationNode.GetLocation().GetMappedLineSpan();
-                        //Log.Warn(pos.ToString());
-                        AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                  // check invocation argument for null sender and null data
+                  if ((invokedMethod == _EventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _EventHandlerWithArgsInvokeMethodSymbols) && invocationNode != null) {
+                     var firstArgNode = invocationNode.ArgumentList.Arguments[0].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
+                     var secondArgNode = invocationNode.ArgumentList.Arguments[1].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
+                     if (firstArgNode != null && isEventNonStatic) {
+                        if (firstArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
+                           var pos = invocationNode.GetLocation().GetMappedLineSpan();
+                           //Log.Warn(pos.ToString());
+                           AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                        }
                      }
-                  }
-                  if (secondArgNode != null) {
-                     if (secondArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
-                        var pos = invocationNode.GetLocation().GetMappedLineSpan();
-                        //Log.Warn(pos.ToString());
-                        AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                     if (secondArgNode != null) {
+                        if (secondArgNode.Kind() == Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression) {
+                           var pos = invocationNode.GetLocation().GetMappedLineSpan();
+                           //Log.Warn(pos.ToString());
+                           AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                        }
                      }
                   }
                }
