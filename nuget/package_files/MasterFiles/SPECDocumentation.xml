@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="61026" type="technical-criterion" originalName="Complexity - Technical Complexity" section="name">
-    <english>Complexity - Technical Complexity</english>
-  </metric>
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -861,29 +858,29 @@ new Exception();</english>
   <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="description">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="description">
     <english>The rule will raise a violation when a type implements a finalizer that is empty. Even finalizer with only statement with calls to Debug.Fail and it is not in #if DEBUG part, it will be considered as violation since Debug.Fail is omitted for non-DEBUG configuration.</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="name">
-    <english>Avoid empty finalisers</english>
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="name">
+    <english>Avoid empty finalizers</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="output">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="rationale">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="rationale">
     <english>Whenever you can, avoid finalizers because of the additional performance overhead that's involved in tracking object lifetime. The garbage collector runs the finalizer before it collects the object. This means that at least two collections are required to collect the object. An empty finalizer incurs this added overhead without any benefit.</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="reference">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1821
 
 https://cwe.mitre.org/data/definitions/1069.html</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="remediation">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="remediation">
     <english>Avoid using empty finalizers</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="sample">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="sample">
     <english>public class Class1
     {
         // Violation occurs because the finalizer is empty.
@@ -905,7 +902,7 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
         }
     }</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalisers" section="total">
+  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="total">
     <english>Number of finalizers</english>
   </metric>
   <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="description">
@@ -941,5 +938,62 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
   </metric>
   <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="total">
     <english>Number pf classes</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
+    <english>This rule will give violation if condition in for loop is not invariant.</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
+    <english>For loop stop condition should be invariant</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="rationale">
+    <english>A for loop stop condition should test the loop counter against an invariant value (i.e. one that is true at both the beginning and ending of every loop iteration). Ideally, this means that the stop condition is set to a local variable just before the loop begins.
+
+Stop conditions that are not invariant are slightly less efficient, as well as being difficult to understand and maintain, and likely lead to the introduction of errors in the future.
+
+This rule tracks three types of non-invariant stop conditions:
+
+When the loop counters are updated in the body of the for loop</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
+    <english>Make for loop condition invariant.</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediationSample">
+    <english>class Foo
+{
+    static void Main()
+    {
+        for (int i = 1; i &lt;= 5; i++)
+        {
+            Console.WriteLine(i);
+        }
+    }
+}</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="sample">
+    <english>class Foo
+{
+    static void Main()
+    {
+        for (int i = 1; i &lt;= 5; i++)
+        {
+            Console.WriteLine(i);
+            if (condition)
+            {
+               i = 20;
+           }
+        }
+    }
+}</english>
+  </metric>
+  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="total">
+    <english>Number of methods</english>
   </metric>
 </root>

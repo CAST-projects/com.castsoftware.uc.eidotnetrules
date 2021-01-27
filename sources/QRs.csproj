@@ -48,6 +48,7 @@
     <Compile Include="CultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="EnsureProperArgumentsToEvents.cs" />
+    <Compile Include="ForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
