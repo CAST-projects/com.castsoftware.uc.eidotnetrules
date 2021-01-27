@@ -418,6 +418,28 @@
     <SCOPE_ID>0</SCOPE_ID>
     <PROPERTY_ID>0</PROPERTY_ID>
   </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2000038</METRIC_ID>
+    <METRIC_NAME>Ensure constructors of serializable classes are secure</METRIC_NAME>
+    <METRIC_DESCRIPTION>See Metric Documentation</METRIC_DESCRIPTION>
+    <METRIC_TYPE>3</METRIC_TYPE>
+    <METRIC_GROUP>1</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>610</SCOPE_ID>
+    <PROPERTY_ID>2200020</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2000039</METRIC_ID>
+    <METRIC_NAME>Ensure constructors of serializable classes are secure</METRIC_NAME>
+    <METRIC_DESCRIPTION>description details</METRIC_DESCRIPTION>
+    <METRIC_TYPE>2</METRIC_TYPE>
+    <METRIC_GROUP>2</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>0</SCOPE_ID>
+    <PROPERTY_ID>0</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>61003</METRIC_PARENT_ID>
     <METRIC_ID>2000002</METRIC_ID>
@@ -520,6 +542,15 @@
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>61027</METRIC_PARENT_ID>
     <METRIC_ID>2000026</METRIC_ID>
+    <METRIC_INDEX>2</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>66064</METRIC_PARENT_ID>
+    <METRIC_ID>2000038</METRIC_ID>
     <METRIC_INDEX>2</METRIC_INDEX>
     <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
@@ -763,6 +794,15 @@
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>2000036</METRIC_PARENT_ID>
     <METRIC_ID>2000037</METRIC_ID>
+    <METRIC_INDEX>1</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>2000038</METRIC_PARENT_ID>
+    <METRIC_ID>2000039</METRIC_ID>
     <METRIC_INDEX>1</METRIC_INDEX>
     <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
@@ -1605,6 +1645,50 @@
     <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
     <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
   </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2000038</METRIC_ID>
+    <METRIC_VALUE_INDEX>0</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Grade and status distribution</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>Generic grade and status distribution calculation for diagnostics</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>ADG_RESULT_DIAG_STATUS</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>ADG_CENTRAL_RESULT_DIAG</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>0</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2000038</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Ensure constructors of serializable classes are secure</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>See Metric documentation</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>1</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2000038</METRIC_ID>
+    <METRIC_VALUE_INDEX>2</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>total</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>total</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_DIAG_TOTAL_GENERIC</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2000039</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>detail</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>detail</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_METRIC_VALUE_SCOPE</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
   <DSS_METRIC_PARAM_TYPES>
     <METRIC_ID>2000000</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
@@ -1751,6 +1835,14 @@
   </DSS_METRIC_PARAM_TYPES>
   <DSS_METRIC_PARAM_TYPES>
     <METRIC_ID>2000036</METRIC_ID>
+    <PARAM_INDEX>1</PARAM_INDEX>
+    <OBJECT_TYPE_ID>138383</OBJECT_TYPE_ID>
+    <PARAM_TYPE>0</PARAM_TYPE>
+    <PARAM_NAME>Techno filter</PARAM_NAME>
+    <PARAM_DESCRIPTION>$n$u$l$l$</PARAM_DESCRIPTION>
+  </DSS_METRIC_PARAM_TYPES>
+  <DSS_METRIC_PARAM_TYPES>
+    <METRIC_ID>2000038</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
     <OBJECT_TYPE_ID>138383</OBJECT_TYPE_ID>
     <PARAM_TYPE>0</PARAM_TYPE>
@@ -1903,6 +1995,14 @@
   </DSS_METRIC_STATUS_THRESHOLDS>
   <DSS_METRIC_STATUS_THRESHOLDS>
     <METRIC_ID>2000036</METRIC_ID>
+    <STATUS>0</STATUS>
+    <THRESHOLD_1>50.0</THRESHOLD_1>
+    <THRESHOLD_2>90.0</THRESHOLD_2>
+    <THRESHOLD_3>95.0</THRESHOLD_3>
+    <THRESHOLD_4>99.0</THRESHOLD_4>
+  </DSS_METRIC_STATUS_THRESHOLDS>
+  <DSS_METRIC_STATUS_THRESHOLDS>
+    <METRIC_ID>2000038</METRIC_ID>
     <STATUS>0</STATUS>
     <THRESHOLD_1>50.0</THRESHOLD_1>
     <THRESHOLD_2>90.0</THRESHOLD_2>
@@ -3402,5 +3502,124 @@ When the loop counters are updated in the body of the for loop</METRIC_DESCRIPTI
     <DESCRIPTION_TYPE_ID>9</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>Number of violation occurrences</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>0</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Ensure constructors of serializable classes are secure</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>1</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Because serialization constructors allocate and initialize objects, security checks that are present on regular constructors must also be present on a serialization constructor. Failure to do so would allow callers that could not otherwise create an instance to use the serialization constructor to do this.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>2</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>This rule raises an issue when a type implements the System.Runtime.Serialization.ISerializable interface, is not a delegate or interface, is declared in an assembly that allows partially trusted callers and has a constructor that takes a System.Runtime.Serialization.SerializationInfo object and a System.Runtime.Serialization.StreamingContext object which is not secured by a security check, but one or more of the regular constructors in the type is secured.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>3</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Make constructors of serializable classes secure.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>4</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization.html</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>5</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security;
+using System.Security.Permissions;
+
+[assembly: AllowPartiallyTrustedCallersAttribute()]
+namespace MyLibrary
+{
+    [Serializable]
+    public class Foo : ISerializable
+    {
+        private int n;
+
+        [FileIOPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
+        public Foo()
+        {
+           n = -1;
+        }
+
+        protected Foo(SerializationInfo info, StreamingContext context) // Noncompliant
+        {
+           n = (int)info.GetValue("n", typeof(int));
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+           info.AddValue("n", n);
+        }
+    }
+}</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security;
+using System.Security.Permissions;
+
+[assembly: AllowPartiallyTrustedCallersAttribute()]
+namespace MyLibrary
+{
+    [Serializable]
+    public class Foo : ISerializable
+    {
+        private int n;
+
+        [FileIOPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
+        public Foo()
+        {
+           n = -1;
+        }
+
+        [FileIOPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
+        protected Foo(SerializationInfo info, StreamingContext context)
+        {
+           n = (int)info.GetValue("n", typeof(int));
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+           info.AddValue("n", n);
+        }
+    }
+}</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>7</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2000038</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>8</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Number of constructors</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
 </DATA>

@@ -90,6 +90,7 @@
     <Compile Include="TestConditionalStructuresShouldNotHaveIdenticalBranches.cs" />
     <Compile Include="TestCultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
+    <Compile Include="TestEnsureConstructorsOfSerializableClassesAreSecure.cs" />
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
@@ -101,6 +102,7 @@
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
     <None Include="TestSources\ForLoopConditionShouldBeInvariant_Source.cs" />
+    <None Include="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />

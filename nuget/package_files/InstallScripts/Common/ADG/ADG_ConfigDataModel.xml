@@ -63,12 +63,12 @@
   <column name='THRESHOLD_4' type='num' nullable='false' precision='126' description='Percentage threshold after grade 4' />
 </table>
 <scope name="FULL_CONTENT">
-   <scopetable name="DSS_METRIC_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_VALUE_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_TYPE_TREES" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_PARAM_VALUES" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_PARAM_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_DESCRIPTIONS" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
-   <scopetable name="DSS_METRIC_STATUS_THRESHOLDS" filter="(METRIC_ID BETWEEN 2000000 AND 2000037)"></scopetable>
+   <scopetable name="DSS_METRIC_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_VALUE_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_TYPE_TREES" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_PARAM_VALUES" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_PARAM_TYPES" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_DESCRIPTIONS" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
+   <scopetable name="DSS_METRIC_STATUS_THRESHOLDS" filter="(METRIC_ID BETWEEN 2000000 AND 2000039)"></scopetable>
 </scope>
 </config>

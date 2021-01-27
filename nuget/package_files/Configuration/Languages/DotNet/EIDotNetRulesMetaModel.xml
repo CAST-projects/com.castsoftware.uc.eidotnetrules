@@ -186,6 +186,16 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="EnsureConstructorsOfSerializableClassesAreSecure" type="integer"  merge="sum" rid="20">
+        <description>Ensure Constructors Of Serializable Classes Are Secure</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="20"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+     
+
   </category>
 
 

@@ -422,6 +422,27 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///   public class EnsureConstructorsOfSerializableClassesAreSecure_Source
+        ///   {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EnsureConstructorsOfSerializableClassesAreSecure_Source {
+            get {
+                return ResourceManager.GetString("EnsureConstructorsOfSerializableClassesAreSecure_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class EnsureProperArgumentsToEvents_Source {
         ///
