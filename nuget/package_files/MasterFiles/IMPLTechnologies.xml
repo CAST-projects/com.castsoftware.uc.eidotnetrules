@@ -20,4 +20,5 @@
   <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" filter="138383" filterLabel="C#" />
   <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" filter="138383" filterLabel="C#" />
   <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" filter="138383" filterLabel="C#" />
+  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" filter="138383" filterLabel="C#" />
 </root>

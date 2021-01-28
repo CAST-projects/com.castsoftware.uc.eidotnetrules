@@ -421,14 +421,21 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Runtime.Serialization;
+        ///using System.Security.Permissions;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
-        ///   public class EnsureConstructorsOfSerializableClassesAreSecure_Source
+        ///
+        ///   [Serializable]
+        ///   class SerializedKO1 : ISerializable
         ///   {
-        ///   }
-        ///}
-        ///.
+        ///
+        ///      [FileIOPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
+        ///      SerializedKO1() {
+        ///      }
+        ///
+        ///      protected SerializedKO1(SerializationInfo info, StreamingContext context) { // Noncom [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureConstructorsOfSerializableClassesAreSecure_Source {
             get {
@@ -547,6 +554,27 @@ namespace UnitTests.Properties {
         internal static string InterfaceInstancesShouldNotBeCastToConcreteTypes_Source {
             get {
                 return ResourceManager.GetString("InterfaceInstancesShouldNotBeCastToConcreteTypes_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///   public class MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source
+        ///   {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source {
+            get {
+                return ResourceManager.GetString("MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source", resourceCulture);
             }
         }
         

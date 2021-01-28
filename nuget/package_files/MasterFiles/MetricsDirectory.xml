@@ -8,8 +8,8 @@
   <metric id="61024" type="technical-criterion" originalName="Programming Practices - Structuredness" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61026" type="technical-criterion" originalName="Complexity - Technical Complexity" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
-  <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" active="N/A" detached="false" ignored="N/A" />
   <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
@@ -30,4 +30,5 @@
   <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" active="true" detached="false" ignored="false" />
   <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" active="true" detached="false" ignored="false" />
   <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" active="true" detached="false" ignored="false" />
+  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" active="true" detached="false" ignored="false" />
 </root>

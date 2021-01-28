@@ -38,47 +38,55 @@ namespace CastDotNetExtension
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
-         INamedTypeSymbol namedType = context.Symbol as INamedTypeSymbol;
-         if (null != namedType) {
-            if (TypeKind.Class == namedType.TypeKind || TypeKind.Struct == namedType.TypeKind) {
-               IList<TypeAttributes.ITypeAttribute> attributesKlazz = new List<TypeAttributes.ITypeAttribute>();
-               attributesKlazz = TypeAttributes.Get(namedType, attributesKlazz, new[] { TypeAttributes.AttributeType.Serializable });
-               if (null != attributesKlazz) {
-                  ISymbol ctorSerializing = null;
-                  bool serializationConstructorSecured = true;
-                  bool regularConstructorSecured = true;
-                  foreach (var ctor in namedType.Constructors) {
-                     bool isSerializingCtor = false;
-                     if (2 == ctor.Parameters.Length && 
-                        "System.Runtime.Serialization.SerializationInfo" == ctor.Parameters.ElementAt(0).OriginalDefinition.ToString() &&
-                        "System.Runtime.Serialization.StreamingContext" == ctor.Parameters.ElementAt(1).OriginalDefinition.ToString()
-                        ) {
+         try {
+            INamedTypeSymbol namedType = context.Symbol as INamedTypeSymbol;
+            if (null != namedType) {
+               if (TypeKind.Class == namedType.TypeKind || TypeKind.Struct == namedType.TypeKind) {
+                  IList<TypeAttributes.ITypeAttribute> attributesKlazz = new List<TypeAttributes.ITypeAttribute>();
+                  attributesKlazz = TypeAttributes.Get(namedType, attributesKlazz, new[] { TypeAttributes.AttributeType.Serializable });
+                  if (null != attributesKlazz) {
+                     ISymbol ctorSerializing = null;
+                     bool serializationConstructorSecured = true;
+                     bool regularConstructorSecured = true;
+                     foreach (var ctor in namedType.Constructors) {
+                        bool isSerializingCtor = false;
+                        if (2 == ctor.Parameters.Length &&
+                           "System.Runtime.Serialization.SerializationInfo" == ctor.Parameters.ElementAt(0).OriginalDefinition.ToString() &&
+                           "System.Runtime.Serialization.StreamingContext" == ctor.Parameters.ElementAt(1).OriginalDefinition.ToString()
+                           ) {
                            ctorSerializing = ctor;
                            isSerializingCtor = true;
-                     }
-                     List<TypeAttributes.ITypeAttribute> ctorAttributes = new List<TypeAttributes.ITypeAttribute>();
-                     var attributesOutCtor = TypeAttributes.Get(ctor, ctorAttributes, new[] { TypeAttributes.AttributeType.FileIOPermissionAttribute });
-                     if (!attributesOutCtor.Any()) {
-                        if (isSerializingCtor) {
-                           serializationConstructorSecured = false;
-                        } else {
-                           regularConstructorSecured = false;
                         }
-                     } else {
-                        if (isSerializingCtor) {
-                           serializationConstructorSecured = true;
+                        List<TypeAttributes.ITypeAttribute> ctorAttributes = new List<TypeAttributes.ITypeAttribute>();
+                        var attributesOutCtor = TypeAttributes.Get(ctor, ctorAttributes, new[] { TypeAttributes.AttributeType.FileIOPermissionAttribute });
+                        if (!attributesOutCtor.Any()) {
+                           if (isSerializingCtor) {
+                              serializationConstructorSecured = false;
+                           } else {
+                              regularConstructorSecured = false;
+                           }
                         } else {
-                           regularConstructorSecured = true;
+                           if (isSerializingCtor) {
+                              serializationConstructorSecured = true;
+                           } else {
+                              regularConstructorSecured = true;
+                           }
                         }
                      }
-                  }
-                  if (regularConstructorSecured && !serializationConstructorSecured && null != ctorSerializing) {
-                     var pos = ctorSerializing.Locations.FirstOrDefault().GetMappedLineSpan();
-                     //Console.WriteLine(ctorSerializing.ToString() + ": " + pos);
-                     AddViolation(ctorSerializing, new FileLinePositionSpan[] { pos });
+                     if (regularConstructorSecured && !serializationConstructorSecured && null != ctorSerializing) {
+                        var pos = ctorSerializing.Locations.FirstOrDefault().GetMappedLineSpan();
+                        //Console.WriteLine(ctorSerializing.ToString() + ": " + pos);
+                        AddViolation(ctorSerializing, new FileLinePositionSpan[] { pos });
+                     }
                   }
                }
             }
+         } catch (Exception e) {
+            HashSet<string> filePaths = new HashSet<string>();
+            foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
+               filePaths.Add(synRef.SyntaxTree.FilePath);
+            }
+            Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
          }
       }
    }

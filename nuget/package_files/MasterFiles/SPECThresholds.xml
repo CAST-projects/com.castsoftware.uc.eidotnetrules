@@ -20,4 +20,5 @@
   <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

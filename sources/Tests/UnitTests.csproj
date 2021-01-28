@@ -95,6 +95,7 @@
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
+    <Compile Include="TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
     <None Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
@@ -103,6 +104,7 @@
     <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
     <None Include="TestSources\ForLoopConditionShouldBeInvariant_Source.cs" />
     <None Include="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
+    <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />

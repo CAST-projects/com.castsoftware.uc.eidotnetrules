@@ -52,6 +52,7 @@
     <Compile Include="ForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
+    <Compile Include="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackFIXMETags.cs" />
