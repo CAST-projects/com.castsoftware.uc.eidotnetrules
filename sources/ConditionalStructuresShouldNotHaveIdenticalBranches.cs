@@ -203,6 +203,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeSwitchBranches(SwitchStatementSyntax switchStatement, ISymbol iSymbol) {
          if (null != switchStatement) {
+            
             var pos = switchStatement.SyntaxTree.GetMappedLineSpan(switchStatement.Span);
 
             List<StatementSyntax> currentStatements = null;

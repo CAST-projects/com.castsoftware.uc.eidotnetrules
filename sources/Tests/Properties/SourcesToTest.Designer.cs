@@ -64,6 +64,37 @@ namespace UnitTests.Properties {
         ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///   public class AvoidAssignmentsInSubExpressions_Source
+        ///   {
+        ///      class Test
+        ///      {
+        ///         public Test(String str) {
+        ///
+        ///         }
+        ///      }
+        ///
+        ///      public void AssignmentsInSubExpressionsKO() {
+        ///         String str = &quot;abc&quot;;
+        ///         String result;
+        ///         if (string.IsNullOrEmpty(result = str.Substring(0, 1)))  {// Noncompliant
+        ///
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidAssignmentsInSubExpressions_Source {
+            get {
+                return ResourceManager.GetString("AvoidAssignmentsInSubExpressions_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
         ///using System.Text;   
         ///using System.Threading.Tasks;
         ///
@@ -568,9 +599,21 @@ namespace UnitTests.Properties {
         ///{
         ///   public class MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source
         ///   {
-        ///   }
-        ///}
-        ///.
+        ///      void DoFirstThing() { }
+        ///
+        ///      void DoSecondThing() { }
+        ///
+        ///      void DoThirdThing() { }
+        ///
+        ///      void DoFourthThing() { }
+        ///
+        ///      void DoThingInCatch() { }
+        ///
+        ///      void TryIdenticalCatchKO() {
+        ///         try {
+        ///            DoFirstThing();
+        ///
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source {
             get {
