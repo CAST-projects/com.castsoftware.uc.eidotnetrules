@@ -38,25 +38,6 @@ namespace CastDotNetExtension {
 
       private object _lock = new object();
 
-      protected void Analyze(SyntaxNode node, Compilation compilation, ISymbol containingSymbol,
-         ref HashSet<string> sharedSymbols,
-         ref HashSet<String> creatorOrVariables,
-         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
-         lock (_lock) {
-            try {
-               if (node is TypeDeclarationSyntax) {
-                  VisitClassDeclaration(node, compilation, containingSymbol, ref sharedSymbols);
-               } else if (node is InvocationExpressionSyntax) {
-                  VisitInvocationExpression(node, compilation, containingSymbol, ref creatorOrVariables);
-               } else if (node is ObjectCreationExpressionSyntax) {
-                  VisitObjectCreation(node, compilation, containingSymbol, ref sharedSymbols, ref allCreators);
-               }
-            } catch (Exception e) {
-               Log.Warn("Exception while analyzing " + node.SyntaxTree.FilePath + ": " + node.GetLocation().GetMappedLineSpan(), e);
-            }
-         }
-      }
-
       protected void VisitClassDeclaration(SyntaxNode node, Compilation compilation, ISymbol containingSymbol, ref HashSet<string> sharedSymbols) {
          var declarationSyntax = node as TypeDeclarationSyntax;
          IList<TypeAttributes.ITypeAttribute> typeAttributes = new List<TypeAttributes.ITypeAttribute>();
@@ -221,9 +202,15 @@ namespace CastDotNetExtension {
                foreach (var node in nodes) {
                   ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
                   if (null == iSymbol) {
-                     Console.WriteLine("Could not get symbol for kind " + node.Kind()  +  ": " + node);
+                     Log.Warn("Could not get symbol for kind " + node.Kind()  +  ": " + node);
                   } else {
-                     Analyze(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols, ref creatorOrVariables, ref allCreators);      
+                     if (node is TypeDeclarationSyntax) {
+                        VisitClassDeclaration(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols);
+                     } else if (node is InvocationExpressionSyntax) {
+                        VisitInvocationExpression(node, context.SemanticModel.Compilation, iSymbol, ref creatorOrVariables);
+                     } else if (node is ObjectCreationExpressionSyntax) {
+                        VisitObjectCreation(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols, ref allCreators);
+                     }
                   }
                }
 
