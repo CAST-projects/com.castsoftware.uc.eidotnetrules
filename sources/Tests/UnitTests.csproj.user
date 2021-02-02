@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <StartAction>Program</StartAction>
     <StartProgram>.\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
-    <StartArguments>/run=UnitTests.UnitTest.TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.Test UnitTests.dll</StartArguments>
+    <StartArguments>/run=UnitTests.UnitTest.TestAvoidCreatingNewInstanceOfSharedInstance.Test UnitTests.dll</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
