@@ -22,4 +22,5 @@
   <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" filter="138383" filterLabel="C#" />
   <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" filter="138383" filterLabel="C#" />
   <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" filter="138383" filterLabel="C#" />
+  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" filter="0" filterLabel="NO LABEL" />
 </root>

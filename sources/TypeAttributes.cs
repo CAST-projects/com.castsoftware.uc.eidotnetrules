@@ -69,9 +69,6 @@ namespace CastDotNetExtension.Utils {
          }
       }
 
-      
-
-
       public class TypeAttributesAll {
          public String ForType {
             get { return _forType; }

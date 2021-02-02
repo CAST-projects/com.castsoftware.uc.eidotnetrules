@@ -76,14 +76,17 @@ namespace UnitTests.Properties {
         ///         public Test(String str) {
         ///
         ///         }
+        ///         public void AMethod(String str) {
+        ///
+        ///         }
+        ///
+        ///         public void BMethod(String str1, String str2) {
+        ///
+        ///         }
         ///      }
         ///
         ///      public void AssignmentsInSubExpressionsKO() {
-        ///         String str = &quot;abc&quot;;
-        ///         String result;
-        ///         if (string.IsNullOrEmpty(result = str.Substring(0, 1)))  {// Noncompliant
-        ///
-        ///    [rest of string was truncated]&quot;;.
+        ///         Str [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidAssignmentsInSubExpressions_Source {
             get {
@@ -136,6 +139,56 @@ namespace UnitTests.Properties {
         internal static string AvoidCreatingExceptionWithoutThrowingThem_Source {
             get {
                 return ResourceManager.GetString("AvoidCreatingExceptionWithoutThrowingThem_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.ComponentModel.Composition;
+        ///using System.ComponentModel.Design;
+        ///
+        ///
+        ///
+        ///namespace UnitTests.UnitTest.Sources {
+        ///
+        ///   namespace Shared
+        ///   {
+        ///      interface IInterface1
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface2
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface3
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface4
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface5
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface6
+        ///      {
+        ///
+        ///      }
+        ///
+        ///      interface IInterface7
+        ///      {        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidCreatingNewInstanceOfSharedInstance_Source {
+            get {
+                return ResourceManager.GetString("AvoidCreatingNewInstanceOfSharedInstance_Source", resourceCulture);
             }
         }
         

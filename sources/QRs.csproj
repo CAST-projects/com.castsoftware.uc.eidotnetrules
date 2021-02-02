@@ -38,6 +38,7 @@
     <Compile Include="AvoidAssignmentsInSubExpressions.cs" />
     <Compile Include="AvoidClassesWithTooManyConstructorsAnalyzer.cs" />
     <Compile Include="AvoidCreatingExceptionWithoutThrowingThem.cs" />
+    <Compile Include="AvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="AvoidEmptyFinalizers.cs" />
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxNode2SubjectName.cs" />
     <Compile Include="TrackFIXMETags.cs" />
     <Compile Include="TrackTODOTags.cs" />
     <Compile Include="TypeAttributes.cs" />

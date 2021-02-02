@@ -63,6 +63,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.TypeConverter" />
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\Packages\System.Composition.AttributedModel.1.0.31\lib\netstandard1.0\System.Composition.AttributedModel.dll</HintPath>
     </Reference>
@@ -88,7 +90,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +100,7 @@
     </Compile>
     <Compile Include="TestAvoidAssignmentsInSubExpressions.cs" />
     <Compile Include="TestAvoidCreatingExceptionWithoutThrowingThem.cs" />
+    <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
@@ -125,6 +127,7 @@
     <None Include="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
+    <Compile Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />    
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
