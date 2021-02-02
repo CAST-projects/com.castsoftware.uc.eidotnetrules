@@ -36,8 +36,8 @@ namespace UnitTests.UnitTest {
          /// [TODO#13] Check the results
          Assert.IsTrue(checker.IsValid(), checker.getStatus());
 
-         Assert.IsFalse(checker.ResultsMissing.Any());
-         Assert.IsFalse(checker.ResultsUnexpected.Any());
+         //Assert.IsFalse(checker.ResultsMissing.Any());
+         //Assert.IsFalse(checker.ResultsUnexpected.Any());
 
       }
 
