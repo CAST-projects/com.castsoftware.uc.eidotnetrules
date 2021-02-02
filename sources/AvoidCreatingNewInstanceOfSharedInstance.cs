@@ -25,7 +25,6 @@ namespace CastDotNetExtension {
    )]
    public class AvoidCreatingNewInstanceOfSharedInstance : AbstractRuleChecker {
       public AvoidCreatingNewInstanceOfSharedInstance() {
-         Console.WriteLine("AvoidCreatingNewInstanceOfSharedInstance.AvoidCreatingNewInstanceOfSharedInstance");
       }
 
       /// <summary>
@@ -189,6 +188,16 @@ namespace CastDotNetExtension {
          WriteLine("AddCreator: " + creator);
       }
 
+      public override void Reset() {
+         try {
+            _creatorOrVariables.Clear();
+            _allCreators.Clear();
+            base.Reset();
+         } catch (Exception e) {
+            Log.Warn("Exception while resetting ", e);
+         }
+      }
+
       private void HandleSemanticModelAnalysisEnd(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
@@ -202,8 +211,6 @@ namespace CastDotNetExtension {
                      }
                   }
                }
-               _creatorOrVariables.Clear();
-               _allCreators.Clear();
             } catch (Exception e) {
                Log.Warn("Exception while analyzing semantic model " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
