@@ -25,7 +25,7 @@ namespace CastDotNetExtension {
    )]
    public class AvoidCreatingNewInstanceOfSharedInstance : AbstractRuleChecker {
       public AvoidCreatingNewInstanceOfSharedInstance() {
-
+         Console.WriteLine("AvoidCreatingNewInstanceOfSharedInstance.AvoidCreatingNewInstanceOfSharedInstance");
       }
 
       /// <summary>
@@ -136,7 +136,6 @@ namespace CastDotNetExtension {
       private string getCreatorOrVariableName(IdentifierNameSyntax identifierNameSyntax, SemanticModel semanticModel) {
          string name = null;
          if (null != identifierNameSyntax) {
-            //TODO: verify
             ISymbol iSymbol = semanticModel.GetSymbolInfo(identifierNameSyntax).Symbol;
             if (null != iSymbol && iSymbol is IMethodSymbol) {
                var creator = iSymbol as IMethodSymbol;
@@ -197,8 +196,8 @@ namespace CastDotNetExtension {
                   Tuple<SyntaxNode, SyntaxNode, ISymbol> location = _allCreators[creator];
                   if (!_creatorOrVariables.Contains(creator)) {
                      if (null != location.Item3) {
-                        var pos = location.Item1.GetLocation().GetMappedLineSpan();
-                        Console.WriteLine(location.Item3 + ": " + pos);
+                        var pos = location.Item2.GetLocation().GetMappedLineSpan();
+                        //Console.WriteLine(location.Item3 + ": " + pos);
                         AddViolation(location.Item3, new FileLinePositionSpan[] { pos });
                      }
                   }
