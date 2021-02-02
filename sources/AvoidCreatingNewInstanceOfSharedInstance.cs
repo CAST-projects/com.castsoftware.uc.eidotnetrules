@@ -33,34 +33,10 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         //context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration, SyntaxKind.InvocationExpression, SyntaxKind.ParenthesizedLambdaExpression, SyntaxKind.SimpleLambdaExpression, SyntaxKind.ObjectCreationExpression);
          context.RegisterSemanticModelAction(HandleSemanticModelAnalysisEnd);
       }
 
       private object _lock = new object();
-
-      //private HashSet<string> _sharedSymbols = new HashSet<string>();
-      //private HashSet<String> _creatorOrVariables = new HashSet<string>();
-      //private Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> _allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
-
-      protected void Analyze(SyntaxNodeAnalysisContext context, 
-         ref HashSet<string> sharedSymbols, 
-         ref HashSet<String> creatorOrVariables,
-         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
-            lock (_lock) {
-               try {
-                  if (context.Node is TypeDeclarationSyntax) {
-                     VisitClassDeclaration(context.Node, context.Compilation, context.ContainingSymbol, ref sharedSymbols);
-                  } else if (context.Node is InvocationExpressionSyntax) {
-                     VisitInvocationExpression(context.Node, context.Compilation, context.ContainingSymbol, ref creatorOrVariables);
-                  } else if (context.Node is ObjectCreationExpressionSyntax) {
-                     VisitObjectCreation(context.Node, context.Compilation, context.ContainingSymbol, ref sharedSymbols, ref allCreators);
-                  }
-               } catch (Exception e) {
-                  Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
-               }
-            }
-      }
 
       protected void Analyze(SyntaxNode node, Compilation compilation, ISymbol containingSymbol,
          ref HashSet<string> sharedSymbols,
