@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="description">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="description">
     <english>This rule will check whether local variables are shadowing class fields.
 
 In case of C#, classes as well as structs are considered.
@@ -11,26 +11,26 @@ In case of Visual Basic, modules also considered in addition to classes.
 
 In case of classes, only non-private fields of Base classes are considered.</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="name">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="name">
     <english>Avoid local variables shadowing class fields</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="output">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code
 - Bookmark to field that is being shadowed</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="rationale">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="rationale">
     <english>Both overriding or shadowing a class field (typically non-private)  can strongly impact the readability, and therefore the maintainability, of a piece of code.</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="reference">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="reference">
     <english>CERT, DCL01-C. - Do not reuse variable names in subscopes
 CERT, DCL51-J. - Do not shadow or obscure identifiers in subscopes</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediation">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediation">
     <english>Ensure you have an explicit way, usually in form of naming conventions, to name your local variable to avoid conflict with class fields.</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediationSample">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="remediationSample">
     <english>// Field Shadowing
 
 class MyVector {
@@ -50,7 +50,7 @@ class MyVector {
   }
 }</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="sample">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="sample">
     <english>// Field Shadowing
 
 class MyVector {
@@ -71,30 +71,30 @@ class MyVector {
   }
 }</english>
   </metric>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="total">
     <english>Number of Methods</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="description">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="description">
     <english>This QR will check whether child class fields shadow parent class fields. The check is irrespective of field type and case-sensitivity.</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="name">
     <english>Child class fields should not shadow parent class fields</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="output">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="rationale">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="rationale">
     <english>Having a variable with the same name in two unrelated classes is fine, but do the same thing within a class hierarchy and you'll get confusion at best, chaos at worst.</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="reference">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="reference">
     <english>https://rules.sonarsource.com/csharp/RSPEC-2387</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="remediationSample">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="remediationSample">
     <english>public class Fruit
 {
   protected Season ripe;
@@ -109,7 +109,7 @@ public class Raspberry : Fruit
   private static Color FLESH_COLOR;
 }</english>
   </metric>
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="sample">
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" section="sample">
     <english>public class Fruit
 {
   protected Season ripe;
@@ -124,27 +124,27 @@ public class Raspberry : Fruit
   private static Color FLESH; // Noncompliant
 }</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="associatedValueName">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="description">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="description">
     <english>This rule raises an issue when a private method in an unsealed type has a signature that is identical to a public method declared in a base type.</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="name">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="name">
     <english>Inherited member visibility should not be decreased</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="output">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="rationale">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="rationale">
     <english>Changing an inherited member to private will not prevent access to the base class implementation</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="reference">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="reference">
     <english>https://rules.sonarsource.com/csharp/RSPEC-4015</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="remediationSample">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="remediationSample">
     <english>using System;
 
 namespace MyLibrary
@@ -159,7 +159,7 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="sample">
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" section="sample">
     <english>using System;
 
 namespace MyLibrary
@@ -174,105 +174,105 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="associatedValueName">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="description">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="description">
     <english>This rule will check the use of FIXME tags in comment for method and classes. All comments, single line and multi-line, are considered that have "FIXME" (case insensitive) at the start of the comment.</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="name">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="name">
     <english>Track "FIXME" tags</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="output">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="rationale">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="rationale">
     <english>FIXME tags are commonly used to mark places where a bug is suspected, but which the developer wants to deal with later.
 
 Sometimes the developer will not have the time or will simply forget to get back to that tag.
 
 This rule is meant to track those tags and to ensure that they do not go unnoticed.</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="reference">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="reference">
     <english>MITRE, CWE-546 - Suspicious Comment</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="remediation">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="remediation">
     <english>Fix the issues in code and remove "FIXME" tags.</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="sample">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="sample">
     <english>private int Divide(int numerator, int denominator)
 {
     return numerator / denominator;  // FIXME denominator value might be  0
 }</english>
   </metric>
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="total">
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="associatedValueName">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="description">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="description">
     <english>This rule will check the use of TODO tags in comment for method and classes. All comments, single line and multi-line, are considered that have "TODO" (case insensitive) at the start of the comment.</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="name">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="name">
     <english>Track "TODO" tags</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="output">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="rationale">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="rationale">
     <english>TODO tags are commonly used to mark places where some more code is required, but which the developer wants to implement later.
 
 Sometimes the developer will not have the time or will simply forget to get back to that tag.
 
 This rule is meant to track those tags and to ensure that they do not go unnoticed.</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="reference">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="reference">
     <english>MITRE, CWE-546 - Suspicious Comment</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="remediation">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="remediation">
     <english>Complete remaining tasks and remove "TODO" tags.</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="sample">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="sample">
     <english>private void DoSomething()
 {
   // TODO
 }</english>
   </metric>
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="total">
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="associatedValueName">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="description">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="description">
     <english>This rule raises an issue when a unsealed, public or protected class implements IEquatable&lt;T&gt; and the Equals is neither virtual nor abstract.</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="name">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="name">
     <english>Classes implementing "IEquatable&lt;T&gt;" should be sealed</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="output">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="rationale">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="rationale">
     <english>When a class implements the IEquatable&lt;T&gt; interface, it enters a contract that, in effect, states "I know how to compare two instances of type T or any type derived from T for equality.". However if that class is derived, it is very unlikely that the base class will know how to make a meaningful comparison. Therefore that implicit contract is now broken.
 
 Alternatively IEqualityComparer&lt;T&gt; provides a safer interface and is used by collections or Equals could be made virtual.</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="reference">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="reference">
     <english>https://msdn.microsoft.com/en-us/library/ms132151(v=vs.110).aspx
 https://rules.sonarsource.com/csharp/RSPEC-4035</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediation">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediation">
     <english>Make class sealed or use IEqualityComparer&lt;T&gt; instead.</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediationSample">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="remediationSample">
     <english>using System;
 
 namespace MyLibrary
@@ -286,7 +286,7 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="sample">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="sample">
     <english>using System;
 
 namespace MyLibrary
@@ -338,36 +338,36 @@ namespace MyLibrary
   }
 }</english>
   </metric>
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="total">
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" section="total">
     <english>Number of Classes</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="associatedValueName">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="description">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="description">
     <english>This rule will verify that methods\properties that return arrays\collections do not return null.</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="name">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="name">
     <english>Empty arrays and collections should be returned instead of null</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="output">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="rationale">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="rationale">
     <english>Returning null instead of an actual array or collection forces callers of the method to explicitly test for nullity, making them more complex and less readable.
 
 Moreover, in many cases, null is used as a synonym for empty.</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="reference">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="reference">
     <english>CERT, MSC19-C. - For functions that return an array, prefer returning an empty array over a null value
 CERT, MET55-J. - Return an empty array or collection instead of a null value for methods that return an array or collection</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediation">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediation">
     <english>Return empty array\collection.</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediationSample">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="remediationSample">
     <english>public Result[] GetResults()
 {
     return new Result[0];
@@ -390,7 +390,7 @@ public IEnumerable&lt;Result&gt; Results
 
 public IEnumerable&lt;Result&gt; Results =&gt; Enumerable.Empty&lt;Result&gt;();</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="sample">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="sample">
     <english>public Result[] GetResults()
 {
     return null; // Noncompliant
@@ -413,32 +413,32 @@ public IEnumerable&lt;Result&gt; Results
 
 public IEnumerable&lt;Result&gt; Results =&gt; null; // Noncompliant</english>
   </metric>
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="associatedValueName">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="description">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="description">
     <english>This rule will check whether variable of interface type is converted into concrete type. Struct and Class are considered as Concrete type.
 
 Note: Abstract classes are not considered as concrete classes.</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="name">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="name">
     <english>Interface instances should not be cast to concrete types</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="output">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="rationale">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="rationale">
     <english>Needing to cast from an interface to a concrete type indicates that something is wrong with the abstraction in use, likely that something is missing from the interface. Instead of casting to a discrete type, the missing functionality should be added to the interface. Otherwise there is a risk of runtime exceptions.</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="remediation">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="remediation">
     <english>Remove the cast.</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="sample">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="sample">
     <english>public interface IMyInterface
 {
   void DoStuff();
@@ -469,26 +469,26 @@ public static class DowncastExampleProgram
   }
 }</english>
   </metric>
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="total">
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="associatedValueName">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="description">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="description">
     <english>The rule will raise a violation in case of event raising when:
 1. NULL is passed as sender when raising an non-static event
 2. NULL is passed as event data when raising an event</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="name">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="name">
     <english>Ensure proper arguments to Events</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="output">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="rationale">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="rationale">
     <english>With respect to guidelines from MSDN the following rules must be followed when raising events:
 
 1. DO NOT pass null as the event data parameter when raising an event.
@@ -496,13 +496,13 @@ public static class DowncastExampleProgram
 
 It prevents a null reference exception should a method try and do something with the arguments.</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="reference">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/event?redirectedfrom=MSDN</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediation">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediation">
     <english>You should pass EventArgs.Empty if you don’t want to pass any data to the event-handling method. Developers expect this parameter not to be null.</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediationSample">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="remediationSample">
     <english>class AClass {
    public event EventHandler foo;
 
@@ -512,7 +512,7 @@ It prevents a null reference exception should a method try and do something with
    }
 }</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="sample">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="sample">
     <english>class AClass {
    public event EventHandler foo;
 
@@ -522,41 +522,41 @@ It prevents a null reference exception should a method try and do something with
    }
 }</english>
   </metric>
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" section="total">
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="associatedValueName">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="description">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="description">
     <english>This rule will check the use of Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName methods</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="name">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="name">
     <english>Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="output">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="rationale">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="rationale">
     <english>The trust level of an assembly that is loaded by using this method is the same as the trust level of the calling assembly. To load an assembly from a byte array with the trust level of the application domain, use the Load(Byte[], Byte[], SecurityContextSource) method.</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="reference">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadfrom?view=netcore-3.1
 https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadfile?view=netcore-3.1
 https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadwithpartialname?view=netcore-3.1</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediation">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediation">
     <english>Always use Assembly.Load as main method to load DLL.</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediationSample">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="remediationSample">
     <english>static void Main(string[] args)
 {
     Assembly.Load(...); // NO VIOLATION
 }</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="sample">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="sample">
     <english>static void Main(string[] args)
 {
     Assembly.LoadFrom(...); // VIOLATION
@@ -564,33 +564,33 @@ https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.loadwithp
     Assembly.LoadWithPartialName(...); // VIOLATION
 }</english>
   </metric>
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="total">
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" section="total">
     <english>Number of methods and fields and properties initialized using a lambda function</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="associatedValueName">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="description">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="description">
     <english>This rule will check if synchronous task could be distinguished as Async or Sync based on name i.e. if async/sync suffixes are used in such methods as expected.</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="name">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="name">
     <english>Avoid methods named without following synchronous/asynchronous convention</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="output">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="rationale">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="rationale">
     <english>According to the Task-based Asynchronous Pattern (TAP), methods returning either a System.Threading.Tasks.Task or a System.Threading.Tasks.Task&lt;TResult&gt; are considered asynchronous. Such methods should use the Async suffix. Conversely methods which do not return such Tasks should not have an "Async" suffix.</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="reference">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediation">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediation">
     <english>Ensure your methods name are following synchronous/asynchronous convention.</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediationSample">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="remediationSample">
     <english>using System.Threading;
 using System.Threading.Tasks;
 
@@ -611,7 +611,7 @@ namespace theLibrary
   }
 }</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="sample">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="sample">
     <english>using System.Threading;
 using System.Threading.Tasks;
 
@@ -631,57 +631,57 @@ namespace theLibrary
   }
 }</english>
   </metric>
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="total">
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="description">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="description">
     <english>This rule will raise violations if string.ToLower(), ToUpper, IndexOf, LastIndexOf, and Compare do not specify culture argument or CompareTo is called.</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="name">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="name">
     <english>Culture Dependent String operations should specify culture</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="output">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="rationale">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="rationale">
     <english>Calls without a culture may work fine in the system's "home" environment, but break in ways that are extremely difficult to diagnose for customers who use different encodings. Such bugs can be nearly, if not completely, impossible to reproduce when it's time to fix them.</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="reference">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="reference">
     <english>https://wiki.sei.cmu.edu/confluence/display/java/STR02-J.+Specify+an+appropriate+locale+when+comparing+locale-dependent+data</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="remediation">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="remediation">
     <english>Use Culture argument or use culture invariant version. In case of CompareTo, CompareOrdinal, or Compare with culture.</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="remediationSample">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="remediationSample">
     <english>var lowered = someString.ToLower(CultureInfo.InvariantCulture);
 
 -or-
 
 var lowered = someString.ToLowerInvariant();</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="sample">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="sample">
     <english>var lowered = someString.ToLower(); //Noncompliant</english>
   </metric>
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="total">
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="description">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="description">
     <english>This rule checks for fields that are public static of type System.Array or System.Collections.Generic.ICollection&lt;T&gt; and are not read-only.</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="name">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="name">
     <english>Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="output">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="rationale">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="rationale">
     <english>If field is static and public and not read-only, it can affect every class that uses them. This can lead to unexpected behavior.</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediation">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediation">
     <english>Make visibility of fields protected\private or make them of type Immutable\read-only. This can done through:
 - make fields read-only (with inline initialization)
 - is of type 
@@ -694,7 +694,7 @@ var lowered = someString.ToLowerInvariant();</english>
       System.Collections.Immutable.IImmutableStack&lt;T&gt;
       System.Collections.Immutable.IImmutableQueue&lt;T&gt;</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediationSample">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediationSample">
     <english>public class A
 {
   protected static string[] strings1 = {"first","second"};
@@ -702,7 +702,7 @@ var lowered = someString.ToLowerInvariant();</english>
   // ...
 }</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="sample">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="sample">
     <english>public class A
 {
   public static string[] strings1 = {"first","second"};  // Noncompliant
@@ -710,59 +710,59 @@ var lowered = someString.ToLowerInvariant();</english>
   // ...
 }</english>
   </metric>
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="total">
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="description">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="description">
     <english>This rule will check whether an exception type object is created but not thrown.</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="name">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="name">
     <english>Avoid creating exception without throwing them</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="output">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="rationale">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="rationale">
     <english>Only creating exception and throwing it would mean that either it is a mistake or it is used for side effect of object creation.</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediation">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediation">
     <english>Throw the exception or remove the statement</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediationSample">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="remediationSample">
     <english>var o = new Exception();
 
 throw o;
 
 throw new Exception();</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="sample">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="sample">
     <english>var e = new Exception();
 
 new Exception();</english>
   </metric>
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="total">
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="description">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="description">
     <english>This rule will check whether bitwise OR (|) is used instead of Logical OR (||) in boolean context.</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="name">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="name">
     <english>Use Logical OR instead of Bitwise OR in boolean context</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="output">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="rationale">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="rationale">
     <english>When Bitwise OR is used instead of Logical OR in boolean context, it is most probably a mistake or it is intended for side effect which is incorrect programming practice.</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediation">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediation">
     <english>Use Logical OR</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediationSample">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediationSample">
     <english>Class AClass {
       private int Return1() {
          return 1;
@@ -780,7 +780,7 @@ new Exception();</english>
      }
 }</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="sample">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="sample">
     <english>Class AClass {
       private int Return1() {
          return 1;
@@ -798,27 +798,27 @@ new Exception();</english>
      }
 }</english>
   </metric>
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="total">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="description">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="description">
     <english>This QR will raise violation if all the branches in a given conditional statement has same content. switch with default label, if and ternary operators are considered for inspection.</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="name">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="name">
     <english>Conditional structures should not have identical branches</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="output">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="rationale">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="rationale">
     <english>Having identical statements in all branches would mean it is likely a mistake. Either it needs to be inspected and changed or conditional statement needs to be removed.</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="remediation">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="remediation">
     <english>Inspect conditional statement and change or remove conditional statement.</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="sample">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="sample">
     <english>Class Test {
    public TestAll() {
          int i1 = 1;
@@ -855,32 +855,32 @@ new Exception();</english>
 
 }</english>
   </metric>
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="total">
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="description">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="description">
     <english>The rule will raise a violation when a type implements a finalizer that is empty. Even finalizer with only statement with calls to Debug.Fail and it is not in #if DEBUG part, it will be considered as violation since Debug.Fail is omitted for non-DEBUG configuration.</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="name">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="name">
     <english>Avoid empty finalizers</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="output">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="rationale">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="rationale">
     <english>Whenever you can, avoid finalizers because of the additional performance overhead that's involved in tracking object lifetime. The garbage collector runs the finalizer before it collects the object. This means that at least two collections are required to collect the object. An empty finalizer incurs this added overhead without any benefit.</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="reference">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1821
 
 https://cwe.mitre.org/data/definitions/1069.html</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="remediation">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="remediation">
     <english>Avoid using empty finalizers</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="sample">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="sample">
     <english>public class Class1
     {
         // Violation occurs because the finalizer is empty.
@@ -902,27 +902,27 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
         }
     }</english>
   </metric>
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" section="total">
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="total">
     <english>Number of finalizers</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="description">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="description">
     <english>This rule will raise violation if Recursion is used in type inheritance.</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="name">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="name">
     <english>Avoid recursive type inheritance</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="output">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="rationale">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="rationale">
     <english>Unlike methods, it is not possible to break out of recursion. If used, it will fail at runtime.</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="remediation">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="remediation">
     <english>Do not use recursive type inheritance.</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="sample">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="sample">
     <english>class C1&lt;T&gt; {
       }
 
@@ -936,34 +936,34 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
          public int x = 101;
       }</english>
   </metric>
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" section="total">
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="total">
     <english>Number pf classes</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="associatedValueName">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
     <english>This rule will give violation if condition in for loop is not invariant.</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
     <english>For loop stop condition should be invariant</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="output">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="rationale">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="rationale">
     <english>A for loop stop condition should test the loop counter against an invariant value (i.e. one that is true at both the beginning and ending of every loop iteration). Ideally, this means that the stop condition is set to a local variable just before the loop begins.
 
 Stop conditions that are not invariant are slightly less efficient, as well as being difficult to understand and maintain, and likely lead to the introduction of errors in the future.
 
 This gives violation when the loop counters are updated in the body of the for loop.</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
     <english>Make for loop condition invariant.</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediationSample">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediationSample">
     <english>class Foo
 {
     static void Main()
@@ -975,7 +975,7 @@ This gives violation when the loop counters are updated in the body of the for l
     }
 }</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="sample">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="sample">
     <english>class Foo
 {
     static void Main()
@@ -991,30 +991,30 @@ This gives violation when the loop counters are updated in the body of the for l
     }
 }</english>
   </metric>
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" section="total">
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="description">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="description">
     <english>This rule raises an issue when a type implements the System.Runtime.Serialization.ISerializable interface, is not a delegate or interface, is declared in an assembly that allows partially trusted callers and has a constructor that takes a System.Runtime.Serialization.SerializationInfo object and a System.Runtime.Serialization.StreamingContext object which is not secured by a security check, but one or more of the regular constructors in the type is secured.</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="name">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="name">
     <english>Ensure constructors of serializable classes are secure</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="output">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="rationale">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="rationale">
     <english>Because serialization constructors allocate and initialize objects, security checks that are present on regular constructors must also be present on a serialization constructor. Failure to do so would allow callers that could not otherwise create an instance to use the serialization constructor to do this.</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="reference">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="reference">
     <english>https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization.html</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediation">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediation">
     <english>Make constructors of serializable classes secure.</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediationSample">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediationSample">
     <english>using System;
 using System.IO;
 using System.Runtime.Serialization;
@@ -1049,7 +1049,7 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="sample">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="sample">
     <english>using System;
 using System.IO;
 using System.Runtime.Serialization;
@@ -1083,27 +1083,27 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="total">
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="total">
     <english>Number of constructors</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="description">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="description">
     <english>This rule will raise a violation when adjacent try-catch blocks have identical catch blocks.</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="name">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="name">
     <english>Merge adjacent try blocks with identical catch/finally statements</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="output">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="rationale">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="rationale">
     <english>Adjacent try-catch blocks having identical catch blocks must be merged to improve readability of code.</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediation">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediation">
     <english>Merge the try-catch blocks.</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediationSample">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediationSample">
     <english>try
 {
   DoTheFirstThing(a, b);
@@ -1124,7 +1124,7 @@ catch (InvalidOperationException ex)
   LogAndDie(ex);
 }</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="sample">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="sample">
     <english>try
 {
   DoTheFirstThing(a, b);
@@ -1154,68 +1154,68 @@ catch (InvalidOperationException ex)
   LogAndDie(ex);
 }</english>
   </metric>
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="total">
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="associatedValueName">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="description">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="description">
     <english>This rule will check if assignments are done in if\switch\method\constructor calls.</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="name">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="name">
     <english>Avoid assignments in sub-expressions</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="output">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="rationale">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="rationale">
     <english>Assignments within sub-expressions are hard to spot and therefore make the code less readable. Ideally, sub-expressions should not have side-effects.</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="reference">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="reference">
     <english>MITRE, CWE-481 - Assigning instead of Comparing
 CERT, EXP45-C. - Do not perform assignments in selection statements
 CERT, EXP51-J. - Do not perform assignments in conditional expressions</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediation">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediation">
     <english>Remove assignments from if\switch\method calls\constructor calls sub-expressions.</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediationSample">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediationSample">
     <english>var result = str.Substring(index, length);
 if (string.IsNullOrEmpty(result))
 {
   //...
 }</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="sample">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="sample">
     <english>if (string.IsNullOrEmpty(result = str.Substring(index, length))) // Noncompliant
 {
   //...
 }</english>
   </metric>
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="total">
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="description">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="description">
     <english>This rule will raise a violation upon invocation of a constructor of a class considered as shared with [PartCreationPolicyAttribute]</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="name">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="name">
     <english>Avoid creating new instance of shared instance (.NET)</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="output">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="rationale">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="rationale">
     <english>If a class is marked such that only a single object of the class will be exported as a shared object [PartCreationPolicy(CreationPolicy.Shared)], then invoking the constructor and creating new instances with it will result in unexpected behavior.</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediation">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediation">
     <english>Prefer using the created instance and its resources.</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediationSample">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediationSample">
     <english>using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1252,7 +1252,7 @@ namespace GenericObject {
    }
 }</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="sample">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="sample">
     <english>using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1289,7 +1289,7 @@ namespace GenericObject {
    }
 }</english>
   </metric>
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="total">
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="total">
     <english>Number of Artifacts</english>
   </metric>
 </root>

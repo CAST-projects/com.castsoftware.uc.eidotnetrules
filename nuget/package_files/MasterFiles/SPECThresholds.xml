@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="90.0" thresholdToGet4="99.0" />
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="90.0" thresholdToGet4="99.0" />
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" thresholdToGet1="10.0" thresholdToGet2="70.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

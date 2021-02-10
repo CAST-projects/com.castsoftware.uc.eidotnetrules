@@ -11,27 +11,27 @@
   <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
-  <metric id="2000000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
-  <metric id="2000002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
-  <metric id="2000004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
-  <metric id="2000006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" active="true" detached="false" ignored="false" />
-  <metric id="2000008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" active="true" detached="false" ignored="false" />
-  <metric id="2000010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" active="true" detached="false" ignored="false" />
-  <metric id="2000012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" active="true" detached="false" ignored="false" />
-  <metric id="2000014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" active="true" detached="false" ignored="false" />
-  <metric id="2000016" type="quality-rule" originalName="Ensure proper arguments to Events" active="true" detached="false" ignored="false" />
-  <metric id="2000018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" active="true" detached="false" ignored="false" />
-  <metric id="2000020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" active="true" detached="false" ignored="false" />
-  <metric id="2000022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" active="true" detached="false" ignored="false" />
-  <metric id="2000024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" active="true" detached="false" ignored="false" />
-  <metric id="2000026" type="quality-rule" originalName="Avoid creating exception without throwing them" active="true" detached="false" ignored="false" />
-  <metric id="2000028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" active="true" detached="false" ignored="false" />
-  <metric id="2000030" type="quality-rule" originalName="Conditional structures should not have identical branches" active="true" detached="false" ignored="false" />
-  <metric id="2000032" type="quality-rule" originalName="Avoid empty finalizers" active="true" detached="false" ignored="false" />
-  <metric id="2000034" type="quality-rule" originalName="Avoid recursive type inheritance" active="true" detached="false" ignored="false" />
-  <metric id="2000036" type="quality-rule" originalName="For loop stop condition should be invariant" active="true" detached="false" ignored="false" />
-  <metric id="2000038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" active="true" detached="false" ignored="false" />
-  <metric id="2000040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" active="true" detached="false" ignored="false" />
-  <metric id="2000042" type="quality-rule" originalName="Avoid assignments in sub-expressions" active="true" detached="false" ignored="false" />
-  <metric id="2000044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" active="true" detached="false" ignored="false" />
+  <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
+  <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
+  <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
+  <metric id="2200006" type="quality-rule" originalName="Track &quot;FIXME&quot; tags" active="true" detached="false" ignored="false" />
+  <metric id="2200008" type="quality-rule" originalName="Track &quot;TODO&quot; tags" active="true" detached="false" ignored="false" />
+  <metric id="2200010" type="quality-rule" originalName="Classes implementing &quot;IEquatable&lt;T&gt;&quot; should be sealed" active="true" detached="false" ignored="false" />
+  <metric id="2200012" type="quality-rule" originalName="Empty arrays and collections should be returned instead of null" active="true" detached="false" ignored="false" />
+  <metric id="2200014" type="quality-rule" originalName="Interface instances should not be cast to concrete types" active="true" detached="false" ignored="false" />
+  <metric id="2200016" type="quality-rule" originalName="Ensure proper arguments to Events" active="true" detached="false" ignored="false" />
+  <metric id="2200018" type="quality-rule" originalName="Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName" active="true" detached="false" ignored="false" />
+  <metric id="2200020" type="quality-rule" originalName="Avoid methods named without following synchronous/asynchronous convention" active="true" detached="false" ignored="false" />
+  <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" active="true" detached="false" ignored="false" />
+  <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" active="true" detached="false" ignored="false" />
+  <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" active="true" detached="false" ignored="false" />
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" active="true" detached="false" ignored="false" />
+  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" active="true" detached="false" ignored="false" />
+  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" active="true" detached="false" ignored="false" />
+  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" active="true" detached="false" ignored="false" />
+  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" active="true" detached="false" ignored="false" />
+  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" active="true" detached="false" ignored="false" />
+  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" active="true" detached="false" ignored="false" />
+  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" active="true" detached="false" ignored="false" />
+  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" active="true" detached="false" ignored="false" />
 </root>
