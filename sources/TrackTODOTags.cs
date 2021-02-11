@@ -40,11 +40,13 @@ namespace CastDotNetExtension {
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
-               foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, TODO, 6)) {
-                  ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
-                  var pos = comment.GetLocation().GetMappedLineSpan();
-                  if (null != iSymbol) {
-                     AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
+               if ("C#" == context.SemanticModel.Compilation.Language) {
+                  foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, TODO, 6)) {
+                     ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
+                     var pos = comment.GetLocation().GetMappedLineSpan();
+                     if (null != iSymbol) {
+                        AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
+                     }
                   }
                }
             }

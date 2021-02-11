@@ -112,25 +112,26 @@ namespace CastDotNetExtension {
       private void SemenaticModelAnalysisEnd(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
+               if ("C#" == context.SemanticModel.Compilation.Language) {
+                  foreach (var exceptions in _exceptionsVars.Values) {
+                     foreach (SyntaxNode exception in exceptions.Keys) {
+                        var pos = exception.SyntaxTree.GetMappedLineSpan(exception.Span);
+                        //Log.Warn(pos.ToString());
+                        AddViolation(exceptions[exception], new FileLinePositionSpan[] { pos });
+                     }
+                  }
 
-               foreach (var exceptions in _exceptionsVars.Values) {
-                  foreach (SyntaxNode exception in exceptions.Keys) {
+                  foreach (SyntaxNode exception in _exceptionsNotThrown.Keys) {
                      var pos = exception.SyntaxTree.GetMappedLineSpan(exception.Span);
                      //Log.Warn(pos.ToString());
-                     AddViolation(exceptions[exception], new FileLinePositionSpan[] { pos });
+                     AddViolation(_exceptionsNotThrown[exception], new FileLinePositionSpan[] { pos });
                   }
+
+
+                  _exceptionsNotThrown.Clear();
+                  _exceptionsThrown.Clear();
+                  _exceptionsVars.Clear();
                }
-
-               foreach (SyntaxNode exception in _exceptionsNotThrown.Keys) {
-                  var pos = exception.SyntaxTree.GetMappedLineSpan(exception.Span);
-                        //Log.Warn(pos.ToString());
-                        AddViolation(_exceptionsNotThrown[exception], new FileLinePositionSpan[] { pos });
-               }
-
-
-               _exceptionsNotThrown.Clear();
-               _exceptionsThrown.Clear();
-               _exceptionsVars.Clear();
 
             }
             catch (Exception e) {
