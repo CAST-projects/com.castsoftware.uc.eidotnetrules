@@ -38,7 +38,7 @@ namespace CastDotNetExtension {
 
       private object _lock = new object();
 
-      protected void VisitClassDeclaration(SyntaxNode node, Compilation compilation, ISymbol containingSymbol, ref HashSet<string> sharedSymbols) {
+      protected void VisitClassDeclaration(SyntaxNode node, Compilation compilation, ref HashSet<string> sharedSymbols) {
          var declarationSyntax = node as TypeDeclarationSyntax;
          IList<TypeAttributes.ITypeAttribute> typeAttributes = new List<TypeAttributes.ITypeAttribute>();
          typeAttributes = TypeAttributes.Get(declarationSyntax, typeAttributes, new[] { TypeAttributes.AttributeType.PartCreationPolicy });
@@ -49,9 +49,10 @@ namespace CastDotNetExtension {
 
       }
 
-      protected void VisitObjectCreation(SyntaxNode node, Compilation compilation, ISymbol containingSymbol,
+      protected void VisitObjectCreation(SyntaxNode node, Compilation compilation,
          ref HashSet<string> sharedSymbols,
-         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
+         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators,
+         SemanticModel semanticModel) {
          var objectCreationSyntax = node as ObjectCreationExpressionSyntax;
          var typename = objectCreationSyntax.Type.ToString();
          if (null != typename && IsTypeRelevant(typename, ref sharedSymbols)) {
@@ -60,7 +61,6 @@ namespace CastDotNetExtension {
                parentNode = parent;
                if (null != parent) {
                   if ("InvocationExpressionSyntax" == parent.GetType().Name) {
-                     var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
                      if (null != semanticModel) {
                         IMethodSymbol invokedMethod = semanticModel.GetSymbolInfo(parent).Symbol as IMethodSymbol;
                         if (null != invokedMethod) {
@@ -76,13 +76,16 @@ namespace CastDotNetExtension {
             });
 
             if (null != name && null != parentNode) {
-               AddCreator(name, parentNode, node, containingSymbol, ref allCreators);
+               ISymbol iSymbol = semanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
+               if (null != iSymbol) {
+                  AddCreator(name, parentNode, node, iSymbol, ref allCreators);
+               }
             }
          }
       }
 
 
-      protected void VisitInvocationExpression(SyntaxNode node, Compilation compilation, ISymbol containingSymbol, ref HashSet<String> creatorOrVariable) {
+      protected void VisitInvocationExpression(SyntaxNode node, Compilation compilation, ref HashSet<String> creatorOrVariable) {
 
          var invokeExpr = node as InvocationExpressionSyntax;
          
@@ -98,16 +101,12 @@ namespace CastDotNetExtension {
                            var invocationExpression = node as InvocationExpressionSyntax;
                            if (2 <= invocationExpression.ArgumentList.Arguments.Count) {
                               var argument = invocationExpression.ArgumentList.Arguments[1];
-                              try {
-                                 var identifierNameSyntax = getIdentifierNameSyntax(argument);
-                                 if (null != identifierNameSyntax) {
-                                    string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
-                                    if (null != name) {
-                                       AddCreatorOrVariable(name, ref creatorOrVariable);
-                                    }
+                              var identifierNameSyntax = getIdentifierNameSyntax(argument);
+                              if (null != identifierNameSyntax) {
+                                 string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
+                                 if (null != name) {
+                                    AddCreatorOrVariable(name, ref creatorOrVariable);
                                  }
-                              } catch (Exception e) {
-                                 WriteLine(e.Message);
                               }
                            }
                         }
@@ -175,16 +174,6 @@ namespace CastDotNetExtension {
          WriteLine("AddCreator: " + creator);
       }
 
-      //public override void Reset() {
-      //   try {
-      //      creatorOrVariables.Clear();
-      //      allCreators.Clear();
-      //      base.Reset();
-      //   } catch (Exception e) {
-      //      Log.Warn("Exception while resetting ", e);
-      //   }
-      //}
-
       private void HandleSemanticModelAnalysisEnd(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {
@@ -194,20 +183,15 @@ namespace CastDotNetExtension {
                   IEnumerable<SyntaxNode> classDeclarations = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => n.IsKind(SyntaxKind.ClassDeclaration));
 
                   foreach (var classDeclaration in classDeclarations) {
-                     VisitClassDeclaration(classDeclaration, context.SemanticModel.Compilation, null, ref sharedSymbols);
+                     VisitClassDeclaration(classDeclaration, context.SemanticModel.Compilation, ref sharedSymbols);
                   }
 
                   if (!sharedSymbols.Any()) {
                      Log.Debug("No Shared Symbols Found");
                   } else {
-                     foreach (var sharedSymbol in sharedSymbols) {
-                        Log.Debug("   shared symbol: " + sharedSymbol);
-                     }
-
                      HashSet<SyntaxKind> syntaxKinds = new HashSet<SyntaxKind> {
-                  SyntaxKind.InvocationExpression, SyntaxKind.ParenthesizedLambdaExpression, SyntaxKind.SimpleLambdaExpression, SyntaxKind.ObjectCreationExpression
-               };
-                     var root = context.SemanticModel.SyntaxTree.GetRoot();
+                        SyntaxKind.InvocationExpression, SyntaxKind.ParenthesizedLambdaExpression, SyntaxKind.SimpleLambdaExpression, SyntaxKind.ObjectCreationExpression
+                     };
 
                      IEnumerable<SyntaxNode> nodes = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => syntaxKinds.Contains(n.Kind()));
 
@@ -215,18 +199,10 @@ namespace CastDotNetExtension {
                      Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
 
                      foreach (var node in nodes) {
-                        ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
-                        if (null == iSymbol) {
-                           Log.Warn("Could not get symbol for kind " + node.Kind() + ": " + node);
-                        } else {
-                           /*if (node is TypeDeclarationSyntax) {
-                              VisitClassDeclaration(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols);
-                           } else*/
-                           if (node is InvocationExpressionSyntax) {
-                              VisitInvocationExpression(node, context.SemanticModel.Compilation, iSymbol, ref creatorOrVariables);
-                           } else if (node is ObjectCreationExpressionSyntax) {
-                              VisitObjectCreation(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols, ref allCreators);
-                           }
+                        if (node is InvocationExpressionSyntax) {
+                           VisitInvocationExpression(node, context.SemanticModel.Compilation, ref creatorOrVariables);
+                        } else if (node is ObjectCreationExpressionSyntax) {
+                           VisitObjectCreation(node, context.SemanticModel.Compilation, ref sharedSymbols, ref allCreators, context.SemanticModel);
                         }
                      }
 
