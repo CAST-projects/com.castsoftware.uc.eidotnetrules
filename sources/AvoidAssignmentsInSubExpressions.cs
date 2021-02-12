@@ -15,10 +15,10 @@ namespace CastDotNetExtension
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
    [RuleDescription(
-       Id = "TODO: Add prefix_AvoidAssignmentsInSubExpressions",
-       Title = "TODO: Add Title",
-       MessageFormat = "TODO: Add Message",
-       Category = "TODO: Add Category",
+       Id = "EI_AvoidAssignmentsInSubExpressions",
+       Title = "Avoid assignments in sub-expressions",
+       MessageFormat = "Avoid assignments in sub-expressions",
+       Category = "Programming Practices - Modularity and OO Encapsulation Conformity",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidAssignmentsInSubExpressions"
    )]
