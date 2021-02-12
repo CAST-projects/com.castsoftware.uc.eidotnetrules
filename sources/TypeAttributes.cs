@@ -119,9 +119,10 @@ namespace CastDotNetExtension.Utils {
          IList<ITypeAttribute> attributes, AttributeType[] attrs2Search = null) {
        
          foreach (var syntaxRef in namedType.DeclaringSyntaxReferences) {
-            var typeDeclarationSyntaxes = syntaxRef.SyntaxTree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>();
-            foreach (var typeDeclarationSyntax in typeDeclarationSyntaxes) {
-               attributes = TypeAttributes.Get(typeDeclarationSyntax, attributes, new[] { TypeAttributes.AttributeType.Serializable });
+            var syntax = syntaxRef.GetSyntax();
+            if (syntax is TypeDeclarationSyntax) {
+               var typeDeclarationSyntax = syntax as TypeDeclarationSyntax;
+               attributes = TypeAttributes.Get(typeDeclarationSyntax, attributes, attrs2Search);
             }
          }
 

@@ -42,9 +42,7 @@ namespace CastDotNetExtension
             INamedTypeSymbol namedType = context.Symbol as INamedTypeSymbol;
             if (null != namedType) {
                if (TypeKind.Class == namedType.TypeKind || TypeKind.Struct == namedType.TypeKind) {
-                  IList<TypeAttributes.ITypeAttribute> attributesKlazz = new List<TypeAttributes.ITypeAttribute>();
-                  attributesKlazz = TypeAttributes.Get(namedType, attributesKlazz, new[] { TypeAttributes.AttributeType.Serializable });
-                  if (null != attributesKlazz && attributesKlazz.Any()) {
+                  if (namedType.IsSerializable) {
                      ISymbol ctorSerializing = null;
                      bool serializationConstructorSecured = true;
                      bool regularConstructorSecured = true;
