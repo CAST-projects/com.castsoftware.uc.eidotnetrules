@@ -38,10 +38,30 @@ namespace CastDotNetExtension {
       }
 
       
-
+      
       private Dictionary<SyntaxNode, ISymbol> _exceptionsNotThrown = new Dictionary<SyntaxNode, ISymbol>();
       private HashSet<SyntaxNode> _exceptionsThrown = new HashSet<SyntaxNode>();
       private Dictionary<String, Dictionary<SyntaxNode, ISymbol>> _exceptionsVars = new Dictionary<String, Dictionary<SyntaxNode, ISymbol>>();
+
+      private HashSet<INamedTypeSymbol> _exceptionTypes = new HashSet<INamedTypeSymbol>();
+
+
+      private bool IsException(INamedTypeSymbol iTypeIn, INamedTypeSymbol systemException, INamedTypeSymbol systemObject) {
+         if (null != iTypeIn && null != systemException) {
+            if (_exceptionTypes.Contains(iTypeIn)) {
+               return true;
+            }
+            INamedTypeSymbol iType = iTypeIn;
+            while (null != iType && systemObject != iType) {
+               if (iType == systemException) {
+                  _exceptionTypes.Add(iTypeIn);  
+                  return true;
+               }
+               iType = iType.BaseType;
+            }
+         }
+         return false;
+      }
 
       private object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
@@ -55,7 +75,8 @@ namespace CastDotNetExtension {
                         var type = context.SemanticModel.GetSymbolInfo(typeName).Symbol as INamedTypeSymbol;
                         if (null != type) {
                            INamedTypeSymbol systemException = context.Compilation.GetTypeByMetadataName("System.Exception");
-                           if (null != systemException && context.Compilation.ClassifyConversion(type, systemException).IsImplicit) {
+                           INamedTypeSymbol systemObject = context.Compilation.GetTypeByMetadataName("System.Object");
+                           if (null != systemException && IsException(type, systemException, systemObject)) { //context.Compilation.ClassifyConversion(type, systemException).IsImplicit) {
                               if (newSyntax.Parent is EqualsValueClauseSyntax) {
                                  if (newSyntax.Parent.Parent is VariableDeclaratorSyntax) {
                                     var variableDeclarator = newSyntax.Parent.Parent as VariableDeclaratorSyntax;
@@ -131,6 +152,7 @@ namespace CastDotNetExtension {
                   _exceptionsNotThrown.Clear();
                   _exceptionsThrown.Clear();
                   _exceptionsVars.Clear();
+                  _exceptionTypes.Clear();
                }
 
             }
