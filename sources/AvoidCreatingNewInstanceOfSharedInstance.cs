@@ -189,38 +189,55 @@ namespace CastDotNetExtension {
          lock (_lock) {
             try {
                if ("C#" == context.SemanticModel.Compilation.Language) {
-                  HashSet<SyntaxKind> syntaxKinds = new HashSet<SyntaxKind> {
-                  SyntaxKind.ClassDeclaration, SyntaxKind.InvocationExpression, SyntaxKind.ParenthesizedLambdaExpression, SyntaxKind.SimpleLambdaExpression, SyntaxKind.ObjectCreationExpression
-               };
-                  var root = context.SemanticModel.SyntaxTree.GetRoot();
 
-                  IEnumerable<SyntaxNode> nodes = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => syntaxKinds.Contains(n.Kind()));
                   HashSet<string> sharedSymbols = new HashSet<string>();
-                  HashSet<String> creatorOrVariables = new HashSet<string>();
-                  Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
+                  IEnumerable<SyntaxNode> classDeclarations = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => n.IsKind(SyntaxKind.ClassDeclaration));
 
-                  foreach (var node in nodes) {
-                     ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
-                     if (null == iSymbol) {
-                        Log.Warn("Could not get symbol for kind " + node.Kind() + ": " + node);
-                     } else {
-                        if (node is TypeDeclarationSyntax) {
-                           VisitClassDeclaration(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols);
-                        } else if (node is InvocationExpressionSyntax) {
-                           VisitInvocationExpression(node, context.SemanticModel.Compilation, iSymbol, ref creatorOrVariables);
-                        } else if (node is ObjectCreationExpressionSyntax) {
-                           VisitObjectCreation(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols, ref allCreators);
-                        }
-                     }
+                  foreach (var classDeclaration in classDeclarations) {
+                     VisitClassDeclaration(classDeclaration, context.SemanticModel.Compilation, null, ref sharedSymbols);
                   }
 
-                  foreach (var creator in allCreators.Keys) {
-                     Tuple<SyntaxNode, SyntaxNode, ISymbol> location = allCreators[creator];
-                     if (!creatorOrVariables.Contains(creator)) {
-                        if (null != location.Item3) {
-                           var pos = location.Item2.GetLocation().GetMappedLineSpan();
-                           //Console.WriteLine(location.Item3 + ": " + pos);
-                           AddViolation(location.Item3, new FileLinePositionSpan[] { pos });
+                  if (!sharedSymbols.Any()) {
+                     Log.Debug("No Shared Symbols Found");
+                  } else {
+                     foreach (var sharedSymbol in sharedSymbols) {
+                        Log.Debug("   shared symbol: " + sharedSymbol);
+                     }
+
+                     HashSet<SyntaxKind> syntaxKinds = new HashSet<SyntaxKind> {
+                  SyntaxKind.InvocationExpression, SyntaxKind.ParenthesizedLambdaExpression, SyntaxKind.SimpleLambdaExpression, SyntaxKind.ObjectCreationExpression
+               };
+                     var root = context.SemanticModel.SyntaxTree.GetRoot();
+
+                     IEnumerable<SyntaxNode> nodes = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => syntaxKinds.Contains(n.Kind()));
+
+                     HashSet<String> creatorOrVariables = new HashSet<string>();
+                     Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
+
+                     foreach (var node in nodes) {
+                        ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
+                        if (null == iSymbol) {
+                           Log.Warn("Could not get symbol for kind " + node.Kind() + ": " + node);
+                        } else {
+                           /*if (node is TypeDeclarationSyntax) {
+                              VisitClassDeclaration(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols);
+                           } else*/
+                           if (node is InvocationExpressionSyntax) {
+                              VisitInvocationExpression(node, context.SemanticModel.Compilation, iSymbol, ref creatorOrVariables);
+                           } else if (node is ObjectCreationExpressionSyntax) {
+                              VisitObjectCreation(node, context.SemanticModel.Compilation, iSymbol, ref sharedSymbols, ref allCreators);
+                           }
+                        }
+                     }
+
+                     foreach (var creator in allCreators.Keys) {
+                        Tuple<SyntaxNode, SyntaxNode, ISymbol> location = allCreators[creator];
+                        if (!creatorOrVariables.Contains(creator)) {
+                           if (null != location.Item3) {
+                              var pos = location.Item2.GetLocation().GetMappedLineSpan();
+                              //Console.WriteLine(location.Item3 + ": " + pos);
+                              AddViolation(location.Item3, new FileLinePositionSpan[] { pos });
+                           }
                         }
                      }
                   }
