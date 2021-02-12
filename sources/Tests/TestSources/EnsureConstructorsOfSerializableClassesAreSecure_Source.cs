@@ -75,5 +75,12 @@ namespace UnitTests.UnitTest.Sources
       }
    }
 
+   class SerializedOK4 
+   {
+      SerializedOK4() {
+      }
+   }
+
+
 
 }

@@ -102,7 +102,7 @@ namespace CastDotNetExtension.Utils {
 
       public static TypeAttributesAll Get(SyntaxNodeAnalysisContext context, AttributeType[] attrs2Search = null) {
          IList<ITypeAttribute> attributes = new List<ITypeAttribute>();
-         var declarationSyntax = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.TypeDeclarationSyntax;
+         var declarationSyntax = context.Node as TypeDeclarationSyntax;
 
          if (null != declarationSyntax) {
             var attrs = Get(declarationSyntax, attributes, attrs2Search);
@@ -128,7 +128,7 @@ namespace CastDotNetExtension.Utils {
          return attributes;
       }
 
-      public static IList<ITypeAttribute> Get(Microsoft.CodeAnalysis.CSharp.Syntax.TypeDeclarationSyntax typeDeclaration,
+      public static IList<ITypeAttribute> Get(TypeDeclarationSyntax typeDeclaration,
          IList<ITypeAttribute> attributes, AttributeType[] attrs2Search = null) {
 
          bool all = null == attrs2Search;
@@ -149,7 +149,7 @@ namespace CastDotNetExtension.Utils {
             foreach (var syntaxRef in iMethodSymbol.DeclaringSyntaxReferences) {
                var syntax = syntaxRef.GetSyntax() as BaseMethodDeclarationSyntax;
                if (null != syntax) {
-                  attributes = Get(syntax.AttributeLists, attributes, new[] { TypeAttributes.AttributeType.FileIOPermissionAttribute });
+                  attributes = Get(syntax.AttributeLists, attributes, attrs2Search, declarationSyntax);
                }
             }
          }
@@ -161,8 +161,8 @@ namespace CastDotNetExtension.Utils {
 
             if (null != attributeLists && attributeLists.Any()) {
                bool all = null == attrs2Search;
-               foreach (Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax attrListSynt in attributeLists) {
-                  foreach (Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax attribute in attrListSynt.Attributes) {
+               foreach (AttributeListSyntax attrListSynt in attributeLists) {
+                  foreach (AttributeSyntax attribute in attrListSynt.Attributes) {
                      ITypeAttribute iTypeAttribute = null;
                      if (all || HasAttributeType(attrs2Search, attribute.Name.ToString())) {
                         if ("Export" == attribute.Name.ToString()) {
@@ -188,8 +188,8 @@ namespace CastDotNetExtension.Utils {
       }
 
 
-      public static PartCreationPolicy CreateCSharpPartCreationPolicy(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax attribute,
-         Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax attrListSynt) {
+      public static PartCreationPolicy CreateCSharpPartCreationPolicy(AttributeSyntax attribute,
+         AttributeListSyntax attrListSynt) {
 
          Dictionary<string, SyntaxNode> arguments = new Dictionary<string, SyntaxNode>();
          if (attribute.ArgumentList.Arguments.Any()) {
@@ -216,17 +216,17 @@ namespace CastDotNetExtension.Utils {
          return new FileIOPermissionAttribute(new Dictionary<string, SyntaxNode>());
       }
 
-      public static Export CreateCSharpExport(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax attribute,
-         Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax attrListSynt,
-         Microsoft.CodeAnalysis.CSharp.Syntax.TypeDeclarationSyntax typeDeclaration) {
+      public static Export CreateCSharpExport(AttributeSyntax attribute,
+         AttributeListSyntax attrListSynt,
+         TypeDeclarationSyntax typeDeclaration) {
 
-         Dictionary<Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax, List<string>> contractTypes =
-            new Dictionary<Microsoft.CodeAnalysis.CSharp.Syntax.AttributeListSyntax, List<string>>();
+         Dictionary<AttributeListSyntax, List<string>> contractTypes =
+            new Dictionary<AttributeListSyntax, List<string>>();
 
          if (attribute.ArgumentList.Arguments.Any()) {
             contractTypes[attrListSynt] = new List<string>();
             foreach (var argument in attribute.ArgumentList.Arguments) {
-               var typeOfExpressionSyntax = argument.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.TypeOfExpressionSyntax;
+               var typeOfExpressionSyntax = argument.Expression as TypeOfExpressionSyntax;
                if (typeOfExpressionSyntax != null) {
                   contractTypes[attrListSynt].Add(typeOfExpressionSyntax.Type.ToString());
                   break;

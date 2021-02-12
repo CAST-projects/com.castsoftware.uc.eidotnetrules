@@ -44,7 +44,7 @@ namespace CastDotNetExtension
                if (TypeKind.Class == namedType.TypeKind || TypeKind.Struct == namedType.TypeKind) {
                   IList<TypeAttributes.ITypeAttribute> attributesKlazz = new List<TypeAttributes.ITypeAttribute>();
                   attributesKlazz = TypeAttributes.Get(namedType, attributesKlazz, new[] { TypeAttributes.AttributeType.Serializable });
-                  if (null != attributesKlazz) {
+                  if (null != attributesKlazz && attributesKlazz.Any()) {
                      ISymbol ctorSerializing = null;
                      bool serializationConstructorSecured = true;
                      bool regularConstructorSecured = true;
