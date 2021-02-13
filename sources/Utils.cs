@@ -15,7 +15,7 @@ namespace CastDotNetExtension.Utils {
    public class CommentUtils {
       public static IEnumerable<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null, int minimumLength = 0) {
          
-         var root = semanticModel.SyntaxTree.GetCompilationUnitRoot(cancellationToken) as CompilationUnitSyntax;
+         var root = semanticModel.SyntaxTree.GetRoot(cancellationToken) as CompilationUnitSyntax;
          var commentNodes = from node in root.DescendantTrivia()
                             where (node.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
                             node.IsKind(SyntaxKind.SingleLineCommentTrivia)) &&
