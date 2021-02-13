@@ -43,24 +43,26 @@ namespace CastDotNetExtension {
       private HashSet<SyntaxNode> _exceptionsThrown = new HashSet<SyntaxNode>();
       private Dictionary<String, Dictionary<SyntaxNode, ISymbol>> _exceptionsVars = new Dictionary<String, Dictionary<SyntaxNode, ISymbol>>();
 
-      private HashSet<INamedTypeSymbol> _exceptionTypes = new HashSet<INamedTypeSymbol>();
+      private Dictionary<INamedTypeSymbol, bool> _typeToIsException = new Dictionary<INamedTypeSymbol, bool>();
 
 
       private bool IsException(INamedTypeSymbol iTypeIn, INamedTypeSymbol systemException, INamedTypeSymbol systemObject) {
-         if (null != iTypeIn && null != systemException) {
-            if (_exceptionTypes.Contains(iTypeIn)) {
-               return true;
+         bool isException = false;
+         if (null != iTypeIn && null != systemException && null != systemObject) {
+            if (_typeToIsException.TryGetValue(iTypeIn, out isException)) {
+               return isException;
             }
             INamedTypeSymbol iType = iTypeIn;
             while (null != iType && systemObject != iType) {
                if (iType == systemException) {
-                  _exceptionTypes.Add(iTypeIn);  
-                  return true;
+                  isException = true;
+                  _typeToIsException[iTypeIn] = isException;
+                  break;
                }
                iType = iType.BaseType;
             }
          }
-         return false;
+         return isException;
       }
 
       private object _lock = new object();
@@ -152,7 +154,7 @@ namespace CastDotNetExtension {
                   _exceptionsNotThrown.Clear();
                   _exceptionsThrown.Clear();
                   _exceptionsVars.Clear();
-                  _exceptionTypes.Clear();
+                  _typeToIsException.Clear();
                }
 
             }
