@@ -107,6 +107,7 @@ namespace CastDotNetExtension {
                   if (null != throwStatement) {
                      var objectCreationSyntax = throwStatement.Expression as ObjectCreationExpressionSyntax;
                      if (null != objectCreationSyntax) {
+                        var parentKind = objectCreationSyntax.Parent.Kind();
                         if (_exceptionsNotThrown.Keys.Contains(objectCreationSyntax)) {
                            _exceptionsNotThrown.Remove(objectCreationSyntax);
                         }
@@ -150,7 +151,10 @@ namespace CastDotNetExtension {
                      AddViolation(_exceptionsNotThrown[exception], new FileLinePositionSpan[] { pos });
                   }
 
-
+                  Log.Info("_exceptionsNotThrown: " + _exceptionsNotThrown.Count);
+                  Log.Info("_exceptionsThrown: " + _exceptionsThrown.Count);
+                  Log.Info("_exceptionsVars: " + _exceptionsVars.Count);
+                  Log.Info("_typeToIsException: " + _typeToIsException.Count);
                   _exceptionsNotThrown.Clear();
                   _exceptionsThrown.Clear();
                   _exceptionsVars.Clear();
