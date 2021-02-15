@@ -33,6 +33,21 @@ namespace UnitTests.UnitTest.Sources {
 
          var o = new Object();
 
+         Exception varNotToThrow = null;
+         varNotToThrow = new InvalidOperationException();
+
+         try {
+            int i;
+         } catch (Exception e) {
+            throw;
+         }
+
+      }
+
+      private Exception _nullReferenceExceptionInitedLaterAndNotThrown = null;
+
+      void someOtherMethod() {
+         _nullReferenceExceptionInitedLaterAndNotThrown  = new NullReferenceException();
       }
 
    }

@@ -30,6 +30,8 @@ namespace UnitTests.UnitTest {
             .AddExpected(27, 9)
             .AddExpected(9, 37)
             .AddExpected(29, 13)
+            .AddExpected(35, 19)
+            .AddExpected(46, 24)
             .Validate();
 
          /// [TODO#13] Check the results
