@@ -19,7 +19,7 @@ namespace CastDotNetExtension {
        Id = "EI_TrackFIXMETags",
        Title = "Track uses of FIXME tags",
        MessageFormat = "Track uses of FIXME tags",
-       Category = "Documentation",
+       Category = "Documentation - Bad Comments",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.TrackFIXMETags"
    )]

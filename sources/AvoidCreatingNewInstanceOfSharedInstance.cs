@@ -19,7 +19,7 @@ namespace CastDotNetExtension {
        Id = "EI_AvoidCreatingNewInstanceOfSharedInstance",
        Title = "Avoid Creating New Instance Of Shared Instance",
        MessageFormat = "Avoid Creating New Instance Of Shared Instance",
-       Category = "Programmingn Practices - OO Inheritance and Polymorphism",
+       Category = "Programming Practices - OO Inheritance and Polymorphism",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingNewInstanceOfSharedInstance"
    )]

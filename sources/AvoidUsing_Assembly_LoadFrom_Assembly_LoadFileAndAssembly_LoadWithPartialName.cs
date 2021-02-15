@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName",
        Title = "Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName",
        MessageFormat = "Avoid using Assembly.LoadFrom, Assembly.LoadFile and Assembly.LoadWithPartialName",
-       Category = "Security",
+       Category = "Programming Practices - Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName"
    )]

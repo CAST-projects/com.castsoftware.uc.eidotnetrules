@@ -16,7 +16,7 @@ namespace CastDotNetExtension {
        Id = "EI_ChildClassFieldsShouldNotShadowParentClassFields",
        Title = "Child Class Fields Should Not Shadow Parent Class Fields",
        MessageFormat = "Child Class Fields Should Not Shadow Parent Class Fields",
-       Category = "Unexpected Behavior",
+       Category = "Programming Practices - OO Inheritance and Polymorphism",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.ChildClassFieldsShouldNotShadowParentClassFields"
    )]

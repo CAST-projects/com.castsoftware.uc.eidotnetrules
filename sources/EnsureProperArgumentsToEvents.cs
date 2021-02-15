@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_EnsureProperArgumentsToEvents",
        Title = "Ensure Proper Arguments To Events",
        MessageFormat = "Ensure Proper Arguments To Events",
-       Category = "Unexpected Behaviour",
+       Category = "Programming Practices - Error and Exception Handling",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.EnsureProperArgumentsToEvents"
    )]

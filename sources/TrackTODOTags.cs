@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_TrackTODOTags",
        Title = "Track TODO Tags",
        MessageFormat = "Track TODO Tags",
-       Category = "Comments - TODO",
+       Category = "Documentation - Bad Comments",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.TrackTODOTags"
    )]

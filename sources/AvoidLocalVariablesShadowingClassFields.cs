@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_AvoidLocalVariablesShadowingClassFields",
        Title = "Local Variables Shadowing Class Fields",
        MessageFormat = "Avoid Local Variables Shadowing Class Fields",
-       Category = "Unexpected Behavior",
+       Category = "Programming Practices - Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidLocalVariablesShadowingClassFields"
    )]

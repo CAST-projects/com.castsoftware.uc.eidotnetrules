@@ -19,7 +19,7 @@ namespace CastDotNetExtension
        Id = "EI_MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements",
        Title = "Merge adjacent try blocks with identical catch/finally statements",
        MessageFormat = "Merge adjacent try blocks with identical catch/finally statements",
-       Category = "Programming Practices - Exception and Error Handling",
+       Category = "Programming Practices - Error and Exception Handling",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements"
    )]

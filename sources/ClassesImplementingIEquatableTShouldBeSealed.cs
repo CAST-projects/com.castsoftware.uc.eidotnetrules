@@ -18,7 +18,7 @@ namespace CastDotNetExtension {
        Id = "EI_ClassesImplementingIEquatableTShouldBeSealed",
        Title = "Classes implementing \"IEquatable<T>\" should be sealed",
        MessageFormat = "Classes implementing \"IEquatable<T>\" should be sealed",
-       Category = "Programming Practices",
+       Category = "Programming Practices - OO Inheritance and Polymorphism",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.ClassesImplementingIEquatableTShouldBeSealed"
    )]

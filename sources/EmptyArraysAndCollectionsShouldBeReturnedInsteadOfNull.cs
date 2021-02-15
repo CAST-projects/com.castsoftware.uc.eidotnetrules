@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull",
        Title = "Empty arrays and collections should be returned instead of null",
        MessageFormat = "Empty arrays and collections should be returned instead of null",
-       Category = "Programming Practices",
+       Category = "Programming Practices - Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull"
    )]

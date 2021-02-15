@@ -17,7 +17,7 @@ namespace CastDotNetExtension {
        Id = "EI_AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention",
        Title = "Avoid methods named without following synchronous/asynchronous convention",
        MessageFormat = "Avoid methods named without following synchronous/asynchronous convention",
-       Category = "Naming Convention",
+       Category = "Documentation - Style Conformity",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention"
    )]

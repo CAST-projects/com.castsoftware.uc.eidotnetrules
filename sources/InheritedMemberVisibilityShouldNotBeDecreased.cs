@@ -16,7 +16,7 @@ namespace CastDotNetExtension {
        Id = "EI_InheritedMemberVisibilityShouldNotBeDecreased",
        Title = "Inherited member visibility should not be decreased",
        MessageFormat = "Inherited member visibility should not be decreased",
-       Category = "Unexpected Behavior",
+       Category = "Programming Practices - OO Inheritance and Polymorphism",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.InheritedMemberVisibilityShouldNotBeDecreased"
    )]
