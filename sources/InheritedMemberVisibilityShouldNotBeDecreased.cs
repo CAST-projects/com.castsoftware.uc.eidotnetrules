@@ -47,12 +47,7 @@ namespace CastDotNetExtension {
             var syntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
             //var signature = syntax.ToString();
             if (null != syntax) {
-               foreach (var token in syntax.Modifiers) {
-                  if ("new" == token.ToString()) {
-                     newedMethod = true;
-                     break;
-                  }
-               }
+               newedMethod = syntax.Modifiers.Contains(SyntaxFactory.Token(SyntaxKind.NewKeyword));
             }
          }
          return newedMethod;
