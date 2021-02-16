@@ -58,7 +58,7 @@ namespace CastDotNetExtension {
       private static string GetMethodSignature(IMethodSymbol method)
       {
          string signature = method.OriginalDefinition.ToString();
-         int index = signature.LastIndexOf("." + method.Name);
+         int index = signature.LastIndexOf("." + method.Name, StringComparison.Ordinal);
          if (-1 != index) {
             signature = signature.Substring(index);
          }

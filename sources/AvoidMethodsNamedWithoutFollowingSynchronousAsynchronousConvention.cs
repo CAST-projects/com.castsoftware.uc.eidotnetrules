@@ -33,7 +33,7 @@ namespace CastDotNetExtension {
          try {
             if (SymbolKind.Method == context.Symbol.Kind) {
                var method = context.Symbol as IMethodSymbol;
-               if (!method.ReturnsVoid && method.ReturnType is ITypeSymbol) {
+               if (!method.ReturnsVoid) {
                   var typeSymbol = method.ReturnType as ITypeSymbol;
                   var typeFullName = typeSymbol.ToString();
                   bool isAsync = typeFullName.StartsWith("System.Threading.Tasks.Task"); //method.IsAsync <=== is always false

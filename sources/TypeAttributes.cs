@@ -118,8 +118,6 @@ namespace CastDotNetExtension.Utils {
       public static IList<ITypeAttribute> Get(TypeDeclarationSyntax typeDeclaration,
          IList<ITypeAttribute> attributes, AttributeType[] attrs2Search = null) {
 
-         bool all = null == attrs2Search;
-
          if (typeDeclaration != null) {
             // get the contract type for each contract
             if (typeDeclaration.AttributeLists.Any()) {

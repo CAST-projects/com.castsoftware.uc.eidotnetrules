@@ -70,7 +70,7 @@ namespace CastDotNetExtension.Utils {
 
          IMethodSymbol method = context.IsOneOfMethods(candidateMethods, out invocation);
          if (null != method && null != invocation) {
-            int args = invocation.ArgumentList.Arguments.Count();
+            int args = invocation.ArgumentList.Arguments.Count;
             if (startArg < args) {
                for (int index = startArg; index < args; ++index) {
                   var argument = invocation.ArgumentList.Arguments.ElementAt(index);

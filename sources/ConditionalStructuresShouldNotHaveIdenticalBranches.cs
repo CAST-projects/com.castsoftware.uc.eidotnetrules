@@ -232,7 +232,7 @@ namespace CastDotNetExtension {
       private void AnalyzeConditionalBranches(SyntaxNodeAnalysisContext context, ConditionalExpressionSyntax conditionalExpr) {
          if (null != conditionalExpr && null != conditionalExpr.WhenFalse && null != conditionalExpr.WhenTrue) {
             if (conditionalExpr.WhenFalse.IsEquivalentTo(conditionalExpr.WhenTrue, true)) {
-               var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
+               //var pos = context.Node.SyntaxTree.GetMappedLineSpan(context.Node.Span);
                //Log.WarnFormat("{0}: {1}", context.ContainingSymbol.Name, pos);
                AddViolation(context);
             }
@@ -259,7 +259,6 @@ namespace CastDotNetExtension {
                if (null != iMethod && null != iMethod.DeclaringSyntaxReferences) {
                   foreach (var root in iMethod.DeclaringSyntaxReferences) {
                      var syntax = root.GetSyntax();
-                     var descendentNodes = syntax.DescendantNodes();
                      var statements = syntax.DescendantNodes().Where(s => s is IfStatementSyntax || s is SwitchStatementSyntax);
                      
                      foreach (var statement in statements) {

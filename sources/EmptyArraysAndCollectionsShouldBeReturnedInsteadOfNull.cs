@@ -53,7 +53,6 @@ namespace CastDotNetExtension {
                         foreach (var returnStatement in returnStatements) {
                            var retVal = returnStatement.Expression as LiteralExpressionSyntax;
                            if (null != retVal) {
-                              var strRetVal = retVal.ToString();
                               if ("null" == retVal.ToString()) {
                                  //Log.Warn(returnStatement.GetLocation().GetMappedLineSpan().ToString());
                                  violations.Add(returnStatement.GetLocation().GetMappedLineSpan());

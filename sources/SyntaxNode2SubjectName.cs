@@ -79,7 +79,6 @@ namespace CastDotNetExtension.Utils {
                         break;
                      }
                   case "LambdaExpressionSyntax": {
-                        var lambda = node as Microsoft.CodeAnalysis.CSharp.Syntax.LambdaExpressionSyntax;
                         name = "<lambda>";
                         break;
                      }

@@ -51,7 +51,6 @@ namespace CastDotNetExtension {
                         if (!_klazzToMembers.TryGetValue(fullname, out fields)) {
                            fields = new Dictionary<string, ISymbol>();
                            _klazzToMembers[fullname] = fields;
-                           string baseName = type.Name;
                            bool considerPrivateMembers = true;
                            do {
                               foreach (var member in type.GetMembers()) {

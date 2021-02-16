@@ -52,8 +52,6 @@ namespace CastDotNetExtension {
                var symbInf = model.GetSymbolInfo(context.Node);
                var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
                if (null != invokedMethod) {
-                  string nameInvoked = invokedMethod.Name;// get invocation method name
-                  var contSymb = invokedMethod.ContainingSymbol as INamedTypeSymbol;
                   var invocationNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.InvocationExpressionSyntax;
                   var SymbClass = context.ContainingSymbol.ContainingSymbol as INamedTypeSymbol;
 
