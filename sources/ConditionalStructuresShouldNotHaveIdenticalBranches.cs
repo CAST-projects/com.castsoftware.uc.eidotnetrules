@@ -148,7 +148,6 @@ namespace CastDotNetExtension {
                   areEquivalent = false;
                   break;
                } else {
-                  previousStatements = currentStatements;
                   areEquivalent = AreStatementsEquivalent(ifStatement, elseClause, firstTime, ref currentStatements, ref syntaxKinds);
                   if (!areEquivalent) {
                      break;
@@ -159,7 +158,6 @@ namespace CastDotNetExtension {
                   elseClause = ifStatement.Else as ElseClauseSyntax;
                   ifStatement = elseClause.Statement as IfStatementSyntax;
                } else if (null == ifStatement || null == ifStatement.Else) {
-                  elseClause = null;
                   break;
                }
 
