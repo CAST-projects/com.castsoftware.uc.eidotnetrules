@@ -47,7 +47,9 @@ namespace CastDotNetExtension {
             var syntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
             //var signature = syntax.ToString();
             if (null != syntax) {
-               newedMethod = syntax.Modifiers.Contains(SyntaxFactory.Token(SyntaxKind.NewKeyword));
+               newedMethod = syntax.Modifiers.FirstOrDefault(t => t.IsKind(SyntaxKind.NewKeyword)).
+                  //just silly. First will throw if not found. FirstOrDefault will return SyntaxKind.None.
+                  IsKind(SyntaxKind.NewKeyword);
             }
          }
          return newedMethod;
