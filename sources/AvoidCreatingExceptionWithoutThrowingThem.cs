@@ -189,7 +189,7 @@ namespace CastDotNetExtension {
 
                }
             } catch (Exception e) {
-               Log.Warn("Exception while analyzing operation " + context.Operation.ToString(), e);
+               Log.Warn("Exception while analyzing operation " + context.Operation, e);
             }
          }
       }
