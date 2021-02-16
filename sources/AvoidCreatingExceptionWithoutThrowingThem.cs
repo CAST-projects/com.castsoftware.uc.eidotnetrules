@@ -70,8 +70,7 @@ namespace CastDotNetExtension {
                      var syntaxTree = context.Operation.Syntax.SyntaxTree;
                      var root = syntaxTree.GetRoot(context.CancellationToken);
                      objectCreationOrThrowNodeCount =
-                        root.DescendantNodesAndSelf().Where(
-                        n => n.IsKind(SyntaxKind.ObjectCreationExpression) || n.IsKind(SyntaxKind.ThrowStatement)).Count();
+                        root.DescendantNodesAndSelf().Count(n => n.IsKind(SyntaxKind.ObjectCreationExpression) || n.IsKind(SyntaxKind.ThrowStatement));
                      _syntaxTreeRootToObjectCreationOrThrowNodeCount[syntaxTree] = objectCreationOrThrowNodeCount - 1;
                   }
                }
