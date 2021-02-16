@@ -46,7 +46,7 @@ namespace CastDotNetExtension {
 
       protected void VisitObjectCreation(SyntaxNode node, Compilation compilation,
          ref HashSet<string> sharedSymbols,
-         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators,
+         ref Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators,
          SemanticModel semanticModel) {
          var objectCreationSyntax = node as ObjectCreationExpressionSyntax;
          var typename = objectCreationSyntax.Type.ToString();
@@ -80,7 +80,7 @@ namespace CastDotNetExtension {
       }
 
 
-      protected void VisitInvocationExpression(SyntaxNode node, Compilation compilation, ref HashSet<String> creatorOrVariable) {
+      protected void VisitInvocationExpression(SyntaxNode node, Compilation compilation, ref HashSet<string> creatorOrVariable) {
 
          var invokeExpr = node as InvocationExpressionSyntax;
          
@@ -165,7 +165,7 @@ namespace CastDotNetExtension {
       }
 
       private void AddCreator(string creator, SyntaxNode creatorContainerSyntax, SyntaxNode creatorSyntax, ISymbol iSymbol,
-         ref Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
+         ref Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
          allCreators[creator] = new Tuple<SyntaxNode, SyntaxNode, ISymbol>(creatorContainerSyntax, creatorSyntax, iSymbol);
          WriteLine("AddCreator: " + creator);
       }
@@ -191,8 +191,8 @@ namespace CastDotNetExtension {
 
                      IEnumerable<SyntaxNode> nodes = context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => syntaxKinds.Contains(n.Kind()));
 
-                     HashSet<String> creatorOrVariables = new HashSet<string>();
-                     Dictionary<String, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
+                     HashSet<string> creatorOrVariables = new HashSet<string>();
+                     Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators = new Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>>();
 
                      foreach (var node in nodes) {
                         if (node is InvocationExpressionSyntax) {

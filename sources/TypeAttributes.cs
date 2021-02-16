@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CastDotNetExtension.Utils {
-   using AttributeArgumentType = Dictionary<String, SyntaxNode>;
+   using AttributeArgumentType = Dictionary<string, SyntaxNode>;
 
    class TypeAttributes {
 
@@ -20,34 +20,34 @@ namespace CastDotNetExtension.Utils {
       public interface ITypeAttribute {
 
          AttributeType Name { get; }
-         Dictionary<String, SyntaxNode> Arguments { get; }
+         Dictionary<string, SyntaxNode> Arguments { get; }
       }
 
       public abstract class TypeAttribute : ITypeAttribute {
          public AttributeType Name { get; private set; }
-         public Dictionary<String, SyntaxNode> Arguments { get; private set; }
+         public Dictionary<string, SyntaxNode> Arguments { get; private set; }
 
-         protected TypeAttribute(AttributeType type, Dictionary<String, SyntaxNode> arguments) {
+         protected TypeAttribute(AttributeType type, Dictionary<string, SyntaxNode> arguments) {
             Name = type;
             Arguments = arguments;
          }
       }
 
       public class Export : TypeAttribute {
-         public Export(Dictionary<String, SyntaxNode> arguments) :
+         public Export(Dictionary<string, SyntaxNode> arguments) :
             base(AttributeType.Export, arguments) {
          }
       }
 
       public class PartCreationPolicy : TypeAttribute {
-         public PartCreationPolicy(Dictionary<String, SyntaxNode> arguments) :
+         public PartCreationPolicy(Dictionary<string, SyntaxNode> arguments) :
             base(AttributeType.PartCreationPolicy, arguments) {
          }
       }
 
       public class Serializable : TypeAttribute
       {
-         public Serializable(Dictionary<String, SyntaxNode> arguments) :
+         public Serializable(Dictionary<string, SyntaxNode> arguments) :
             base(AttributeType.Serializable, arguments)
          {
          }
@@ -55,20 +55,20 @@ namespace CastDotNetExtension.Utils {
 
       public class FileIOPermissionAttribute : TypeAttribute
       {
-         public FileIOPermissionAttribute(Dictionary<String, SyntaxNode> arguments) :
+         public FileIOPermissionAttribute(Dictionary<string, SyntaxNode> arguments) :
             base(AttributeType.FileIOPermissionAttribute, arguments)
          {
          }
       }
 
       public class TypeAttributesAll {
-         public String ForType { get; private set; }
+         public string ForType { get; private set; }
 
          public SyntaxNode SyntaxNode { get; private set; }
 
          public IList<ITypeAttribute> Attributes { get; private set; }
 
-         internal TypeAttributesAll(String forType, SyntaxNode syntaxNode, IList<ITypeAttribute> attributes) {
+         internal TypeAttributesAll(string forType, SyntaxNode syntaxNode, IList<ITypeAttribute> attributes) {
             ForType = forType;
             SyntaxNode = syntaxNode;
             Attributes = attributes;

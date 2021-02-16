@@ -69,7 +69,7 @@ namespace CastDotNetExtension {
          return signature;
       }
 
-      private readonly Object _lock = new Object();
+      private readonly object _lock = new object();
 
       private Dictionary<string, IMethodSymbol> RetrieveClassMethods(INamedTypeSymbol klazz) {
          Dictionary<string, IMethodSymbol> methods = null;
@@ -104,7 +104,7 @@ namespace CastDotNetExtension {
                if (null != klazz && klazz.TypeKind == TypeKind.Class) {
                   Dictionary<string, IMethodSymbol> methods = RetrieveClassMethods(klazz);
                   if (null != methods && methods.Any()) {
-                     HashSet<String> foundMethods = new HashSet<string>();
+                     HashSet<string> foundMethods = new HashSet<string>();
                      do {
                         klazz = klazz.BaseType;
                         if (null != klazz && TypeKind.Class == klazz.TypeKind) {
@@ -160,7 +160,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
+               Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
       }

@@ -38,7 +38,7 @@ namespace CastDotNetExtension.Utils {
          return null;
       }
 
-      public static String getCSharp(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
+      public static string getCSharp(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
 
          string name = null;
          try {
@@ -94,7 +94,7 @@ namespace CastDotNetExtension.Utils {
       }
 
 
-      public static String get(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
+      public static string get(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
          return getCSharp(node, typeHandler);
       }
    }

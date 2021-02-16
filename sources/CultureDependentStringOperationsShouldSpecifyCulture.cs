@@ -21,7 +21,7 @@ namespace CastDotNetExtension {
    )]
    public class CultureDependentStringOperationsShouldSpecifyCulture : AbstractRuleChecker {
 
-      private static readonly HashSet<String> MethodNames = new HashSet<string> { 
+      private static readonly HashSet<string> MethodNames = new HashSet<string> { 
          "string.Compare(string, string)",
          "string.Compare(string, string, bool)",
          "string.Compare(string, int, string, int, int)",

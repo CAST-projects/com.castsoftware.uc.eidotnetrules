@@ -66,7 +66,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("Exception while analyzing " + String.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
+               Log.Warn("Exception while analyzing " + string.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
             }
          }
       }

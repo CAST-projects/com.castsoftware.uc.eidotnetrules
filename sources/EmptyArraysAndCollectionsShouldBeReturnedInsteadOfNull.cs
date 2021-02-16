@@ -34,7 +34,7 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(Analyze, SymbolKind.Method, SymbolKind.Property);
       }
 
-      private readonly Object _lock = new Object();
+      private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
             try {
@@ -73,7 +73,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
+               Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
       } 
