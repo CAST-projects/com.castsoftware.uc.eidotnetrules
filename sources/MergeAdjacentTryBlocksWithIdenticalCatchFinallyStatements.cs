@@ -36,19 +36,15 @@ namespace CastDotNetExtension
       private class FinallyCatchBlocksMatcher : CSharpSyntaxWalker
       {
          private int _nestingLevel = 0;
-         private Dictionary<int, SyntaxNode> _tryStatementsWithNestingLevel = new Dictionary<int, SyntaxNode>();
-         private Dictionary<SyntaxNode, List<SyntaxNode>> _tryStatementsWithEquivalentCatchFinallyBlocks = new Dictionary<SyntaxNode, List<SyntaxNode>>();
-         public Dictionary<SyntaxNode, List<SyntaxNode>> TryStatementsWithEquivalentCatchFinallyBlocks {
-            get {
-               return _tryStatementsWithEquivalentCatchFinallyBlocks;
-            }
-         }
+         private Dictionary<int, SyntaxNode> TryStatementsWithNestingLevel { get; set; } = new Dictionary<int, SyntaxNode>();
+         public Dictionary<SyntaxNode, List<SyntaxNode>> TryStatementsWithEquivalentCatchFinallyBlocks { get; private set; } 
+            = new Dictionary<SyntaxNode, List<SyntaxNode>>();
          
          public override void Visit(SyntaxNode node) {
             if (SyntaxKind.TryStatement == node.Kind()) {
                _nestingLevel++;
                SyntaxNode tryStatementNode = null;
-               if (_tryStatementsWithNestingLevel.TryGetValue(_nestingLevel, out tryStatementNode)) {
+               if (TryStatementsWithNestingLevel.TryGetValue(_nestingLevel, out tryStatementNode)) {
                   TryStatementSyntax currTryStatement = node as TryStatementSyntax;
                   TryStatementSyntax prevTryStatement = tryStatementNode as TryStatementSyntax;
                   if (null != currTryStatement && null != prevTryStatement) {
@@ -95,20 +91,20 @@ namespace CastDotNetExtension
                         
                         if (areEquivalent) {
                            List<SyntaxNode> equivalentOnes = null;
-                           if (!_tryStatementsWithEquivalentCatchFinallyBlocks.TryGetValue(prevTryStatement, out equivalentOnes)) {
+                           if (!TryStatementsWithEquivalentCatchFinallyBlocks.TryGetValue(prevTryStatement, out equivalentOnes)) {
                               equivalentOnes = new List<SyntaxNode>();
-                              _tryStatementsWithEquivalentCatchFinallyBlocks[prevTryStatement] = equivalentOnes;
+                              TryStatementsWithEquivalentCatchFinallyBlocks[prevTryStatement] = equivalentOnes;
                            }
                            equivalentOnes.Add(node);
                         } else {
-                           _tryStatementsWithNestingLevel[_nestingLevel] = node;
+                           TryStatementsWithNestingLevel[_nestingLevel] = node;
                         }
                      } else {
-                        _tryStatementsWithNestingLevel[_nestingLevel] = node;
+                        TryStatementsWithNestingLevel[_nestingLevel] = node;
                      }
                   }
                } else {
-                  _tryStatementsWithNestingLevel[_nestingLevel] = node;
+                  TryStatementsWithNestingLevel[_nestingLevel] = node;
                }
             }
 
