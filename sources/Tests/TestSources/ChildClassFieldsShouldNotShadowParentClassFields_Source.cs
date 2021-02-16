@@ -23,20 +23,31 @@ namespace UnitTests.UnitTest.Sources {
 
     public abstract class PropertyCases
     {
-       public abstract bool AbstractBool { get; set; }
-       public virtual bool VirtualBool { get; set; }
-       public virtual bool VirtualBoolNewedInDerived { get; set; }
-       public bool SimplePropertyNewedInDerived { get; set; }
-       public bool SimplePropertyHiddenInDerived { get; set; }
+       public abstract bool AbstractBoolOK { get; set; }
+       public virtual bool VirtualBoolOK { get; set; }
+       public virtual bool VirtualBoolNewedInDerivedOK { get; set; }
+       public bool SimplePropertyNewedInDerivedOK { get; set; }
+       public bool SimplePropertyHiddenInDerivedKO { get; set; }
+       public bool PropertyHiddenByPlainFieldKO { get; set; }
+       public bool fieldHiddenByPropertyKO = false;
     }
 
     public class PropertyCasesDerived : PropertyCases
     {
-       public override bool AbstractBool { get; set; }
-       public override bool VirtualBool { get; set; }
-       public new bool VirtualBoolNewedInDerived { get; set; }
-       public new bool SimplePropertyNewedInDerived { get; set; }
-       public bool SimplePropertyHiddenInDerived { get; set; }
+       public override bool AbstractBoolOK { get; set; }
+       public override bool VirtualBoolOK { get; set; }
+       public new bool VirtualBoolNewedInDerivedOK { get; set; }
+       public new bool SimplePropertyNewedInDerivedOK { get; set; }
+       public bool SimplePropertyHiddenInDerivedKO { get; set; }
+       public bool PropertyHiddenByPlainFieldKO = false;
+       public bool FieldHiddenByPropertyKO { get; set; }
+       protected bool _propertyValue = false;
+       public bool AProp { get { return _propertyValue; } }
+    }
+
+    public class PropertyCasesDerived2 : PropertyCasesDerived
+    {
+       protected int _propertyValue = 0;
     }
 
    }

@@ -36,6 +36,44 @@ namespace CastDotNetExtension {
       }
 
       private object _lock = new object();
+
+      private void ProcessField(ISymbol field, Dictionary<string, ISymbol> fields, bool isTargetClass) {
+         string fieldName = field.Name.ToLower();
+         //Log.WarnFormat("Field Name: {0}", fieldName);
+         if (isTargetClass) {
+            fields[fieldName] = field;
+         } else if (fields.ContainsKey(fieldName)) {
+            var fieldSymbol = fields[fieldName];
+            var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
+            var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+            //Log.InfoFormat("Field: {0} Main Pos: {1} Additional Pos: {2}", fieldSymbol.Name, mainPos.ToString(), additionalPos.ToString());
+            AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
+         }
+
+      }
+
+      private bool ProcessAssociatedProperty(IFieldSymbol fieldMaybeProp, Dictionary<string, ISymbol> fields, bool isTargetClass) {
+         if (null != fieldMaybeProp.AssociatedSymbol && SymbolKind.Property == fieldMaybeProp.AssociatedSymbol.Kind) {
+            var prop = fieldMaybeProp.AssociatedSymbol as IPropertySymbol;
+            if (prop.IsAbstract || prop.IsVirtual || prop.IsOverride) {
+               return true;
+            }
+            var propDeclSyntax = prop.DeclaringSyntaxReferences.FirstOrDefault().GetSyntax();
+            if (null != propDeclSyntax && propDeclSyntax is PropertyDeclarationSyntax) {
+               bool isNewed = (propDeclSyntax as PropertyDeclarationSyntax).Modifiers.
+                  FirstOrDefault(t => t.IsKind(SyntaxKind.NewKeyword)).
+                  //just silly. First will throw if not found. FirstOrDefault will return SyntaxKind.None.
+                  IsKind(SyntaxKind.NewKeyword);
+               if (isNewed) {
+                  return true;
+               }
+            }
+            ProcessField(fieldMaybeProp.AssociatedSymbol, fields, isTargetClass);
+            return true;
+         }
+         return false;
+      }
+
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
             try {
@@ -44,42 +82,13 @@ namespace CastDotNetExtension {
                   Dictionary<string, ISymbol> fields = new Dictionary<string, ISymbol>();
                   bool isTargetClass = true;
                   do {
-                     foreach (var member in klazz.GetMembers()) {
-                        if (SymbolKind.Field != member.Kind) {
-                           continue;
-                        }
-                        var field = member as IFieldSymbol;
-                        if (null != field) {
-                           if (null != field.AssociatedSymbol && SymbolKind.Property == field.AssociatedSymbol.Kind) {
-                              var prop = field.AssociatedSymbol as IPropertySymbol;
-                              if (prop.IsAbstract || prop.IsVirtual || prop.IsOverride) {
-                                 continue;
-                              }
-                              var propDeclSyntax = prop.DeclaringSyntaxReferences.FirstOrDefault().GetSyntax();
-                              if (null != propDeclSyntax && propDeclSyntax is PropertyDeclarationSyntax) {
-                                 bool isNewed = (propDeclSyntax as PropertyDeclarationSyntax).Modifiers.
-                                    FirstOrDefault(t => t.IsKind(SyntaxKind.NewKeyword)).
-                                    //just silly. First will throw if not found. FirstOrDefault will return SyntaxKind.None.
-                                    IsKind(SyntaxKind.NewKeyword);
-                                 if (isNewed) {
-                                    continue;
-                                 }
-                              }
-                           }
-
-                           string fieldName = field.Name.ToLower();
-                           //Log.WarnFormat("Field Name: {0}", fieldName);
-                           if (isTargetClass) {
-                              fields[fieldName] = field;
-                           } else if (fields.ContainsKey(fieldName)) {
-                              var fieldSymbol = fields[fieldName];
-                              var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                              var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                              //Log.WarnFormat("Main Pos: {0} Additional Pos: ", mainPos.ToString(), additionalPos.ToString());
-                              AddViolation(fieldSymbol, new List<FileLinePositionSpan>() { mainPos, additionalPos });
-                           }
+                     foreach (var field in klazz.GetMembers().OfType<IFieldSymbol>()) {
+                        if (!ProcessAssociatedProperty(field, fields, isTargetClass) ||
+                           !field.IsImplicitlyDeclared) {
+                           ProcessField(field, fields, isTargetClass);
                         }
                      }
+                     
                      if (!fields.Any()) {
                         break;
                      }
