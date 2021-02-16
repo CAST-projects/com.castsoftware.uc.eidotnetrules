@@ -6,7 +6,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension
 {

@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using CastDotNetExtension.Utils;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -72,7 +71,7 @@ namespace CastDotNetExtension {
                   }
                }
             }
-            catch (System.Exception e) {
+            catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
          }

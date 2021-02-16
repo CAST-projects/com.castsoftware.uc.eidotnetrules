@@ -87,7 +87,7 @@ namespace CastDotNetExtension.Utils {
             }
          }
          catch (Exception e) {
-            System.Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message);
          }
          return name;
       }

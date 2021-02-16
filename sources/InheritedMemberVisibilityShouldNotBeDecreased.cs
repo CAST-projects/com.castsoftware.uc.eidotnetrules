@@ -155,7 +155,7 @@ namespace CastDotNetExtension {
                   }
                }
             }
-            catch (System.Exception e) {
+            catch (Exception e) {
                HashSet<string> filePaths = new HashSet<string>();
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
@@ -173,9 +173,9 @@ namespace CastDotNetExtension {
                _klazzToMembers.Clear();
                base.Reset();
             }
-            catch (System.Exception e) {
-               System.Console.WriteLine(e.Message);
-               System.Console.WriteLine(e.StackTrace);
+            catch (Exception e) {
+               Console.WriteLine(e.Message);
+               Console.WriteLine(e.StackTrace);
             }
          }
       }

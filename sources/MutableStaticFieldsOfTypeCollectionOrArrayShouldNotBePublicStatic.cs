@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
 
 
 namespace CastDotNetExtension {
@@ -64,7 +63,7 @@ namespace CastDotNetExtension {
                   }
                }
             }
-            catch (System.Exception e) {
+            catch (Exception e) {
                HashSet<string> filePaths = new HashSet<string>();
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
