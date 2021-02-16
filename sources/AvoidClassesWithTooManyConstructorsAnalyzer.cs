@@ -30,7 +30,7 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(this.Analyze, SyntaxKind.ClassDeclaration);
+            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration);
         }
 
         private object _lock = new object();

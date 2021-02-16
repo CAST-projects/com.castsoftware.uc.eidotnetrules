@@ -30,7 +30,7 @@ namespace CastDotNetExtension
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSymbolAction(this.Analyze, SymbolKind.Method);
+         context.RegisterSymbolAction(Analyze, SymbolKind.Method);
       }
 
       private class FinallyCatchBlocksMatcher : CSharpSyntaxWalker

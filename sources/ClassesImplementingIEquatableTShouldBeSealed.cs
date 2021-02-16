@@ -26,7 +26,7 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSymbolAction(this.AnalyzeClass, SymbolKind.NamedType);
+         context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
       private IEnumerable<IMethodSymbol> GetEqualsMethods(INamedTypeSymbol klazz, bool onlyOverride = true) {

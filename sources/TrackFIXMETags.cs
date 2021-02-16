@@ -26,7 +26,7 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSemanticModelAction(this.AnalyzeCommentsUsingSemanticModel);
+         context.RegisterSemanticModelAction(AnalyzeCommentsUsingSemanticModel);
       }
 
       private object _lock = new object();

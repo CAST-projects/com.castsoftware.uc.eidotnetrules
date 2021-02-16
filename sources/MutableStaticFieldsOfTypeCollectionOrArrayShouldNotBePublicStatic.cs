@@ -25,7 +25,7 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSymbolAction(this.Analyze, SymbolKind.NamedType);
+         context.RegisterSymbolAction(Analyze, SymbolKind.NamedType);
       }
 
       private object _lock = new object();

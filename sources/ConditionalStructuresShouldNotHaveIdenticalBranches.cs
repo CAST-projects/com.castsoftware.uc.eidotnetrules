@@ -28,8 +28,8 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSyntaxNodeAction(this.AnalyzeBranches, SyntaxKind.ConditionalExpression);
-         context.RegisterSymbolAction(this.OnMethodEnd, SymbolKind.Method);
+         context.RegisterSyntaxNodeAction(AnalyzeBranches, SyntaxKind.ConditionalExpression);
+         context.RegisterSymbolAction(OnMethodEnd, SymbolKind.Method);
       }
 
       private BlockSyntax GetBlock(dynamic blockOrExprs) {

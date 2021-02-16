@@ -25,7 +25,7 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSyntaxNodeAction(this.Analyze, SyntaxKind.BitwiseOrExpression);
+         context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.BitwiseOrExpression);
       }
 
       private object _lock = new object();

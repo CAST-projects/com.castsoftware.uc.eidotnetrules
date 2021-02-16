@@ -36,7 +36,7 @@ namespace CastDotNetExtension {
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
          //TODO: register for events
-         context.RegisterSymbolAction(this.AnalyzeClass, SymbolKind.NamedType);
+         context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
       private bool isNewedMethod(IMethodSymbol method) {

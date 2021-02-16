@@ -39,7 +39,7 @@ namespace CastDotNetExtension {
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
          //TODO: register for events
-         context.RegisterSyntaxNodeAction(this.Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
+         context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
       }
 
       private object _lock = new object();

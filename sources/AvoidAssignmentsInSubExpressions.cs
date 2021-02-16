@@ -29,7 +29,7 @@ namespace CastDotNetExtension
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSyntaxNodeAction(this.Analyze, SyntaxKind.IfStatement, SyntaxKind.SwitchStatement, SyntaxKind.InvocationExpression, SyntaxKind.ObjectCreationExpression);
+         context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.IfStatement, SyntaxKind.SwitchStatement, SyntaxKind.InvocationExpression, SyntaxKind.ObjectCreationExpression);
       }
 
       private bool HasAssignment(ExpressionSyntax expr, ref IEnumerable<SyntaxNode> expressions) {
