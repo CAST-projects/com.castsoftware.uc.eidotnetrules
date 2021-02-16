@@ -88,13 +88,12 @@ namespace CastDotNetExtension {
             var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
             if (null != semanticModel) {
                var iSymbol = semanticModel.GetSymbolInfo(invokeExpr.Expression).Symbol;
-               if (iSymbol is IMethodSymbol) {
-                  var invokedMethod = iSymbol as IMethodSymbol;
+               var invokedMethod = iSymbol as IMethodSymbol;
+               if (invokedMethod != null) {
                   if (MethodKind.Ordinary == invokedMethod.MethodKind) {
                      if (IsAddServiceMethod(invokedMethod)) {
-                        var invocationExpression = node as InvocationExpressionSyntax;
-                        if (2 <= invocationExpression.ArgumentList.Arguments.Count) {
-                           var argument = invocationExpression.ArgumentList.Arguments[1];
+                        if (2 <= invokeExpr.ArgumentList.Arguments.Count) {
+                           var argument = invokeExpr.ArgumentList.Arguments[1];
                            var identifierNameSyntax = getIdentifierNameSyntax(argument);
                            if (null != identifierNameSyntax) {
                               string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
