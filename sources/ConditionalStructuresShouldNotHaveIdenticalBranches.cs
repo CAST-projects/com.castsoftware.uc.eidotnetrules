@@ -135,7 +135,6 @@ namespace CastDotNetExtension {
             ElseClauseSyntax elseClause = null;
             bool areEquivalent = true;
             List<StatementSyntax> currentStatements = null;
-            List<StatementSyntax> previousStatements = null;
             List<SyntaxKind> syntaxKinds = null;
             bool firstTime = true;
             do {
