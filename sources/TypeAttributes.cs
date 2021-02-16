@@ -24,18 +24,12 @@ namespace CastDotNetExtension.Utils {
       }
 
       public abstract class TypeAttribute : ITypeAttribute {
-         public AttributeType Name {
-            get { return _type; }
-         }
-         public Dictionary<String, SyntaxNode> Arguments {
-            get { return _arguments; }
-         }
+         public AttributeType Name { get; private set; }
+         public Dictionary<String, SyntaxNode> Arguments { get; private set; }
 
-         private Dictionary<String, SyntaxNode> _arguments;
-         private AttributeType _type;
          public TypeAttribute(AttributeType type, Dictionary<String, SyntaxNode> arguments) {
-            _type = type;
-            _arguments = arguments;
+            Name = type;
+            Arguments = arguments;
          }
       }
 
@@ -68,22 +62,16 @@ namespace CastDotNetExtension.Utils {
       }
 
       public class TypeAttributesAll {
-         public String ForType {
-            get { return _forType; }
-         }
-         public SyntaxNode SyntaxNode {
-            get { return _syntaxNode; }
-         }
-         public IList<ITypeAttribute> Attributes {
-            get { return _attributes; }
-         }
-         private String _forType;
-         private SyntaxNode _syntaxNode;
-         private IList<ITypeAttribute> _attributes;
+         public String ForType { get; private set; }
+
+         public SyntaxNode SyntaxNode { get; private set; }
+
+         public IList<ITypeAttribute> Attributes { get; private set; }
+
          internal TypeAttributesAll(String forType, SyntaxNode syntaxNode, IList<ITypeAttribute> attributes) {
-            _forType = forType;
-            _syntaxNode = syntaxNode;
-            _attributes = attributes;
+            ForType = forType;
+            SyntaxNode = syntaxNode;
+            Attributes = attributes;
          }
       }
 
