@@ -55,8 +55,9 @@ namespace CastDotNetExtension
                      if (currTryStatement.Catches.Count == prevTryStatement.Catches.Count &&
                         (null != currTryStatement.Finally) == (null != prevTryStatement.Finally)) {
                         bool areEquivalent = true;
-                        if (null != currTryStatement.Finally &&
-                           !currTryStatement.Finally.Block.IsEquivalentTo(prevTryStatement.Finally.Block)) {
+                        if (prevTryStatement.Finally != null 
+                            && null != currTryStatement.Finally 
+                            && !currTryStatement.Finally.Block.IsEquivalentTo(prevTryStatement.Finally.Block)) {
                            areEquivalent = false;
                         }
 
