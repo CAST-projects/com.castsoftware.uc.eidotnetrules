@@ -37,17 +37,17 @@ namespace CastDotNetExtension {
 
                var finalizer = context.ContainingSymbol as IMethodSymbol;
                if (null != finalizer && MethodKind.Destructor == finalizer.MethodKind) {
-                     var body = context.Node as BlockSyntax;                  
-                     if (null != body) {
+                  var body = context.Node as BlockSyntax;                  
+                  if (null != body) {
 
-                        var statements = body.WithoutTrivia().Statements.Where(statement => !statement.ToString().StartsWith("Debug.Fail"));
-                        if (!statements.Any()) {
-                           var pos = context.ContainingSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                           //Log.Warn(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
-                           AddViolation(context.ContainingSymbol, new FileLinePositionSpan [] {pos});
-                        }
+                     var statements = body.WithoutTrivia().Statements.Where(statement => !statement.ToString().StartsWith("Debug.Fail"));
+                     if (!statements.Any()) {
+                        var pos = context.ContainingSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
+                        //Log.Warn(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
+                        AddViolation(context.ContainingSymbol, new FileLinePositionSpan [] {pos});
                      }
                   }
+               }
             }
             catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);

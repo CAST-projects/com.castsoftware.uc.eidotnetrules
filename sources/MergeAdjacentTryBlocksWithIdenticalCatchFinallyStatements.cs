@@ -36,9 +36,14 @@ namespace CastDotNetExtension
       private class FinallyCatchBlocksMatcher : CSharpSyntaxWalker
       {
          private int _nestingLevel = 0;
-         private Dictionary<int, SyntaxNode> TryStatementsWithNestingLevel { get; set; } = new Dictionary<int, SyntaxNode>();
-         public Dictionary<SyntaxNode, List<SyntaxNode>> TryStatementsWithEquivalentCatchFinallyBlocks { get; private set; } 
-            = new Dictionary<SyntaxNode, List<SyntaxNode>>();
+         private Dictionary<int, SyntaxNode> TryStatementsWithNestingLevel { get; set; }
+         public Dictionary<SyntaxNode, List<SyntaxNode>> TryStatementsWithEquivalentCatchFinallyBlocks { get; private set; }
+
+         public FinallyCatchBlocksMatcher()
+         {
+            TryStatementsWithNestingLevel = new Dictionary<int, SyntaxNode>();
+            TryStatementsWithEquivalentCatchFinallyBlocks = new Dictionary<SyntaxNode, List<SyntaxNode>>();
+         }
          
          public override void Visit(SyntaxNode node) {
             if (SyntaxKind.TryStatement == node.Kind()) {
@@ -128,7 +133,7 @@ namespace CastDotNetExtension
 
                      foreach (var firstTry in walker.TryStatementsWithEquivalentCatchFinallyBlocks.Keys) {
                         var lastTry = walker.TryStatementsWithEquivalentCatchFinallyBlocks[firstTry].Last() as TryStatementSyntax;
-                        SyntaxNode endBlock = null != lastTry.Finally ? (SyntaxNode)lastTry.Finally : (SyntaxNode)lastTry.Catches.Last();
+                        SyntaxNode endBlock = null != lastTry.Finally ? lastTry.Finally : lastTry.Catches.Last();
                         var pos = new FileLinePositionSpan(firstTry.SyntaxTree.FilePath,
                            firstTry.GetLocation().GetLineSpan().StartLinePosition,
                            endBlock.GetLocation().GetLineSpan().EndLinePosition);
