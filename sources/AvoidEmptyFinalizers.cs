@@ -40,7 +40,7 @@ namespace CastDotNetExtension {
                      var body = context.Node as BlockSyntax;                  
                      if (null != body) {
 
-                        var statements = body.WithoutTrivia().Statements.Where(statement => !statement.ToString().StartsWith("Debug.Fail")); ;
+                        var statements = body.WithoutTrivia().Statements.Where(statement => !statement.ToString().StartsWith("Debug.Fail"));
                         if (!statements.Any()) {
                            var pos = context.ContainingSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
                            //Log.Warn(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
