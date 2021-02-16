@@ -198,16 +198,16 @@ namespace CastDotNetExtension {
             
             var pos = switchStatement.SyntaxTree.GetMappedLineSpan(switchStatement.Span);
 
-            List<StatementSyntax> currentStatements = null;
-            List<StatementSyntax> previousStatements = null;
             bool areEquivalent = false;
 
             List<SyntaxKind> syntaxKinds = null;
 
             if (1 < switchStatement.Sections.Count && switchStatement.Sections.Any(section => section.Labels.Any(SyntaxKind.DefaultSwitchLabel))) {
+               List<StatementSyntax> currentStatements = null;
+
                foreach (var section in switchStatement.Sections) {
 
-                  previousStatements = currentStatements;
+                  var previousStatements = currentStatements;
                   currentStatements = GetBlockStatements(section, ref syntaxKinds);
                   if (null != previousStatements) {
                      if (null != currentStatements && AreStatementsEquivalent(currentStatements, previousStatements)) {

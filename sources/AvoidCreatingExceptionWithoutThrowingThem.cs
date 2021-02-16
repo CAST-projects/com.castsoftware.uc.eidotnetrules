@@ -170,15 +170,8 @@ namespace CastDotNetExtension {
                   }
                   _throws.Clear();
 
-                  ISymbol violatingSymbol = null;
                   foreach (var exceptionVar in _exceptionVars) {
-
-                     if (exceptionVar is IFieldSymbol) {
-                        violatingSymbol = exceptionVar;
-                     } else {
-                        violatingSymbol = exceptionVar.ContainingSymbol;
-                     }
-
+                     ISymbol violatingSymbol = exceptionVar is IFieldSymbol ? exceptionVar : exceptionVar.ContainingSymbol;
                      var pos = exceptionVar.Locations.FirstOrDefault().GetMappedLineSpan();
                      AddViolation(violatingSymbol, new FileLinePositionSpan[] { pos });
                   }

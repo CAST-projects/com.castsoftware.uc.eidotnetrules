@@ -54,10 +54,9 @@ namespace CastDotNetExtension.Utils {
       }
 
       public static IMethodSymbol IsOneOfMethods(this SyntaxNodeAnalysisContext context, HashSet<IMethodSymbol> candidateMethods, out InvocationExpressionSyntax invocation) {
-         IMethodSymbol method = null;
          invocation = context.Node as InvocationExpressionSyntax;
          if (null != invocation) {
-            method = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+            var method = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
             if (candidateMethods.Contains(method)) {
                return method;
             }
