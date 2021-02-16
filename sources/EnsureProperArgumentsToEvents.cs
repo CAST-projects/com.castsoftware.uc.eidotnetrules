@@ -31,10 +31,6 @@ namespace CastDotNetExtension {
       private static IMethodSymbol _EventHandlerWithArgsInvokeMethodSymbols = null;
       private static INamedTypeSymbol _EventArgSymbols = null;
 
-      public EnsureProperArgumentsToEvents()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

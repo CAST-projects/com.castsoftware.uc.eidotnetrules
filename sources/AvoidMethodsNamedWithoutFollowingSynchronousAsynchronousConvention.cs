@@ -18,9 +18,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention"
    )]
    public class AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention : AbstractRuleChecker {
-      public AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention()
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

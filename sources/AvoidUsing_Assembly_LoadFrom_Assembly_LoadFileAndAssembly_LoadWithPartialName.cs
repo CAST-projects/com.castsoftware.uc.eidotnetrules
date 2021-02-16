@@ -33,10 +33,6 @@ namespace CastDotNetExtension {
         };
 
       private static HashSet<IMethodSymbol> _methodSymbols = null;
-      public AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       private CompilationType _typeCompilation = CompilationType.None;
 

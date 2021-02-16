@@ -23,9 +23,6 @@ namespace CastDotNetExtension
    )]
    public class MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements : AbstractRuleChecker
    {
-      public MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements() :
-         base(ViolationCreationMode.ViolationWithAdditionalBookmarks) {
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

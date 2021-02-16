@@ -22,8 +22,6 @@ namespace CastDotNetExtension
    )]
    public class AvoidAssignmentsInSubExpressions : AbstractRuleChecker
    {
-      public AvoidAssignmentsInSubExpressions() {
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

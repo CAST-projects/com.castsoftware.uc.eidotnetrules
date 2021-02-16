@@ -21,8 +21,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidCreatingNewInstanceOfSharedInstance"
    )]
    public class AvoidCreatingNewInstanceOfSharedInstance : AbstractRuleChecker {
-      public AvoidCreatingNewInstanceOfSharedInstance() {
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

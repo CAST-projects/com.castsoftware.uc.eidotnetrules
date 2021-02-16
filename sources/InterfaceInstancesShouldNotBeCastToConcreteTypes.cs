@@ -19,10 +19,6 @@ namespace CastDotNetExtension {
    )]
    public class InterfaceInstancesShouldNotBeCastToConcreteTypes : AbstractRuleChecker {
       
-      public InterfaceInstancesShouldNotBeCastToConcreteTypes()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

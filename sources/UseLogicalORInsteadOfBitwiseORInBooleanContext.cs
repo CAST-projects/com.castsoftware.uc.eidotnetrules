@@ -18,10 +18,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.UseLogicalORInsteadOfBitwiseORInBooleanContext"
    )]
    public class UseLogicalORInsteadOfBitwiseORInBooleanContext : AbstractRuleChecker {
-      public UseLogicalORInsteadOfBitwiseORInBooleanContext()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

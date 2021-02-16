@@ -17,8 +17,6 @@ namespace CastDotNetExtension {
    )]
    public class TrackTODOTags : AbstractRuleChecker {
       private static readonly Regex TODO = new Regex("(?i)^(//|/\\*)[ \t]*todo\\b");
-      public TrackTODOTags() {
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

@@ -21,8 +21,6 @@ namespace CastDotNetExtension
    )]
    public class EnsureConstructorsOfSerializableClassesAreSecure : AbstractRuleChecker
    {
-      public EnsureConstructorsOfSerializableClassesAreSecure() {
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

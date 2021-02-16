@@ -19,10 +19,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidCreatingExceptionWithoutThrowingThem"
    )]
    public class AvoidCreatingExceptionWithoutThrowingThem : AbstractRuleChecker {
-      public AvoidCreatingExceptionWithoutThrowingThem()
-        {
-        }
-
 
         /// <summary>
         /// Initialize the QR with the given context and register all the syntax nodes

@@ -19,10 +19,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidRecursiveTypeInheritance"
    )]
    public class AvoidRecursiveTypeInheritance : AbstractRuleChecker {
-      public AvoidRecursiveTypeInheritance()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

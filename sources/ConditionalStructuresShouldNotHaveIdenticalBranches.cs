@@ -21,10 +21,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.ConditionalStructuresShouldNotHaveIdenticalBranches"
    )]
    public class ConditionalStructuresShouldNotHaveIdenticalBranches : AbstractRuleChecker {
-      public ConditionalStructuresShouldNotHaveIdenticalBranches()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

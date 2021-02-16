@@ -47,11 +47,6 @@ namespace CastDotNetExtension {
       private HashSet<IMethodSymbol> _methodSymbols = null;
       private HashSet<INamedTypeSymbol> _cultureArgTypes = new HashSet<INamedTypeSymbol>();
 
-      public CultureDependentStringOperationsShouldSpecifyCulture()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
-
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
       /// to listen during the visit and provide a specific callback for each one

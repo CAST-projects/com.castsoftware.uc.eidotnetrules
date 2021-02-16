@@ -19,9 +19,6 @@ namespace CastDotNetExtension {
    )]
    public class TrackFIXMETags : AbstractRuleChecker {
       private static readonly Regex FIXME = new Regex("(?i)^(//|/\\*)[ \t]*fixme\\b");
-      public TrackFIXMETags() {
-
-      }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes

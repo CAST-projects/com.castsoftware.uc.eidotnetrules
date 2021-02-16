@@ -20,10 +20,6 @@ namespace CastDotNetExtension {
        CastProperty = "EIDotNetQualityRules.AvoidEmptyFinalizers"
    )]
    public class AvoidEmptyFinalizers : AbstractRuleChecker {
-      public AvoidEmptyFinalizers()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
-        {
-        }
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
