@@ -164,11 +164,11 @@ namespace CastDotNetExtension {
          }
 
          if (null == _EventHandlerInvokeMethodSymbols && null != _EventHandlerSymbols) {
-            _EventHandlerInvokeMethodSymbols = _EventHandlerSymbols.GetMembers().OfType<IMethodSymbol>().Where(m => "Invoke" == m.Name).FirstOrDefault();
+            _EventHandlerInvokeMethodSymbols = _EventHandlerSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
          }
 
          if (null == _EventHandlerWithArgsInvokeMethodSymbols && null != _EventHandlerWithArgsSymbols) {
-            _EventHandlerWithArgsInvokeMethodSymbols = _EventHandlerWithArgsSymbols.GetMembers().OfType<IMethodSymbol>().Where(m => "Invoke" == m.Name).FirstOrDefault();
+            _EventHandlerWithArgsInvokeMethodSymbols = _EventHandlerWithArgsSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
          }
       }
    }
