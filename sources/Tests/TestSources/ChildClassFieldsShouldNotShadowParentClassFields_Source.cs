@@ -21,5 +21,23 @@ namespace UnitTests.UnitTest.Sources {
 
       }
 
+    public abstract class PropertyCases
+    {
+       public abstract bool AbstractBool { get; set; }
+       public virtual bool VirtualBool { get; set; }
+       public virtual bool VirtualBoolNewedInDerived { get; set; }
+       public bool SimplePropertyNewedInDerived { get; set; }
+       public bool SimplePropertyHiddenInDerived { get; set; }
+    }
+
+    public class PropertyCasesDerived : PropertyCases
+    {
+       public override bool AbstractBool { get; set; }
+       public override bool VirtualBool { get; set; }
+       public new bool VirtualBoolNewedInDerived { get; set; }
+       public new bool SimplePropertyNewedInDerived { get; set; }
+       public bool SimplePropertyHiddenInDerived { get; set; }
+    }
+
    }
 }

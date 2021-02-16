@@ -45,14 +45,33 @@ namespace CastDotNetExtension {
                   bool isTargetClass = true;
                   do {
                      foreach (var member in klazz.GetMembers()) {
+                        if (SymbolKind.Field != member.Kind) {
+                           continue;
+                        }
                         var field = member as IFieldSymbol;
                         if (null != field) {
+                           if (null != field.AssociatedSymbol && SymbolKind.Property == field.AssociatedSymbol.Kind) {
+                              var prop = field.AssociatedSymbol as IPropertySymbol;
+                              if (prop.IsAbstract || prop.IsVirtual || prop.IsOverride) {
+                                 continue;
+                              }
+                              var propDeclSyntax = prop.DeclaringSyntaxReferences.FirstOrDefault().GetSyntax();
+                              if (null != propDeclSyntax && propDeclSyntax is PropertyDeclarationSyntax) {
+                                 bool isNewed = (propDeclSyntax as PropertyDeclarationSyntax).Modifiers.
+                                    FirstOrDefault(t => t.IsKind(SyntaxKind.NewKeyword)).
+                                    //just silly. First will throw if not found. FirstOrDefault will return SyntaxKind.None.
+                                    IsKind(SyntaxKind.NewKeyword);
+                                 if (isNewed) {
+                                    continue;
+                                 }
+                              }
+                           }
+
                            string fieldName = field.Name.ToLower();
                            //Log.WarnFormat("Field Name: {0}", fieldName);
                            if (isTargetClass) {
                               fields[fieldName] = field;
-                           }
-                           else if (fields.ContainsKey(fieldName)) {
+                           } else if (fields.ContainsKey(fieldName)) {
                               var fieldSymbol = fields[fieldName];
                               var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
                               var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
@@ -66,8 +85,10 @@ namespace CastDotNetExtension {
                      }
                      isTargetClass = false;
                      klazz = klazz.BaseType;
+
                   } while (null != klazz && !klazz.ToString().Equals("object"));
                }
+
             }
             catch (System.Exception e) {
                HashSet<string> filePaths = new HashSet<string>();
