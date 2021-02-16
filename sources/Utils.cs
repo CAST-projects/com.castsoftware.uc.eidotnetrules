@@ -14,13 +14,12 @@ namespace CastDotNetExtension.Utils {
    //https://johnkoerner.com/csharp/how-do-i-analyze-comments/
    public class CommentUtils {
       public static IEnumerable<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null, int minimumLength = 0) {
-         
          var root = semanticModel.SyntaxTree.GetRoot(cancellationToken) as CompilationUnitSyntax;
          var commentNodes = from node in root.DescendantTrivia()
                             where (node.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
                             node.IsKind(SyntaxKind.SingleLineCommentTrivia)) &&
                             minimumLength <= node.ToString().Length && 
-                            ((null == regex || 0 < regex.Matches(node.ToString()).Count))
+                            ((null == regex || regex.IsMatch(node.ToString())))
                             //orderby node.SpanStart
                             select node;
 
