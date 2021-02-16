@@ -31,7 +31,7 @@ namespace CastDotNetExtension {
          context.RegisterSemanticModelAction(HandleSemanticModelAnalysisEnd);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
 
       protected void VisitClassDeclaration(SyntaxNode node, Compilation compilation, ref HashSet<string> sharedSymbols) {
          var declarationSyntax = node as TypeDeclarationSyntax;

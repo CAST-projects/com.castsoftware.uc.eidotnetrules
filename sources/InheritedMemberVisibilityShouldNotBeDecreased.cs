@@ -21,7 +21,7 @@ namespace CastDotNetExtension {
    )]
    public class InheritedMemberVisibilityShouldNotBeDecreased : AbstractRuleChecker {
 
-      private Dictionary<string, Dictionary<string, IMethodSymbol>> _klazzToMembers
+      private readonly Dictionary<string, Dictionary<string, IMethodSymbol>> _klazzToMembers
          = new Dictionary<string, Dictionary<string, IMethodSymbol>>();
 
       public InheritedMemberVisibilityShouldNotBeDecreased()
@@ -67,7 +67,7 @@ namespace CastDotNetExtension {
          return signature;
       }
 
-      private Object _lock = new Object();
+      private readonly Object _lock = new Object();
 
       private Dictionary<string, IMethodSymbol> RetrieveClassMethods(INamedTypeSymbol klazz) {
          Dictionary<string, IMethodSymbol> methods = null;

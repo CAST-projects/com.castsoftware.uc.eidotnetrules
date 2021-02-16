@@ -66,7 +66,7 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       protected void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
             try {

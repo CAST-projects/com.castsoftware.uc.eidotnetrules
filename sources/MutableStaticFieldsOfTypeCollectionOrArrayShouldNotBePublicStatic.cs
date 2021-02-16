@@ -28,7 +28,7 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(Analyze, SymbolKind.NamedType);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
             try {

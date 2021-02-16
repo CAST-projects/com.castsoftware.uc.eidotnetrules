@@ -29,7 +29,7 @@ namespace CastDotNetExtension {
          context.RegisterSemanticModelAction(AnalyzeCommentsUsingSemanticModel);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
          lock (_lock) {
             try {

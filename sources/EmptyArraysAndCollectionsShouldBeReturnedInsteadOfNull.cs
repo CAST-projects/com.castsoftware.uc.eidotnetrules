@@ -34,7 +34,7 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(Analyze, SymbolKind.Method, SymbolKind.Property);
       }
 
-      private Object _lock = new Object();
+      private readonly Object _lock = new Object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
             try {

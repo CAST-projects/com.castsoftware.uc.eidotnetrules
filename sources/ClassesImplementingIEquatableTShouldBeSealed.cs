@@ -47,7 +47,7 @@ namespace CastDotNetExtension {
       }
 
 
-      private Object _lock = new Object();
+      private readonly Object _lock = new Object();
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
             try { 

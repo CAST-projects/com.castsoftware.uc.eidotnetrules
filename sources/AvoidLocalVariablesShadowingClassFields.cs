@@ -18,7 +18,7 @@ namespace CastDotNetExtension {
    )]
    public class AvoidLocalVariablesShadowingClassFields : AbstractRuleChecker {
 
-      private Dictionary<string, Dictionary<string, ISymbol>> _klazzToMembers
+      private readonly Dictionary<string, Dictionary<string, ISymbol>> _klazzToMembers
          = new Dictionary<string, Dictionary<string, ISymbol>>();
 
       public AvoidLocalVariablesShadowingClassFields()
@@ -35,7 +35,7 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(AddViolationIfLocalVariableViolates, Microsoft.CodeAnalysis.CSharp.SyntaxKind.VariableDeclarator, Microsoft.CodeAnalysis.CSharp.SyntaxKind.EndOfFileToken);
       }
 
-      private object _lock = new object();  
+      private readonly object _lock = new object();  
 
       protected void AddViolationIfLocalVariableViolates(SyntaxNodeAnalysisContext context) {
          lock (_lock) {

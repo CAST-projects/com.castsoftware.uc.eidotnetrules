@@ -116,7 +116,7 @@ namespace CastDotNetExtension
          }
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
          lock (_lock) {
             IMethodSymbol iMethod = context.Symbol as IMethodSymbol;

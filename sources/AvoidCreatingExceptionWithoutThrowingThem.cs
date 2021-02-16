@@ -29,13 +29,13 @@ namespace CastDotNetExtension {
          context.RegisterOperationAction(AnalyzeOperation, OperationKind.Throw, OperationKind.ObjectCreation, OperationKind.End);
       }
 
-      private HashSet<IOperation> _excludedThrows = new HashSet<IOperation>();
-      private Dictionary<SyntaxTree, int> _syntaxTreeRootToObjectCreationOrThrowNodeCount = new Dictionary<SyntaxTree, int>();
-      private List<IThrowOperation> _throws = new List<IThrowOperation>();
-      private HashSet<ISymbol> _exceptionVars = new HashSet<ISymbol>();
+      private readonly HashSet<IOperation> _excludedThrows = new HashSet<IOperation>();
+      private readonly Dictionary<SyntaxTree, int> _syntaxTreeRootToObjectCreationOrThrowNodeCount = new Dictionary<SyntaxTree, int>();
+      private readonly List<IThrowOperation> _throws = new List<IThrowOperation>();
+      private readonly HashSet<ISymbol> _exceptionVars = new HashSet<ISymbol>();
       private Dictionary<INamedTypeSymbol, bool> _typeToIsException = new Dictionary<INamedTypeSymbol, bool>();
-      private Dictionary<ISymbol, HashSet<FileLinePositionSpan>> _symbol2ViolatingNodes = new Dictionary<ISymbol, HashSet<FileLinePositionSpan>>();
-      private object _lock = new object();
+      private readonly Dictionary<ISymbol, HashSet<FileLinePositionSpan>> _symbol2ViolatingNodes = new Dictionary<ISymbol, HashSet<FileLinePositionSpan>>();
+      private readonly object _lock = new object();
 
 
       private static bool IsException(INamedTypeSymbol iTypeIn,

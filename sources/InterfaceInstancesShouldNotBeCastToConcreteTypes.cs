@@ -30,7 +30,7 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.CastExpression, SyntaxKind.AsExpression);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
             try {

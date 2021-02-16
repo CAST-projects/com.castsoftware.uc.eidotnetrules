@@ -58,7 +58,7 @@ namespace CastDotNetExtension
          return hasAssignment;
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
 
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {

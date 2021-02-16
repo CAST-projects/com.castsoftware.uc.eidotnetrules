@@ -28,7 +28,7 @@ namespace CastDotNetExtension {
          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.BitwiseOrExpression);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
             try {

@@ -52,7 +52,7 @@ namespace CastDotNetExtension {
          }
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
       protected void Analyze(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
             try {

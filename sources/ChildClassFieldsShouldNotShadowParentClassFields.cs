@@ -34,7 +34,7 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
-      private object _lock = new object();
+      private readonly object _lock = new object();
 
       private void ProcessField(ISymbol field, Dictionary<string, ISymbol> fields, bool isTargetClass) {
          string fieldName = field.Name.ToLower();
