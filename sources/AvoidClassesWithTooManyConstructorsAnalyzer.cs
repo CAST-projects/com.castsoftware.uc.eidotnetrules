@@ -44,7 +44,7 @@ namespace CastDotNetExtension
 
                  if (constructorDeclarations.Count > 4) {
                     foreach (var constructorDeclaration in constructorDeclarations) {
-                       AddViolation(context, new List<FileLinePositionSpan>() { constructorDeclaration.GetLocation().GetMappedLineSpan() });
+                       AddViolation(context, new List<FileLinePositionSpan> { constructorDeclaration.GetLocation().GetMappedLineSpan() });
                     }
                  }
               }

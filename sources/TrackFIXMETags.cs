@@ -38,7 +38,7 @@ namespace CastDotNetExtension {
                      var pos = comment.GetLocation().GetMappedLineSpan();
                      ISymbol iSymbol = context.SemanticModel.GetEnclosingSymbol(comment.SpanStart);
                      if (null != iSymbol) {
-                        AddViolation(iSymbol, new List<FileLinePositionSpan>() { pos });
+                        AddViolation(iSymbol, new List<FileLinePositionSpan> { pos });
                      }
                   }
                }

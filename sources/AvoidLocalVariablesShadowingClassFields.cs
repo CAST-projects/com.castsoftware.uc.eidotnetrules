@@ -71,7 +71,7 @@ namespace CastDotNetExtension {
                         if (fields.ContainsKey(name)) {
                            var pos = context.Node.GetLocation().GetMappedLineSpan();
                            //Log.WarnFormat("Thread ID: {0} Adding violation at {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, pos.StartLinePosition.ToString());
-                           AddViolation(context, new List<FileLinePositionSpan>() { pos });
+                           AddViolation(context, new List<FileLinePositionSpan> { pos });
                         }
                      }
                   }
