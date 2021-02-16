@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
 namespace CastDotNetExtension.Utils {
-   class SyntaxNode2SubjectName {
+   internal class SyntaxNode2SubjectName {
 
 
       private static readonly HashSet<string> CSharpTypes = new HashSet<string> {

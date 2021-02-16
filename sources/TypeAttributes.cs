@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace CastDotNetExtension.Utils {
    using AttributeArgumentType = Dictionary<string, SyntaxNode>;
 
-   class TypeAttributes {
+   internal class TypeAttributes {
 
       public enum AttributeType {
          None,
