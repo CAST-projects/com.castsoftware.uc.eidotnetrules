@@ -40,7 +40,7 @@ namespace CastDotNetExtension {
       protected void AddViolationIfLocalVariableViolates(SyntaxNodeAnalysisContext context) {
          lock (_lock) {
             try {
-               if (Microsoft.CodeAnalysis.SymbolKind.Method == context.ContainingSymbol.Kind) {
+               if (SymbolKind.Method == context.ContainingSymbol.Kind) {
                   var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
                   string name = csharpNode.Identifier.ValueText;
                   if (null != name) {
@@ -56,7 +56,7 @@ namespace CastDotNetExtension {
                               foreach (var member in type.GetMembers()) {
                                  var field = member as IFieldSymbol;
                                  if (null != field) {
-                                    if (Microsoft.CodeAnalysis.SymbolKind.Field == field.Kind) {
+                                    if (SymbolKind.Field == field.Kind) {
                                        if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility) {
                                           fields[field.Name] = field;
                                        }
