@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
 
 
 
@@ -133,7 +132,7 @@ namespace CastDotNetExtension
 
                      foreach (var firstTry in walker.TryStatementsWithEquivalentCatchFinallyBlocks.Keys) {
                         var lastTry = walker.TryStatementsWithEquivalentCatchFinallyBlocks[firstTry].Last() as TryStatementSyntax;
-                        SyntaxNode endBlock = null != lastTry.Finally ? lastTry.Finally : lastTry.Catches.Last();
+                        SyntaxNode endBlock = null != lastTry.Finally ? (SyntaxNode)lastTry.Finally : (SyntaxNode)lastTry.Catches.Last();
                         var pos = new FileLinePositionSpan(firstTry.SyntaxTree.FilePath,
                            firstTry.GetLocation().GetLineSpan().StartLinePosition,
                            endBlock.GetLocation().GetLineSpan().EndLinePosition);
