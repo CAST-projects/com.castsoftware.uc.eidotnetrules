@@ -77,9 +77,9 @@ namespace CastDotNetExtension {
                      if (identifierSyntax != null) {
                         varName = identifierSyntax.Identifier.ValueText;
                      }
-                  } else {
+                  } /*else {
                      // --------------
-                  }
+                  }*/
                   // check if event variable is static
                   bool isEventNonStatic = false;
                   if (varName.Length > 0 && SymbClass != null) {

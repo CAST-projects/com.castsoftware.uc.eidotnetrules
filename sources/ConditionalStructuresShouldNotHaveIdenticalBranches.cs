@@ -147,11 +147,11 @@ namespace CastDotNetExtension {
                if (ifWithNoElse) {
                   areEquivalent = false;
                   break;
-               } else {
-                  areEquivalent = AreStatementsEquivalent(ifStatement, elseClause, firstTime, ref currentStatements, ref syntaxKinds);
-                  if (!areEquivalent) {
-                     break;
-                  }
+               }
+
+               areEquivalent = AreStatementsEquivalent(ifStatement, elseClause, firstTime, ref currentStatements, ref syntaxKinds);
+               if (!areEquivalent) {
+                  break;
                }
 
                if (null != ifStatement && null != ifStatement.Else) {

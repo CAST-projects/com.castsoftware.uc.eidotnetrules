@@ -81,9 +81,9 @@ namespace CastDotNetExtension {
                                  //Log.WarnFormat("Violation: Class Name: {0}.AddExpected({1}, {2})", klazz.Name, pos.StartLinePosition.Line, pos.StartLinePosition.Character);
                                  AddViolation(klazz, new FileLinePositionSpan[] { pos });
                               }
-                              else {
+                              /*else {
                                  //Log.WarnFormat("No Violation: Class Name: {0}", klazz.Name);
-                              }
+                              }*/
                            }
                         }
                      }
