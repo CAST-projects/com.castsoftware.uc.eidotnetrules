@@ -36,10 +36,10 @@ namespace CastDotNetExtension {
          BlockSyntax block = null;
          if (blockOrExprs is ExpressionStatementSyntax) {
             var expr = blockOrExprs as ExpressionStatementSyntax;
-            block = (BlockSyntax)SyntaxFactory.ParseStatement((null != expr ? "{" + expr + "}" : "{}"));
+            block = (BlockSyntax)SyntaxFactory.ParseStatement("{" + expr + "}");
          } else if (blockOrExprs is ReturnStatementSyntax) {
             var expr = blockOrExprs as ReturnStatementSyntax;
-            block = (BlockSyntax)SyntaxFactory.ParseStatement((null != expr ? "{" + expr + "}" : "{}"));
+            block = (BlockSyntax)SyntaxFactory.ParseStatement("{" + expr + "}");
          }
          else {
             block = blockOrExprs as BlockSyntax;

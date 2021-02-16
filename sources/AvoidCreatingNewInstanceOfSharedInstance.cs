@@ -50,7 +50,7 @@ namespace CastDotNetExtension {
          SemanticModel semanticModel) {
          var objectCreationSyntax = node as ObjectCreationExpressionSyntax;
          var typename = objectCreationSyntax.Type.ToString();
-         if (null != typename && IsTypeRelevant(typename, ref sharedSymbols)) {
+         if (IsTypeRelevant(typename, ref sharedSymbols)) {
             SyntaxNode parentNode = null;
             string name = SyntaxNode2SubjectName.get(node, delegate(SyntaxNode parent) {
                parentNode = parent;
@@ -90,18 +90,16 @@ namespace CastDotNetExtension {
                var iSymbol = semanticModel.GetSymbolInfo(invokeExpr.Expression).Symbol;
                if (null != iSymbol && iSymbol is IMethodSymbol) {
                   var invokedMethod = iSymbol as IMethodSymbol;
-                  if (null != invokedMethod) {
-                     if (MethodKind.Ordinary == invokedMethod.MethodKind) {
-                        if (IsAddServiceMethod(invokedMethod)) {
-                           var invocationExpression = node as InvocationExpressionSyntax;
-                           if (2 <= invocationExpression.ArgumentList.Arguments.Count) {
-                              var argument = invocationExpression.ArgumentList.Arguments[1];
-                              var identifierNameSyntax = getIdentifierNameSyntax(argument);
-                              if (null != identifierNameSyntax) {
-                                 string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
-                                 if (null != name) {
-                                    AddCreatorOrVariable(name, ref creatorOrVariable);
-                                 }
+                  if (MethodKind.Ordinary == invokedMethod.MethodKind) {
+                     if (IsAddServiceMethod(invokedMethod)) {
+                        var invocationExpression = node as InvocationExpressionSyntax;
+                        if (2 <= invocationExpression.ArgumentList.Arguments.Count) {
+                           var argument = invocationExpression.ArgumentList.Arguments[1];
+                           var identifierNameSyntax = getIdentifierNameSyntax(argument);
+                           if (null != identifierNameSyntax) {
+                              string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
+                              if (null != name) {
+                                 AddCreatorOrVariable(name, ref creatorOrVariable);
                               }
                            }
                         }

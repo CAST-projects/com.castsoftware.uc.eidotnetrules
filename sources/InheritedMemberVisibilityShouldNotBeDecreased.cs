@@ -107,7 +107,7 @@ namespace CastDotNetExtension {
                         klazz = klazz.BaseType;
                         if (null != klazz && TypeKind.Class == klazz.TypeKind) {
                            var baseFullName = klazz.OriginalDefinition.ToString();
-                           if (null == klazz || klazz.ToString().Equals("Object") || klazz.ToString().Equals("System.Object") || "object" == baseFullName) {
+                           if (klazz.ToString().Equals("Object") || klazz.ToString().Equals("System.Object") || "object" == baseFullName) {
                               break;
                            }
 

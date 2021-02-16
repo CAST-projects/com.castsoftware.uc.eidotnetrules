@@ -57,11 +57,9 @@ namespace CastDotNetExtension {
                         var typeFrom = context.SemanticModel.GetTypeInfo(left).Type;
                         if (typeFrom is INamedTypeSymbol) {
                            fromType = (INamedTypeSymbol)typeFrom;
-                           if (null != fromType) {
-                              var typeTo = context.SemanticModel.GetTypeInfo(right).Type;
-                              if (typeTo is INamedTypeSymbol) {
-                                 toType = (INamedTypeSymbol)typeTo;
-                              }
+                           var typeTo = context.SemanticModel.GetTypeInfo(right).Type;
+                           if (typeTo is INamedTypeSymbol) {
+                              toType = (INamedTypeSymbol)typeTo;
                            }
                         }
                      }

@@ -49,21 +49,19 @@ namespace CastDotNetExtension {
                         SyntaxNode syntaxNode = syntaxRef.GetSyntaxAsync(context.CancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
                         var returnStatements = syntaxNode.DescendantNodes().OfType<ReturnStatementSyntax>();
 
-                        if (null != returnStatements) {
-                           List<FileLinePositionSpan> violations = new List<FileLinePositionSpan>();
-                           foreach (var returnStatement in returnStatements) {
-                              var retVal = returnStatement.Expression as LiteralExpressionSyntax;
-                              if (null != retVal) {
-                                 var strRetVal = retVal.ToString();
-                                 if ("null" == retVal.ToString()) {
-                                    //Log.Warn(returnStatement.GetLocation().GetMappedLineSpan().ToString());
-                                    violations.Add(returnStatement.GetLocation().GetMappedLineSpan());
-                                 }
+                        List<FileLinePositionSpan> violations = new List<FileLinePositionSpan>();
+                        foreach (var returnStatement in returnStatements) {
+                           var retVal = returnStatement.Expression as LiteralExpressionSyntax;
+                           if (null != retVal) {
+                              var strRetVal = retVal.ToString();
+                              if ("null" == retVal.ToString()) {
+                                 //Log.Warn(returnStatement.GetLocation().GetMappedLineSpan().ToString());
+                                 violations.Add(returnStatement.GetLocation().GetMappedLineSpan());
                               }
                            }
-                           if (violations.Any()) {
-                              AddViolation(method, violations);
-                           }
+                        }
+                        if (violations.Any()) {
+                           AddViolation(method, violations);
                         }
                      }
                   }

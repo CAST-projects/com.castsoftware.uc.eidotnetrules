@@ -42,10 +42,10 @@ namespace CastDotNetExtension
             foreach (var node in descendentNodes) {
                if (node is IdentifierNameSyntax) {
                   var identifierNode = node as IdentifierNameSyntax;
-                  if ((null != left && identifierNode.Identifier.Value == left.Identifier.Value) ||
+                  if (identifierNode.Identifier.Value == left.Identifier.Value ||
                      (null != right && identifierNode.Identifier.Value == right.Identifier.Value)) {
 
-                     if (identifierNode.Identifier.Value == left.Identifier.Value && null == iSymbolLeft && null != left) {
+                     if (identifierNode.Identifier.Value == left.Identifier.Value && null == iSymbolLeft) {
                         iSymbolLeft = context.SemanticModel.GetSymbolInfo(left).Symbol;
                         if (null == iSymbolLeft) {
                            triedLeft = true;
