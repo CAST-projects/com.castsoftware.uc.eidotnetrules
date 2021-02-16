@@ -39,7 +39,8 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
-      private bool isNewedMethod(IMethodSymbol method) {
+      private static bool isNewedMethod(IMethodSymbol method)
+      {
          var methodDeclaration = method.DeclaringSyntaxReferences.FirstOrDefault();
          bool newedMethod = false;
          if (null != methodDeclaration) {
@@ -54,7 +55,8 @@ namespace CastDotNetExtension {
          return newedMethod;
       }
 
-      private string GetMethodSignature(IMethodSymbol method) {
+      private static string GetMethodSignature(IMethodSymbol method)
+      {
          string signature = method.OriginalDefinition.ToString();
          int index = signature.LastIndexOf("." + method.Name);
          if (-1 != index) {

@@ -29,7 +29,8 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
-      private IEnumerable<IMethodSymbol> GetEqualsMethods(INamedTypeSymbol klazz, bool onlyOverride = true) {
+      private static IEnumerable<IMethodSymbol> GetEqualsMethods(INamedTypeSymbol klazz, bool onlyOverride = true)
+      {
          
          var methods = from IMethodSymbol aMethod in klazz.GetMembers("Equals")
                        where null != aMethod &&

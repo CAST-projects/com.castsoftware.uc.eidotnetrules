@@ -110,7 +110,8 @@ namespace CastDotNetExtension {
          }
       }
 
-      private string getCreatorOrVariableName(IdentifierNameSyntax identifierNameSyntax, SemanticModel semanticModel) {
+      private static string getCreatorOrVariableName(IdentifierNameSyntax identifierNameSyntax, SemanticModel semanticModel)
+      {
          string name = null;
          if (null != identifierNameSyntax) {
             ISymbol iSymbol = semanticModel.GetSymbolInfo(identifierNameSyntax).Symbol;
@@ -139,7 +140,8 @@ namespace CastDotNetExtension {
          return null;
       }
 
-      private bool IsAddServiceMethod(IMethodSymbol method) {
+      private static bool IsAddServiceMethod(IMethodSymbol method)
+      {
          var originalDefinition = method.OriginalDefinition.ToString();
          if (originalDefinition.StartsWith("System.ComponentModel.Design.ServiceContainer.AddService")) {
             return true;
@@ -147,7 +149,8 @@ namespace CastDotNetExtension {
          return false;
       }
 
-      private void WriteLine(string msg) {
+      private static void WriteLine(string msg)
+      {
          //System.Console.WriteLine(msg);
       }
 

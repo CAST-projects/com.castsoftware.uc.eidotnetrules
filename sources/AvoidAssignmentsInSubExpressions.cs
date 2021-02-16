@@ -32,7 +32,8 @@ namespace CastDotNetExtension
          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.IfStatement, SyntaxKind.SwitchStatement, SyntaxKind.InvocationExpression, SyntaxKind.ObjectCreationExpression);
       }
 
-      private bool HasAssignment(ExpressionSyntax expr, ref IEnumerable<SyntaxNode> expressions) {
+      private static bool HasAssignment(ExpressionSyntax expr, ref IEnumerable<SyntaxNode> expressions)
+      {
          bool hasAssignment = !(expr is IdentifierNameSyntax || expr is LiteralExpressionSyntax);
          if (hasAssignment) {
             hasAssignment = expr is AssignmentExpressionSyntax;

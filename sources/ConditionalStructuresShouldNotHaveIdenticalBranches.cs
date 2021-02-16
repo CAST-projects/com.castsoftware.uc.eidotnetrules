@@ -32,7 +32,8 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(OnMethodEnd, SymbolKind.Method);
       }
 
-      private BlockSyntax GetBlock(dynamic blockOrExprs) {
+      private static BlockSyntax GetBlock(dynamic blockOrExprs)
+      {
          BlockSyntax block = null;
          if (blockOrExprs is ExpressionStatementSyntax) {
             var expr = blockOrExprs as ExpressionStatementSyntax;
@@ -63,7 +64,7 @@ namespace CastDotNetExtension {
          return new List<StatementSyntax>();
       }
 
-      private List<StatementSyntax> GetStatementsNoEmptyStatements(SyntaxList<StatementSyntax> statementsIn, ref List<SyntaxKind> syntaxKindsIn)
+      private static List<StatementSyntax> GetStatementsNoEmptyStatements(SyntaxList<StatementSyntax> statementsIn, ref List<SyntaxKind> syntaxKindsIn)
       {
          List<StatementSyntax> statements = new List<StatementSyntax>();
          List<SyntaxKind> syntaxKinds = new List<SyntaxKind>();
@@ -109,7 +110,7 @@ namespace CastDotNetExtension {
          return areEquivalent;
       }
 
-      private bool AreStatementsEquivalent(List<StatementSyntax> currentStatements, List<StatementSyntax> previousStatements)
+      private static bool AreStatementsEquivalent(List<StatementSyntax> currentStatements, List<StatementSyntax> previousStatements)
       {
          bool areEquivalent = (null != currentStatements && null != previousStatements 
             && currentStatements.Count == previousStatements.Count);

@@ -33,7 +33,7 @@ namespace CastDotNetExtension
          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ForStatement);
       }
 
-      private IList<SyntaxNode> GetViolatingSyntaxNodes(SyntaxNodeAnalysisContext context, StatementSyntax forLoopBlock, IdentifierNameSyntax left, IdentifierNameSyntax right) {
+      private static IList<SyntaxNode> GetViolatingSyntaxNodes(SyntaxNodeAnalysisContext context, StatementSyntax forLoopBlock, IdentifierNameSyntax left, IdentifierNameSyntax right) {
          IList<SyntaxNode> violatingExprs = new List<SyntaxNode>();
          if (null != left && null != forLoopBlock) {
             ISymbol iSymbolLeft = null, iSymbolRight = null;
