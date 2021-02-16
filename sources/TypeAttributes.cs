@@ -120,7 +120,7 @@ namespace CastDotNetExtension.Utils {
             var syntax = syntaxRef.GetSyntax();
             if (syntax is TypeDeclarationSyntax) {
                var typeDeclarationSyntax = syntax as TypeDeclarationSyntax;
-               attributes = TypeAttributes.Get(typeDeclarationSyntax, attributes, attrs2Search);
+               attributes = Get(typeDeclarationSyntax, attributes, attrs2Search);
             }
          }
 
