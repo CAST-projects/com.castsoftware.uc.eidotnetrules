@@ -58,7 +58,7 @@ namespace CastDotNetExtension {
                return true;
             }
             var propDeclSyntax = prop.DeclaringSyntaxReferences.FirstOrDefault().GetSyntax();
-            if (null != propDeclSyntax && propDeclSyntax is PropertyDeclarationSyntax) {
+            if (propDeclSyntax is PropertyDeclarationSyntax) {
                bool isNewed = (propDeclSyntax as PropertyDeclarationSyntax).Modifiers.
                   FirstOrDefault(t => t.IsKind(SyntaxKind.NewKeyword)).
                   //just silly. First will throw if not found. FirstOrDefault will return SyntaxKind.None.

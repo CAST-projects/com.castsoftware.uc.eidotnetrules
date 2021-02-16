@@ -88,7 +88,7 @@ namespace CastDotNetExtension {
             var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
             if (null != semanticModel) {
                var iSymbol = semanticModel.GetSymbolInfo(invokeExpr.Expression).Symbol;
-               if (null != iSymbol && iSymbol is IMethodSymbol) {
+               if (iSymbol is IMethodSymbol) {
                   var invokedMethod = iSymbol as IMethodSymbol;
                   if (MethodKind.Ordinary == invokedMethod.MethodKind) {
                      if (IsAddServiceMethod(invokedMethod)) {
@@ -115,7 +115,7 @@ namespace CastDotNetExtension {
          string name = null;
          if (null != identifierNameSyntax) {
             ISymbol iSymbol = semanticModel.GetSymbolInfo(identifierNameSyntax).Symbol;
-            if (null != iSymbol && iSymbol is IMethodSymbol) {
+            if (iSymbol is IMethodSymbol) {
                var creator = iSymbol as IMethodSymbol;
                name = creator.Name;
                if (MethodKind.PropertyGet == creator.MethodKind) {
