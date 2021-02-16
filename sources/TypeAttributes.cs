@@ -20,7 +20,7 @@ namespace CastDotNetExtension.Utils {
       public interface ITypeAttribute {
 
          AttributeType Name { get; }
-         Dictionary<string, SyntaxNode> Arguments { get; }
+         //For later: Dictionary<string, SyntaxNode> Arguments { get; }
       }
 
       public abstract class TypeAttribute : ITypeAttribute {
