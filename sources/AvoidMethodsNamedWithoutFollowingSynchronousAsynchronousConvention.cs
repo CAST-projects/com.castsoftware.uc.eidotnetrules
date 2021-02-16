@@ -23,7 +23,6 @@ namespace CastDotNetExtension {
    )]
    public class AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention : AbstractRuleChecker {
       public AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention()
-            : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
         {
         }
 
@@ -33,8 +32,31 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         //TODO: register for events
-         context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.MethodDeclaration);
+         context.RegisterSymbolAction(AnalyzeMethodName, SymbolKind.Method);
+         //context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.MethodDeclaration);
+      }
+
+      private void AnalyzeMethodName(SymbolAnalysisContext context) {
+         try {
+            if (SymbolKind.Method == context.Symbol.Kind) {
+               var method = context.Symbol as IMethodSymbol;
+               if (!method.ReturnsVoid && method.ReturnType is ITypeSymbol) {
+                  var typeSymbol = method.ReturnType as ITypeSymbol;
+                  var typeFullName = typeSymbol.ToString();
+                  bool isAsync = typeFullName.StartsWith("System.Threading.Tasks.Task"); //method.IsAsync <=== is always false
+                  if (isAsync != method.Name.EndsWith("Async")) {
+                     var pos = method.Locations.FirstOrDefault().GetMappedLineSpan();
+                     AddViolation(method, new FileLinePositionSpan[] { pos });
+                  }
+               }
+            }
+         } catch (Exception e) {
+            HashSet<string> filePaths = new HashSet<string>();
+            foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
+               filePaths.Add(synRef.SyntaxTree.FilePath);
+            }
+            Log.Warn("Exception while analyzing " + String.Join(",", filePaths), e);
+         }
       }
 
       private object _lock = new object();
@@ -47,8 +69,9 @@ namespace CastDotNetExtension {
 
                   var name = method.Name;
                   var typeFullName = typeSymbol.ToString();
-                  Boolean returnsAsync = typeFullName.StartsWith("System.Threading.Tasks.Task");
+                  bool returnsAsync = typeFullName.StartsWith("System.Threading.Tasks.Task");
 
+                  //if (method.IsAsync != name.EndsWith("Async")) {   <=== IsAsync is always false
                   if (returnsAsync != name.EndsWith("Async")) {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
