@@ -27,7 +27,7 @@ namespace CastDotNetExtension.Utils {
          public AttributeType Name { get; private set; }
          public Dictionary<String, SyntaxNode> Arguments { get; private set; }
 
-         public TypeAttribute(AttributeType type, Dictionary<String, SyntaxNode> arguments) {
+         protected TypeAttribute(AttributeType type, Dictionary<String, SyntaxNode> arguments) {
             Name = type;
             Arguments = arguments;
          }
