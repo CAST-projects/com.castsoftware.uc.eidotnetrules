@@ -50,10 +50,10 @@ namespace CastDotNetExtension {
       private readonly object _lock = new object();
       private void AnalyzeClass(SymbolAnalysisContext context) {
          lock (_lock) {
-            try { 
-            var klazz = context.Symbol as INamedTypeSymbol;
-            if (null != klazz && TypeKind.Class == klazz.TypeKind && !klazz.IsSealed && 
-               (Accessibility.Protected == klazz.DeclaredAccessibility || Accessibility.Public == klazz.DeclaredAccessibility)) {
+            try {
+               var klazz = context.Symbol as INamedTypeSymbol;
+               if (null != klazz && TypeKind.Class == klazz.TypeKind && !klazz.IsSealed &&
+                  (Accessibility.Protected == klazz.DeclaredAccessibility || Accessibility.Public == klazz.DeclaredAccessibility)) {
                   foreach (var baseInterface in klazz.AllInterfaces) {
                      if ("System.IEquatable<T>" == baseInterface.OriginalDefinition.ToString()) {
                         var equalss = baseInterface.GetMembers().Where(member => member.Name == "Equals");
@@ -69,8 +69,7 @@ namespace CastDotNetExtension {
                                        addViolation = true;
                                     }
                                  }
-                              }
-                              else {
+                              } else {
                                  addViolation = true;
                               }
 
