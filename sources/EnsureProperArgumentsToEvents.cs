@@ -138,7 +138,7 @@ namespace CastDotNetExtension {
 
 
       private void Init(Compilation compil) {
-         bool changed = IsChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
+         bool changed = IsChangedCompilation(compil is Microsoft.CodeAnalysis.CSharp.CSharpCompilation);
 
          if (changed) {
             _eventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
