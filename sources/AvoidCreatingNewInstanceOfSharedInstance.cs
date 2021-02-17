@@ -153,17 +153,17 @@ namespace CastDotNetExtension {
          //System.Console.WriteLine(msg);
       }
 
-      private bool IsTypeRelevant(string typename, ref HashSet<string> sharedSymbols) {
+      private static bool IsTypeRelevant(string typename, ref HashSet<string> sharedSymbols) {
          WriteLine("IsTypeRelevant: " + typename);
          return sharedSymbols.Contains(typename);
       }
 
-      private void AddCreatorOrVariable(string creatorOrVariable, ref HashSet<string> creatorOrVariables) {
+      private static void AddCreatorOrVariable(string creatorOrVariable, ref HashSet<string> creatorOrVariables) {
          creatorOrVariables.Add(creatorOrVariable);
          WriteLine("AddCreatorOrVariable: " + creatorOrVariable);
       }
 
-      private void AddCreator(string creator, SyntaxNode creatorContainerSyntax, SyntaxNode creatorSyntax, ISymbol iSymbol,
+      private static void AddCreator(string creator, SyntaxNode creatorContainerSyntax, SyntaxNode creatorSyntax, ISymbol iSymbol,
          ref Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators) {
          allCreators[creator] = new Tuple<SyntaxNode, SyntaxNode, ISymbol>(creatorContainerSyntax, creatorSyntax, iSymbol);
          WriteLine("AddCreator: " + creator);

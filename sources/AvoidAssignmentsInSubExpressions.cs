@@ -49,7 +49,7 @@ namespace CastDotNetExtension
          return hasAssignment;
       }
 
-      private bool HasAssignmentsInArguments(ArgumentListSyntax argumentList, ref IEnumerable<SyntaxNode> expressions) {
+      private static bool HasAssignmentsInArguments(ArgumentListSyntax argumentList, ref IEnumerable<SyntaxNode> expressions) {
          bool hasAssignment = false;
          if (null != argumentList && argumentList.Arguments.Any()) {
             foreach (var argument in argumentList.Arguments) {

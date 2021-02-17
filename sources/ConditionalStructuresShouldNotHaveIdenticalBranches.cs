@@ -47,12 +47,13 @@ namespace CastDotNetExtension {
          return block;
       }
 
-      private BlockSyntax GetBlockSyntaxIf(IfStatementSyntax ifStatement, ElseClauseSyntax elseClause) {
+      private static BlockSyntax GetBlockSyntaxIf(IfStatementSyntax ifStatement, ElseClauseSyntax elseClause)
+      {
          var blockOrExprs = (null != ifStatement) ? ifStatement.Statement : elseClause.Statement;
          return GetBlock(blockOrExprs);
       }
 
-      private List<StatementSyntax> GetStatementsNoTriviaOrEmptyStatements(BlockSyntax block, ref List<SyntaxKind> syntaxKindsIn)
+      private static List<StatementSyntax> GetStatementsNoTriviaOrEmptyStatements(BlockSyntax block, ref List<SyntaxKind> syntaxKindsIn)
       {
          if (null != block) {
             List<StatementSyntax> statements = GetStatementsNoEmptyStatements(block.WithoutTrivia().Statements, ref syntaxKindsIn);
