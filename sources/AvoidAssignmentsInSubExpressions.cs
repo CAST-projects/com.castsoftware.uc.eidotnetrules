@@ -46,10 +46,17 @@ namespace CastDotNetExtension
          }
       }
 
+      private static readonly HashSet<SyntaxKind> ExcludedArgumentTypes = new HashSet<SyntaxKind> {
+         SyntaxKind.SimpleLambdaExpression,
+         SyntaxKind.ParenthesizedLambdaExpression,
+         SyntaxKind.AnonymousMethodExpression,
+      };
       private static void AddIfHasAssignmentsInArguments(ArgumentListSyntax argumentList, ref IEnumerable<SyntaxNode> expressions) {
          if (null != argumentList && argumentList.Arguments.Any()) {
             foreach (var argument in argumentList.Arguments) {
-               AddIfAssignment(argument.Expression, ref expressions);
+               if (!ExcludedArgumentTypes.Contains(argument.Expression.Kind())) {
+                  AddIfAssignment(argument.Expression, ref expressions);
+               }
             }
          }
       }

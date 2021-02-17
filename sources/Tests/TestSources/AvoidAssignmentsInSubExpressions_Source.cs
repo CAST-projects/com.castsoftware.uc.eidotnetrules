@@ -68,5 +68,23 @@ namespace UnitTests.UnitTest.Sources
          test.BMethod(str , "def");
 
       }
+
+      public static void Get(Func<int, string, bool> typeHandler = null)
+      {
+         typeHandler(0, "astring");
+      }
+
+      public static void UseGet()
+      {
+         string strFromGet;
+
+         Get(delegate(int i, string str) {
+            strFromGet = str;
+            return true;
+         });
+
+      }
+
+
    }
 }
