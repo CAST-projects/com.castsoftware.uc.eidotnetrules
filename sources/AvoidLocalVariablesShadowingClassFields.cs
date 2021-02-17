@@ -44,7 +44,7 @@ namespace CastDotNetExtension {
                   var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
                   string name = csharpNode.Identifier.ValueText;
                   if (null != name) {
-                     var type = context.ContainingSymbol.ContainingType as INamedTypeSymbol;
+                     var type = context.ContainingSymbol.ContainingType;
                      if (null != type) {
                         string fullname = type.OriginalDefinition.ToString();
                         Dictionary<string, ISymbol> fields = null;

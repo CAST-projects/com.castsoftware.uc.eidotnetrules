@@ -30,7 +30,7 @@ namespace CastDotNetExtension.Utils {
    internal static class CompilationExtension {
 
       public static void GetMethodSymbolsForSystemClass(this Compilation compilation, string classFullName, HashSet<string> methodNames, ref IAssemblySymbol assembly, ref HashSet<IMethodSymbol> methods, bool useFullName = true) {
-         var klazz = compilation.GetTypeByMetadataName(classFullName) as INamedTypeSymbol;
+         var klazz = compilation.GetTypeByMetadataName(classFullName);
          if (null != klazz && assembly != klazz.ContainingAssembly) {
             assembly = klazz.ContainingAssembly;
             methods = compilation.GetMethodSymbolsForSystemClass(klazz, methodNames, useFullName);

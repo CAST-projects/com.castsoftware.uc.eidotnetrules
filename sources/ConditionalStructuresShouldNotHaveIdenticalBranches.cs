@@ -155,7 +155,7 @@ namespace CastDotNetExtension {
                }
 
                if (null != ifStatement && null != ifStatement.Else) {
-                  elseClause = ifStatement.Else as ElseClauseSyntax;
+                  elseClause = ifStatement.Else;
                   ifStatement = elseClause.Statement as IfStatementSyntax;
                } else if (null == ifStatement || null == ifStatement.Else) {
                   break;

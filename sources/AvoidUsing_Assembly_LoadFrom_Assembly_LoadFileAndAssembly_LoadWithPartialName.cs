@@ -90,7 +90,7 @@ namespace CastDotNetExtension {
          bool changed = isChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
          if (_methodSymbols == null || changed) {
             _methodSymbols = new HashSet<IMethodSymbol>();
-            var assembly = compil.GetTypeByMetadataName("System.Reflection.Assembly") as INamedTypeSymbol;
+            var assembly = compil.GetTypeByMetadataName("System.Reflection.Assembly");
             if (null != assembly) {
                _methodSymbols.UnionWith(assembly.GetMembers().OfType<IMethodSymbol>().Where(m => MethodNames.Contains(m.Name)));
             }

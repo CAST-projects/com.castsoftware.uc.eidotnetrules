@@ -141,22 +141,22 @@ namespace CastDotNetExtension {
          bool changed = isChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
 
          if (changed) {
-            _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler") as INamedTypeSymbol;
-            _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1") as INamedTypeSymbol;
-            _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs") as INamedTypeSymbol;
+            _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
+            _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
+            _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
 
          }
          else {
             if (_EventHandlerSymbols == null) {
-               _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler") as INamedTypeSymbol;
+               _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
             }
 
             if (_EventHandlerWithArgsSymbols == null) {
-               _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1") as INamedTypeSymbol;
+               _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
             }
 
             if (_EventArgSymbols == null) {
-               _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs") as INamedTypeSymbol;
+               _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
             }
          }
 
