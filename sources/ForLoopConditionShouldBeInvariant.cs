@@ -64,9 +64,8 @@ namespace CastDotNetExtension
                      var varSymbol = context.SemanticModel.GetSymbolInfo(identifierNode).Symbol;
                      if (null != varSymbol && (varSymbol == iSymbolLeft || varSymbol == iSymbolRight)) {
                         bool addViolation = false;
-                        if (identifierNode.Parent is PostfixUnaryExpressionSyntax) {
-                           addViolation = true;
-                        } else if (identifierNode.Parent is PrefixUnaryExpressionSyntax) {
+                        if (identifierNode.Parent is PostfixUnaryExpressionSyntax ||
+                           identifierNode.Parent is PrefixUnaryExpressionSyntax) {
                            addViolation = true;
                         } else if (identifierNode.Parent is AssignmentExpressionSyntax) {
                            var assignmentExpr = identifierNode.Parent as AssignmentExpressionSyntax;
