@@ -37,7 +37,7 @@ namespace CastDotNetExtension {
       private readonly object _lock = new object();
 
       private void ProcessField(ISymbol field, Dictionary<string, ISymbol> fields, bool isTargetClass) {
-         string fieldName = field.Name.ToLower();
+         string fieldName = field.Name.ToLowerInvariant();
          //Log.WarnFormat("Field Name: {0}", fieldName);
          if (isTargetClass) {
             fields[fieldName] = field;

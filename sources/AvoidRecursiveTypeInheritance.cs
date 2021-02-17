@@ -37,7 +37,7 @@ namespace CastDotNetExtension {
                   if (klazz.IsGenericType && 1 == klazz.TypeParameters.Length
                      && klazz.BaseType.IsGenericType && 1 == klazz.BaseType.TypeParameters.Length) {
                      var fullName = klazz.ToString();
-                     int idx = fullName.IndexOf('<');
+                     int idx = fullName.IndexOf("<", StringComparison.Ordinal);
                      if (-1 != idx) {
                         fullName = fullName.Substring(0, idx);
                         var baseFullName = klazz.BaseType.ToString();
