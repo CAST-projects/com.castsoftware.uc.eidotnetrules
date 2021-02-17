@@ -151,14 +151,12 @@ namespace CastDotNetExtension {
                                           }
                                        }
                                     } else {
-                                       Console.WriteLine("context.Operation.Parent.Kind: " + context.Operation.Parent.Kind);
+                                       Log.Debug("Unhandled condition: context.Operation.Parent.Kind: " + context.Operation.Parent.Kind);
                                     }
 
                                     break;
                                  }
                               }
-                           } else {
-                              Console.WriteLine("objCreationOperation.Parent = null");
                            }
                         }
                      }

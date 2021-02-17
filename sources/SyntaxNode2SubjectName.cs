@@ -41,53 +41,47 @@ namespace CastDotNetExtension.Utils {
       public static string GetCSharp(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
 
          string name = null;
-         try {
-
-            node = GetParentNode(node, CSharpTypes, typeHandler);
-            if (null != node) {
-               var type = node.GetType();
-               switch (type.Name) {
-                  case "FieldDeclarationSyntax": {
-                        var fieldDeclarationSyntax = node as Microsoft.CodeAnalysis.CSharp.Syntax.FieldDeclarationSyntax;
-                        if (null != fieldDeclarationSyntax) {
-                           var varNode = fieldDeclarationSyntax.Declaration.Variables.FirstOrDefault();
-                           if (null != varNode) {
-                              name = varNode.Identifier.ToString();
-                           }
-                        }
-                        break;
-                     }
-                  case "VariableDeclarationSyntax": {
-                        var variableDeclarationSyntax = node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclarationSyntax;
-                        var varNode = variableDeclarationSyntax.Variables.FirstOrDefault();
+         node = GetParentNode(node, CSharpTypes, typeHandler);
+         if (null != node) {
+            var type = node.GetType();
+            switch (type.Name) {
+               case "FieldDeclarationSyntax": {
+                     var fieldDeclarationSyntax = node as Microsoft.CodeAnalysis.CSharp.Syntax.FieldDeclarationSyntax;
+                     if (null != fieldDeclarationSyntax) {
+                        var varNode = fieldDeclarationSyntax.Declaration.Variables.FirstOrDefault();
                         if (null != varNode) {
                            name = varNode.Identifier.ToString();
                         }
-                        break;
                      }
-                  case "AssignmentExpressionSyntax": {
-                        var assignmentExpr = node as Microsoft.CodeAnalysis.CSharp.Syntax.AssignmentExpressionSyntax;
-                        name = assignmentExpr.Left.ToString();
-                        break;
+                     break;
+                  }
+               case "VariableDeclarationSyntax": {
+                     var variableDeclarationSyntax = node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclarationSyntax;
+                     var varNode = variableDeclarationSyntax.Variables.FirstOrDefault();
+                     if (null != varNode) {
+                        name = varNode.Identifier.ToString();
                      }
-                  case "MethodDeclarationSyntax":
-                  case "ClassDeclarationSyntax":
-                  case "PropertyDeclarationSyntax": {
-                        var prop = type.GetProperty("Identifier");
-                        var propval = prop.GetMethod.Invoke(node, null);
-                        name = propval.ToString();
-                        break;
-                     }
-                  case "LambdaExpressionSyntax": {
-                        name = "<lambda>";
-                        break;
-                     }
+                     break;
+                  }
+               case "AssignmentExpressionSyntax": {
+                     var assignmentExpr = node as Microsoft.CodeAnalysis.CSharp.Syntax.AssignmentExpressionSyntax;
+                     name = assignmentExpr.Left.ToString();
+                     break;
+                  }
+               case "MethodDeclarationSyntax":
+               case "ClassDeclarationSyntax":
+               case "PropertyDeclarationSyntax": {
+                     var prop = type.GetProperty("Identifier");
+                     var propval = prop.GetMethod.Invoke(node, null);
+                     name = propval.ToString();
+                     break;
+                  }
+               case "LambdaExpressionSyntax": {
+                     name = "<lambda>";
+                     break;
+                  }
 
-               }
             }
-         }
-         catch (Exception e) {
-            Console.WriteLine(e.Message);
          }
          return name;
       }

@@ -174,8 +174,7 @@ namespace CastDotNetExtension {
                base.Reset();
             }
             catch (Exception e) {
-               Console.WriteLine(e.Message);
-               Console.WriteLine(e.StackTrace);
+               Log.Warn("Exception while analyzing during reset", e);
             }
          }
       }
