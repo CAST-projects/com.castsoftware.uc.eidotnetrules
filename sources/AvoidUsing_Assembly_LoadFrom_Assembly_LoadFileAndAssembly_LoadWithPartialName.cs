@@ -35,7 +35,7 @@ namespace CastDotNetExtension {
 
       private CompilationType _typeCompilation = CompilationType.None;
 
-      protected bool isChangedCompilation(bool isCsharpCompilation) {
+      protected bool IsChangedCompilation(bool isCsharpCompilation) {
          if (_typeCompilation == CompilationType.CSharp && !isCsharpCompilation) {
             _typeCompilation = CompilationType.VisualBasic;
             return true;
@@ -87,7 +87,7 @@ namespace CastDotNetExtension {
       }
 
       private void Init(Compilation compil) {
-         bool changed = isChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
+         bool changed = IsChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
          if (_methodSymbols == null || changed) {
             _methodSymbols = new HashSet<IMethodSymbol>();
             var assembly = compil.GetTypeByMetadataName("System.Reflection.Assembly");

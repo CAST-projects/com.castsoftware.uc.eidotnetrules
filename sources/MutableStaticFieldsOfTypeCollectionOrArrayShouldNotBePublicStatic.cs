@@ -33,9 +33,9 @@ namespace CastDotNetExtension {
             try {
                var type = context.Symbol as INamedTypeSymbol;
                if (null != type) {
-                  var SystemArray = context.Compilation.GetTypeByMetadataName("System.Array");
-                  var SystemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
-                  var SystemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
+                  var systemArray = context.Compilation.GetTypeByMetadataName("System.Array");
+                  var systemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
+                  var systemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
                   if (TypeKind.Class == type.TypeKind || TypeKind.Struct == type.TypeKind) {
                      var targetFields = type.GetMembers().
                         OfType<IFieldSymbol>().
@@ -43,10 +43,10 @@ namespace CastDotNetExtension {
                            Accessibility.Public == field.DeclaredAccessibility &&
                            field.IsStatic &&
                            (
-                              field.Type.BaseType == SystemArray ||
+                              field.Type.BaseType == systemArray ||
                               (
-                                 null != SystemGenericICollection && field.Type.AllInterfaces.Contains(SystemGenericICollection) ||
-                                 null != SystemCollectionsICollection && field.Type.AllInterfaces.Contains(SystemCollectionsICollection)
+                                 null != systemGenericICollection && field.Type.AllInterfaces.Contains(systemGenericICollection) ||
+                                 null != systemCollectionsICollection && field.Type.AllInterfaces.Contains(systemCollectionsICollection)
                               )
                               &&
                               !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")

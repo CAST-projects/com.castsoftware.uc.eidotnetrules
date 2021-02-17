@@ -24,11 +24,11 @@ namespace CastDotNetExtension {
       }
 
 
-      private static INamedTypeSymbol _EventHandlerSymbols = null;
-      private static INamedTypeSymbol _EventHandlerWithArgsSymbols = null;
-      private static IMethodSymbol _EventHandlerInvokeMethodSymbols = null;
-      private static IMethodSymbol _EventHandlerWithArgsInvokeMethodSymbols = null;
-      private static INamedTypeSymbol _EventArgSymbols = null;
+      private static INamedTypeSymbol _eventHandlerSymbols = null;
+      private static INamedTypeSymbol _eventHandlerWithArgsSymbols = null;
+      private static IMethodSymbol _eventHandlerInvokeMethodSymbols = null;
+      private static IMethodSymbol _eventHandlerWithArgsInvokeMethodSymbols = null;
+      private static INamedTypeSymbol _eventArgSymbols = null;
 
 
       /// <summary>
@@ -52,7 +52,7 @@ namespace CastDotNetExtension {
                var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
                if (null != invokedMethod) {
                   var invocationNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.InvocationExpressionSyntax;
-                  var SymbClass = context.ContainingSymbol.ContainingSymbol as INamedTypeSymbol;
+                  var symbClass = context.ContainingSymbol.ContainingSymbol as INamedTypeSymbol;
 
                   // get instance event variable name
                   string varName = "";
@@ -79,8 +79,8 @@ namespace CastDotNetExtension {
                   }*/
                   // check if event variable is static
                   bool isEventNonStatic = false;
-                  if (varName.Length > 0 && SymbClass != null) {
-                     var classMembers = SymbClass.GetMembers(varName);
+                  if (varName.Length > 0 && symbClass != null) {
+                     var classMembers = symbClass.GetMembers(varName);
                      foreach (ISymbol member in classMembers) {
                         if (!member.IsStatic) {
                            isEventNonStatic = true;
@@ -88,7 +88,7 @@ namespace CastDotNetExtension {
                      }
                   }
                   // check invocation argument for null sender and null data
-                  if (invokedMethod == _EventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _EventHandlerWithArgsInvokeMethodSymbols) {
+                  if (invokedMethod == _eventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _eventHandlerWithArgsInvokeMethodSymbols) {
                      var firstArgNode = invocationNode.ArgumentList.Arguments[0].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
                      var secondArgNode = invocationNode.ArgumentList.Arguments[1].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
                      if (firstArgNode != null && isEventNonStatic) {
@@ -116,7 +116,7 @@ namespace CastDotNetExtension {
 
       private CompilationType _typeCompilation = CompilationType.None;
 
-      protected bool isChangedCompilation(bool isCsharpCompilation) {
+      protected bool IsChangedCompilation(bool isCsharpCompilation) {
          if (_typeCompilation == CompilationType.CSharp && !isCsharpCompilation) {
             _typeCompilation = CompilationType.VisualBasic;
             return true;
@@ -138,34 +138,34 @@ namespace CastDotNetExtension {
 
 
       private void Init(Compilation compil) {
-         bool changed = isChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
+         bool changed = IsChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
 
          if (changed) {
-            _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
-            _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
-            _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
+            _eventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
+            _eventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
+            _eventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
 
          }
          else {
-            if (_EventHandlerSymbols == null) {
-               _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
+            if (_eventHandlerSymbols == null) {
+               _eventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler");
             }
 
-            if (_EventHandlerWithArgsSymbols == null) {
-               _EventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
+            if (_eventHandlerWithArgsSymbols == null) {
+               _eventHandlerWithArgsSymbols = compil.GetTypeByMetadataName("System.EventHandler`1");
             }
 
-            if (_EventArgSymbols == null) {
-               _EventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
+            if (_eventArgSymbols == null) {
+               _eventArgSymbols = compil.GetTypeByMetadataName("System.EventArgs");
             }
          }
 
-         if (null == _EventHandlerInvokeMethodSymbols && null != _EventHandlerSymbols) {
-            _EventHandlerInvokeMethodSymbols = _EventHandlerSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
+         if (null == _eventHandlerInvokeMethodSymbols && null != _eventHandlerSymbols) {
+            _eventHandlerInvokeMethodSymbols = _eventHandlerSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
          }
 
-         if (null == _EventHandlerWithArgsInvokeMethodSymbols && null != _EventHandlerWithArgsSymbols) {
-            _EventHandlerWithArgsInvokeMethodSymbols = _EventHandlerWithArgsSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
+         if (null == _eventHandlerWithArgsInvokeMethodSymbols && null != _eventHandlerWithArgsSymbols) {
+            _eventHandlerWithArgsInvokeMethodSymbols = _eventHandlerWithArgsSymbols.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(m => "Invoke" == m.Name);
          }
       }
    }

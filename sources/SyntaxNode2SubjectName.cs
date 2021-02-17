@@ -20,7 +20,7 @@ namespace CastDotNetExtension.Utils {
                };
 
 
-      private static SyntaxNode getParentNode(SyntaxNode node, HashSet<string> types, Func<SyntaxNode, bool> typeHandler = null) {
+      private static SyntaxNode GetParentNode(SyntaxNode node, HashSet<string> types, Func<SyntaxNode, bool> typeHandler = null) {
          if (null != node) {
             var parent = node.Parent;
             while (null != parent && !types.Contains(parent.GetType().Name)) {
@@ -38,12 +38,12 @@ namespace CastDotNetExtension.Utils {
          return null;
       }
 
-      public static string getCSharp(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
+      public static string GetCSharp(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
 
          string name = null;
          try {
 
-            node = getParentNode(node, CSharpTypes, typeHandler);
+            node = GetParentNode(node, CSharpTypes, typeHandler);
             if (null != node) {
                var type = node.GetType();
                switch (type.Name) {
@@ -93,8 +93,8 @@ namespace CastDotNetExtension.Utils {
       }
 
 
-      public static string get(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
-         return getCSharp(node, typeHandler);
+      public static string Get(SyntaxNode node, Func<SyntaxNode, bool> typeHandler = null) {
+         return GetCSharp(node, typeHandler);
       }
    }
 }

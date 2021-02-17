@@ -52,7 +52,7 @@ namespace CastDotNetExtension {
          var typename = objectCreationSyntax.Type.ToString();
          if (IsTypeRelevant(typename, ref sharedSymbols)) {
             SyntaxNode parentNode = null;
-            string name = SyntaxNode2SubjectName.get(node, delegate(SyntaxNode parent) {
+            string name = SyntaxNode2SubjectName.Get(node, delegate(SyntaxNode parent) {
                parentNode = parent;
                if (null != parent) {
                   if ("InvocationExpressionSyntax" == parent.GetType().Name) {
@@ -94,9 +94,9 @@ namespace CastDotNetExtension {
                      if (IsAddServiceMethod(invokedMethod)) {
                         if (2 <= invokeExpr.ArgumentList.Arguments.Count) {
                            var argument = invokeExpr.ArgumentList.Arguments[1];
-                           var identifierNameSyntax = getIdentifierNameSyntax(argument);
+                           var identifierNameSyntax = GetIdentifierNameSyntax(argument);
                            if (null != identifierNameSyntax) {
-                              string name = getCreatorOrVariableName(identifierNameSyntax, semanticModel);
+                              string name = GetCreatorOrVariableName(identifierNameSyntax, semanticModel);
                               if (null != name) {
                                  AddCreatorOrVariable(name, ref creatorOrVariable);
                               }
@@ -109,7 +109,7 @@ namespace CastDotNetExtension {
          }
       }
 
-      private static string getCreatorOrVariableName(IdentifierNameSyntax identifierNameSyntax, SemanticModel semanticModel)
+      private static string GetCreatorOrVariableName(IdentifierNameSyntax identifierNameSyntax, SemanticModel semanticModel)
       {
          string name = null;
          if (null != identifierNameSyntax) {
@@ -128,7 +128,7 @@ namespace CastDotNetExtension {
          return name;
       }
 
-      protected IdentifierNameSyntax getIdentifierNameSyntax(ArgumentSyntax argument) {
+      protected IdentifierNameSyntax GetIdentifierNameSyntax(ArgumentSyntax argument) {
          if (null != argument) {
             var objectCreationSyntax = argument.Expression as ObjectCreationExpressionSyntax;
             if (null == objectCreationSyntax) {
