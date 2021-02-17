@@ -26,55 +26,30 @@ namespace CastDotNetExtension {
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
          context.RegisterSymbolAction(AnalyzeMethodName, SymbolKind.Method);
-         //context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.MethodDeclaration);
-      }
-
-      private void AnalyzeMethodName(SymbolAnalysisContext context) {
-         try {
-            if (SymbolKind.Method == context.Symbol.Kind) {
-               var method = context.Symbol as IMethodSymbol;
-               if (!method.ReturnsVoid) {
-                  var typeSymbol = method.ReturnType;
-                  var typeFullName = typeSymbol.ToString();
-                  bool isAsync = typeFullName.StartsWith("System.Threading.Tasks.Task"); //method.IsAsync <=== is always false
-                  if (isAsync != method.Name.EndsWith("Async")) {
-                     var pos = method.Locations.FirstOrDefault().GetMappedLineSpan();
-                     AddViolation(method, new FileLinePositionSpan[] { pos });
-                  }
-               }
-            }
-         } catch (Exception e) {
-            HashSet<string> filePaths = new HashSet<string>();
-            foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
-               filePaths.Add(synRef.SyntaxTree.FilePath);
-            }
-            Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
-         }
       }
 
       private readonly object _lock = new object();
-      protected void Analyze(SyntaxNodeAnalysisContext context) {
+      private void AnalyzeMethodName(SymbolAnalysisContext context) {
          lock (_lock) {
             try {
-               var method = context.ContainingSymbol as IMethodSymbol;
-               if (null != method) {
-                  var typeSymbol = method.ReturnType;
-
-                  var name = method.Name;
-                  var typeFullName = typeSymbol.ToString();
-                  bool returnsAsync = typeFullName.StartsWith("System.Threading.Tasks.Task");
-
-                  //if (method.IsAsync != name.EndsWith("Async")) {   <=== IsAsync is always false
-                  if (returnsAsync != name.EndsWith("Async")) {
-                     var span = context.Node.Span;
-                     var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                     //Log.Warn(pos.ToString());
-                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+               if (SymbolKind.Method == context.Symbol.Kind) {
+                  var method = context.Symbol as IMethodSymbol;
+                  if (!method.ReturnsVoid) {
+                     var typeSymbol = method.ReturnType;
+                     var typeFullName = typeSymbol.ToString();
+                     bool isAsync = typeFullName.StartsWith("System.Threading.Tasks.Task"); //method.IsAsync <=== is always false
+                     if (isAsync != method.Name.EndsWith("Async")) {
+                        var pos = method.Locations.FirstOrDefault().GetMappedLineSpan();
+                        AddViolation(method, new FileLinePositionSpan[] { pos });
+                     }
                   }
                }
-            }
-            catch (Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
+            } catch (Exception e) {
+               HashSet<string> filePaths = new HashSet<string>();
+               foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
+                  filePaths.Add(synRef.SyntaxTree.FilePath);
+               }
+               Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
       }
