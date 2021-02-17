@@ -92,7 +92,7 @@ namespace CastDotNetExtension {
       }
 
 
-      private bool AreStatementsEquivalent(IfStatementSyntax ifStatement, ElseClauseSyntax elseClause, bool firstTime, ref List<StatementSyntax> currentStatements, ref List<SyntaxKind> syntaxKindCount)
+      private static bool AreStatementsEquivalent(IfStatementSyntax ifStatement, ElseClauseSyntax elseClause, bool firstTime, ref List<StatementSyntax> currentStatements, ref List<SyntaxKind> syntaxKindCount)
       {
          BlockSyntax block = GetBlockSyntaxIf(ifStatement, elseClause);
          
@@ -171,7 +171,7 @@ namespace CastDotNetExtension {
          }
       }
 
-      private List<StatementSyntax> GetBlockStatements(SwitchSectionSyntax switchSectionSyntax, ref List<SyntaxKind> syntaxKindsIn) {
+      private static List<StatementSyntax> GetBlockStatements(SwitchSectionSyntax switchSectionSyntax, ref List<SyntaxKind> syntaxKindsIn) {
          List<StatementSyntax> statements = null;
          if (1 == switchSectionSyntax.Statements.Count) {
             var block = switchSectionSyntax.Statements.ElementAt(0) as BlockSyntax;
