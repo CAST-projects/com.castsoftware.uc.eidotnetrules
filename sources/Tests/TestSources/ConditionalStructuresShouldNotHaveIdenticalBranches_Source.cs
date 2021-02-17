@@ -476,5 +476,24 @@ namespace UnitTests.UnitTest.Sources {
          }
       }
 
+      private void SameStatmentDifferentValuesOK(List<string> attributesOutCtor, bool isSerializingCtor)
+      {
+         bool serializationConstructorSecured = false;
+         bool regularConstructorSecured = false;
+
+         if (!attributesOutCtor.Any()) {
+            if (isSerializingCtor) {
+               serializationConstructorSecured = false;
+            } else {
+               regularConstructorSecured = false;
+            }
+         } else {
+            if (isSerializingCtor) {
+               serializationConstructorSecured = true;
+            } else {
+               regularConstructorSecured = true;
+            }
+         }
+      }
    }
 }

@@ -7,7 +7,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslyn.DotNet.CastDotNetExtension;
 
-
 namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -53,12 +52,13 @@ namespace CastDotNetExtension {
          return GetBlock(blockOrExprs);
       }
 
+
       private static List<StatementSyntax> GetStatementsNoTriviaOrEmptyStatements(BlockSyntax block, ref List<SyntaxKind> syntaxKindsIn)
       {
-         if (null != block) {
-            List<StatementSyntax> statements = GetStatementsNoEmptyStatements(block.WithoutTrivia().Statements, ref syntaxKindsIn);
 
-            return statements;
+         if (null != block) {
+           List<StatementSyntax> statements = GetStatementsNoEmptyStatements(block.Statements, ref syntaxKindsIn);
+           return statements;
          }
 
          return new List<StatementSyntax>();
@@ -70,15 +70,16 @@ namespace CastDotNetExtension {
          List<SyntaxKind> syntaxKinds = new List<SyntaxKind>();
          bool areEquivalent = true;
          int index = 0;
+         TriviaEmptyStatementRemover remover = new TriviaEmptyStatementRemover();
          foreach (var statement in statementsIn) {
-            if (!(statement is EmptyStatementSyntax)) {
-               statements.Add(statement);
-               
-               if (null != syntaxKindsIn && (syntaxKindsIn.Count == index || syntaxKindsIn[index] != statement.Kind())) {
+            var rewrittenStatement = remover.Visit(statement) as StatementSyntax;
+            if (null != rewrittenStatement) {
+               statements.Add(rewrittenStatement);
+               if (null != syntaxKindsIn && (syntaxKindsIn.Count == index || syntaxKindsIn[index] != rewrittenStatement.Kind())) {
                   areEquivalent = false;
                   break;
                }
-               syntaxKinds.Add(statement.Kind());
+               syntaxKinds.Add(rewrittenStatement.Kind());
                index++;
             }
          }
@@ -110,15 +111,31 @@ namespace CastDotNetExtension {
          return areEquivalent;
       }
 
+      public class TriviaEmptyStatementRemover : CSharpSyntaxRewriter {
+         public override SyntaxNode Visit(SyntaxNode node) {
+            node = base.Visit(node);
+            if (null == node) {
+               return node;
+            }
+
+            return node.WithoutTrivia(); 
+         }
+
+         public override SyntaxTrivia VisitTrivia(SyntaxTrivia trivia) { return default(SyntaxTrivia); }
+
+         public override SyntaxNode VisitEmptyStatement(EmptyStatementSyntax node) { return default(EmptyStatementSyntax); }
+      }
+
       private static bool AreStatementsEquivalent(List<StatementSyntax> currentStatements, List<StatementSyntax> previousStatements)
       {
          bool areEquivalent = null != currentStatements && null != previousStatements 
                                                         && currentStatements.Count == previousStatements.Count;
+
          if (areEquivalent) {
             for (int i = 0; i < currentStatements.Count; ++i) {
                var current = currentStatements.ElementAt(i);
                var previous = previousStatements.ElementAt(i);
-               if (current.Kind() != previous.Kind() || !current.IsEquivalentTo(previous, true)) {
+               if (current.Kind() != previous.Kind() || !current.IsEquivalentTo(previous)) {
                   areEquivalent = false;
                   break;
                }
@@ -224,9 +241,7 @@ namespace CastDotNetExtension {
                   AddViolation(iSymbol, new FileLinePositionSpan [] {pos});
                }
             }
-
          }
-
       }
 
       private void AnalyzeConditionalBranches(SyntaxNodeAnalysisContext context, ConditionalExpressionSyntax conditionalExpr) {
