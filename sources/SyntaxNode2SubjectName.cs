@@ -20,6 +20,11 @@ namespace CastDotNetExtension.Utils {
                };
 
 
+      private SyntaxNode2SubjectName()
+      {
+
+      }
+
       private static SyntaxNode GetParentNode(SyntaxNode node, HashSet<string> types, Func<SyntaxNode, bool> typeHandler = null) {
          if (null != node) {
             var parent = node.Parent;

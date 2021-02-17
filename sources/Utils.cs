@@ -11,6 +11,11 @@ using System.Text.RegularExpressions;
 namespace CastDotNetExtension.Utils {
    //https://johnkoerner.com/csharp/how-do-i-analyze-comments/
    public class CommentUtils {
+      private CommentUtils()
+      {
+
+      }
+
       public static IEnumerable<SyntaxTrivia> GetComments(SemanticModel semanticModel, CancellationToken cancellationToken, Regex regex = null, int minimumLength = 0) {
          var root = semanticModel.SyntaxTree.GetRoot(cancellationToken) as CompilationUnitSyntax;
          var commentNodes = from node in root.DescendantTrivia()
