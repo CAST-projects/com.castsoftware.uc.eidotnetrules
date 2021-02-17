@@ -93,48 +93,69 @@ namespace CastDotNetExtension {
                         INamedTypeSymbol systemException = context.Compilation.GetTypeByMetadataName("System.Exception");
                         INamedTypeSymbol systemObject = context.Compilation.GetTypeByMetadataName("System.Object");
                         if (IsException(objCreationOperation.Type as INamedTypeSymbol, systemException, systemObject, context.Compilation, ref _typeToIsException)) {
-                           if (null != objCreationOperation.Parent) {
-                              if (OperationKind.FieldInitializer == objCreationOperation.Parent.Kind) {
-                                 var iFieldInitializer = objCreationOperation.Parent as IFieldInitializerOperation;
-                                 foreach (ISymbol iField in iFieldInitializer.InitializedFields) {
-                                    _exceptionVars.Add(iField);
+                           if (null != objCreationOperation.Parent)
+                           {
+                              switch (objCreationOperation.Parent.Kind)
+                              {
+                                 case OperationKind.FieldInitializer:
+                                 {
+                                    var iFieldInitializer = objCreationOperation.Parent as IFieldInitializerOperation;
+                                    foreach (ISymbol iField in iFieldInitializer.InitializedFields) {
+                                       _exceptionVars.Add(iField);
+                                    }
+
+                                    break;
                                  }
-                              } else if (OperationKind.VariableInitializer == objCreationOperation.Parent.Kind) {
-                                 if (null != objCreationOperation.Parent.Parent && OperationKind.VariableDeclarator == objCreationOperation.Parent.Parent.Kind) {
-                                    if (null != objCreationOperation.Parent.Parent.Parent && OperationKind.VariableDeclaration == objCreationOperation.Parent.Parent.Parent.Kind) {
-                                       var iVariableDeclaration = objCreationOperation.Parent.Parent.Parent as IVariableDeclarationOperation;
-                                       foreach (var iVar in iVariableDeclaration.Declarators) {
-                                          _exceptionVars.Add(iVar.Symbol);
+                                 case OperationKind.VariableInitializer:
+                                 {
+                                    if (null != objCreationOperation.Parent.Parent && OperationKind.VariableDeclarator == objCreationOperation.Parent.Parent.Kind) {
+                                       if (null != objCreationOperation.Parent.Parent.Parent && OperationKind.VariableDeclaration == objCreationOperation.Parent.Parent.Parent.Kind) {
+                                          var iVariableDeclaration = objCreationOperation.Parent.Parent.Parent as IVariableDeclarationOperation;
+                                          foreach (var iVar in iVariableDeclaration.Declarators) {
+                                             _exceptionVars.Add(iVar.Symbol);
+                                          }
                                        }
                                     }
-                                 }
-                              } else if (OperationKind.ExpressionStatement == context.Operation.Parent.Kind) {
 
-                                 HashSet<FileLinePositionSpan> positions = null;
-                                 if (!_symbol2ViolatingNodes.TryGetValue(context.ContainingSymbol, out positions)) {
-                                    positions = new HashSet<FileLinePositionSpan>();
-                                    _symbol2ViolatingNodes[context.ContainingSymbol] = positions;
+                                    break;
                                  }
-                                 positions.Add(context.Operation.Parent.Syntax.GetLocation().GetMappedLineSpan());
+                                 default:
+                                 {
+                                    if (OperationKind.ExpressionStatement == context.Operation.Parent.Kind) {
 
-                              } else if (null != context.Operation.Parent && (OperationKind.Conversion == context.Operation.Parent.Kind &&
-                                                                              null != context.Operation.Parent.Parent && OperationKind.SimpleAssignment == context.Operation.Parent.Parent.Kind ||
-                                 OperationKind.SimpleAssignment == context.Operation.Parent.Kind)) {
-                                 var iSimpleAssignment = OperationKind.SimpleAssignment == context.Operation.Parent.Kind ?
-                                    context.Operation.Parent as ISimpleAssignmentOperation : context.Operation.Parent.Parent as ISimpleAssignmentOperation;
-                                 if (null != iSimpleAssignment.Target) {
-                                    ISymbol iSymbol = null;
-                                    if (OperationKind.LocalReference == iSimpleAssignment.Target.Kind) {
-                                       iSymbol = (iSimpleAssignment.Target as ILocalReferenceOperation).Local;
-                                    } else if (OperationKind.FieldReference == iSimpleAssignment.Target.Kind) {
-                                       iSymbol = (iSimpleAssignment.Target as IFieldReferenceOperation).Field;
+                                       HashSet<FileLinePositionSpan> positions = null;
+                                       if (!_symbol2ViolatingNodes.TryGetValue(context.ContainingSymbol, out positions)) {
+                                          positions = new HashSet<FileLinePositionSpan>();
+                                          _symbol2ViolatingNodes[context.ContainingSymbol] = positions;
+                                       }
+                                       positions.Add(context.Operation.Parent.Syntax.GetLocation().GetMappedLineSpan());
+
+                                    } else if (null != context.Operation.Parent && (OperationKind.Conversion == context.Operation.Parent.Kind &&
+                                       null != context.Operation.Parent.Parent && OperationKind.SimpleAssignment == context.Operation.Parent.Parent.Kind ||
+                                       OperationKind.SimpleAssignment == context.Operation.Parent.Kind)) {
+                                       var iSimpleAssignment = OperationKind.SimpleAssignment == context.Operation.Parent.Kind ?
+                                          context.Operation.Parent as ISimpleAssignmentOperation : context.Operation.Parent.Parent as ISimpleAssignmentOperation;
+                                       if (null != iSimpleAssignment.Target) {
+                                          ISymbol iSymbol = null;
+                                          switch (iSimpleAssignment.Target.Kind)
+                                          {
+                                             case OperationKind.LocalReference:
+                                                iSymbol = (iSimpleAssignment.Target as ILocalReferenceOperation).Local;
+                                                break;
+                                             case OperationKind.FieldReference:
+                                                iSymbol = (iSimpleAssignment.Target as IFieldReferenceOperation).Field;
+                                                break;
+                                          }
+                                          if (null != iSymbol) {
+                                             _exceptionVars.Add(iSymbol);
+                                          }
+                                       }
+                                    } else {
+                                       Console.WriteLine("context.Operation.Parent.Kind: " + context.Operation.Parent.Kind);
                                     }
-                                    if (null != iSymbol) {
-                                       _exceptionVars.Add(iSymbol);
-                                    }
+
+                                    break;
                                  }
-                              } else {
-                                 Console.WriteLine("context.Operation.Parent.Kind: " + context.Operation.Parent.Kind);
                               }
                            } else {
                               Console.WriteLine("objCreationOperation.Parent = null");
@@ -153,12 +174,20 @@ namespace CastDotNetExtension {
                      if (1 == aThrow.Children.Count() && OperationKind.Conversion == aThrow.Children.ElementAt(0).Kind) {
                         if (1 == aThrow.Children.ElementAt(0).Children.Count()) {
                            ISymbol iSymbol = null;
-                           if (OperationKind.FieldReference == aThrow.Children.ElementAt(0).Children.ElementAt(0).Kind) {
-                              var iFieldReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as IFieldReferenceOperation;
-                              iSymbol = iFieldReference.Field;
-                           } else if (OperationKind.LocalReference == aThrow.Children.ElementAt(0).Children.ElementAt(0).Kind) {
-                              var iLocalReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as ILocalReferenceOperation;
-                              iSymbol = iLocalReference.Local;
+                           switch (aThrow.Children.ElementAt(0).Children.ElementAt(0).Kind)
+                           {
+                              case OperationKind.FieldReference:
+                              {
+                                 var iFieldReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as IFieldReferenceOperation;
+                                 iSymbol = iFieldReference.Field;
+                                 break;
+                              }
+                              case OperationKind.LocalReference:
+                              {
+                                 var iLocalReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as ILocalReferenceOperation;
+                                 iSymbol = iLocalReference.Local;
+                                 break;
+                              }
                            }
 
                            if (null != iSymbol) {

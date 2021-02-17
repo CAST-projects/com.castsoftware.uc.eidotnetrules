@@ -148,16 +148,24 @@ namespace CastDotNetExtension.Utils {
                foreach (AttributeListSyntax attrListSynt in attributeLists) {
                   foreach (AttributeSyntax attribute in attrListSynt.Attributes) {
                      ITypeAttribute iTypeAttribute = null;
-                     if (all || HasAttributeType(attrs2Search, attribute.Name.ToString())) {
-                        if ("Export" == attribute.Name.ToString()) {
-                           iTypeAttribute = CreateCSharpExport(attribute, attrListSynt, declarationSyntax as TypeDeclarationSyntax);
-                        } else if ("PartCreationPolicy" == attribute.Name.ToString()) {
-                           iTypeAttribute = CreateCSharpPartCreationPolicy(attribute, attrListSynt);
-                        } else if ("Serializable" == attribute.Name.ToString()) {
-                           iTypeAttribute = CreateSerializable(attribute, attrListSynt);
-                        } else if ("FileIOPermissionAttribute" == attribute.Name.ToString()) {
-                           iTypeAttribute = CreateFileIOPermissionAttribute(attribute, attrListSynt);
+                     if (all || HasAttributeType(attrs2Search, attribute.Name.ToString()))
+                     {
+                        switch (attribute.Name.ToString())
+                        {
+                           case "Export":
+                              iTypeAttribute = CreateCSharpExport(attribute, attrListSynt, declarationSyntax as TypeDeclarationSyntax);
+                              break;
+                           case "PartCreationPolicy":
+                              iTypeAttribute = CreateCSharpPartCreationPolicy(attribute, attrListSynt);
+                              break;
+                           case "Serializable":
+                              iTypeAttribute = CreateSerializable(attribute, attrListSynt);
+                              break;
+                           case "FileIOPermissionAttribute":
+                              iTypeAttribute = CreateFileIOPermissionAttribute(attribute, attrListSynt);
+                              break;
                         }
+
                         if (null != iTypeAttribute) {
                            attributes.Add(iTypeAttribute);
                            if (!all) {
