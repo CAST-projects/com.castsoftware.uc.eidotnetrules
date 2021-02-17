@@ -32,7 +32,7 @@ namespace CastDotNetExtension
          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.IfStatement, SyntaxKind.SwitchStatement, SyntaxKind.InvocationExpression, SyntaxKind.ObjectCreationExpression);
       }
 
-      private static bool HasAssignment(ExpressionSyntax expr, ref IEnumerable<SyntaxNode> expressions)
+      private static void AddIfAssignment(ExpressionSyntax expr, ref IEnumerable<SyntaxNode> expressions)
       {
          bool hasAssignment = !(expr is IdentifierNameSyntax || expr is LiteralExpressionSyntax);
          if (hasAssignment) {
@@ -46,17 +46,14 @@ namespace CastDotNetExtension
                expressions = expressions.Append(expr);
             }
          }
-         return hasAssignment;
       }
 
-      private static bool HasAssignmentsInArguments(ArgumentListSyntax argumentList, ref IEnumerable<SyntaxNode> expressions) {
-         bool hasAssignment = false;
+      private static void AddIfHasAssignmentsInArguments(ArgumentListSyntax argumentList, ref IEnumerable<SyntaxNode> expressions) {
          if (null != argumentList && argumentList.Arguments.Any()) {
             foreach (var argument in argumentList.Arguments) {
-               hasAssignment = HasAssignment(argument.Expression, ref expressions);
+               AddIfAssignment(argument.Expression, ref expressions);
             }
          }
-         return hasAssignment;
       }
 
       private readonly object _lock = new object();
@@ -67,16 +64,16 @@ namespace CastDotNetExtension
                IEnumerable<SyntaxNode> expressions = new List<ExpressionSyntax>();
                if (context.Node is IfStatementSyntax) {
                   var exprToCheck = (context.Node as IfStatementSyntax).Condition;
-                  HasAssignment(exprToCheck, ref expressions);
+                  AddIfAssignment(exprToCheck, ref expressions);
                } else if (context.Node is SwitchStatementSyntax) {
                   var exprToCheck = (context.Node as SwitchStatementSyntax).Expression;
-                  HasAssignment(exprToCheck, ref expressions);
+                  AddIfAssignment(exprToCheck, ref expressions);
                } else if (context.Node is InvocationExpressionSyntax) {
                   var invocation = context.Node as InvocationExpressionSyntax;
-                  HasAssignmentsInArguments(invocation.ArgumentList, ref expressions);
+                  AddIfHasAssignmentsInArguments(invocation.ArgumentList, ref expressions);
                } else if (context.Node is ObjectCreationExpressionSyntax) {
                   var objCreation = context.Node as ObjectCreationExpressionSyntax;
-                  HasAssignmentsInArguments(objCreation.ArgumentList, ref expressions);
+                  AddIfHasAssignmentsInArguments(objCreation.ArgumentList, ref expressions);
                }
                if (expressions.Any()) {
                   foreach (var expr in expressions) {
