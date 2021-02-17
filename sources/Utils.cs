@@ -17,7 +17,7 @@ namespace CastDotNetExtension.Utils {
                             where (node.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
                             node.IsKind(SyntaxKind.SingleLineCommentTrivia)) &&
                             minimumLength <= node.ToString().Length && 
-                            ((null == regex || regex.IsMatch(node.ToString())))
+                            (null == regex || regex.IsMatch(node.ToString()))
                             //orderby node.SpanStart
                             select node;
 

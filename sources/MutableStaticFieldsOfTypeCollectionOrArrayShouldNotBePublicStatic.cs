@@ -45,13 +45,11 @@ namespace CastDotNetExtension {
                            (
                               field.Type.BaseType == SystemArray ||
                               (
-                                 (
-                                    (null != SystemGenericICollection && field.Type.AllInterfaces.Contains(SystemGenericICollection)) ||
-                                    (null != SystemCollectionsICollection && field.Type.AllInterfaces.Contains(SystemCollectionsICollection))
-                                 )
-                                 &&
-                                 !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")
+                                 null != SystemGenericICollection && field.Type.AllInterfaces.Contains(SystemGenericICollection) ||
+                                 null != SystemCollectionsICollection && field.Type.AllInterfaces.Contains(SystemCollectionsICollection)
                               )
+                              &&
+                              !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")
                            )
                            );
 

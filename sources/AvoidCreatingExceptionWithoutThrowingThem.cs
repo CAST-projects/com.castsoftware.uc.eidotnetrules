@@ -75,7 +75,7 @@ namespace CastDotNetExtension {
                   }
                }
 
-               var toRemove = _syntaxTreeRootToObjectCreationOrThrowNodeCount.Where(n => (0 == n.Value)).ToArray();
+               var toRemove = _syntaxTreeRootToObjectCreationOrThrowNodeCount.Where(n => 0 == n.Value).ToArray();
                foreach (var n in toRemove) {
                   _syntaxTreeRootToObjectCreationOrThrowNodeCount.Remove(n.Key);
                }
@@ -83,10 +83,10 @@ namespace CastDotNetExtension {
                bool end = !_syntaxTreeRootToObjectCreationOrThrowNodeCount.Any();
 
                if (OperationKind.ObjectCreation == context.Operation.Kind) {
-                  var throwOp = (null != context.Operation.Parent && OperationKind.Throw == context.Operation.Parent.Kind) ?
+                  var throwOp = null != context.Operation.Parent && OperationKind.Throw == context.Operation.Parent.Kind ?
                      context.Operation.Parent :
-                     (OperationKind.Conversion == context.Operation.Parent.Kind && null != context.Operation.Parent.Parent &&
-                     OperationKind.Throw == context.Operation.Parent.Parent.Kind) ? context.Operation.Parent.Parent : null;
+                     OperationKind.Conversion == context.Operation.Parent.Kind && null != context.Operation.Parent.Parent &&
+                     OperationKind.Throw == context.Operation.Parent.Parent.Kind ? context.Operation.Parent.Parent : null;
                   if (null == throwOp) {
                      var objCreationOperation = context.Operation as IObjectCreationOperation;
                      if (null != objCreationOperation && objCreationOperation.Type is INamedTypeSymbol) {
@@ -117,8 +117,8 @@ namespace CastDotNetExtension {
                                  }
                                  positions.Add(context.Operation.Parent.Syntax.GetLocation().GetMappedLineSpan());
 
-                              } else if (null != context.Operation.Parent && ((OperationKind.Conversion == context.Operation.Parent.Kind &&
-                                 null != context.Operation.Parent.Parent && OperationKind.SimpleAssignment == context.Operation.Parent.Parent.Kind) ||
+                              } else if (null != context.Operation.Parent && (OperationKind.Conversion == context.Operation.Parent.Kind &&
+                                                                              null != context.Operation.Parent.Parent && OperationKind.SimpleAssignment == context.Operation.Parent.Parent.Kind ||
                                  OperationKind.SimpleAssignment == context.Operation.Parent.Kind)) {
                                  var iSimpleAssignment = OperationKind.SimpleAssignment == context.Operation.Parent.Kind ?
                                     context.Operation.Parent as ISimpleAssignmentOperation : context.Operation.Parent.Parent as ISimpleAssignmentOperation;

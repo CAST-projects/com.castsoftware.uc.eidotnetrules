@@ -53,7 +53,7 @@ namespace CastDotNetExtension
                   TryStatementSyntax prevTryStatement = tryStatementNode as TryStatementSyntax;
                   if (null != currTryStatement && null != prevTryStatement) {
                      if (currTryStatement.Catches.Count == prevTryStatement.Catches.Count &&
-                        (null != currTryStatement.Finally) == (null != prevTryStatement.Finally)) {
+                        null != currTryStatement.Finally == (null != prevTryStatement.Finally)) {
                         bool areEquivalent = true;
                         if (prevTryStatement.Finally != null 
                             && null != currTryStatement.Finally 

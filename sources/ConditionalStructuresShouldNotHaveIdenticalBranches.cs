@@ -49,7 +49,7 @@ namespace CastDotNetExtension {
 
       private static BlockSyntax GetBlockSyntaxIf(IfStatementSyntax ifStatement, ElseClauseSyntax elseClause)
       {
-         var blockOrExprs = (null != ifStatement) ? ifStatement.Statement : elseClause.Statement;
+         var blockOrExprs = null != ifStatement ? ifStatement.Statement : elseClause.Statement;
          return GetBlock(blockOrExprs);
       }
 
@@ -88,7 +88,7 @@ namespace CastDotNetExtension {
             syntaxKindsIn = syntaxKinds;
          }
 
-         return (areEquivalent ? statements : null);
+         return areEquivalent ? statements : null;
       }
 
 
@@ -98,7 +98,7 @@ namespace CastDotNetExtension {
          
          List<StatementSyntax> statements = GetStatementsNoTriviaOrEmptyStatements(block, ref syntaxKindCount);
 
-         bool areEquivalent = (null != statements);
+         bool areEquivalent = null != statements;
          if (!firstTime && areEquivalent) {
             areEquivalent = AreStatementsEquivalent(statements, currentStatements);
          }
@@ -112,8 +112,8 @@ namespace CastDotNetExtension {
 
       private static bool AreStatementsEquivalent(List<StatementSyntax> currentStatements, List<StatementSyntax> previousStatements)
       {
-         bool areEquivalent = (null != currentStatements && null != previousStatements 
-            && currentStatements.Count == previousStatements.Count);
+         bool areEquivalent = null != currentStatements && null != previousStatements 
+                                                        && currentStatements.Count == previousStatements.Count;
          if (areEquivalent) {
             for (int i = 0; i < currentStatements.Count; ++i) {
                var current = currentStatements.ElementAt(i);
@@ -178,7 +178,7 @@ namespace CastDotNetExtension {
             if (null == block) {
                if (switchSectionSyntax.Statements.ElementAt(0) is ReturnStatementSyntax) {
                   var statement = switchSectionSyntax.Statements.ElementAt(0);
-                  block = (BlockSyntax)SyntaxFactory.ParseStatement((null != statement ? "{" + statement + "}" : "{}"));
+                  block = (BlockSyntax)SyntaxFactory.ParseStatement(null != statement ? "{" + statement + "}" : "{}");
                }
             }
 
@@ -255,7 +255,7 @@ namespace CastDotNetExtension {
          lock (_lock) {
             try {
                HashSet<IfStatementSyntax> ifsAnalyzed = new HashSet<IfStatementSyntax>();
-               IMethodSymbol iMethod = (context.Symbol as IMethodSymbol);
+               IMethodSymbol iMethod = context.Symbol as IMethodSymbol;
                if (null != iMethod && null != iMethod.DeclaringSyntaxReferences) {
                   foreach (var root in iMethod.DeclaringSyntaxReferences) {
                      var syntax = root.GetSyntax();

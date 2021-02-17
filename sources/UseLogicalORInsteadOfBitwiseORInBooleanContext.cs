@@ -34,8 +34,8 @@ namespace CastDotNetExtension {
                var expr = context.Node as BinaryExpressionSyntax;
                if (null != expr) {
                   var booleanType = context.SemanticModel.Compilation.GetTypeByMetadataName("System.Boolean");
-                  if ((null != expr.Left && context.SemanticModel.GetTypeInfo(expr.Left).Type.Equals(booleanType)) ||
-                  (null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType))) {
+                  if (null != expr.Left && context.SemanticModel.GetTypeInfo(expr.Left).Type.Equals(booleanType) ||
+                  null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType)) {
                      var pos = expr.SyntaxTree.GetMappedLineSpan(expr.Span);
                      //Log.Warn(pos);
                      AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });

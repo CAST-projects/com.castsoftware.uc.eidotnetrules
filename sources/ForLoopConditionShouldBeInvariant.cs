@@ -43,7 +43,7 @@ namespace CastDotNetExtension
                if (node is IdentifierNameSyntax) {
                   var identifierNode = node as IdentifierNameSyntax;
                   if (identifierNode.Identifier.Value == left.Identifier.Value ||
-                     (null != right && identifierNode.Identifier.Value == right.Identifier.Value)) {
+                     null != right && identifierNode.Identifier.Value == right.Identifier.Value) {
 
                      if (identifierNode.Identifier.Value == left.Identifier.Value && null == iSymbolLeft) {
                         iSymbolLeft = context.SemanticModel.GetSymbolInfo(left).Symbol;

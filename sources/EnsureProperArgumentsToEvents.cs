@@ -88,7 +88,7 @@ namespace CastDotNetExtension {
                      }
                   }
                   // check invocation argument for null sender and null data
-                  if ((invokedMethod == _EventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _EventHandlerWithArgsInvokeMethodSymbols)) {
+                  if (invokedMethod == _EventHandlerInvokeMethodSymbols || invokedMethod.OriginalDefinition == _EventHandlerWithArgsInvokeMethodSymbols) {
                      var firstArgNode = invocationNode.ArgumentList.Arguments[0].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
                      var secondArgNode = invocationNode.ArgumentList.Arguments[1].Expression as Microsoft.CodeAnalysis.CSharp.Syntax.LiteralExpressionSyntax;
                      if (firstArgNode != null && isEventNonStatic) {
@@ -138,7 +138,7 @@ namespace CastDotNetExtension {
 
 
       private void Init(Compilation compil) {
-         bool changed = isChangedCompilation((compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation) != null);
+         bool changed = isChangedCompilation(compil as Microsoft.CodeAnalysis.CSharp.CSharpCompilation != null);
 
          if (changed) {
             _EventHandlerSymbols = compil.GetTypeByMetadataName("System.EventHandler") as INamedTypeSymbol;
