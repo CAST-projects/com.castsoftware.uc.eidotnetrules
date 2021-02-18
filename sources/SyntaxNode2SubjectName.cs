@@ -7,6 +7,7 @@ namespace CastDotNetExtension.Utils {
    internal class SyntaxNode2SubjectName {
 
 
+      public static readonly string LAMBDA = "<lambda>";
 
       private static readonly HashSet<SyntaxKind> Kinds = new HashSet<SyntaxKind> {
                   SyntaxKind.ConstructorDeclaration,
@@ -87,7 +88,7 @@ namespace CastDotNetExtension.Utils {
                   }
                case SyntaxKind.ParenthesizedLambdaExpression:
                case SyntaxKind.SimpleLambdaExpression: {
-                     name = "<lambda>";
+                     name = LAMBDA;
                      break;
                   }
 
