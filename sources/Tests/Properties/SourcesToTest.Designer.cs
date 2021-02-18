@@ -300,7 +300,7 @@ namespace UnitTests.Properties {
         ///    {
         ///        Action&lt;object&gt; action = (object obj) =&gt;
         ///                        {
-        ///                           Console.WriteLine(&quot;Ta [rest of string was truncated]&quot;;.
+        ///                           Console.WriteLin [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source {
             get {
@@ -416,36 +416,6 @@ namespace UnitTests.Properties {
         internal static string ClassesImplementingIEquatableTShouldBeSealed_Source {
             get {
                 return ResourceManager.GetString("ClassesImplementingIEquatableTShouldBeSealed_Source", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace UnitTests.UnitTest.Sources {
-        ///   public class ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
-        ///      private bool ReturnTrue() {
-        ///         return true;
-        ///      }
-        ///
-        ///      private bool ReturnFalse(int i = 0) {
-        ///         return false;
-        ///      }
-        ///
-        ///      private void TestSwitchBranchesKO(int i = 0) {
-        ///
-        ///         switch (i) {
-        ///            case 1:
-        ///               i++;
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
-            get {
-                return ResourceManager.GetString("ConditionalStructuresShouldNotHaveIdenticalBranches_Source", resourceCulture);
             }
         }
         
