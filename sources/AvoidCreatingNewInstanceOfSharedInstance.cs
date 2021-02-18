@@ -55,7 +55,7 @@ namespace CastDotNetExtension {
             string name = SyntaxNode2SubjectName.Get(node, delegate(SyntaxNode parent) {
                parentNode = parent;
                if (null != parent) {
-                  if ("InvocationExpressionSyntax" == parent.GetType().Name) {
+                  if (SyntaxKind.InvocationExpression == parent.Kind()) {
                      if (null != semanticModel) {
                         IMethodSymbol invokedMethod = semanticModel.GetSymbolInfo(parent).Symbol as IMethodSymbol;
                         if (null != invokedMethod) {
