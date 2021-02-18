@@ -2,7 +2,9 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Operations;
 using Roslyn.DotNet.CastDotNetExtension;
+using CastDotNetExtension.Utils;
 
 
 namespace CastDotNetExtension {
@@ -18,42 +20,11 @@ namespace CastDotNetExtension {
    )]
    public class AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName : AbstractRuleChecker {
 
-      protected enum CompilationType {
-         None,
-         CSharp,
-         VisualBasic
-      }
-
-      private static readonly string[] MethodNames =
-        { 
+      private static readonly HashSet<string> MethodNames = new HashSet<string> { 
             "LoadFrom",
             "LoadFile",
             "LoadWithPartialName"
-        };
-
-      private static HashSet<IMethodSymbol> _methodSymbols = null;
-
-      private CompilationType _typeCompilation = CompilationType.None;
-
-      protected bool IsChangedCompilation(bool isCsharpCompilation) {
-         if (_typeCompilation == CompilationType.CSharp && !isCsharpCompilation) {
-            _typeCompilation = CompilationType.VisualBasic;
-            return true;
-         }
-
-         if (_typeCompilation == CompilationType.VisualBasic && isCsharpCompilation) {
-            _typeCompilation = CompilationType.CSharp;
-            return true;
-         }
-
-         if (_typeCompilation == CompilationType.None) {
-            _typeCompilation = isCsharpCompilation ? CompilationType.CSharp : CompilationType.VisualBasic;
-            return true;
-         }
-
-         return false;
-      }
-
+      };
 
 
       /// <summary>
@@ -62,38 +33,19 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
+         context.RegisterOperationAction(AnalyzeCall, OperationKind.Invocation);
       }
 
-      private readonly object _lock = new object();
-      protected void Analyze(SyntaxNodeAnalysisContext context) {
-         lock (_lock) {
-            try {
-               Init(context.Compilation);
-               var model = context.SemanticModel;
-               var symbInf = model.GetSymbolInfo(context.Node);
-               var invokedMethod = symbInf.Symbol as IMethodSymbol;// get invocation method symbol   
-               if (_methodSymbols.Contains(invokedMethod)) {
-                  var span = context.Node.Span;
-                  var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                  //Log.Warn(pos.ToString());
-                  AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
-               }
-            }
-            catch (System.Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
-            }
-         }
-      }
+      private void AnalyzeCall(OperationAnalysisContext context)
+      {
+         IInvocationOperation invocation = context.Operation as IInvocationOperation;
+         System.Diagnostics.Debug.Assert(null != invocation && null != invocation.TargetMethod);
+         HashSet<IMethodSymbol> methodSymbols =
+            context.Compilation.GetMethodSymbolsForSystemClass(
+               context.Compilation.GetTypeByMetadataName("System.Reflection.Assembly"), MethodNames, false, 8);
 
-      private void Init(Compilation compil) {
-         bool changed = IsChangedCompilation(compil is Microsoft.CodeAnalysis.CSharp.CSharpCompilation);
-         if (_methodSymbols == null || changed) {
-            _methodSymbols = new HashSet<IMethodSymbol>();
-            var assembly = compil.GetTypeByMetadataName("System.Reflection.Assembly");
-            if (null != assembly) {
-               _methodSymbols.UnionWith(assembly.GetMembers().OfType<IMethodSymbol>().Where(m => MethodNames.Contains(m.Name)));
-            }
+         if (methodSymbols.Contains(invocation.TargetMethod)) {
+            AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
          }
       }
    }

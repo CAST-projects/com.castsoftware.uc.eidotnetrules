@@ -34,18 +34,28 @@ namespace CastDotNetExtension.Utils {
 
    internal static class CompilationExtension {
 
-      public static void GetMethodSymbolsForSystemClass(this Compilation compilation, string classFullName, HashSet<string> methodNames, ref IAssemblySymbol assembly, ref HashSet<IMethodSymbol> methods, bool useFullName = true) {
+      public static void GetMethodSymbolsForSystemClass(this Compilation compilation, string classFullName, HashSet<string> methodNames, ref IAssemblySymbol assembly, ref HashSet<IMethodSymbol> methods, bool useFullName = true, int expectedCount = -1) {
          var klazz = compilation.GetTypeByMetadataName(classFullName);
          if (null != klazz && assembly != klazz.ContainingAssembly) {
             assembly = klazz.ContainingAssembly;
-            methods = compilation.GetMethodSymbolsForSystemClass(klazz, methodNames, useFullName);
+            methods = compilation.GetMethodSymbolsForSystemClass(klazz, methodNames, useFullName, expectedCount);
          }
       }
 
-      public static HashSet<IMethodSymbol> GetMethodSymbolsForSystemClass(this Compilation compilation, INamedTypeSymbol klazz, HashSet<string> methodNames, bool useFullName = true) {
+      public static HashSet<IMethodSymbol> GetMethodSymbolsForSystemClass(this Compilation compilation, INamedTypeSymbol klazz, HashSet<string> methodNames, bool useFullName = true, int expectedCount = -1)
+      {
          HashSet<IMethodSymbol> methods = new HashSet<IMethodSymbol>();
          if (null != klazz) {
-            methods.UnionWith(klazz.GetMembers().OfType<IMethodSymbol>().Where(m => methodNames.Contains(useFullName ? m.OriginalDefinition.ToString() : m.Name)));
+            foreach (var member in klazz.GetMembers()) {
+               if (SymbolKind.Method == member.Kind) {
+                  if (methodNames.Contains(useFullName ? member.OriginalDefinition.ToString() : member.Name)) {
+                     methods.Add(member as IMethodSymbol);
+                     if (-1 != expectedCount && expectedCount == methods.Count) {
+                        break;
+                     }
+                  }
+               }
+            }
          }
          return methods;
       }
