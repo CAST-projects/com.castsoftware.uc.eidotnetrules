@@ -70,16 +70,19 @@ namespace CastDotNetExtension {
 
                         if (fields.ContainsKey(name)) {
                            var pos = context.Node.GetLocation().GetMappedLineSpan();
+                           var poses = new List<FileLinePositionSpan> { pos };
+                           if (!fields[name].Locations.IsDefaultOrEmpty) {
+                              poses.Add(fields[name].Locations[0].GetMappedLineSpan());
+                           }
                            //Log.WarnFormat("Thread ID: {0} Adding violation at {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, pos.StartLinePosition.ToString());
-                           AddViolation(context, new List<FileLinePositionSpan> { pos });
+                           AddViolation(context, poses);
                         }
                      }
                   }
                }
             }
             catch (Exception e) {
-               Log.Warn(e.StackTrace);
-               Log.WarnFormat("Exception in ... {0}", e.Message);
+               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
       }
