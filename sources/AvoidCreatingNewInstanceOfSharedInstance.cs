@@ -48,6 +48,7 @@ namespace CastDotNetExtension {
          ref HashSet<string> sharedSymbols,
          ref Dictionary<string, Tuple<SyntaxNode, SyntaxNode, ISymbol>> allCreators,
          SemanticModel semanticModel) {
+
          var objectCreationSyntax = node as ObjectCreationExpressionSyntax;
          var typename = objectCreationSyntax.Type.ToString();
          if (IsTypeRelevant(typename, ref sharedSymbols)) {
@@ -70,7 +71,7 @@ namespace CastDotNetExtension {
                return true;
             });
 
-            if (null != name && null != parentNode) {
+            if (null != name && SyntaxNode2SubjectName.LAMBDA != name && null != parentNode) {
                ISymbol iSymbol = semanticModel.GetEnclosingSymbol(node.GetLocation().GetMappedLineSpan().Span.Start.Line);
                if (null != iSymbol) {
                   AddCreator(name, parentNode, node, iSymbol, ref allCreators);
