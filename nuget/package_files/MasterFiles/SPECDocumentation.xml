@@ -801,86 +801,29 @@ new Exception();</english>
   <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="description">
-    <english>This QR will raise violation if all the branches in a given conditional statement has same content. switch with default label, if and ternary operators are considered for inspection.</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="name">
-    <english>Conditional structures should not have identical branches</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="output">
-    <english>Associated to each violation, the following information is provided:
-- The number of violation occurrences
-- Bookmarks for violation occurrences found in the source code</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="rationale">
-    <english>Having identical statements in all branches would mean it is likely a mistake. Either it needs to be inspected and changed or conditional statement needs to be removed.</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="remediation">
-    <english>Inspect conditional statement and change or remove conditional statement.</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="sample">
-    <english>Class Test {
-   public TestAll() {
-         int i1 = 1;
-         var x = false;
-
-         if (true == x) {
-            ReturnTrue();
-         }
-         else if (1 == i1) {
-            ReturnTrue();
-         }
-         else {
-            ReturnTrue();
-         }
-
-
-
-         switch (i) {
-            case 1:
-               i++;
-               break;
-            case 2:
-               //differs only by comment
-               i++;
-               break;
-            default:
-               /*default*/
-               i++;
-               break;
-         }
-
-         i = 0 == i ? ++i : ++i;
-   }
-
-}</english>
-  </metric>
-  <metric id="2200030" type="quality-rule" originalName="Conditional structures should not have identical branches" section="total">
-    <english>Number of Artifacts</english>
-  </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="description">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="description">
     <english>The rule will raise a violation when a type implements a finalizer that is empty. Even finalizer with only statement with calls to Debug.Fail and it is not in #if DEBUG part, it will be considered as violation since Debug.Fail is omitted for non-DEBUG configuration.</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="name">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="name">
     <english>Avoid empty finalizers</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="output">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="rationale">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="rationale">
     <english>Whenever you can, avoid finalizers because of the additional performance overhead that's involved in tracking object lifetime. The garbage collector runs the finalizer before it collects the object. This means that at least two collections are required to collect the object. An empty finalizer incurs this added overhead without any benefit.</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="reference">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="reference">
     <english>https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1821
 
 https://cwe.mitre.org/data/definitions/1069.html</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="remediation">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="remediation">
     <english>Avoid using empty finalizers</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="sample">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="sample">
     <english>public class Class1
     {
         // Violation occurs because the finalizer is empty.
@@ -902,27 +845,27 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
         }
     }</english>
   </metric>
-  <metric id="2200032" type="quality-rule" originalName="Avoid empty finalizers" section="total">
+  <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="total">
     <english>Number of finalizers</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="description">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="description">
     <english>This rule will raise violation if Recursion is used in type inheritance.</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="name">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="name">
     <english>Avoid recursive type inheritance</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="output">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="rationale">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="rationale">
     <english>Unlike methods, it is not possible to break out of recursion. If used, it will fail at runtime.</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="remediation">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="remediation">
     <english>Do not use recursive type inheritance.</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="sample">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="sample">
     <english>class C1&lt;T&gt; {
       }
 
@@ -936,34 +879,34 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
          public int x = 101;
       }</english>
   </metric>
-  <metric id="2200034" type="quality-rule" originalName="Avoid recursive type inheritance" section="total">
+  <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" section="total">
     <english>Number pf classes</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="associatedValueName">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
     <english>This rule will give violation if condition in for loop is not invariant.</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
     <english>For loop stop condition should be invariant</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="output">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="rationale">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="rationale">
     <english>A for loop stop condition should test the loop counter against an invariant value (i.e. one that is true at both the beginning and ending of every loop iteration). Ideally, this means that the stop condition is set to a local variable just before the loop begins.
 
 Stop conditions that are not invariant are slightly less efficient, as well as being difficult to understand and maintain, and likely lead to the introduction of errors in the future.
 
 This gives violation when the loop counters are updated in the body of the for loop.</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
     <english>Make for loop condition invariant.</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediationSample">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediationSample">
     <english>class Foo
 {
     static void Main()
@@ -991,30 +934,30 @@ This gives violation when the loop counters are updated in the body of the for l
     }
 }</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="total">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="description">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="description">
     <english>This rule raises an issue when a type implements the System.Runtime.Serialization.ISerializable interface, is not a delegate or interface, is declared in an assembly that allows partially trusted callers and has a constructor that takes a System.Runtime.Serialization.SerializationInfo object and a System.Runtime.Serialization.StreamingContext object which is not secured by a security check, but one or more of the regular constructors in the type is secured.</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="name">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="name">
     <english>Ensure constructors of serializable classes are secure</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="output">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="rationale">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="rationale">
     <english>Because serialization constructors allocate and initialize objects, security checks that are present on regular constructors must also be present on a serialization constructor. Failure to do so would allow callers that could not otherwise create an instance to use the serialization constructor to do this.</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="reference">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="reference">
     <english>https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization.html</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediation">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediation">
     <english>Make constructors of serializable classes secure.</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediationSample">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="remediationSample">
     <english>using System;
 using System.IO;
 using System.Runtime.Serialization;
@@ -1049,7 +992,7 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="sample">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="sample">
     <english>using System;
 using System.IO;
 using System.Runtime.Serialization;
@@ -1083,27 +1026,27 @@ namespace MyLibrary
     }
 }</english>
   </metric>
-  <metric id="2200038" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="total">
+  <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" section="total">
     <english>Number of constructors</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="description">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="description">
     <english>This rule will raise a violation when adjacent try-catch blocks have identical catch blocks.</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="name">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="name">
     <english>Merge adjacent try blocks with identical catch/finally statements</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="output">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="rationale">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="rationale">
     <english>Adjacent try-catch blocks having identical catch blocks must be merged to improve readability of code.</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediation">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediation">
     <english>Merge the try-catch blocks.</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediationSample">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="remediationSample">
     <english>try
 {
   DoTheFirstThing(a, b);
@@ -1124,7 +1067,7 @@ catch (InvalidOperationException ex)
   LogAndDie(ex);
 }</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="sample">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="sample">
     <english>try
 {
   DoTheFirstThing(a, b);
@@ -1154,68 +1097,68 @@ catch (InvalidOperationException ex)
   LogAndDie(ex);
 }</english>
   </metric>
-  <metric id="2200040" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="total">
+  <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" section="total">
     <english>Number of methods</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="associatedValueName">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="description">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="description">
     <english>This rule will check if assignments are done in if\switch\method\constructor calls.</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="name">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="name">
     <english>Avoid assignments in sub-expressions</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="output">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="rationale">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="rationale">
     <english>Assignments within sub-expressions are hard to spot and therefore make the code less readable. Ideally, sub-expressions should not have side-effects.</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="reference">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="reference">
     <english>MITRE, CWE-481 - Assigning instead of Comparing
 CERT, EXP45-C. - Do not perform assignments in selection statements
 CERT, EXP51-J. - Do not perform assignments in conditional expressions</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediation">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediation">
     <english>Remove assignments from if\switch\method calls\constructor calls sub-expressions.</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediationSample">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="remediationSample">
     <english>var result = str.Substring(index, length);
 if (string.IsNullOrEmpty(result))
 {
   //...
 }</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="sample">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="sample">
     <english>if (string.IsNullOrEmpty(result = str.Substring(index, length))) // Noncompliant
 {
   //...
 }</english>
   </metric>
-  <metric id="2200042" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="total">
+  <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="description">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="description">
     <english>This rule will raise a violation upon invocation of a constructor of a class considered as shared with [PartCreationPolicyAttribute]</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="name">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="name">
     <english>Avoid creating new instance of shared instance (.NET)</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="output">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="rationale">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="rationale">
     <english>If a class is marked such that only a single object of the class will be exported as a shared object [PartCreationPolicy(CreationPolicy.Shared)], then invoking the constructor and creating new instances with it will result in unexpected behavior.</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediation">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediation">
     <english>Prefer using the created instance and its resources.</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediationSample">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="remediationSample">
     <english>using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1252,7 +1195,7 @@ namespace GenericObject {
    }
 }</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="sample">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="sample">
     <english>using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1289,7 +1232,7 @@ namespace GenericObject {
    }
 }</english>
   </metric>
-  <metric id="2200044" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="total">
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="total">
     <english>Number of Artifacts</english>
   </metric>
 </root>

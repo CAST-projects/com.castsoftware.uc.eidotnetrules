@@ -150,8 +150,8 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="ConditionalStructuresShouldNotHaveIdenticalBranches" type="integer"  merge="sum" rid="16">
-        <description>Conditional structures should not have identical branches</description>
+     <property name="AvoidEmptyFinalizers" type="integer"  merge="sum" rid="16">
+        <description>Avoid Empty Finalizers</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="16"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
@@ -159,26 +159,26 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="AvoidEmptyFinalizers" type="integer"  merge="sum" rid="17">
-        <description>Avoid Empty Finalizers</description>
+     <property name="AvoidRecursiveTypeInheritance" type="integer"  merge="sum" rid="17">
+        <description>Avoid Recursive Type Inheritance</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="17"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
-
-     <property name="AvoidRecursiveTypeInheritance" type="integer"  merge="sum" rid="18">
-        <description>Avoid Recursive Type Inheritance</description>
+     
+     <property name="ForLoopConditionShouldBeInvariant" type="integer"  merge="sum" rid="18">
+        <description>For Loop Condition Should Be Invariant</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="18"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
-     
-     <property name="ForLoopConditionShouldBeInvariant" type="integer"  merge="sum" rid="19">
-        <description>For Loop Condition Should Be Invariant</description>
+
+     <property name="EnsureConstructorsOfSerializableClassesAreSecure" type="integer"  merge="sum" rid="19">
+        <description>Ensure Constructors Of Serializable Classes Are Secure</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="19"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
@@ -186,7 +186,7 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="EnsureConstructorsOfSerializableClassesAreSecure" type="integer"  merge="sum" rid="20">
+     <property name="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements" type="integer"  merge="sum" rid="20">
         <description>Ensure Constructors Of Serializable Classes Are Secure</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="20"  />
@@ -195,8 +195,8 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements" type="integer"  merge="sum" rid="21">
-        <description>Ensure Constructors Of Serializable Classes Are Secure</description>
+     <property name="AvoidAssignmentsInSubExpressions" type="integer"  merge="sum" rid="21">
+        <description>Avoid assignments in sub-expressions</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="21"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
@@ -204,24 +204,14 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     <property name="AvoidAssignmentsInSubExpressions" type="integer"  merge="sum" rid="22">
-        <description>Avoid assignments in sub-expressions</description>
+     <property name="AvoidCreatingNewInstanceOfSharedInstance" type="integer"  merge="sum" rid="22">
+        <description>Avoid Creating New Instance Of Shared Instance</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="22"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
         <attribute name="ACCESS_HTML"    intValue="1"   />
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
-
-     <property name="AvoidCreatingNewInstanceOfSharedInstance" type="integer"  merge="sum" rid="23">
-        <description>Avoid Creating New Instance Of Shared Instance</description>
-        <attribute name="INF_TYPE"       intValue="2200000"/>
-        <attribute name="INF_SUB_TYPE"   intValue="23"  />
-        <attribute name="ACCESS_APPVIEW" intValue="1"   />
-        <attribute name="ACCESS_HTML"    intValue="1"   />
-        <attribute name="ACCESS_CVS"     intValue="1"   />
-     </property>
-     
 
   </category>
 

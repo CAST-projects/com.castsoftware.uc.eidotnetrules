@@ -46,7 +46,6 @@
     <Compile Include="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />
-    <Compile Include="ConditionalStructuresShouldNotHaveIdenticalBranches.cs" />
     <Compile Include="CultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="EnsureConstructorsOfSerializableClassesAreSecure.cs" />

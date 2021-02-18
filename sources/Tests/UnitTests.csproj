@@ -108,7 +108,6 @@
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
-    <Compile Include="TestConditionalStructuresShouldNotHaveIdenticalBranches.cs" />
     <Compile Include="TestCultureDependentStringOperationsShouldSpecifyCulture.cs" />
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="TestEnsureConstructorsOfSerializableClassesAreSecure.cs" />
@@ -119,7 +118,6 @@
     <Compile Include="TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
-    <None Include="TestSources\ConditionalStructuresShouldNotHaveIdenticalBranches_Source.cs" />
     <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
@@ -127,7 +125,7 @@
     <None Include="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
-    <Compile Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />    
+    <Compile Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
