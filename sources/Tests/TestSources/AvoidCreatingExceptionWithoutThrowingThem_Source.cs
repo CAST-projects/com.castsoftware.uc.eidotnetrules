@@ -37,7 +37,7 @@ namespace UnitTests.UnitTest.Sources {
          varNotToThrow = new InvalidOperationException();
 
          try {
-            int i;
+            int iii;
          } catch (Exception e) {
             throw;
          }
@@ -48,6 +48,13 @@ namespace UnitTests.UnitTest.Sources {
 
       void someOtherMethod() {
          _nullReferenceExceptionInitedLaterAndNotThrown  = new NullReferenceException();
+      }
+
+      void ThrowExpression(int groupId, object group)
+      {
+         var argException = new ArgumentException("Group {groupId} does not exist" , "no param");
+         //var groupSomething = group ?? throw new ArgumentException("Group {groupId} does not exist" , "no param");
+         var groupSomething = group ?? throw argException;
       }
 
    }
