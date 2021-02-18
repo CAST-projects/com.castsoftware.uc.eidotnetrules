@@ -3563,6 +3563,25 @@ This gives violation when the loop counters are updated in the body of the for l
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200034</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>5</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>class Foo
+{
+    static void Main()
+    {
+        for (int i = 1; i &lt;= 5; i++)
+        {
+            Console.WriteLine(i);
+            if (condition)
+            {
+               i = 20;
+           }
+        }
+    }
+}</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200034</METRIC_ID>
     <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>class Foo

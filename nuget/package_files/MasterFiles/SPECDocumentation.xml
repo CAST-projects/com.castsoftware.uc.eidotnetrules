@@ -918,7 +918,7 @@ This gives violation when the loop counters are updated in the body of the for l
     }
 }</english>
   </metric>
-  <metric id="2200036" type="quality-rule" originalName="For loop stop condition should be invariant" section="sample">
+  <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="sample">
     <english>class Foo
 {
     static void Main()
