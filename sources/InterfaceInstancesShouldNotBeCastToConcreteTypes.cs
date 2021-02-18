@@ -31,7 +31,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                var castNode = context.Node as CastExpressionSyntax;
                INamedTypeSymbol fromType = null, toType = null;

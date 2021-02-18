@@ -30,7 +30,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void AnalyzeMethodName(SymbolAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                if (SymbolKind.Method == context.Symbol.Kind) {
                   var method = context.Symbol as IMethodSymbol;

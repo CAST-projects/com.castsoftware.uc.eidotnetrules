@@ -31,7 +31,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                if ("C#" == context.SemanticModel.Compilation.Language) {
                   foreach (var comment in Utils.CommentUtils.GetComments(context.SemanticModel, context.CancellationToken, FIXME, 7)) {

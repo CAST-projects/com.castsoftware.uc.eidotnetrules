@@ -58,7 +58,6 @@ namespace CastDotNetExtension {
       private readonly object _lock = new object();
 
       protected void Analyze(SyntaxNodeAnalysisContext context) {
-         lock (_lock) {
             try {
                Init(context.Compilation);
                if (_methodSymbols.Any()) {
@@ -74,13 +73,14 @@ namespace CastDotNetExtension {
             catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
-         }
       }
 
       private IAssemblySymbol _mscorlib = null;
 
       private void Init(Compilation compilation) {
-         compilation.GetMethodSymbolsForSystemClass("System.String", MethodNames, ref _mscorlib, ref _methodSymbols);
+         lock (_lock) {
+            compilation.GetMethodSymbolsForSystemClass("System.String", MethodNames, ref _mscorlib, ref _methodSymbols, true, MethodNames.Count);
+         }
       }
 
    }

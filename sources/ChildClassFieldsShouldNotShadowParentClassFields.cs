@@ -74,7 +74,7 @@ namespace CastDotNetExtension {
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                var klazz = context.Symbol as INamedTypeSymbol;
                if (null != klazz && TypeKind.Class == klazz.TypeKind) {

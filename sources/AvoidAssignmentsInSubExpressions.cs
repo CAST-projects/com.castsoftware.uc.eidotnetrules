@@ -64,7 +64,7 @@ namespace CastDotNetExtension
       private readonly object _lock = new object();
 
       private void Analyze(SyntaxNodeAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                IEnumerable<SyntaxNode> expressions = new List<ExpressionSyntax>();
                if (context.Node is IfStatementSyntax) {

@@ -35,7 +35,7 @@ namespace CastDotNetExtension
         private readonly object _lock = new object();
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
-           lock (_lock) {
+           /*lock (_lock)*/ {
               try {
                  var classDeclarationNode = context.Node as ClassDeclarationSyntax;
 

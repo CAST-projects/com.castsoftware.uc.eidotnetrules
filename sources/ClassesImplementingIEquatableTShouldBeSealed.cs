@@ -40,16 +40,13 @@ namespace CastDotNetExtension {
                        //equatableType == ((IMethodSymbol)aMethod).Parameters.First().ToString()
                        select aMethod;
 
-         if (null == methods) {
-            methods = new List<IMethodSymbol>();
-         }
          return methods;
       }
 
 
       private readonly object _lock = new object();
       private void AnalyzeClass(SymbolAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                var klazz = context.Symbol as INamedTypeSymbol;
                if (null != klazz && TypeKind.Class == klazz.TypeKind && !klazz.IsSealed &&

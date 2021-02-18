@@ -29,7 +29,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
-         lock (_lock) {
+         /*lock (_lock)*/ {
             try {
                var type = context.Symbol as INamedTypeSymbol;
                if (null != type) {
