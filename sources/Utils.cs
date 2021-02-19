@@ -99,4 +99,22 @@ namespace CastDotNetExtension.Utils {
          return false;
       }
    }
+
+   public static class OperationExtensions
+   {
+      public static bool IsKind(this IOperation iOperation, HashSet<OperationKind> kinds)
+      {
+         return (null != iOperation && null != kinds && kinds.Contains(iOperation.Kind));
+      }
+   }
+
+   public static class SyntaxNodeExtensions
+   {
+      public static bool IsKind(this SyntaxNode node, HashSet<SyntaxKind> kinds)
+      {
+         return (null != node && null != kinds && kinds.Contains(node.Kind()));
+      }
+   }
+
+
 }

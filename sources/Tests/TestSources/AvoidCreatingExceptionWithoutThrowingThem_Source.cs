@@ -57,5 +57,9 @@ namespace UnitTests.UnitTest.Sources {
          var groupSomething = group ?? throw argException;
       }
 
+      void ThrowExpression(int groupId, object group)
+      {
+         var groupSomething = group ?? throw new ArgumentException("Group {groupId} does not exist" , "no param");
+      }
    }
 }
