@@ -57,7 +57,8 @@ namespace CastDotNetExtension {
         /// </summary>
         /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterCompilationStartAction(OnStartCompilation);
+         //context.RegisterCompilationStartAction(OnStartCompilation);
+         context.RegisterSemanticModelAction(AnalyzeUsingSemanticModel);
       }
 
       private void AnalyzeOperation(OperationAnalysisContext context)
@@ -66,70 +67,110 @@ namespace CastDotNetExtension {
          q.Enqueue(context.Operation);
       }
 
-      private void AnalyzeUsingSemanticModel(SemanticModelAnalysisContext context)
+
+      private class ViolationDetector : OperationWalker
       {
-         try {
-            var nodes =
-                  context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => SyntaxKinds.Contains(n.Kind())).ToHashSet();
+         public List<IObjectCreationOperation> ObjectCreations = new List<IObjectCreationOperation>();
+         public List<IThrowOperation> Throws = new List<IThrowOperation>();
+         public override void VisitObjectCreation(IObjectCreationOperation operation)
+         {
+            ObjectCreations.Add(operation);
+            base.VisitObjectCreation(operation);
+         }
 
-            if (nodes.Any()) {
-               //Console.WriteLine("Starting analysis of {0}", context.SemanticModel.SyntaxTree.FilePath);
-               ConcurrentQueue<IOperation> operations = null;
-               IOperation operation = null;
-               OpDetails opDetails = new OpDetails(nodes);
+         public override void VisitThrow(IThrowOperation operation)
+         {
+            Throws.Add(operation);
+            base.VisitThrow(operation);
+         }
 
-               var watch = new System.Diagnostics.Stopwatch();
-               watch.Start();
-               long nodeRetrievalTime = 0, objCreationProcessingTime = 0, violationProcessingTime = 0;
-               while (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
-                  while (operations.TryDequeue(out operation)) {
-                     if (OperationKind.End == operation.Kind) {
-                        break;
-                     }
-                     opDetails.AddOperation(operation);
-                     if (opDetails.LastNodeFound) {
-                        break;
-                     }
-                  }
-                  if (null == operation) {
-                     Log.Debug("operation null; trying again!");
-                     continue;
-                  }
-                  if (OperationKind.End == operation.Kind || opDetails.LastNodeFound) {
-                     break;
-                  }
-               }
-               watch.Stop();
-               nodeRetrievalTime = watch.ElapsedMilliseconds;
-
-               if (opDetails.ObjCreationOps.Any()) {
-                  Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel, null);
-
-                  watch.Start();
-                  ProcessObjectCreationOps(opDetails, ctx);
-                  watch.Stop();
-                  objCreationProcessingTime = watch.ElapsedMilliseconds;
-
-                  if (ctx.ExceptionVars.Any()) {
-                     ctx.Throws = opDetails.ThrowOps;
-                     watch.Start();
-                     ProcessViolations(ctx);
-                     watch.Stop();
-                     violationProcessingTime = watch.ElapsedMilliseconds;
-                  }
-               }
-               //Console.WriteLine("Total: {0} Object Creations: {1} Throws: {2} Time: {3} File: {4}",
-               Console.WriteLine("Count And Times: {0},{1},{2},{3},{4},{5},{6},\"{7}\"",
-                  opDetails.Count, nodeRetrievalTime, opDetails.ObjCreationOps.Count, objCreationProcessingTime,
-                  opDetails.ThrowOps.Count, violationProcessingTime, nodeRetrievalTime + objCreationProcessingTime + violationProcessingTime,
-                  context.SemanticModel.SyntaxTree.FilePath);
-
-            }
-
-         } catch (Exception e) {
-            Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+         public override void VisitEnd(IEndOperation operation)
+         {
+            Console.WriteLine("====> Got end!");
+            base.VisitEnd(operation);
          }
       }
+
+      private void AnalyzeUsingSemanticModel(SemanticModelAnalysisContext context)
+      {
+         var watch = new System.Diagnostics.Stopwatch();
+         watch.Start();
+         ViolationDetector detector = new ViolationDetector();
+         foreach (var node in context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes()) {
+            IOperation iOperation = context.SemanticModel.GetOperation(node);
+            if (null != iOperation) {
+               detector.Visit(iOperation);
+            }
+         }
+         watch.Stop();
+         Console.WriteLine("Time: {0}", watch.ElapsedMilliseconds); //<== very expensive
+
+      }
+
+      //private void AnalyzeUsingSemanticModel(SemanticModelAnalysisContext context)
+      //{
+      //   try {
+      //      var nodes =
+      //            context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => SyntaxKinds.Contains(n.Kind())).ToHashSet();
+
+      //      if (nodes.Any()) {
+      //         //Console.WriteLine("Starting analysis of {0}", context.SemanticModel.SyntaxTree.FilePath);
+      //         ConcurrentQueue<IOperation> operations = null;
+      //         IOperation operation = null;
+      //         OpDetails opDetails = new OpDetails(nodes);
+
+      //         var watch = new System.Diagnostics.Stopwatch();
+      //         watch.Start();
+      //         long nodeRetrievalTime = 0, objCreationProcessingTime = 0, violationProcessingTime = 0;
+      //         while (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
+      //            while (operations.TryDequeue(out operation)) {
+      //               if (OperationKind.End == operation.Kind) {
+      //                  break;
+      //               }
+      //               opDetails.AddOperation(operation);
+      //               if (opDetails.LastNodeFound) {
+      //                  break;
+      //               }
+      //            }
+      //            if (null == operation) {
+      //               Log.Debug("operation null; trying again!");
+      //               continue;
+      //            }
+      //            if (OperationKind.End == operation.Kind || opDetails.LastNodeFound) {
+      //               break;
+      //            }
+      //         }
+      //         watch.Stop();
+      //         nodeRetrievalTime = watch.ElapsedMilliseconds;
+
+      //         if (opDetails.ObjCreationOps.Any()) {
+      //            Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel, null);
+
+      //            watch.Start();
+      //            ProcessObjectCreationOps(opDetails, ctx);
+      //            watch.Stop();
+      //            objCreationProcessingTime = watch.ElapsedMilliseconds;
+
+      //            if (ctx.ExceptionVars.Any()) {
+      //               ctx.Throws = opDetails.ThrowOps;
+      //               watch.Start();
+      //               ProcessViolations(ctx);
+      //               watch.Stop();
+      //               violationProcessingTime = watch.ElapsedMilliseconds;
+      //            }
+      //         }
+      //         //Console.WriteLine("Total: {0} Object Creations: {1} Throws: {2} Time: {3} File: {4}",
+      //         Console.WriteLine("Count And Times: {0},{1},{2},{3},{4},{5},{6},\"{7}\"",
+      //            opDetails.Count, nodeRetrievalTime, opDetails.ObjCreationOps.Count, objCreationProcessingTime,
+      //            opDetails.ThrowOps.Count, violationProcessingTime, nodeRetrievalTime + objCreationProcessingTime + violationProcessingTime,
+      //            context.SemanticModel.SyntaxTree.FilePath);
+
+      //      }
+
+      //   } catch (Exception e) {
+      //      Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+      //   }
+      //}
 
       private void ProcessViolations(Context ctx)
       {
