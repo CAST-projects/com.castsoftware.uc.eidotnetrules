@@ -27,11 +27,15 @@ namespace UnitTests.UnitTest {
              .Apply(testSrc);
 
          checker
-            .AddExpected(27, 9)
-            .AddExpected(9, 37)
-            .AddExpected(29, 13)
-            .AddExpected(35, 19)
-            .AddExpected(46, 24)
+            .AddExpected(11,37)
+            .AddExpected(110,24)
+            .AddExpected(48,24)
+            .AddExpected(31,13)
+            .AddExpected(37,19)
+            .AddExpected(29,9)
+            .AddExpected(115, 22)
+            .AddExpected(141,21)
+            .AddExpected(140,26)
             .Validate();
 
          /// [TODO#13] Check the results
