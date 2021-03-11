@@ -72,7 +72,16 @@ namespace UnitTests.UnitTest.Sources {
             _serviceContainer.AddService(typeof(IInterface7), _objAServiceInitedLater);
             ServiceContainer _serviceContainer2 = new ServiceContainer();
             UseAService();
+
+            AService LocalCreateAService()
+            {
+               return new AService();
+            }
+
+            var aService = lambdaVar;
          }
+
+         AService lambdaVar => new AService();
 
          public AService PropAService {
             get { return new AService(); }

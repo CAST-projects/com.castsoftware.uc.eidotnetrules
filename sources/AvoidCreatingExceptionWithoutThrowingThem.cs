@@ -55,7 +55,8 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingExceptionWithoutThrowingThem"
    )]
-   public class AvoidCreatingExceptionWithoutThrowingThem : AbstractRuleChecker {
+   public class AvoidCreatingExceptionWithoutThrowingThem : OperationsRetriever
+   {
 
       private static readonly OperationKind[] OperationKinds =  {
                                                           OperationKind.Throw, 
@@ -74,6 +75,83 @@ namespace CastDotNetExtension {
                SyntaxKind.ThrowExpression,
                SyntaxKind.ObjectCreationExpression,
             };
+
+
+      //~AvoidCreatingExceptionWithoutThrowingThem()
+      //{
+      //   Console.WriteLine("=====================AvoidCreatingExceptionWithoutThrowingThem=====================");
+      //   Console.WriteLine(PerfDatum.Headers);
+      //   int count = 0, objCreations = 0, throwOps = 0;
+      //   long time = 0;
+      //   foreach (var perfDatum in _perfData) {
+      //      Console.WriteLine(perfDatum.ToString());
+      //      count++;
+      //      time += perfDatum.Time;
+      //      objCreations += perfDatum.ObjCreations;
+      //      throwOps += perfDatum.ThrowOps;
+      //   }
+      //   Console.WriteLine(new PerfDatum(time / TimeSpan.TicksPerMillisecond, "<All>", objCreations, throwOps, count).ToString());
+      //}
+
+      public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
+      {
+         try {
+            _operations.Clear();
+            Context.TypeToIsException.Clear();
+            Context.SystemException = context.Compilation.GetTypeByMetadataName("System.Exception");
+            Context.Interface_Exception = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices._Exception");
+            if (null == Context.Interface_Exception) {
+               Log.WarnFormat("Could not get type for System.Runtime.InteropServices._Exception while analyzing {0}.",
+                  context.Compilation.AssemblyName);
+            }
+            if (null != Context.SystemException) {
+               return SyntaxKinds.ToArray();
+            } else {
+               Log.WarnFormat("Could not get type for System.Exception while analyzing {0}. QR \"{1}\" will be disabled for this project.",
+                  context.Compilation.AssemblyName, this.GetRuleName());
+            }
+         } catch (Exception e) {
+            Log.Warn("Exception while analyzing " + context.Compilation.AssemblyName, e);
+         }
+         return new SyntaxKind[] { };
+
+      }
+
+
+      private List<PerfDatum> _perfData = new List<PerfDatum>();
+
+
+      public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
+            Dictionary<OperationKind, List<IOperation>> ops)
+      {
+         //var watch = new System.Diagnostics.Stopwatch();
+         //watch.Start();
+         List<IOperation> objCreationOps = ops[OperationKind.ObjectCreation];
+         //int objCreationsCount = objCreationOps.Count;
+         //int throwOpsCount = 0;
+         /*if (ops.TryGetValue(OperationKind.ObjectCreation, out objCreationOps))*/ {
+            //Log.WarnFormat("Received Object Creation Ops. Count: {0} File: {1} ", objCreationOps.Count, context.SemanticModel.SyntaxTree.FilePath);
+            Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel);
+
+            ProcessObjectCreationOps(objCreationOps, ctx);
+
+            if (ctx.ExceptionVars.Any()) {
+               //Log.WarnFormat("Have exception vars. Count: {0} File: {1} ", ctx.ExceptionVars.Count, context.SemanticModel.SyntaxTree.FilePath);
+               ctx.Throws = ops[OperationKind.Throw];
+               //throwOpsCount = ctx.Throws.Count;
+               /*if (ops.TryGetValue(OperationKind.Throw, out throwOps)) {
+                  //Log.WarnFormat("Have Throw ops. Count: {0} File: {1} ", throwOps.Count, context.SemanticModel.SyntaxTree.FilePath);
+               }*/
+               ProcessViolations(ctx);
+            }
+         }
+         //watch.Stop();
+         //lock (_perfData) {
+         //   _perfData.Add(new PerfDatum(watch.ElapsedTicks, context.SemanticModel.SyntaxTree.FilePath, objCreationsCount, throwOpsCount));
+         //}
+      }
+
+
 
       private class OpDetails
       {
@@ -119,7 +197,7 @@ namespace CastDotNetExtension {
       private class Context
       {
          public HashSet<IOperation> ExcludedThrows = new HashSet<IOperation>();
-         public List<IThrowOperation> Throws = new List<IThrowOperation>();
+         public List<IOperation> Throws = new List<IOperation>();
          public HashSet<ISymbol> ExceptionVars = new HashSet<ISymbol>();
          public static ConcurrentDictionary<INamedTypeSymbol, bool> TypeToIsException = new ConcurrentDictionary<INamedTypeSymbol, bool>();
          public Dictionary<ISymbol, HashSet<FileLinePositionSpan>> Symbol2ViolatingNodes = new Dictionary<ISymbol, HashSet<FileLinePositionSpan>>();
@@ -140,10 +218,6 @@ namespace CastDotNetExtension {
       private ConcurrentDictionary<string, ConcurrentQueue<IOperation>> _operations =
          new ConcurrentDictionary<string, ConcurrentQueue<IOperation>>();
 
-
-      public override void Init(AnalysisContext context) {
-         context.RegisterCompilationStartAction(OnStartCompilation);
-      }
 
       private void AnalyzeOperation(OperationAnalysisContext context)
       {
@@ -187,10 +261,10 @@ namespace CastDotNetExtension {
                if (opDetails.ObjCreationOps.Any()) {
                   Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel);
 
-                  ProcessObjectCreationOps(opDetails, ctx);
+                  ProcessObjectCreationOps(opDetails.ObjCreationOps, ctx);
 
                   if (ctx.ExceptionVars.Any()) {
-                     ctx.Throws = opDetails.ThrowOps;
+                     //ctx.Throws = opDetails.ThrowOps;
                      ProcessViolations(ctx);
                   }
                }
@@ -279,6 +353,7 @@ namespace CastDotNetExtension {
          if (!isException && iTypeIn.TypeKind == TypeKind.Class && !iTypeIn.IsAnonymousType) {
             if (null != Context.Interface_Exception) {
                isException = Context.Interface_Exception == iTypeIn.AllInterfaces.ElementAtOrDefault(1);
+               Context.TypeToIsException[iTypeIn] = isException;
             } else if (Context.TypeToIsException.TryGetValue(iTypeIn, out isException)) {
                //Interlocked.Increment(ref Context.StoredCount);
             } else {
@@ -290,80 +365,38 @@ namespace CastDotNetExtension {
                   baseType = baseType.BaseType;
                }
                isException = null != baseType;
+               Context.TypeToIsException[iTypeIn] = isException;
             }
-            Context.TypeToIsException[iTypeIn] = isException;
+            
          }
          return isException;
       }
 
 
-      private void ProcessObjectCreationOps(OpDetails opDetails, Context ctx)
+      private void ProcessObjectCreationOps(List<IOperation> objCreationOps, Context ctx)
       {
-         foreach (var objCreationOperation in opDetails.ObjCreationOps) {
+         foreach (var objCreationOperation in objCreationOps) {
             var throwOp = null != objCreationOperation.Parent && OperationKind.Throw == objCreationOperation.Parent.Kind ?
                objCreationOperation.Parent :
                OperationKind.Conversion == objCreationOperation.Parent.Kind && null != objCreationOperation.Parent.Parent &&
                OperationKind.Throw == objCreationOperation.Parent.Parent.Kind ? objCreationOperation.Parent.Parent : null;
             if (null == throwOp) {
-               var line = objCreationOperation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+               //var line = objCreationOperation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
                if (null != objCreationOperation && objCreationOperation.Type is INamedTypeSymbol) {
                   if (IsException(objCreationOperation.Type as INamedTypeSymbol, ctx)) {
                      if (null != objCreationOperation.Parent) {
-                        switch (objCreationOperation.Parent.Kind) {
-                           case OperationKind.FieldInitializer: {
-                                 var iFieldInitializer = objCreationOperation.Parent as IFieldInitializerOperation;
-                                 foreach (ISymbol iField in iFieldInitializer.InitializedFields) {
-                                    ctx.ExceptionVars.Add(iField);
-                                 }
-
-                                 break;
+                        if (OperationKind.ExpressionStatement == objCreationOperation.Parent.Kind) {
+                           HashSet<FileLinePositionSpan> positions = null;
+                           var symbol = ctx.SemanticModel.GetEnclosingSymbol(objCreationOperation.Parent.Syntax.GetLocation().SourceSpan.Start);
+                           if (null != symbol) {
+                              if (!ctx.Symbol2ViolatingNodes.TryGetValue(symbol, out positions)) {
+                                 positions = new HashSet<FileLinePositionSpan>();
+                                 ctx.Symbol2ViolatingNodes[symbol] = positions;
                               }
-                           case OperationKind.VariableInitializer: {
-                                 if (null != objCreationOperation.Parent.Parent && OperationKind.VariableDeclarator == objCreationOperation.Parent.Parent.Kind) {
-                                    if (null != objCreationOperation.Parent.Parent.Parent && OperationKind.VariableDeclaration == objCreationOperation.Parent.Parent.Parent.Kind) {
-                                       var iVariableDeclaration = objCreationOperation.Parent.Parent.Parent as IVariableDeclarationOperation;
-                                       foreach (var iVar in iVariableDeclaration.Declarators) {
-                                          ctx.ExceptionVars.Add(iVar.Symbol);
-                                       }
-                                    }
-                                 }
-
-                                 break;
-                              }
-                           case OperationKind.ExpressionStatement: {
-                                 HashSet<FileLinePositionSpan> positions = null;
-                                 var symbol = ctx.SemanticModel.GetEnclosingSymbol(objCreationOperation.Parent.Syntax.GetLocation().SourceSpan.Start);
-                                 if (null != symbol) {
-                                    if (!ctx.Symbol2ViolatingNodes.TryGetValue(symbol, out positions)) {
-                                       positions = new HashSet<FileLinePositionSpan>();
-                                       ctx.Symbol2ViolatingNodes[symbol] = positions;
-                                    }
-                                    positions.Add(objCreationOperation.Parent.Syntax.GetLocation().GetMappedLineSpan());
-                                 }
-                                 break;
-                              }
-                           case OperationKind.Conversion:
-                           case OperationKind.SimpleAssignment:
-                              ISimpleAssignmentOperation simpleAssignment = OperationKind.SimpleAssignment == objCreationOperation.Parent.Kind ?
-                                 objCreationOperation.Parent as ISimpleAssignmentOperation :
-                                    null != objCreationOperation.Parent.Parent && OperationKind.SimpleAssignment == objCreationOperation.Parent.Parent.Kind ?
-                                       objCreationOperation.Parent.Parent as ISimpleAssignmentOperation : null;
-                              if (null != simpleAssignment) {
-                                 ISymbol iSymbol = null;
-                                 switch (simpleAssignment.Target.Kind) {
-                                    case OperationKind.LocalReference:
-                                       iSymbol = (simpleAssignment.Target as ILocalReferenceOperation).Local;
-                                       break;
-                                    case OperationKind.FieldReference:
-                                       iSymbol = (simpleAssignment.Target as IFieldReferenceOperation).Field;
-                                       break;
-                                 }
-                                 if (null != iSymbol) {
-                                    ctx.ExceptionVars.Add(iSymbol);
-                                 }
-                              }
-
-                              break;
+                              positions.Add(objCreationOperation.Parent.Syntax.GetLocation().GetMappedLineSpan());
+                           }
+                        } else {
+                           ctx.ExceptionVars.UnionWith(objCreationOperation.Parent.GetInitializedSymbols());
                         }
                      }
                   }

@@ -55,6 +55,7 @@
     <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
+    <Compile Include="OperationsRetriever.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxNode2SubjectName.cs" />
     <Compile Include="TrackFIXMETags.cs" />

@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 using System.Text.RegularExpressions;
 
 
@@ -105,6 +106,55 @@ namespace CastDotNetExtension.Utils {
       public static bool IsKind(this IOperation iOperation, HashSet<OperationKind> kinds)
       {
          return (null != iOperation && null != kinds && kinds.Contains(iOperation.Kind));
+      }
+
+      public static HashSet<ISymbol> GetInitializedSymbols(this IOperation iOperation)
+      {
+         HashSet<ISymbol> symbols = new HashSet<ISymbol>();
+         if (null != iOperation) {
+            switch (iOperation.Kind) {
+               case OperationKind.FieldInitializer: {
+                     var iFieldInitializer = iOperation as IFieldInitializerOperation;
+                     symbols.UnionWith(iFieldInitializer.InitializedFields);
+                     break;
+                  }
+               case OperationKind.VariableInitializer: {
+                     if (null != iOperation.Parent && OperationKind.VariableDeclarator == iOperation.Parent.Kind) {
+                        if (null != iOperation.Parent.Parent && OperationKind.VariableDeclaration == iOperation.Parent.Parent.Kind) {
+                           var iVariableDeclaration = iOperation.Parent.Parent as IVariableDeclarationOperation;
+                           foreach (var iVar in iVariableDeclaration.Declarators) {
+                              symbols.Add(iVar.Symbol);
+                           }
+                        }
+                     }
+
+                     break;
+                  }
+               case OperationKind.Conversion:
+               case OperationKind.SimpleAssignment:
+                  ISimpleAssignmentOperation simpleAssignment = OperationKind.SimpleAssignment == iOperation.Kind ?
+                     iOperation as ISimpleAssignmentOperation :
+                        null != iOperation.Parent && OperationKind.SimpleAssignment == iOperation.Parent.Kind ?
+                           iOperation.Parent as ISimpleAssignmentOperation : null;
+                  if (null != simpleAssignment) {
+                     ISymbol iSymbol = null;
+                     switch (simpleAssignment.Target.Kind) {
+                        case OperationKind.LocalReference:
+                           iSymbol = (simpleAssignment.Target as ILocalReferenceOperation).Local;
+                           break;
+                        case OperationKind.FieldReference:
+                           iSymbol = (simpleAssignment.Target as IFieldReferenceOperation).Field;
+                           break;
+                     }
+                     if (null != iSymbol) {
+                        symbols.Add(iSymbol);
+                     }
+                  }
+
+                  break;
+            }
+         }
+         return symbols;
       }
    }
 
