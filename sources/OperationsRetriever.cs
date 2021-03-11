@@ -14,23 +14,43 @@ using log4net;
 using Roslyn.DotNet.CastDotNetExtension;
 
 
+
 namespace CastDotNetExtension
 {
+   public class OPList : List<OperationAnalysisContext>
+   {
+      public List<IOperation> Operations { get; private set; }
+      public OPList() : base() {
+         Operations = new List<IOperation>();
+      }
+      public OPList(int capacity) : base(capacity) {
+         Operations = new List<IOperation>(capacity);
+      }
+      public new void Add(OperationAnalysisContext context)
+      {
+         Operations.Add(context.Operation);
+         base.Add(context);
+      }
+   }
+
+   public class OPs : Dictionary<OperationKind, OPList>
+   {
+
+   }
+
 
    public interface IOpProcessor
    {
       SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-         Dictionary<OperationKind, List<IOperation>> ops);
+         OPs ops);
    }
 
    public abstract class OperationsRetriever : AbstractRuleChecker, IOpProcessor
    {
-
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       public abstract void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-         Dictionary<OperationKind, List<IOperation>> ops);
-
+         OPs ops);
 
       private class OpsProcessor
       {
@@ -47,7 +67,7 @@ namespace CastDotNetExtension
       {
          public string FilePath { get; private set; }
          public long Time { get; private set; }
-         
+
          public PerfDatumBase(string filePath, long time)
          {
             FilePath = filePath;
@@ -67,7 +87,7 @@ namespace CastDotNetExtension
          public long Ops { get; private set; }
 
          public static new string Headers { get { return "Time,Ops,File"; } }
-         public PerfDatumOps(string filePath, long time, long ops) : 
+         public PerfDatumOps(string filePath, long time, long ops) :
             base(filePath, time)
          {
             Ops = ops;
@@ -125,8 +145,9 @@ namespace CastDotNetExtension
          private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
 
          private HashSet<SyntaxKind> _kinds = new HashSet<SyntaxKind>();
-         private ConcurrentDictionary<string, ConcurrentQueue<IOperation>> _operations =
-            new ConcurrentDictionary<string, ConcurrentQueue<IOperation>>();
+
+         private ConcurrentDictionary<string, ConcurrentQueue<OperationAnalysisContext>> _operations =
+            new ConcurrentDictionary<string, ConcurrentQueue<OperationAnalysisContext>>();
          private HashSet<OperationKind> _opKinds = new HashSet<OperationKind>();
          private Compilation CurrentCompilation { get; set; }
 
@@ -141,6 +162,13 @@ namespace CastDotNetExtension
          {
             OpsProcessors = new HashSet<OpsProcessor>();
          }
+
+         //~SubscriberSink()
+         //{
+         //   foreach (var ctx in _opContextToOpCount) {
+         //      Console.WriteLine("Op Kind: {0} Symbol: {1} Count: {2}", ctx.Key.Operation.Kind, ctx.Key.ContainingSymbol, ctx.Value);
+         //   }
+         //}
 
          //~SubscriberSink()
          //{
@@ -258,9 +286,8 @@ namespace CastDotNetExtension
 
          private void OnOperation(OperationAnalysisContext context)
          {
-            
-            var q = _operations.GetOrAdd(context.Operation.Syntax.SyntaxTree.FilePath, (key) => new ConcurrentQueue<IOperation>());
-            q.Enqueue(context.Operation);
+            var q = _operations.GetOrAdd(context.Operation.Syntax.SyntaxTree.FilePath, (key) => new ConcurrentQueue<OperationAnalysisContext>());
+            q.Enqueue(context);
          }
 
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
@@ -276,14 +303,13 @@ namespace CastDotNetExtension
                if (nodes.Any()) {
 
                   //Console.WriteLine("Have nodes, count: {0}", nodes.Count);
-                  Dictionary<OperationKind, List<IOperation>> ops =
-                     new Dictionary<OperationKind, List<IOperation>>();
+                  OPs ops = new OPs();
                   foreach (var opKind in _opKinds) {
-                     ops[opKind] = new List<IOperation>(25);
+                     ops[opKind] = new OPList(25);
                   }
 
-                  ConcurrentQueue<IOperation> operations = null;
-                  IOperation operation = null;
+                  ConcurrentQueue<OperationAnalysisContext> operations = null;
+                  OperationAnalysisContext operation;
 
                   //int nodeCount = nodes.Count;
                   //int nodeCountReceived = 0;
@@ -305,13 +331,13 @@ namespace CastDotNetExtension
                         //   nodeCount = nodes.Count;
                         //   nodeCountReceived = 0;
                         //}
-                        ops[operation.Kind].Add(operation);
-                        nodes.Remove(operation.Syntax);
+                        ops[operation.Operation.Kind].Add(operation);
+                        nodes.Remove(operation.Operation.Syntax);
                         if (!nodes.Any()) {
                            break;
                         }
                      }
-                     if (null == operation) {
+                     if (null == operation.Operation) {
                         //Log.Warn("operation was null; trying again! File: " + context.SemanticModel.SyntaxTree.FilePath);
                         continue;
                      }
@@ -322,17 +348,23 @@ namespace CastDotNetExtension
 
                   List<Task> handlerTasks = new List<Task>();
 
+                  //Console.WriteLine("Processing Ops For {0} OP Processor Count: {1}" ,
+                  //   context.SemanticModel.SyntaxTree.FilePath, OpsProcessors.Count);
                   foreach (var opsProcessor in OpsProcessors) {
                      if (opsProcessor.IsActive) {
-                        handlerTasks.Add(Task.Run(() => opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)));
+                        //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                        //handlerTasks.Add(Task.Run(() => 
+                           opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
+                           //))
+                           ;
                      }
                   }
-                  Task.WaitAll(handlerTasks.ToArray());
+                  //Task.WaitAll(handlerTasks.ToArray());
                   //Log.WarnFormat("Operation Null Count: {0} File {1}", operationNullCount, context.SemanticModel.SyntaxTree.FilePath);
                }
                //watch.Stop();
-               
-               
+
+
                //lock (_perfDataOps) {
                //   _perfDataOps.Add(new PerfDatumOps(context.SemanticModel.SyntaxTree.FilePath, watch.ElapsedTicks, nodeCount));
                //}

@@ -58,6 +58,8 @@ namespace CastDotNetExtension {
    public class AvoidCreatingExceptionWithoutThrowingThem : OperationsRetriever
    {
 
+
+
       private static readonly OperationKind[] OperationKinds =  {
                                                           OperationKind.Throw, 
                                                           OperationKind.ObjectCreation, 
@@ -122,11 +124,11 @@ namespace CastDotNetExtension {
 
 
       public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-            Dictionary<OperationKind, List<IOperation>> ops)
+            OPs ops)
       {
          //var watch = new System.Diagnostics.Stopwatch();
          //watch.Start();
-         List<IOperation> objCreationOps = ops[OperationKind.ObjectCreation];
+         List<IOperation> objCreationOps = ops[OperationKind.ObjectCreation].Operations;
          //int objCreationsCount = objCreationOps.Count;
          //int throwOpsCount = 0;
          /*if (ops.TryGetValue(OperationKind.ObjectCreation, out objCreationOps))*/ {
@@ -137,7 +139,7 @@ namespace CastDotNetExtension {
 
             if (ctx.ExceptionVars.Any()) {
                //Log.WarnFormat("Have exception vars. Count: {0} File: {1} ", ctx.ExceptionVars.Count, context.SemanticModel.SyntaxTree.FilePath);
-               ctx.Throws = ops[OperationKind.Throw];
+               ctx.Throws = ops[OperationKind.Throw].Operations;
                //throwOpsCount = ctx.Throws.Count;
                /*if (ops.TryGetValue(OperationKind.Throw, out throwOps)) {
                   //Log.WarnFormat("Have Throw ops. Count: {0} File: {1} ", throwOps.Count, context.SemanticModel.SyntaxTree.FilePath);

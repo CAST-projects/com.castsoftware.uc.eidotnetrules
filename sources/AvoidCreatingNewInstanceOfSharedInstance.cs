@@ -14,7 +14,6 @@ using System.Threading;
 using System.Collections.Immutable;
 
 
-
 namespace CastDotNetExtension {
    [CastRuleChecker]
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -96,46 +95,45 @@ namespace CastDotNetExtension {
       }
 
       public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-            Dictionary<OperationKind, List<IOperation>> ops)
+            OPs ops)
       {
-
          var sharedObjCreationOps = 
-            ops[OperationKind.ObjectCreation].Where(o => IsShared((o as IObjectCreationOperation).Type));
+            ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type));
          if (sharedObjCreationOps.Any()) {
 
             List<IArgumentOperation> arguments = new List<IArgumentOperation>();
             foreach (var op in sharedObjCreationOps) {
-               if (OperationKind.Return == op.Parent.Kind ||
-                  (OperationKind.Conversion == op.Parent.Kind &&
-                  null != op.Parent.Parent && OperationKind.Return == op.Parent.Parent.Kind)) {
+               //if (OperationKind.Return == op.Parent.Kind ||
+               //   (OperationKind.Conversion == op.Parent.Kind &&
+               //   null != op.Parent.Parent && OperationKind.Return == op.Parent.Parent.Kind)) {
 
-                  var method = op.SemanticModel.GetEnclosingSymbol(op.Syntax.SpanStart) as IMethodSymbol;
-                  if (null != method) {
-                     if (MethodKind.LambdaMethod == method.MethodKind) {
-                        var parent = op.Parent.Parent;
-                        while (null != parent && OperationKind.Argument != parent.Kind) {
-                           parent = parent.Parent;
-                        }
-                        if (null != parent) {
-                           if (!_addServiceMethods.Contains((parent.Parent as IInvocationOperation).TargetMethod)) {
-                              arguments.Add(parent as IArgumentOperation);
-                           }
-                        }
-                     }
-                  }
-               } else {
-                  if (OperationKind.Conversion == op.Parent.Kind) {
-                     if (null != op.Parent.Parent && OperationKind.Argument == op.Parent.Parent.Kind) {
-                        if (!_addServiceMethods.Contains((op.Parent.Parent.Parent as IInvocationOperation).TargetMethod)) {
-                           arguments.Add(op.Parent.Parent as IArgumentOperation);
-                        }
-                     }
-                  }
+               //   var method = op.SemanticModel.GetEnclosingSymbol(op.Syntax.SpanStart) as IMethodSymbol;
+               //   if (null != method) {
+               //      if (MethodKind.LambdaMethod == method.MethodKind) {
+               //         var parent = op.Parent.Parent;
+               //         while (null != parent && OperationKind.Argument != parent.Kind) {
+               //            parent = parent.Parent;
+               //         }
+               //         if (null != parent) {
+               //            if (!_addServiceMethods.Contains((parent.Parent as IInvocationOperation).TargetMethod)) {
+               //               arguments.Add(parent as IArgumentOperation);
+               //            }
+               //         }
+               //      }
+               //   }
+               //} else {
+                  //if (OperationKind.Conversion == op.Parent.Kind) {
+                  //   if (null != op.Parent.Parent && OperationKind.Argument == op.Parent.Parent.Kind) {
+                  //      if (!_addServiceMethods.Contains((op.Parent.Parent.Parent as IInvocationOperation).TargetMethod)) {
+                  //         arguments.Add(op.Parent.Parent as IArgumentOperation);
+                  //      }
+                  //   }
+                  //}
                   //Console.WriteLine(op.Parent.Kind);
-               }
+            //   }
             }
-            var addServiceCalls = 
-               ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o as IInvocationOperation).TargetMethod));
+            //var addServiceCalls = 
+            //   ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o.Operation as IInvocationOperation).TargetMethod));
          }
       }
 
