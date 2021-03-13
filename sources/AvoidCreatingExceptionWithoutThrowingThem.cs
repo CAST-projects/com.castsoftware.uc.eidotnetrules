@@ -95,6 +95,13 @@ namespace CastDotNetExtension {
       //   Console.WriteLine(new PerfDatum(time / TimeSpan.TicksPerMillisecond, "<All>", objCreations, throwOps, count).ToString());
       //}
 
+      private ConcurrentDictionary<string, Context> _fileToContext = new ConcurrentDictionary<string, Context>();
+      public override void Init(AnalysisContext context)
+      {
+         _fileToContext.Clear();
+         base.Init(context);
+      }
+
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
          try {
@@ -130,7 +137,7 @@ namespace CastDotNetExtension {
          //watch.Start();
          List<IOperation> objCreationOps = ops[OperationKind.ObjectCreation].Operations;
          //int objCreationsCount = objCreationOps.Count;
-         //int throwOpsCount = 0;
+         //int throwOpsCount = 0, exceptionVars = 0;
          /*if (ops.TryGetValue(OperationKind.ObjectCreation, out objCreationOps))*/ {
             //Log.WarnFormat("Received Object Creation Ops. Count: {0} File: {1} ", objCreationOps.Count, context.SemanticModel.SyntaxTree.FilePath);
             Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel);
@@ -138,6 +145,7 @@ namespace CastDotNetExtension {
             ProcessObjectCreationOps(objCreationOps, ctx);
 
             if (ctx.ExceptionVars.Any()) {
+               //exceptionVars = ctx.ExceptionVars.Count;
                //Log.WarnFormat("Have exception vars. Count: {0} File: {1} ", ctx.ExceptionVars.Count, context.SemanticModel.SyntaxTree.FilePath);
                ctx.Throws = ops[OperationKind.Throw].Operations;
                //throwOpsCount = ctx.Throws.Count;
@@ -147,15 +155,60 @@ namespace CastDotNetExtension {
                ProcessViolations(ctx);
             }
          }
+         //Console.WriteLine("Obj Creation: {0} Throw: {1} Vars: {2}", objCreationsCount, throwOpsCount, exceptionVars);
          //watch.Stop();
          //lock (_perfData) {
          //   _perfData.Add(new PerfDatum(watch.ElapsedTicks, context.SemanticModel.SyntaxTree.FilePath, objCreationsCount, throwOpsCount));
          //}
       }
 
-      public override void HandleOperation(SemanticModelAnalysisContext context,
-         OperationDetails opDetails)
+
+      
+      public override void HandleOperations(SemanticModelAnalysisContext context,
+         ConcurrentQueue<OperationDetails> ops)
       {
+         
+            Context ctx = new Context(context.SemanticModel.Compilation, context.SemanticModel);
+
+            IEnumerator<OperationDetails> enumertor = null;
+            OperationDetails opDetails = null;
+
+            if (null == (enumertor = ops.GetEnumerator())) {
+               Log.WarnFormat("Could not get enumerator for file {0}! It will not have violations for {1}.",
+                  context.SemanticModel.SyntaxTree.FilePath, GetRuleName());
+            } else {
+
+               while (enumertor.MoveNext()) {
+                  opDetails = enumertor.Current;
+                  if (null != opDetails) {
+                     /* if (ctx.AnalysisDone) {
+                        Console.WriteLine("after ctx.AnalysisDone");
+                     } else {
+                  Console.WriteLine("Kind: {0} Line: {1} Code: {2}",
+                     opDetails.Operation.Kind, opDetails.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
+                     opDetails.Operation.Syntax);
+               }*/
+                     switch (opDetails.Operation.Kind) {
+                        case OperationKind.ObjectCreation:
+                           ctx.ObjectCreationVars.Add(opDetails.Operation);
+                           ProcessObjCreationOp(opDetails.Operation as IObjectCreationOperation, ctx);
+                           break;
+                        case OperationKind.Throw:
+                           ctx.Throws.Add(opDetails.Operation);
+                           break;
+                     }
+                  }
+               }
+
+               ctx.AnalysisDone = true;
+               //AddFileVerificationData(context.SemanticModel.SyntaxTree.FilePath, ctx.ObjectCreationVars.Count, ctx.Throws.Count);
+               //Console.WriteLine("AvoidCreatingExceptionWithoutThrowingThem: Obj Creation: {0} Throw: {1} File: {2}",
+               //   ctx.ObjectCreationVars.Count, ctx.Throws.Count, context.SemanticModel.SyntaxTree.FilePath);
+               ProcessViolations(ctx);
+
+            }            
+
+
          //Console.WriteLine("AvoidCreatingExceptionWithoutThrowingThem: Thread ID: " + Thread.CurrentThread.ManagedThreadId);
       }
 
@@ -207,7 +260,8 @@ namespace CastDotNetExtension {
          public static INamedTypeSymbol SystemException = null;
          public static INamedTypeSymbol Interface_Exception = null;
 
-
+         public bool AnalysisDone = false;
+         public List<IOperation> ObjectCreationVars = new List<IOperation>();
          public HashSet<IOperation> ExcludedThrows = new HashSet<IOperation>();
          public List<IOperation> Throws = new List<IOperation>();
          public HashSet<ISymbol> ExceptionVars = new HashSet<ISymbol>();
@@ -359,29 +413,63 @@ namespace CastDotNetExtension {
 
       private static bool IsException(INamedTypeSymbol iTypeIn, Context ctx)
       {
-         bool isException = Context.SystemException == iTypeIn;
-         if (!isException && iTypeIn.TypeKind == TypeKind.Class && !iTypeIn.IsAnonymousType) {
-            if (null != Context.Interface_Exception) {
-               isException = Context.Interface_Exception == iTypeIn.AllInterfaces.ElementAtOrDefault(1);
-               Context.TypeToIsException[iTypeIn] = isException;
-            } else if (Context.TypeToIsException.TryGetValue(iTypeIn, out isException)) {
-               //Interlocked.Increment(ref Context.StoredCount);
-            } else {
-               //little expensive => isException = ctx.Compilation.ClassifyConversion(iTypeIn, Context.SystemException).IsImplicit;
+         bool isException = false;
+         if (SpecialType.None == iTypeIn.SpecialType) {
+            isException = Context.SystemException == iTypeIn;
+            if (!isException && iTypeIn.TypeKind == TypeKind.Class && !iTypeIn.IsAnonymousType) {
+               if (null != Context.Interface_Exception) {
+                  isException = Context.Interface_Exception == iTypeIn.AllInterfaces.ElementAtOrDefault(1);
+                  Context.TypeToIsException[iTypeIn] = isException;
+               } else if (Context.TypeToIsException.TryGetValue(iTypeIn, out isException)) {
+                  //Interlocked.Increment(ref Context.StoredCount);
+               } else {
+                  //little expensive => isException = ctx.Compilation.ClassifyConversion(iTypeIn, Context.SystemException).IsImplicit;
 
-               //Interlocked.Increment(ref Context.ConversionCount);
-               var baseType = iTypeIn.BaseType;
-               while (null != baseType && Context.SystemException != baseType) {
-                  baseType = baseType.BaseType;
+                  //Interlocked.Increment(ref Context.ConversionCount);
+                  var baseType = iTypeIn.BaseType;
+                  while (null != baseType && Context.SystemException != baseType) {
+                     baseType = baseType.BaseType;
+                  }
+                  isException = null != baseType;
+                  Context.TypeToIsException[iTypeIn] = isException;
                }
-               isException = null != baseType;
-               Context.TypeToIsException[iTypeIn] = isException;
             }
-            
          }
          return isException;
       }
 
+
+      private void ProcessObjCreationOp(IObjectCreationOperation objCreationOperation, Context ctx) {
+         var throwOp = null != objCreationOperation.Parent && OperationKind.Throw == objCreationOperation.Parent.Kind ?
+            objCreationOperation.Parent :
+            OperationKind.Conversion == objCreationOperation.Parent.Kind && null != objCreationOperation.Parent.Parent &&
+            OperationKind.Throw == objCreationOperation.Parent.Parent.Kind ? objCreationOperation.Parent.Parent : null;
+         if (null == throwOp) {
+            //var line = objCreationOperation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+            if (null != objCreationOperation && objCreationOperation.Type is INamedTypeSymbol) {
+               if (IsException(objCreationOperation.Type as INamedTypeSymbol, ctx)) {
+                  if (null != objCreationOperation.Parent) {
+                     if (OperationKind.ExpressionStatement == objCreationOperation.Parent.Kind) {
+                        HashSet<FileLinePositionSpan> positions = null;
+                        var symbol = ctx.SemanticModel.GetEnclosingSymbol(objCreationOperation.Parent.Syntax.GetLocation().SourceSpan.Start);
+                        if (null != symbol) {
+                           if (!ctx.Symbol2ViolatingNodes.TryGetValue(symbol, out positions)) {
+                              positions = new HashSet<FileLinePositionSpan>();
+                              ctx.Symbol2ViolatingNodes[symbol] = positions;
+                           }
+                           positions.Add(objCreationOperation.Parent.Syntax.GetLocation().GetMappedLineSpan());
+                        }
+                     } else {
+                        ctx.ExceptionVars.UnionWith(objCreationOperation.Parent.GetInitializedSymbols());
+                     }
+                  }
+               }
+            }
+         } else {
+            ctx.ExcludedThrows.Add(throwOp);
+         }
+
+      }
 
       private void ProcessObjectCreationOps(List<IOperation> objCreationOps, Context ctx)
       {

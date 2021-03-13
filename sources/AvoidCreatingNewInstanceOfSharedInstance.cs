@@ -25,7 +25,7 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingNewInstanceOfSharedInstance"
    )]
-   public class AvoidCreatingNewInstanceOfSharedInstance : OperationsRetriever
+   public class AvoidCreatingNewInstanceOfSharedInstance : OperationsRetriever, IOpProcessor
    {
 
       private INamedTypeSymbol _partCreationPolicyAttribute = null;
@@ -64,6 +64,7 @@ namespace CastDotNetExtension {
                   if (null != _serviceContainer) {
                      _addServiceMethods = _serviceContainer.GetMembers().OfType<IMethodSymbol>().Where(m => "AddService" == m.Name).ToHashSet();
                      if (_addServiceMethods.Any()) {
+
                         return SyntaxKinds.ToArray();
                      }
                   }
@@ -73,7 +74,6 @@ namespace CastDotNetExtension {
 
          Log.InfoFormat("Could not get one or more symbols needed. {0} will be disabled for {1}.",
             GetRuleName(), context.Compilation.Assembly.Name);
-
          
          return new SyntaxKind [] {};
       }
@@ -137,10 +137,32 @@ namespace CastDotNetExtension {
          }
       }
 
-      public override void HandleOperation(SemanticModelAnalysisContext context,
-         OperationDetails opDetails)
+      public override void HandleOperations(SemanticModelAnalysisContext context,
+         ConcurrentQueue<OperationDetails> ops)
       {
-         //Console.WriteLine("AvoidCreatingNewInstanceOfSharedInstance: " + opDetails.ToString());
+
+            IEnumerator<OperationDetails> enumertor = null;
+            OperationDetails opDetails = null;
+
+            if (null == (enumertor = ops.GetEnumerator())) {
+               Log.WarnFormat("Could not get enumerator for file {0}! It will not have violations for {1}.",
+                  context.SemanticModel.SyntaxTree.FilePath, GetRuleName());
+            } else {
+               int objCreationCount = 0, throwCount = 0;
+               while (enumertor.MoveNext()) {
+                  opDetails = enumertor.Current;
+                  switch (opDetails.Operation.Kind) {
+                     case OperationKind.ObjectCreation:
+                        objCreationCount++;
+                        break;
+                     case OperationKind.Throw:
+                        throwCount++;
+                        break;
+                  }
+               }
+            }
+            //AddFileVerificationData(context.SemanticModel.SyntaxTree.FilePath, objCreationCount, throwCount);
+            
       }
 
 

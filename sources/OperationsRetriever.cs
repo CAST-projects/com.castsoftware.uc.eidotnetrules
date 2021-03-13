@@ -31,6 +31,12 @@ namespace CastDotNetExtension
          ControlFlowGraph = controlFlowGraph;
          OriginalOperation = null != ControlFlowGraph ? ControlFlowGraph.OriginalOperation : null;
       }
+
+      public override string ToString()
+      {
+         return string.Format("Operation Kind: {0} Syntax Kind: {1} Containing Symbol: {2}",
+            Operation.Kind, Operation.Syntax.Kind(), ContainingSymbol.Name);
+      }
    }
 
    public class OPList : List<OperationDetails>
@@ -64,8 +70,8 @@ namespace CastDotNetExtension
       void HandleSemanticModelOps(SemanticModelAnalysisContext context,
          OPs ops);
 
-      void HandleOperation(SemanticModelAnalysisContext context,
-         OperationDetails opDetails);
+      void HandleOperations(SemanticModelAnalysisContext context,
+         ConcurrentQueue<OperationDetails> ops);
 
    }
 
@@ -75,8 +81,30 @@ namespace CastDotNetExtension
       public abstract void HandleSemanticModelOps(SemanticModelAnalysisContext context,
          OPs ops);
 
-      public abstract void HandleOperation(SemanticModelAnalysisContext context,
-         OperationDetails opDetails);
+      public abstract void HandleOperations(SemanticModelAnalysisContext context,
+         ConcurrentQueue<OperationDetails> ops);
+
+      private static ConcurrentDictionary<string, ConcurrentQueue<Tuple<int, int>>> FileVerificationData = new ConcurrentDictionary<string, ConcurrentQueue<Tuple<int, int>>>();
+
+      protected static void AddFileVerificationData(string filePath, int objCreationCount, int throwCount) {
+         var fileData = FileVerificationData.GetOrAdd(filePath, (key) => new ConcurrentQueue<Tuple<int, int>>());
+         fileData.Enqueue(new Tuple<int, int>(objCreationCount, throwCount));
+      }
+
+      ~OperationsRetriever()
+      {
+         foreach (var fileVerificationData in FileVerificationData) {
+            Console.WriteLine("Verifying for {0}", fileVerificationData.Key);
+            var fileData = fileVerificationData.Value.ToArray();
+            if ( (fileData.Length % 2) == 0) {
+               for (int i = 0; i < fileData.Length; i += 2) {
+                  if (!fileData.ElementAt(i).Equals(fileData.ElementAt(i + 1))) {
+                     Console.WriteLine("Verification failed for {0}: {1} : {2}", fileVerificationData.Key, fileData.ElementAt(i), fileData.ElementAt(i + 1));
+                  }
+               }
+            }
+         }
+      }
 
 
       private class OpsProcessor
@@ -159,9 +187,13 @@ namespace CastDotNetExtension
 
       private class SubscriberSink
       {
-         private Dictionary<string, long> _currentFilesToThreadIDs = new Dictionary<string, long>();
+         //private Dictionary<string, long> _currentFilesToThreadIDs = new Dictionary<string, long>();
 
-         private List<Dictionary<string, long>> _currentFilesToThreadIDsToPrint = new List<Dictionary<string, long>>();
+         //private List<Dictionary<string, long>> _currentFilesToThreadIDsToPrint = new List<Dictionary<string, long>>();
+
+         //private List<PerfDatumOps> _perfDataOps = new List<PerfDatumOps>();
+         //private List<PerfDatumOps> _perfDataAssembly = new List<PerfDatumOps>();
+
 
          private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
 
@@ -175,8 +207,6 @@ namespace CastDotNetExtension
          public ILog Log;
          internal static object Lock = new object();
 
-         private List<PerfDatumOps> _perfDataOps = new List<PerfDatumOps>();
-         private List<PerfDatumOps> _perfDataAssembly = new List<PerfDatumOps>();
 
          public HashSet<OpsProcessor> OpsProcessors { get; private set; }
          private SubscriberSink()
@@ -491,7 +521,7 @@ namespace CastDotNetExtension
                OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null));
          }
 
-         private Dictionary<string, int> _repeatFiles = new Dictionary<string, int>();
+         //private Dictionary<string, int> _repeatFiles = new Dictionary<string, int>();
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
          {
             //lock (_currentFilesToThreadIDs) {
@@ -501,12 +531,12 @@ namespace CastDotNetExtension
             //   }
             //}
 
-            lock (_repeatFiles) {
-               if (!_repeatFiles.ContainsKey(context.SemanticModel.SyntaxTree.FilePath)) {
-                  _repeatFiles[context.SemanticModel.SyntaxTree.FilePath] = 0;
-               }
-               _repeatFiles[context.SemanticModel.SyntaxTree.FilePath]++;
-            }
+            //lock (_repeatFiles) {
+            //   if (!_repeatFiles.ContainsKey(context.SemanticModel.SyntaxTree.FilePath)) {
+            //      _repeatFiles[context.SemanticModel.SyntaxTree.FilePath] = 0;
+            //   }
+            //   _repeatFiles[context.SemanticModel.SyntaxTree.FilePath]++;
+            //}
 
             try {
                //var watch = new System.Diagnostics.Stopwatch();
@@ -517,98 +547,149 @@ namespace CastDotNetExtension
                //int nodeCount = nodes.Count;
 
                if (nodes.Any()) {
-
-                  List<Action<SemanticModelAnalysisContext, OperationDetails>> callbacks = new List<Action<SemanticModelAnalysisContext, OperationDetails>>();
-                  foreach (var opsProcessor in OpsProcessors) {
-                     callbacks.Add(opsProcessor.OpProcessor.HandleOperation);
-                  }
-                  //Console.WriteLine("Have nodes, count: {0}", nodes.Count);
-                  OPs ops = new OPs();
-                  foreach (var opKind in _opKinds) {
-                     ops[opKind] = new OPList(25);
-                  }
-                  int retryCount = 0;
-
                   ConcurrentQueue<OperationDetails> operations = null;
-                  OperationDetails operation;
-
-                  //int nodeCount = nodes.Count;
-                  //int nodeCountReceived = 0;
-                  //List<SyntaxNode> nodesReceived = new List<SyntaxNode>(nodeCount);
-
-                  //var watch = new System.Diagnostics.Stopwatch();
-                  //watch.Start();
-
-                  while (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
-                     while (operations.TryDequeue(out operation)) {
-                        //if (OperationKind.End == operation.Kind) {
-                        //   break;
-                        //}
-
-                        //nodesReceived.Add(operation.Syntax);
-                        //nodeCountReceived++;
-                        //if (nodeCount == nodeCountReceived) {
-                        //   nodes.ExceptWith(nodesReceived);
-                        //   nodesReceived.Clear();
-                        //   nodeCount = nodes.Count;
-                        //   nodeCountReceived = 0;
-                        //}
-                        //ops[operation.Operation.Kind].Add(operation);
-                        foreach (var callback in callbacks) {
-                           callback.BeginInvoke(context, operation, callback.EndInvoke, null);
-                        }
-                        nodes.Remove(operation.Operation.Syntax);
-                        if (!nodes.Any()) {
-                           break;
-                        }
-                     }
-                     if (null == operation) {
-                        retryCount++;
-                        //Log.Warn("operation was null; trying again! File: " + context.SemanticModel.SyntaxTree.FilePath);
-                        continue;
-                     }
-                     if (/*OperationKind.End == operation.Kind ||*/ !nodes.Any()) {
-                        break;
-                     }
-                  }
-
-                  if (0 < retryCount) {
-                     Log.WarnFormat("File: {0} Retry Count: {1}", context.SemanticModel.SyntaxTree.FilePath, retryCount);
-                  }
-
+                  while (!_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) ;
                   List<Task> handlerTasks = new List<Task>();
-
-                  if (2 < OpsProcessors.Count) {
-                     throw new InvalidOperationException("OpsProcessors, count: " + OpsProcessors.Count);
+                  foreach (var opsProcessor in OpsProcessors) {
+                     if (opsProcessor.IsActive) {
+                        //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                        handlerTasks.Add(Task.Run(() =>
+                        opsProcessor.OpProcessor.HandleOperations(context, operations)
+                           ))
+                        ;
+                     }
                   }
 
-                  //Console.WriteLine("Processing Ops For {0} OP Processor Count: {1}" ,
-                  //   context.SemanticModel.SyntaxTree.FilePath, OpsProcessors.Count);
-                  //foreach (var opsProcessor in OpsProcessors) {
-                  //   if (opsProcessor.IsActive) {
-                  //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
-                  //      handlerTasks.Add(Task.Run(() => 
-                  //      opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
-                  //         ))
-                  //      ;
-                  //   }
-                  //}
-                  //Task.WaitAll(handlerTasks.ToArray());
-                  //Log.WarnFormat("Operation Null Count: {0} File {1}", operationNullCount, context.SemanticModel.SyntaxTree.FilePath);
+                  Task.WaitAll(handlerTasks.ToArray());
+
+                  
+
+                  
+
+
+
+
+
+                  /*
+                                    List<Action<SemanticModelAnalysisContext, ConcurrentQueue<OperationDetails>>> callbacks = new List<Action<SemanticModelAnalysisContext, ConcurrentQueue<OperationDetails>>>();
+                                    foreach (var opsProcessor in OpsProcessors) {
+                                       callbacks.Add(opsProcessor.OpProcessor.HandleOperations);
+                                    }
+                                    //Console.WriteLine("Have nodes, count: {0}", nodes.Count);
+                                    OPs ops = new OPs();
+                                    foreach (var opKind in _opKinds) {
+                                       ops[opKind] = new OPList(25);
+                                    }
+                                    int retryCount = 0;
+
+
+                                    OperationDetails operation;
+
+                                    //int nodeCount = nodes.Count;
+                                    //int nodeCountReceived = 0;
+                                    //List<SyntaxNode> nodesReceived = new List<SyntaxNode>(nodeCount);
+
+                                    //var watch = new System.Diagnostics.Stopwatch();
+                                    //watch.Start();
+
+                  
+
+                                    while (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
+                                       while (operations.TryDequeue(out operation)) {
+                                          //if (OperationKind.End == operation.Kind) {
+                                          //   break;
+                                          //}
+
+                                          //nodesReceived.Add(operation.Syntax);
+                                          //nodeCountReceived++;
+                                          //if (nodeCount == nodeCountReceived) {
+                                          //   nodes.ExceptWith(nodesReceived);
+                                          //   nodesReceived.Clear();
+                                          //   nodeCount = nodes.Count;
+                                          //   nodeCountReceived = 0;
+                                          //}
+                                          ops[operation.Operation.Kind].Add(operation);
+                                          //foreach (var callback in callbacks) {
+                                          //   callback.BeginInvoke(context, operation, callback.EndInvoke, null);
+                                          //}
+
+                                          //var op = new OperationDetails(operation.Operation, operation.ContainingSymbol, operation.ControlFlowGraph);
+                                          //foreach (var opsProcessor in OpsProcessors) {
+                                          //   if (opsProcessor.IsActive) {
+                                          //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                                          //      handlerTasks.Add(Task.Run(() =>
+                                          //      opsProcessor.OpProcessor.HandleOperation(context, op)
+                                          //         ))
+                                          //      ;
+                                          //   }
+                                          //}
+
+                                          nodes.Remove(operation.Operation.Syntax);
+                                          if (!nodes.Any()) {
+                                             break;
+                                          }
+                                       }
+                                       if (null == operation) {
+                                          retryCount++;
+                                          //Log.Warn("operation was null; trying again! File: " + context.SemanticModel.SyntaxTree.FilePath);
+                                          continue;
+                                       }
+                                       if (!nodes.Any()) {
+                                          break;
+                                       }
+                                    }
+
+                                    if (0 < retryCount) {
+                                       Log.WarnFormat("File: {0} Retry Count: {1}", context.SemanticModel.SyntaxTree.FilePath, retryCount);
+                                    }
+
+                                    if (2 < OpsProcessors.Count) {
+                                       throw new InvalidOperationException("OpsProcessors, count: " + OpsProcessors.Count);
+                                    }
+
+
+                                    //Task.WaitAll(handlerTasks.ToArray());
+                                    //handlerTasks.Clear();
+                                    //Console.WriteLine("Processing Ops For {0} OP Processor Count: {1}" ,
+                                    //   context.SemanticModel.SyntaxTree.FilePath, OpsProcessors.Count);
+                                    //foreach (var opsProcessor in OpsProcessors) {
+                                    //   if (opsProcessor.IsActive) {
+                                    //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                                    //      handlerTasks.Add(Task.Run(() =>
+                                    //      opsProcessor.OpProcessor.HandleOperation(context, null)
+                                    //         ))
+                                    //      ;
+                                    //   }
+                                    //}
+
+                                    foreach (var opsProcessor in OpsProcessors) {
+                                       if (opsProcessor.IsActive) {
+                                          //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                                          handlerTasks.Add(Task.Run(() =>
+                                          opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
+                                             ))
+                                          ;
+                                       }
+                                    }
+
+                                    Task.WaitAll(handlerTasks.ToArray());
+                                    //Log.WarnFormat("Operation Null Count: {0} File {1}", operationNullCount, context.SemanticModel.SyntaxTree.FilePath);
+                                 }
+                                 //watch.Stop();
+
+
+                                 //lock (_perfDataOps) {
+                                 //   _perfDataOps.Add(new PerfDatumOps(context.SemanticModel.SyntaxTree.FilePath, watch.ElapsedTicks, nodeCount));
+                                 //}
+                   */
                }
-               //watch.Stop();
-
-
-               //lock (_perfDataOps) {
-               //   _perfDataOps.Add(new PerfDatumOps(context.SemanticModel.SyntaxTree.FilePath, watch.ElapsedTicks, nodeCount));
-               //}
             } catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
 
-            lock (_currentFilesToThreadIDs) {
-               _currentFilesToThreadIDs.Remove(context.SemanticModel.SyntaxTree.FilePath);
-            }
+            //lock (_currentFilesToThreadIDs) {
+            //   _currentFilesToThreadIDs.Remove(context.SemanticModel.SyntaxTree.FilePath);
+            //}
 
          }
       }
