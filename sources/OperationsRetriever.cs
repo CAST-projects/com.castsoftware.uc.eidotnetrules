@@ -63,6 +63,10 @@ namespace CastDotNetExtension
       SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       void HandleSemanticModelOps(SemanticModelAnalysisContext context,
          OPs ops);
+
+      void HandleOperation(SemanticModelAnalysisContext context,
+         OperationDetails opDetails);
+
    }
 
    public abstract class OperationsRetriever : AbstractRuleChecker, IOpProcessor
@@ -70,6 +74,10 @@ namespace CastDotNetExtension
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       public abstract void HandleSemanticModelOps(SemanticModelAnalysisContext context,
          OPs ops);
+
+      public abstract void HandleOperation(SemanticModelAnalysisContext context,
+         OperationDetails opDetails);
+
 
       private class OpsProcessor
       {
@@ -146,9 +154,15 @@ namespace CastDotNetExtension
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
+      
+
 
       private class SubscriberSink
       {
+         private Dictionary<string, long> _currentFilesToThreadIDs = new Dictionary<string, long>();
+
+         private List<Dictionary<string, long>> _currentFilesToThreadIDsToPrint = new List<Dictionary<string, long>>();
+
          private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
 
          private HashSet<SyntaxKind> _kinds = new HashSet<SyntaxKind>();
@@ -183,6 +197,25 @@ namespace CastDotNetExtension
                SyntaxKind.None
          };
 
+         //~SubscriberSink()
+         //{
+
+         //   foreach (var repeatFile in _repeatFiles) {
+         //      if (1 < repeatFile.Value) {
+         //         Console.WriteLine(repeatFile);
+         //      }
+         //   }
+            
+         //   //foreach (var filesDetails in _currentFilesToThreadIDsToPrint) {
+         //   //   Console.WriteLine("===================Start: Multiple Files Snapshot=============");   
+         //   //   foreach (var fileDetails in filesDetails) {
+         //   //      Console.WriteLine("   " + fileDetails);
+         //   //   }
+         //   //   Console.WriteLine("===================End: Multiple Files Snapshot=============");   
+         //   //}
+         //}
+
+
 
          //~SubscriberSink()
          //{
@@ -203,22 +236,22 @@ namespace CastDotNetExtension
 
          //   HashSet<OperationKind> notNullOps = _notNullControlFlowGraphOps.ToHashSet();
 
-            //Console.WriteLine("============== Start: Not Null Control Flow Graph Ops ===========");
-            //foreach (var opKind in notNullOps) {
-            //   Console.WriteLine("    " + opKind);
-            //}
-            //Console.WriteLine("============== End: Not Null Control Flow Graph Ops ===========");
+         //Console.WriteLine("============== Start: Not Null Control Flow Graph Ops ===========");
+         //foreach (var opKind in notNullOps) {
+         //   Console.WriteLine("    " + opKind);
+         //}
+         //Console.WriteLine("============== End: Not Null Control Flow Graph Ops ===========");
 
-            //foreach (var nullOpKindDetails in _opsNullControlFlowGraph) {
-            //   Console.WriteLine("Null Control Graph For OP: {0}",  nullOpKindDetails.Key);
-            //   if (notNullOps.Contains(nullOpKindDetails.Key)) {
-            //      Console.WriteLine("   Control Flow Graph for OperationKind {0} was not null later", nullOpKindDetails.Key);
-            //   }
+         //foreach (var nullOpKindDetails in _opsNullControlFlowGraph) {
+         //   Console.WriteLine("Null Control Graph For OP: {0}",  nullOpKindDetails.Key);
+         //   if (notNullOps.Contains(nullOpKindDetails.Key)) {
+         //      Console.WriteLine("   Control Flow Graph for OperationKind {0} was not null later", nullOpKindDetails.Key);
+         //   }
 
-            //   foreach (var nullSyntaxKindDetails in nullOpKindDetails.Value) {
-            //      Console.WriteLine(nullSyntaxKindDetails.ToString());
-            //   }
-            //}
+         //   foreach (var nullSyntaxKindDetails in nullOpKindDetails.Value) {
+         //      Console.WriteLine(nullSyntaxKindDetails.ToString());
+         //   }
+         //}
          //}
 
          //~SubscriberSink()
@@ -282,34 +315,25 @@ namespace CastDotNetExtension
          {
             //var watch = new System.Diagnostics.Stopwatch();
             //watch.Start();
-            lock (Lock)
-            {
-               try
-               {
+            lock (Lock) {
+               try {
                   //Log.WarnFormat("Assembly: {0}", context.Compilation.Assembly.Name);
-                  if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly)
-                  {
+                  if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
                      CurrentCompilation = context.Compilation;
                      _symbolToControlFlowGraph.Clear();
                      //Log.WarnFormat("Compilation Changed, Assembly: {0}", CurrentCompilation.Assembly.Name);
                      SyntaxKind[] kinds = null;
-                     foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors)
-                     {
+                     foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors) {
                         kinds = opProcessor.OpProcessor.Kinds(context);
-                        if (!kinds.Any())
-                        {
+                        if (!kinds.Any()) {
                            opProcessor.IsActive = false;
-                        }
-                        else
-                        {
+                        } else {
                            _kinds.UnionWith(kinds);
                         }
                      }
 
-                     foreach (var kind in _kinds)
-                     {
-                        switch (kind)
-                        {
+                     foreach (var kind in _kinds) {
+                        switch (kind) {
                            case SyntaxKind.ThrowExpression:
                            case SyntaxKind.ThrowStatement:
                            case SyntaxKind.ThrowKeyword:
@@ -332,8 +356,7 @@ namespace CastDotNetExtension
                               break;
                         }
                      }
-                     if (_opKinds.Any())
-                     {
+                     if (_opKinds.Any()) {
                         _opKinds.Add(OperationKind.End);
                         _operations.Clear();
                         context.RegisterOperationAction(OnOperation, _opKinds.ToArray());
@@ -341,9 +364,7 @@ namespace CastDotNetExtension
                      }
                      //Log.Warn("End: CompilationStart");
                   }
-               }
-               catch (Exception e)
-               {
+               } catch (Exception e) {
                   Log.Warn("Exception while initializing Op Retriever for " + context.Compilation.Assembly.Name, e);
                }
             }
@@ -406,53 +427,53 @@ namespace CastDotNetExtension
          private void OnOperation(OperationAnalysisContext context)
          {
             //try {
-               //OpDetails opDetails = null;
+            //OpDetails opDetails = null;
 
-               //if (OperationKind.Invalid != context.Operation.Kind) {
-               //   if (!_symbolToControlFlowGraph.TryGetValue(context.ContainingSymbol, out opDetails)) {
-               //      ControlFlowGraph controlFlowGraph = context.GetControlFlowGraph();
-               //      if (null == controlFlowGraph) {
-               //         Log.WarnFormat("Control Flow Graph is null Operation: {0} Syntax: Kind: {1} Code: {2} for {3} file {4}",
-               //            context.Operation.Kind,
-               //            context.Operation.Syntax.Kind(),
-               //            context.Operation.Syntax,
-               //            context.ContainingSymbol.OriginalDefinition.ToString(),
-               //            context.Operation.SemanticModel.SyntaxTree.FilePath);
+            //if (OperationKind.Invalid != context.Operation.Kind) {
+            //   if (!_symbolToControlFlowGraph.TryGetValue(context.ContainingSymbol, out opDetails)) {
+            //      ControlFlowGraph controlFlowGraph = context.GetControlFlowGraph();
+            //      if (null == controlFlowGraph) {
+            //         Log.WarnFormat("Control Flow Graph is null Operation: {0} Syntax: Kind: {1} Code: {2} for {3} file {4}",
+            //            context.Operation.Kind,
+            //            context.Operation.Syntax.Kind(),
+            //            context.Operation.Syntax,
+            //            context.ContainingSymbol.OriginalDefinition.ToString(),
+            //            context.Operation.SemanticModel.SyntaxTree.FilePath);
 
-               //         var dic = _opsNullControlFlowGraph.GetOrAdd(context.Operation.Kind, (key) => new ConcurrentDictionary<SyntaxKind, ConcurrentQueue<OpDetails>>());
-               //         var nq = dic.GetOrAdd(context.Operation.Syntax.Kind(), (key) => new ConcurrentQueue<OpDetails>());
-               //         nq.Enqueue(new OpDetails(context.Operation.Kind,
-               //            context.Operation.Syntax.Kind(),
-               //            context.Operation.Syntax.ToString(),
-               //            context.ContainingSymbol.OriginalDefinition.ToString(),
-               //            context.Operation.SemanticModel.SyntaxTree.FilePath,
-               //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line));
-               //      } else {
-               //         _symbolToControlFlowGraph[context.ContainingSymbol] = new OpDetails(context.Operation.Kind,
-               //            context.Operation.Syntax.Kind(),
-               //            context.Operation.Syntax.ToString(),
-               //            context.ContainingSymbol.OriginalDefinition.ToString(),
-               //            context.Operation.SemanticModel.SyntaxTree.FilePath,
-               //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
-               //            controlFlowGraph);
+            //         var dic = _opsNullControlFlowGraph.GetOrAdd(context.Operation.Kind, (key) => new ConcurrentDictionary<SyntaxKind, ConcurrentQueue<OpDetails>>());
+            //         var nq = dic.GetOrAdd(context.Operation.Syntax.Kind(), (key) => new ConcurrentQueue<OpDetails>());
+            //         nq.Enqueue(new OpDetails(context.Operation.Kind,
+            //            context.Operation.Syntax.Kind(),
+            //            context.Operation.Syntax.ToString(),
+            //            context.ContainingSymbol.OriginalDefinition.ToString(),
+            //            context.Operation.SemanticModel.SyntaxTree.FilePath,
+            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line));
+            //      } else {
+            //         _symbolToControlFlowGraph[context.ContainingSymbol] = new OpDetails(context.Operation.Kind,
+            //            context.Operation.Syntax.Kind(),
+            //            context.Operation.Syntax.ToString(),
+            //            context.ContainingSymbol.OriginalDefinition.ToString(),
+            //            context.Operation.SemanticModel.SyntaxTree.FilePath,
+            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
+            //            controlFlowGraph);
 
-               //         _notNullControlFlowGraphOps.Enqueue(context.Operation.Kind);
-               //      }
-               //   } else {
-               //      var controlFlowGraph = context.GetControlFlowGraph();
-               //      if (opDetails.ControlFlowGraph != controlFlowGraph) {
+            //         _notNullControlFlowGraphOps.Enqueue(context.Operation.Kind);
+            //      }
+            //   } else {
+            //      var controlFlowGraph = context.GetControlFlowGraph();
+            //      if (opDetails.ControlFlowGraph != controlFlowGraph) {
 
-               //         Log.WarnFormat("Control Flow Graph is different Operation: {0} Syntax: Kind: {1} Code: {2} for {3} Line: {4} file {5}",
-               //            context.Operation.Kind,
-               //            context.Operation.Syntax.Kind(),
-               //            context.Operation.Syntax,
-               //            context.ContainingSymbol.OriginalDefinition.ToString(),
-               //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
-               //            context.Operation.SemanticModel.SyntaxTree.FilePath);
-               //         Log.WarnFormat("Previous: " + opDetails.ToString());
-               //      }
-               //   }
-               //}
+            //         Log.WarnFormat("Control Flow Graph is different Operation: {0} Syntax: Kind: {1} Code: {2} for {3} Line: {4} file {5}",
+            //            context.Operation.Kind,
+            //            context.Operation.Syntax.Kind(),
+            //            context.Operation.Syntax,
+            //            context.ContainingSymbol.OriginalDefinition.ToString(),
+            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
+            //            context.Operation.SemanticModel.SyntaxTree.FilePath);
+            //         Log.WarnFormat("Previous: " + opDetails.ToString());
+            //      }
+            //   }
+            //}
 
             //   var kq = _opKindToSyntaxKind.GetOrAdd(context.Operation.Kind, (key) => new ConcurrentQueue<SyntaxKind>());
             //   kq.Enqueue(context.Operation.Syntax.Kind());
@@ -466,12 +487,27 @@ namespace CastDotNetExtension
             //}
 
             var q = _operations.GetOrAdd(context.Operation.Syntax.SyntaxTree.FilePath, (key) => new ConcurrentQueue<OperationDetails>());
-            q.Enqueue(new OperationDetails(context.Operation, context.ContainingSymbol, 
-               OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null)); 
+            q.Enqueue(new OperationDetails(context.Operation, context.ContainingSymbol,
+               OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null));
          }
 
+         private Dictionary<string, int> _repeatFiles = new Dictionary<string, int>();
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
          {
+            //lock (_currentFilesToThreadIDs) {
+            //   _currentFilesToThreadIDs.Add(context.SemanticModel.SyntaxTree.FilePath, Thread.CurrentThread.ManagedThreadId);
+            //   if (1 < _currentFilesToThreadIDs.Count) {
+            //      _currentFilesToThreadIDsToPrint.Add(new Dictionary<string, long>(_currentFilesToThreadIDs));
+            //   }
+            //}
+
+            lock (_repeatFiles) {
+               if (!_repeatFiles.ContainsKey(context.SemanticModel.SyntaxTree.FilePath)) {
+                  _repeatFiles[context.SemanticModel.SyntaxTree.FilePath] = 0;
+               }
+               _repeatFiles[context.SemanticModel.SyntaxTree.FilePath]++;
+            }
+
             try {
                //var watch = new System.Diagnostics.Stopwatch();
                //watch.Start();
@@ -482,6 +518,10 @@ namespace CastDotNetExtension
 
                if (nodes.Any()) {
 
+                  List<Action<SemanticModelAnalysisContext, OperationDetails>> callbacks = new List<Action<SemanticModelAnalysisContext, OperationDetails>>();
+                  foreach (var opsProcessor in OpsProcessors) {
+                     callbacks.Add(opsProcessor.OpProcessor.HandleOperation);
+                  }
                   //Console.WriteLine("Have nodes, count: {0}", nodes.Count);
                   OPs ops = new OPs();
                   foreach (var opKind in _opKinds) {
@@ -498,6 +538,7 @@ namespace CastDotNetExtension
 
                   //var watch = new System.Diagnostics.Stopwatch();
                   //watch.Start();
+
                   while (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
                      while (operations.TryDequeue(out operation)) {
                         //if (OperationKind.End == operation.Kind) {
@@ -512,7 +553,10 @@ namespace CastDotNetExtension
                         //   nodeCount = nodes.Count;
                         //   nodeCountReceived = 0;
                         //}
-                        ops[operation.Operation.Kind].Add(operation);
+                        //ops[operation.Operation.Kind].Add(operation);
+                        foreach (var callback in callbacks) {
+                           callback.BeginInvoke(context, operation, callback.EndInvoke, null);
+                        }
                         nodes.Remove(operation.Operation.Syntax);
                         if (!nodes.Any()) {
                            break;
@@ -540,16 +584,16 @@ namespace CastDotNetExtension
 
                   //Console.WriteLine("Processing Ops For {0} OP Processor Count: {1}" ,
                   //   context.SemanticModel.SyntaxTree.FilePath, OpsProcessors.Count);
-                  foreach (var opsProcessor in OpsProcessors) {
-                     if (opsProcessor.IsActive) {
-                        //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
-                        handlerTasks.Add(Task.Run(() => 
-                        opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
-                           ))
-                        ;
-                     }
-                  }
-                  Task.WaitAll(handlerTasks.ToArray());
+                  //foreach (var opsProcessor in OpsProcessors) {
+                  //   if (opsProcessor.IsActive) {
+                  //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
+                  //      handlerTasks.Add(Task.Run(() => 
+                  //      opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
+                  //         ))
+                  //      ;
+                  //   }
+                  //}
+                  //Task.WaitAll(handlerTasks.ToArray());
                   //Log.WarnFormat("Operation Null Count: {0} File {1}", operationNullCount, context.SemanticModel.SyntaxTree.FilePath);
                }
                //watch.Stop();
@@ -561,6 +605,11 @@ namespace CastDotNetExtension
             } catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
+
+            lock (_currentFilesToThreadIDs) {
+               _currentFilesToThreadIDs.Remove(context.SemanticModel.SyntaxTree.FilePath);
+            }
+
          }
       }
 

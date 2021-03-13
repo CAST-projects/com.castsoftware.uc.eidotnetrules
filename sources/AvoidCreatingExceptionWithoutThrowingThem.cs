@@ -153,6 +153,11 @@ namespace CastDotNetExtension {
          //}
       }
 
+      public override void HandleOperation(SemanticModelAnalysisContext context,
+         OperationDetails opDetails)
+      {
+         //Console.WriteLine("AvoidCreatingExceptionWithoutThrowingThem: Thread ID: " + Thread.CurrentThread.ManagedThreadId);
+      }
 
 
       private class OpDetails
@@ -198,13 +203,16 @@ namespace CastDotNetExtension {
 
       private class Context
       {
+         public static ConcurrentDictionary<INamedTypeSymbol, bool> TypeToIsException = new ConcurrentDictionary<INamedTypeSymbol, bool>();
+         public static INamedTypeSymbol SystemException = null;
+         public static INamedTypeSymbol Interface_Exception = null;
+
+
          public HashSet<IOperation> ExcludedThrows = new HashSet<IOperation>();
          public List<IOperation> Throws = new List<IOperation>();
          public HashSet<ISymbol> ExceptionVars = new HashSet<ISymbol>();
-         public static ConcurrentDictionary<INamedTypeSymbol, bool> TypeToIsException = new ConcurrentDictionary<INamedTypeSymbol, bool>();
          public Dictionary<ISymbol, HashSet<FileLinePositionSpan>> Symbol2ViolatingNodes = new Dictionary<ISymbol, HashSet<FileLinePositionSpan>>();
-         public static INamedTypeSymbol SystemException = null;
-         public static INamedTypeSymbol Interface_Exception = null;
+
          public Compilation Compilation;
          public SemanticModel SemanticModel;
          //public static long ConversionCount = 0;
