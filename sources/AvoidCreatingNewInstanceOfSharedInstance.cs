@@ -94,34 +94,35 @@ namespace CastDotNetExtension {
          return isShared;
       }
 
-      public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
+      public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
-         var sharedObjCreationOps = 
-            ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type));
-         if (sharedObjCreationOps.Any()) {
+         try {
+            var sharedObjCreationOps =
+               ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type));
+            if (sharedObjCreationOps.Any()) {
 
-            List<IArgumentOperation> arguments = new List<IArgumentOperation>();
-            foreach (var op in sharedObjCreationOps) {
-               //if (OperationKind.Return == op.Parent.Kind ||
-               //   (OperationKind.Conversion == op.Parent.Kind &&
-               //   null != op.Parent.Parent && OperationKind.Return == op.Parent.Parent.Kind)) {
+               List<IArgumentOperation> arguments = new List<IArgumentOperation>();
+               foreach (var op in sharedObjCreationOps) {
+                  //if (OperationKind.Return == op.Parent.Kind ||
+                  //   (OperationKind.Conversion == op.Parent.Kind &&
+                  //   null != op.Parent.Parent && OperationKind.Return == op.Parent.Parent.Kind)) {
 
-               //   var method = op.SemanticModel.GetEnclosingSymbol(op.Syntax.SpanStart) as IMethodSymbol;
-               //   if (null != method) {
-               //      if (MethodKind.LambdaMethod == method.MethodKind) {
-               //         var parent = op.Parent.Parent;
-               //         while (null != parent && OperationKind.Argument != parent.Kind) {
-               //            parent = parent.Parent;
-               //         }
-               //         if (null != parent) {
-               //            if (!_addServiceMethods.Contains((parent.Parent as IInvocationOperation).TargetMethod)) {
-               //               arguments.Add(parent as IArgumentOperation);
-               //            }
-               //         }
-               //      }
-               //   }
-               //} else {
+                  //   var method = op.SemanticModel.GetEnclosingSymbol(op.Syntax.SpanStart) as IMethodSymbol;
+                  //   if (null != method) {
+                  //      if (MethodKind.LambdaMethod == method.MethodKind) {
+                  //         var parent = op.Parent.Parent;
+                  //         while (null != parent && OperationKind.Argument != parent.Kind) {
+                  //            parent = parent.Parent;
+                  //         }
+                  //         if (null != parent) {
+                  //            if (!_addServiceMethods.Contains((parent.Parent as IInvocationOperation).TargetMethod)) {
+                  //               arguments.Add(parent as IArgumentOperation);
+                  //            }
+                  //         }
+                  //      }
+                  //   }
+                  //} else {
                   //if (OperationKind.Conversion == op.Parent.Kind) {
                   //   if (null != op.Parent.Parent && OperationKind.Argument == op.Parent.Parent.Kind) {
                   //      if (!_addServiceMethods.Contains((op.Parent.Parent.Parent as IInvocationOperation).TargetMethod)) {
@@ -130,10 +131,13 @@ namespace CastDotNetExtension {
                   //   }
                   //}
                   //Console.WriteLine(op.Parent.Kind);
-            //   }
+                  //   }
+               }
+               //var addServiceCalls = 
+               //   ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o.Operation as IInvocationOperation).TargetMethod));
             }
-            //var addServiceCalls = 
-            //   ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o.Operation as IInvocationOperation).TargetMethod));
+         } catch (Exception e) {
+            Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
       }
 

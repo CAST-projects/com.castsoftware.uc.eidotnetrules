@@ -111,19 +111,23 @@ namespace CastDotNetExtension {
 
 
 
-      public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
+      public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
-         IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
-         if (objCreationOps.Any()) {
-            Context ctx = _fileToContext.GetOrAdd(context.SemanticModel.SyntaxTree.FilePath, (key) => new Context(context.SemanticModel.Compilation, context.SemanticModel));
-            ProcessObjectCreationOps(objCreationOps, ctx);
-            if (lastBatch) {
-               if (ctx.ExceptionVars.Any()) {
-                  ctx.Throws = ops[OperationKind.Throw];
-                  ProcessViolations(ctx);
+         try {
+            IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
+            if (objCreationOps.Any()) {
+               Context ctx = _fileToContext.GetOrAdd(semanticModel.SyntaxTree.FilePath, (key) => new Context(semanticModel.Compilation, semanticModel));
+               ProcessObjectCreationOps(objCreationOps, ctx);
+               if (lastBatch) {
+                  if (ctx.ExceptionVars.Any()) {
+                     ctx.Throws = ops[OperationKind.Throw];
+                     ProcessViolations(ctx);
+                  }
                }
             }
+         } catch (Exception e) {
+            Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
       }
 
