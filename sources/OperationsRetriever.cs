@@ -111,7 +111,7 @@ namespace CastDotNetExtension
             public long Time = 0;
             public long TotalOps = 0;
             public List<KeyValuePair<string, long>> FileToOps = new List<KeyValuePair<string,long>>();
-
+            public List<IAssemblySymbol> _visitedAssemblies = new List<IAssemblySymbol>();
          }
          private OpVisitData _opVisitData = new OpVisitData();
 
@@ -122,31 +122,36 @@ namespace CastDotNetExtension
 
          private void OnCompilationEnd(CompilationAnalysisContext context)
          {
-            var watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
-            List<Task> operationTasks = new List<Task>();
-            List<AllOperationVisitor> allOperationVisitors = new List<AllOperationVisitor>();
-            foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
-               AllOperationVisitor visitor = new AllOperationVisitor();
-               allOperationVisitors.Add(visitor);
-               operationTasks.Add(Task.Run(() => VisitAllOperations(context.Compilation.GetSemanticModel(syntaxTree), visitor)));
-            }
+            if (!_opVisitData._visitedAssemblies.Any(a => a.Identity == context.Compilation.Assembly.Identity)) {
+               _opVisitData._visitedAssemblies.Add(context.Compilation.Assembly);
+               var watch = new System.Diagnostics.Stopwatch();
+               watch.Start();
+               List<Task> operationTasks = new List<Task>();
+               List<AllOperationVisitor> allOperationVisitors = new List<AllOperationVisitor>();
+               foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
+                  AllOperationVisitor visitor = new AllOperationVisitor();
+                  allOperationVisitors.Add(visitor);
+                  operationTasks.Add(Task.Run(() => VisitAllOperations(context.Compilation.GetSemanticModel(syntaxTree), visitor)));
+               }
 
-            Task.WaitAll(operationTasks.ToArray());
-            watch.Stop();
+               Task.WaitAll(operationTasks.ToArray());
+               watch.Stop();
 
-            _opVisitData.Time += watch.ElapsedTicks;
+               _opVisitData.Time += watch.ElapsedTicks;
 
-            //Console.WriteLine("OnCompilationEnd: Time Taken: " + watch.ElapsedTicks / TimeSpan.TicksPerMillisecond);
+               //Console.WriteLine("OnCompilationEnd: Time Taken: " + watch.ElapsedTicks / TimeSpan.TicksPerMillisecond);
 
-            int idx = 0;
-            foreach (var visitor in allOperationVisitors) {
-               //Console.WriteLine("OnCompilationEnd: total operations: {0} File: {1}",
-               //   context.Compilation.SyntaxTrees.ElementAt(idx).FilePath,
-               //   visitor._allOps.Count);
-               _opVisitData.FileToOps.Add(new KeyValuePair<string,long>(context.Compilation.SyntaxTrees.ElementAt(idx).FilePath, visitor._allOps.Count));
-               _opVisitData.TotalOps += visitor._allOps.Count;
-               idx++;
+               int idx = 0;
+               foreach (var visitor in allOperationVisitors) {
+                  //Console.WriteLine("OnCompilationEnd: total operations: {0} File: {1}",
+                  //   context.Compilation.SyntaxTrees.ElementAt(idx).FilePath,
+                  //   visitor._allOps.Count);
+                  _opVisitData.FileToOps.Add(new KeyValuePair<string, long>(context.Compilation.SyntaxTrees.ElementAt(idx).FilePath, visitor._allOps.Count));
+                  _opVisitData.TotalOps += visitor._allOps.Count;
+                  idx++;
+               }
+            } else {
+               Log.WarnFormat("Assembly already visited: {0}: {1}", context.Compilation.Assembly.Name, context.Compilation.Assembly);
             }
          }
 
