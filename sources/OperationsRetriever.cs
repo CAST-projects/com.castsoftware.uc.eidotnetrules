@@ -102,28 +102,41 @@ namespace CastDotNetExtension
 
          public void RegisterCompilationStartAction(AnalysisContext context)
          {
-            //context.RegisterCompilationStartAction(CompiliationStart);
+            context.RegisterCompilationStartAction(CompiliationStart);
             context.RegisterCompilationAction(OnCompilationEnd);
          }
 
-         class OpVisitData {
+         class OpVisitData
+         {
 
             public long Time = 0;
             public long TotalOps = 0;
-            public List<KeyValuePair<string, long>> FileToOps = new List<KeyValuePair<string,long>>();
-            public List<IAssemblySymbol> _visitedAssemblies = new List<IAssemblySymbol>();
+            //public List<KeyValuePair<string, long>> FileToOps = new List<KeyValuePair<string, long>>();
+            public List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>> _assemblyDetails
+               = new List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>>();
          }
          private OpVisitData _opVisitData = new OpVisitData();
 
-         ~SubscriberSink() {
-            Console.WriteLine("Op Visit Time: Total Time: {0} ms, Total Ops: {1}, Total Files: {2}", 
-               _opVisitData.Time/TimeSpan.TicksPerMillisecond, _opVisitData.TotalOps, _opVisitData.FileToOps.Count);
+         ~SubscriberSink()
+         {
+            Console.WriteLine("Op Visit Time: Total Time: {0} ms, Total Ops: {1}",
+               _opVisitData.Time / TimeSpan.TicksPerMillisecond, _opVisitData.TotalOps);
+
+            foreach (var assemblyDetails in _opVisitData._assemblyDetails) {
+               Console.WriteLine("Assembly Name: {0} Time: {1}", assemblyDetails.Key, assemblyDetails.Value.Key);
+               foreach (var fileDetails in assemblyDetails.Value.Value) {
+                  Console.WriteLine("  File: {0}, Total Ops: {1}", fileDetails.Key, fileDetails.Value);
+               }
+            }
          }
 
+         
+
+         private ConcurrentDictionary<string, KeyValuePair<Task, ConcurrentQueue<IOperation>>> _fileToOperationData =
+            new ConcurrentDictionary<string, KeyValuePair<Task, ConcurrentQueue<IOperation>>>();
          private void OnCompilationEnd(CompilationAnalysisContext context)
          {
-            if (!_opVisitData._visitedAssemblies.Any(a => a.Identity == context.Compilation.Assembly.Identity)) {
-               _opVisitData._visitedAssemblies.Add(context.Compilation.Assembly);
+            if (!_opVisitData._assemblyDetails.Any(a => a.Key.Identity == context.Compilation.Assembly.Identity)) {
                var watch = new System.Diagnostics.Stopwatch();
                watch.Start();
                List<Task> operationTasks = new List<Task>();
@@ -141,18 +154,68 @@ namespace CastDotNetExtension
 
                //Console.WriteLine("OnCompilationEnd: Time Taken: " + watch.ElapsedTicks / TimeSpan.TicksPerMillisecond);
 
+               var fileToOps = new List<KeyValuePair<string, long>>();
+
                int idx = 0;
                foreach (var visitor in allOperationVisitors) {
                   //Console.WriteLine("OnCompilationEnd: total operations: {0} File: {1}",
                   //   context.Compilation.SyntaxTrees.ElementAt(idx).FilePath,
                   //   visitor._allOps.Count);
-                  _opVisitData.FileToOps.Add(new KeyValuePair<string, long>(context.Compilation.SyntaxTrees.ElementAt(idx).FilePath, visitor._allOps.Count));
+                  fileToOps.Add(new KeyValuePair<string, long>(context.Compilation.SyntaxTrees.ElementAt(idx).FilePath, visitor._allOps.Count));
                   _opVisitData.TotalOps += visitor._allOps.Count;
                   idx++;
                }
+
+               _opVisitData._assemblyDetails.Add(new KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>
+                  (context.Compilation.Assembly, new KeyValuePair<long, List<KeyValuePair<string, long>>>(watch.ElapsedTicks, fileToOps)));
+
             } else {
                Log.WarnFormat("Assembly already visited: {0}: {1}", context.Compilation.Assembly.Name, context.Compilation.Assembly);
             }
+         }
+
+         private void SetSyntaxKinds(CompilationStartAnalysisContext context)
+         {
+            SyntaxKind[] kinds = null;
+            foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors) {
+               kinds = opProcessor.OpProcessor.Kinds(context);
+               if (!kinds.Any()) {
+                  opProcessor.IsActive = false;
+               } else {
+                  _kinds.UnionWith(kinds);
+               }
+            }
+         }
+
+         private void SetOpKinds(CompilationStartAnalysisContext context)
+         {
+            SetSyntaxKinds(context);
+
+            foreach (var kind in _kinds) {
+               switch (kind) {
+                  case SyntaxKind.ThrowExpression:
+                  case SyntaxKind.ThrowStatement:
+                  case SyntaxKind.ThrowKeyword:
+                     _opKinds.Add(OperationKind.Throw);
+                     break;
+                  case SyntaxKind.ObjectCreationExpression:
+                     _opKinds.UnionWith(new OperationKind[] {                                                          
+                           OperationKind.ObjectCreation, 
+                           OperationKind.DynamicObjectCreation, 
+                           OperationKind.Invalid, 
+                           OperationKind.DelegateCreation, 
+                           OperationKind.TypeParameterObjectCreation});
+                     break;
+                  case SyntaxKind.InvocationExpression:
+                     _opKinds.UnionWith(new OperationKind[] {
+                           OperationKind.Invocation, 
+                           OperationKind.DynamicInvocation,
+                           OperationKind.NameOf,
+                           OperationKind.Invalid});
+                     break;
+               }
+            }
+
          }
 
          private void CompiliationStart(CompilationStartAnalysisContext context)
@@ -161,45 +224,12 @@ namespace CastDotNetExtension
                try {
                   if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
                      CurrentCompilation = context.Compilation;
-                     SyntaxKind[] kinds = null;
-                     foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors) {
-                        kinds = opProcessor.OpProcessor.Kinds(context);
-                        if (!kinds.Any()) {
-                           opProcessor.IsActive = false;
-                        } else {
-                           _kinds.UnionWith(kinds);
-                        }
-                     }
-
-                     foreach (var kind in _kinds) {
-                        switch (kind) {
-                           case SyntaxKind.ThrowExpression:
-                           case SyntaxKind.ThrowStatement:
-                           case SyntaxKind.ThrowKeyword:
-                              _opKinds.Add(OperationKind.Throw);
-                              break;
-                           case SyntaxKind.ObjectCreationExpression:
-                              _opKinds.UnionWith(new OperationKind[] {                                                          
-                           OperationKind.ObjectCreation, 
-                           OperationKind.DynamicObjectCreation, 
-                           OperationKind.Invalid, 
-                           OperationKind.DelegateCreation, 
-                           OperationKind.TypeParameterObjectCreation});
-                              break;
-                           case SyntaxKind.InvocationExpression:
-                              _opKinds.UnionWith(new OperationKind[] {
-                           OperationKind.Invocation, 
-                           OperationKind.DynamicInvocation,
-                           OperationKind.NameOf,
-                           OperationKind.Invalid});
-                              break;
-                        }
-                     }
+                     SetOpKinds(context);
                      if (_opKinds.Any()) {
-                        _opKinds.Add(OperationKind.End);
-                        _operations.Clear();
-                        context.RegisterOperationAction(OnOperation, _opKinds.ToArray());
-                        context.RegisterSemanticModelAction(OnSemanticModelAnalysisEnd);
+                        //_opKinds.Add(OperationKind.End);
+                        //_operations.Clear();
+                        //context.RegisterOperationAction(OnOperation, _opKinds.ToArray());
+                        //context.RegisterSemanticModelAction(OnSemanticModelAnalysisEnd);
                      }
                   }
                } catch (Exception e) {
@@ -216,20 +246,24 @@ namespace CastDotNetExtension
          }
 
          
-         private class AllOperationVisitor : OperationVisitor
+         private class AllOperationVisitor : OperationWalker
          {
-            public HashSet<IOperation> _allOps = new HashSet<IOperation>();
+            public ConcurrentDictionary<SyntaxNode, IOperation> _allOps = new ConcurrentDictionary<SyntaxNode, IOperation>();
 
             public override void Visit(IOperation operation)
             {
-               _allOps.Add(operation);
-               base.Visit(operation);
+               if (!_allOps.ContainsKey(operation.Syntax)) {
+                  _allOps[operation.Syntax] = operation;
+                  base.Visit(operation);
+               }
             }
          }
 
-         private void VisitAllOperations(SemanticModel semanticModel, AllOperationVisitor visitor)
+         private void VisitAllOperations(SemanticModel semanticModel, AllOperationVisitor visitor = null)
          {
-            
+            if (null == visitor) {
+               visitor = new AllOperationVisitor();
+            }
             //foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf(s => {
             //   IOperation operation = semanticModel.GetOperation(s);
             //   if (null != operation) {
@@ -255,15 +289,23 @@ namespace CastDotNetExtension
             //visitor._allDefaultOps.Clear();
             //visitor._allVisitOps.Clear();
 
-            
+            List<Task> opTasks = new List<Task>();
             foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
-               IOperation operation = semanticModel.GetOperation(node);
-               if (null != operation) {
-                  visitor.Visit(operation);
+
+               if (!visitor._allOps.ContainsKey(node) && _kinds.Contains(node.Kind())) {
+                  opTasks.Add(Task.Run(() => {
+                     IOperation operation = semanticModel.GetOperation(node);
+                     if (null != operation) {
+                        visitor._allOps[operation.Syntax] = operation;
+                     }
+                  }));
                }
             }
 
-            //Console.WriteLine("Descend NO Filter: total operations: {0}", visitor._allOps.Count);
+            Task.WaitAll(opTasks.ToArray());
+
+            //Console.WriteLine("Descend NO Filter: total operations: {0} repeat count: {1} visitor repeat count: {2} Get Op Count: {3} Successful: {4}",
+            //   visitor._allOps.Count, repeatCount, visitor._repeatCount, getOpCount, getOpCountSuccessful);
          }
 
          
@@ -272,7 +314,7 @@ namespace CastDotNetExtension
          {
             try {
 
-               
+               //VisitAllOperations(context.SemanticModel);
 
                var nodes =
                      context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => _kinds.Contains(n.Kind())).ToHashSet();
