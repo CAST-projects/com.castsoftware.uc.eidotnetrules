@@ -95,7 +95,7 @@ namespace CastDotNetExtension {
       }
 
       public override void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-            OPs ops)
+            IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
          var sharedObjCreationOps = 
             ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type));
@@ -136,35 +136,6 @@ namespace CastDotNetExtension {
             //   ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o.Operation as IInvocationOperation).TargetMethod));
          }
       }
-
-      public override void HandleOperations(SemanticModelAnalysisContext context,
-         ConcurrentQueue<OperationDetails> ops)
-      {
-
-            IEnumerator<OperationDetails> enumertor = null;
-            OperationDetails opDetails = null;
-
-            if (null == (enumertor = ops.GetEnumerator())) {
-               Log.WarnFormat("Could not get enumerator for file {0}! It will not have violations for {1}.",
-                  context.SemanticModel.SyntaxTree.FilePath, GetRuleName());
-            } else {
-               int objCreationCount = 0, throwCount = 0;
-               while (enumertor.MoveNext()) {
-                  opDetails = enumertor.Current;
-                  switch (opDetails.Operation.Kind) {
-                     case OperationKind.ObjectCreation:
-                        objCreationCount++;
-                        break;
-                     case OperationKind.Throw:
-                        throwCount++;
-                        break;
-                  }
-               }
-            }
-            //AddFileVerificationData(context.SemanticModel.SyntaxTree.FilePath, objCreationCount, throwCount);
-            
-      }
-
 
 
       private static readonly OperationKind[] OperationKinds =  {

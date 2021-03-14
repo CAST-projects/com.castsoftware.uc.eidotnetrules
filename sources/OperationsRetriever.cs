@@ -39,145 +39,18 @@ namespace CastDotNetExtension
       }
    }
 
-   public class OPList : List<OperationDetails>
-   {
-      public List<IOperation> Operations { get; private set; }
-      public OPList()
-         : base()
-      {
-         Operations = new List<IOperation>();
-      }
-      public OPList(int capacity)
-         : base(capacity)
-      {
-         Operations = new List<IOperation>(capacity);
-      }
-      public new virtual void Add(OperationDetails context)
-      {
-         Operations.Add(context.Operation);
-         base.Add(context);
-      }
-      public new virtual void Clear()
-      {
-         Operations.Clear();
-         base.Clear();
-      }
-   }
-
-   public class OPListEx : OPList
-   {
-      public List<SyntaxNode> Nodes { get; private set; }
-      public Dictionary<OperationKind, int> OperationKindToCount { get; private set; }
-
-      public OPListEx()
-         : base()
-      {
-         Nodes = new List<SyntaxNode>();
-      }
-      public OPListEx(int capacity, HashSet<OperationKind> opKinds)
-         : base(capacity)
-      {
-         Nodes = new List<SyntaxNode>();
-         OperationKindToCount = new Dictionary<OperationKind, int>();
-         foreach (var opKind in opKinds) {
-            OperationKindToCount[opKind] = 0;
-         }
-      }
-      public new virtual void Add(OperationDetails context)
-      {
-         OperationKindToCount[context.Operation.Kind]++;
-         Nodes.Add(context.Operation.Syntax);
-         base.Add(context);
-      }
-      public new virtual void Clear()
-      {
-         Nodes.Clear();
-         foreach (var opKind in OperationKindToCount.Keys.ToList()) {
-            OperationKindToCount[opKind] = 0;
-         }
-         base.Clear();
-      }
-
-   }
-
-   public class OPs : Dictionary<OperationKind, OPList>
-   {
-      public bool LastBatch { get; set; }
-      public OPs(HashSet<OperationKind> opKinds, int capacity = 25)
-      {
-         foreach (var opKind in opKinds) {
-            Add(opKind, new OPList(capacity));
-         }
-         LastBatch = false;
-      }
-
-      public void Add(OPListEx opList)
-      {
-         foreach (var opKindCount in opList.OperationKindToCount) {
-            OPList ops = null;
-            if (TryGetValue(opKindCount.Key, out ops)) {
-               ops.Capacity += opKindCount.Value;
-            } else {
-               ops = new OPList(opKindCount.Value);
-               Add(opKindCount.Key, ops);
-            }
-         }
-
-         foreach (OperationDetails opDetails in opList) {
-            this[opDetails.Operation.Kind].Add(opDetails);
-         }
-      }
-
-      public void Reset()
-      {
-         foreach (var key in Keys.ToList()) {
-            this[key].Clear();
-         }
-      }
-   }
-
    public interface IOpProcessor
    {
       SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-         OPs ops);
-
-      void HandleOperations(SemanticModelAnalysisContext context,
-         ConcurrentQueue<OperationDetails> ops);
-
+         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
    }
 
    public abstract class OperationsRetriever : AbstractRuleChecker, IOpProcessor
    {
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       public abstract void HandleSemanticModelOps(SemanticModelAnalysisContext context,
-         OPs ops);
-
-      public abstract void HandleOperations(SemanticModelAnalysisContext context,
-         ConcurrentQueue<OperationDetails> ops);
-
-      private static ConcurrentDictionary<string, ConcurrentQueue<Tuple<int, int>>> FileVerificationData = new ConcurrentDictionary<string, ConcurrentQueue<Tuple<int, int>>>();
-
-      protected static void AddFileVerificationData(string filePath, int objCreationCount, int throwCount) {
-         var fileData = FileVerificationData.GetOrAdd(filePath, (key) => new ConcurrentQueue<Tuple<int, int>>());
-         fileData.Enqueue(new Tuple<int, int>(objCreationCount, throwCount));
-      }
-
-      ~OperationsRetriever()
-      {
-         foreach (var fileVerificationData in FileVerificationData) {
-            Console.WriteLine("Verifying for {0}", fileVerificationData.Key);
-            var fileData = fileVerificationData.Value.ToArray();
-            if ( (fileData.Length % 2) == 0) {
-               for (int i = 0; i < fileData.Length; i += 2) {
-                  if (!fileData.ElementAt(i).Equals(fileData.ElementAt(i + 1))) {
-                     Console.WriteLine("Verification failed for {0}: {1} : {2}", fileVerificationData.Key, fileData.ElementAt(i), fileData.ElementAt(i + 1));
-                  }
-               }
-            }
-         }
-      }
-
+         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
 
       private class OpsProcessor
       {
@@ -190,82 +63,15 @@ namespace CastDotNetExtension
          }
       }
 
-      protected class PerfDatumBase
-      {
-         public string FilePath { get; private set; }
-         public long Time { get; private set; }
-
-         public PerfDatumBase(string filePath, long time)
-         {
-            FilePath = filePath;
-            Time = time;
-         }
-
-         public static string Headers { get { return "Time,File"; } }
-         public override string ToString()
-         {
-            return string.Format("{0},\"{1}\"",
-               Time, FilePath);
-         }
-      }
-
-      protected class PerfDatumOps : PerfDatumBase
-      {
-         public long Ops { get; private set; }
-
-         public static new string Headers { get { return "Time,Ops,File"; } }
-         public PerfDatumOps(string filePath, long time, long ops) :
-            base(filePath, time)
-         {
-            Ops = ops;
-         }
-
-         public override string ToString()
-         {
-            return string.Format("{0},{1},\"{2}\"",
-               Time, Ops, FilePath);
-         }
-      }
-
-      protected class PerfDatum : PerfDatumBase
-      {
-         public long Count { get; private set; }
-         public int ObjCreations { get; private set; }
-         public int ThrowOps { get; private set; }
-         public PerfDatum(long time, string filePath, int objCreations, int throwOps, int count = 1) :
-            base(filePath, time)
-         {
-            Count = count;
-            ObjCreations = objCreations;
-            ThrowOps = throwOps;
-         }
-
-         public static new string Headers { get { return "Count,Time,ObjCreations,ThrowOps,File"; } }
-         public override string ToString()
-         {
-            return string.Format("{0},{1},{2},{3},\"{4}\"",
-               Count, Time, ObjCreations, ThrowOps, FilePath);
-         }
-      }
-
       public OperationsRetriever()
       {
          SubscriberSink.Instance.Log = Log;
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
-      
-
-
       private class SubscriberSink
       {
-         //private Dictionary<string, long> _currentFilesToThreadIDs = new Dictionary<string, long>();
-
-         //private List<Dictionary<string, long>> _currentFilesToThreadIDsToPrint = new List<Dictionary<string, long>>();
-
-         //private List<PerfDatumOps> _perfDataOps = new List<PerfDatumOps>();
-         //private List<PerfDatumOps> _perfDataAssembly = new List<PerfDatumOps>();
-
+         public ILog Log;
 
          private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
 
@@ -276,122 +82,14 @@ namespace CastDotNetExtension
          private HashSet<OperationKind> _opKinds = new HashSet<OperationKind>();
          private Compilation CurrentCompilation { get; set; }
 
-         public ILog Log;
          internal static object Lock = new object();
 
-
          public HashSet<OpsProcessor> OpsProcessors { get; private set; }
+
          private SubscriberSink()
          {
             OpsProcessors = new HashSet<OpsProcessor>();
-
-            _opKindToSyntaxKind = new ConcurrentDictionary<OperationKind, ConcurrentQueue<SyntaxKind>>();
-            foreach (var opKind in OperationsKinds) {
-               _opKindToSyntaxKind[opKind] = new ConcurrentQueue<SyntaxKind>();
-            }
          }
-
-         private HashSet<SyntaxKind> syntaxKinds = new HashSet<SyntaxKind> {
-               SyntaxKind.Attribute,
-               SyntaxKind.SimpleMemberAccessExpression,
-               SyntaxKind.IdentifierName,
-               SyntaxKind.PredefinedType,
-               SyntaxKind.None
-         };
-
-         //~SubscriberSink()
-         //{
-
-         //   foreach (var repeatFile in _repeatFiles) {
-         //      if (1 < repeatFile.Value) {
-         //         Console.WriteLine(repeatFile);
-         //      }
-         //   }
-            
-         //   //foreach (var filesDetails in _currentFilesToThreadIDsToPrint) {
-         //   //   Console.WriteLine("===================Start: Multiple Files Snapshot=============");   
-         //   //   foreach (var fileDetails in filesDetails) {
-         //   //      Console.WriteLine("   " + fileDetails);
-         //   //   }
-         //   //   Console.WriteLine("===================End: Multiple Files Snapshot=============");   
-         //   //}
-         //}
-
-
-
-         //~SubscriberSink()
-         //{
-
-         //   Console.WriteLine("============== Start: Op Kinds To Syntax Kinds ===========");
-         //   foreach (var opKindDetails in _opKindToSyntaxKind) {
-         //      Console.WriteLine(opKindDetails.Key);
-         //      HashSet<SyntaxKind> syntaxKinds = opKindDetails.Value.ToHashSet<SyntaxKind>();
-         //      if (syntaxKinds.Any()) {
-         //         foreach (var syntaxKind in syntaxKinds) {
-         //            Console.WriteLine("   {0}", syntaxKind);
-         //         }
-         //      } else {
-         //         Console.WriteLine("   <None>");
-         //      }
-         //   }
-         //   Console.WriteLine("============== End: Op Kinds To Syntax Kinds ===========");
-
-         //   HashSet<OperationKind> notNullOps = _notNullControlFlowGraphOps.ToHashSet();
-
-         //Console.WriteLine("============== Start: Not Null Control Flow Graph Ops ===========");
-         //foreach (var opKind in notNullOps) {
-         //   Console.WriteLine("    " + opKind);
-         //}
-         //Console.WriteLine("============== End: Not Null Control Flow Graph Ops ===========");
-
-         //foreach (var nullOpKindDetails in _opsNullControlFlowGraph) {
-         //   Console.WriteLine("Null Control Graph For OP: {0}",  nullOpKindDetails.Key);
-         //   if (notNullOps.Contains(nullOpKindDetails.Key)) {
-         //      Console.WriteLine("   Control Flow Graph for OperationKind {0} was not null later", nullOpKindDetails.Key);
-         //   }
-
-         //   foreach (var nullSyntaxKindDetails in nullOpKindDetails.Value) {
-         //      Console.WriteLine(nullSyntaxKindDetails.ToString());
-         //   }
-         //}
-         //}
-
-         //~SubscriberSink()
-         //{
-         //   foreach (var ctx in _opContextToOpCount) {
-         //      Console.WriteLine("Op Kind: {0} Symbol: {1} Count: {2}", ctx.Key.Operation.Kind, ctx.Key.ContainingSymbol, ctx.Value);
-         //   }
-         //}
-
-         //~SubscriberSink()
-         //{
-         //   long time = 0;
-         //   long ops = 0;
-         //   Console.WriteLine("================SubscriberSink================");
-         //   Console.WriteLine("================SubscriberSink: Compilation Start================");
-         //   Console.WriteLine(PerfDatumOps.Headers);
-         //   foreach (var perfDatum in _perfDataAssembly) {
-         //      Console.WriteLine(perfDatum.ToString());
-         //      time += perfDatum.Time;
-         //      ops += perfDatum.Ops;
-         //   }
-         //   Console.WriteLine(new PerfDatumOps("<All-Compilation Start>", time / TimeSpan.TicksPerMillisecond, ops).ToString());
-
-         //   Console.WriteLine("================SubscriberSink: Retrieval================");
-         //   Console.WriteLine(PerfDatumOps.Headers);
-         //   long retrievalTime = 0;
-         //   long retrievalOps = 0;
-         //   foreach (var perfDatum in _perfDataOps) {
-         //      Console.WriteLine(perfDatum.ToString());
-         //      time += perfDatum.Time;
-         //      retrievalTime += perfDatum.Time;
-         //      retrievalOps += perfDatum.Ops;
-         //   }
-         //   Console.WriteLine(new PerfDatumOps("<All-Retrieval>", retrievalTime / TimeSpan.TicksPerMillisecond, retrievalOps).ToString());
-
-         //   Console.WriteLine(PerfDatumBase.Headers);
-         //   Console.WriteLine(new PerfDatumBase("<All-Compilation Start and Retrieval> 1", time / TimeSpan.TicksPerMillisecond).ToString());
-         //}
 
          public static SubscriberSink Instance { get { return ObjSubscriberSink; } }
 
@@ -404,26 +102,60 @@ namespace CastDotNetExtension
 
          public void RegisterCompilationStartAction(AnalysisContext context)
          {
-            context.RegisterCompilationStartAction(CompiliationStart);
+            //context.RegisterCompilationStartAction(CompiliationStart);
+            context.RegisterCompilationAction(OnCompilationEnd);
          }
 
-         //private void CompiliationStart(CompilationStartAnalysisContext context)
-         //{
-         //   context.RegisterOperationAction(OnOperation, OperationsKinds);
-         //}
+         class OpVisitData {
 
+            public long Time = 0;
+            public long TotalOps = 0;
+            public List<KeyValuePair<string, long>> FileToOps = new List<KeyValuePair<string,long>>();
+
+         }
+         private OpVisitData _opVisitData = new OpVisitData();
+
+         ~SubscriberSink() {
+            Console.WriteLine("Op Visit Time: Total Time: {0} ms, Total Ops: {1}, Total Files: {2}", 
+               _opVisitData.Time/TimeSpan.TicksPerMillisecond, _opVisitData.TotalOps, _opVisitData.FileToOps.Count);
+         }
+
+         private void OnCompilationEnd(CompilationAnalysisContext context)
+         {
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+            List<Task> operationTasks = new List<Task>();
+            List<AllOperationVisitor> allOperationVisitors = new List<AllOperationVisitor>();
+            foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
+               AllOperationVisitor visitor = new AllOperationVisitor();
+               allOperationVisitors.Add(visitor);
+               operationTasks.Add(Task.Run(() => VisitAllOperations(context.Compilation.GetSemanticModel(syntaxTree), visitor)));
+            }
+
+            Task.WaitAll(operationTasks.ToArray());
+            watch.Stop();
+
+            _opVisitData.Time += watch.ElapsedTicks;
+
+            //Console.WriteLine("OnCompilationEnd: Time Taken: " + watch.ElapsedTicks / TimeSpan.TicksPerMillisecond);
+
+            int idx = 0;
+            foreach (var visitor in allOperationVisitors) {
+               //Console.WriteLine("OnCompilationEnd: total operations: {0} File: {1}",
+               //   context.Compilation.SyntaxTrees.ElementAt(idx).FilePath,
+               //   visitor._allOps.Count);
+               _opVisitData.FileToOps.Add(new KeyValuePair<string,long>(context.Compilation.SyntaxTrees.ElementAt(idx).FilePath, visitor._allOps.Count));
+               _opVisitData.TotalOps += visitor._allOps.Count;
+               idx++;
+            }
+         }
 
          private void CompiliationStart(CompilationStartAnalysisContext context)
          {
-            //var watch = new System.Diagnostics.Stopwatch();
-            //watch.Start();
             lock (Lock) {
                try {
-                  //Log.WarnFormat("Assembly: {0}", context.Compilation.Assembly.Name);
                   if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
                      CurrentCompilation = context.Compilation;
-                     _symbolToControlFlowGraph.Clear();
-                     //Log.WarnFormat("Compilation Changed, Assembly: {0}", CurrentCompilation.Assembly.Name);
                      SyntaxKind[] kinds = null;
                      foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors) {
                         kinds = opProcessor.OpProcessor.Kinds(context);
@@ -464,294 +196,128 @@ namespace CastDotNetExtension
                         context.RegisterOperationAction(OnOperation, _opKinds.ToArray());
                         context.RegisterSemanticModelAction(OnSemanticModelAnalysisEnd);
                      }
-                     //Log.Warn("End: CompilationStart");
                   }
                } catch (Exception e) {
                   Log.Warn("Exception while initializing Op Retriever for " + context.Compilation.Assembly.Name, e);
                }
             }
-            //watch.Stop();
-            //lock (_perfDataAssembly)
-            //{
-            //   var assemblyPerf = _perfDataAssembly.FirstOrDefault(p => p.FilePath == CurrentCompilation.Assembly.Name);
-            //   if (null != assemblyPerf)
-            //   {
-            //      _perfDataAssembly.Remove(assemblyPerf);
-            //      assemblyPerf = new PerfDatumOps(CurrentCompilation.Assembly.Name, assemblyPerf.Time + watch.ElapsedTicks, assemblyPerf.Ops + 1);
-            //   }
-            //   else
-            //   {
-            //      assemblyPerf = new PerfDatumOps(CurrentCompilation.Assembly.Name, watch.ElapsedTicks, 1);
-            //   }
-            //   _perfDataAssembly.Add(assemblyPerf);
-            //}
          }
-
-         private class OpDetails
-         {
-            public OperationKind OpKind { get; private set; }
-            public SyntaxKind SyntaxKind { get; private set; }
-            public string Code { get; private set; }
-            public string Symbol { get; private set; }
-            public string FilePath { get; private set; }
-            public int Line { get; private set; }
-            public ControlFlowGraph ControlFlowGraph { get; private set; }
-            public OpDetails(OperationKind opKind, SyntaxKind syntaxKind, string code, string symbol, string filepath, int line, ControlFlowGraph controlFlowGraph = null)
-            {
-               OpKind = opKind;
-               SyntaxKind = syntaxKind;
-               Code = code;
-               Symbol = symbol;
-               FilePath = filepath;
-               Line = line;
-               ControlFlowGraph = controlFlowGraph;
-            }
-            public override string ToString()
-            {
-               return string.Format("Operation: {0} Syntax: Kind: {1} Code: {2} for {3} Line: {4} file {5}",
-                     OpKind,
-                     SyntaxKind,
-                     Code,
-                     Symbol,
-                     Line,
-                     FilePath);
-            }
-         }
-
-         private ConcurrentDictionary<OperationKind, ConcurrentQueue<SyntaxKind>> _opKindToSyntaxKind;
-         private ConcurrentDictionary<OperationKind, ConcurrentDictionary<SyntaxKind, ConcurrentQueue<OpDetails>>> _opsNullControlFlowGraph =
-            new ConcurrentDictionary<OperationKind, ConcurrentDictionary<SyntaxKind, ConcurrentQueue<OpDetails>>>();
-         private ConcurrentQueue<OperationKind> _notNullControlFlowGraphOps = new ConcurrentQueue<OperationKind>();
-
-         private ConcurrentDictionary<ISymbol, OpDetails> _symbolToControlFlowGraph =
-            new ConcurrentDictionary<ISymbol, OpDetails>();
 
          private void OnOperation(OperationAnalysisContext context)
          {
-            //try {
-            //OpDetails opDetails = null;
-
-            //if (OperationKind.Invalid != context.Operation.Kind) {
-            //   if (!_symbolToControlFlowGraph.TryGetValue(context.ContainingSymbol, out opDetails)) {
-            //      ControlFlowGraph controlFlowGraph = context.GetControlFlowGraph();
-            //      if (null == controlFlowGraph) {
-            //         Log.WarnFormat("Control Flow Graph is null Operation: {0} Syntax: Kind: {1} Code: {2} for {3} file {4}",
-            //            context.Operation.Kind,
-            //            context.Operation.Syntax.Kind(),
-            //            context.Operation.Syntax,
-            //            context.ContainingSymbol.OriginalDefinition.ToString(),
-            //            context.Operation.SemanticModel.SyntaxTree.FilePath);
-
-            //         var dic = _opsNullControlFlowGraph.GetOrAdd(context.Operation.Kind, (key) => new ConcurrentDictionary<SyntaxKind, ConcurrentQueue<OpDetails>>());
-            //         var nq = dic.GetOrAdd(context.Operation.Syntax.Kind(), (key) => new ConcurrentQueue<OpDetails>());
-            //         nq.Enqueue(new OpDetails(context.Operation.Kind,
-            //            context.Operation.Syntax.Kind(),
-            //            context.Operation.Syntax.ToString(),
-            //            context.ContainingSymbol.OriginalDefinition.ToString(),
-            //            context.Operation.SemanticModel.SyntaxTree.FilePath,
-            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line));
-            //      } else {
-            //         _symbolToControlFlowGraph[context.ContainingSymbol] = new OpDetails(context.Operation.Kind,
-            //            context.Operation.Syntax.Kind(),
-            //            context.Operation.Syntax.ToString(),
-            //            context.ContainingSymbol.OriginalDefinition.ToString(),
-            //            context.Operation.SemanticModel.SyntaxTree.FilePath,
-            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
-            //            controlFlowGraph);
-
-            //         _notNullControlFlowGraphOps.Enqueue(context.Operation.Kind);
-            //      }
-            //   } else {
-            //      var controlFlowGraph = context.GetControlFlowGraph();
-            //      if (opDetails.ControlFlowGraph != controlFlowGraph) {
-
-            //         Log.WarnFormat("Control Flow Graph is different Operation: {0} Syntax: Kind: {1} Code: {2} for {3} Line: {4} file {5}",
-            //            context.Operation.Kind,
-            //            context.Operation.Syntax.Kind(),
-            //            context.Operation.Syntax,
-            //            context.ContainingSymbol.OriginalDefinition.ToString(),
-            //            context.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line,
-            //            context.Operation.SemanticModel.SyntaxTree.FilePath);
-            //         Log.WarnFormat("Previous: " + opDetails.ToString());
-            //      }
-            //   }
-            //}
-
-            //   var kq = _opKindToSyntaxKind.GetOrAdd(context.Operation.Kind, (key) => new ConcurrentQueue<SyntaxKind>());
-            //   kq.Enqueue(context.Operation.Syntax.Kind());
-            //} catch (Exception e) {
-            //   Log.Warn(string.Format("Exception while retrieving Operation: {0} Syntax: Kind: {1} Code: {2} for {3} file {4}",
-            //            context.Operation.Kind,
-            //            context.Operation.Syntax.Kind(),
-            //            context.Operation.Syntax,
-            //            context.ContainingSymbol.OriginalDefinition.ToString(),
-            //            context.Operation.SemanticModel.SyntaxTree.FilePath), e);
-            //}
-
             var ops = _operations.GetOrAdd(context.Operation.Syntax.SyntaxTree.FilePath, (key) => new ConcurrentQueue<OperationDetails>());
             ops.Enqueue(new OperationDetails(context.Operation, context.ContainingSymbol,
                OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null));
          }
 
-         //private Dictionary<string, int> _repeatFiles = new Dictionary<string, int>();
+         
+         private class AllOperationVisitor : OperationVisitor
+         {
+            public HashSet<IOperation> _allOps = new HashSet<IOperation>();
+
+            public override void Visit(IOperation operation)
+            {
+               _allOps.Add(operation);
+               base.Visit(operation);
+            }
+         }
+
+         private void VisitAllOperations(SemanticModel semanticModel, AllOperationVisitor visitor)
+         {
+            
+            //foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf(s => {
+            //   IOperation operation = semanticModel.GetOperation(s);
+            //   if (null != operation) {
+            //      visitor.Visit(operation);
+            //      return false;
+            //   }
+            //   return true;
+            //}
+            //   )) {
+
+            //}
+
+
+            //Console.WriteLine("Descend Into Filter: total default operations: {0} total visit Operations: {1} Difference: {2}", 
+            //   visitor._allDefaultOps.Count, visitor._allVisitOps.Count,
+            //   ((visitor._allVisitOps.Count > visitor._allDefaultOps.Count) ?
+            //   visitor._allVisitOps.Except(visitor._allDefaultOps).Count() :
+            //   visitor._allDefaultOps.Except(visitor._allVisitOps).Count())
+
+            //   );
+
+            
+            //visitor._allDefaultOps.Clear();
+            //visitor._allVisitOps.Clear();
+
+            
+            foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
+               IOperation operation = semanticModel.GetOperation(node);
+               if (null != operation) {
+                  visitor.Visit(operation);
+               }
+            }
+
+            //Console.WriteLine("Descend NO Filter: total operations: {0}", visitor._allOps.Count);
+         }
+
+         
+
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
          {
-            //lock (_currentFilesToThreadIDs) {
-            //   _currentFilesToThreadIDs.Add(context.SemanticModel.SyntaxTree.FilePath, Thread.CurrentThread.ManagedThreadId);
-            //   if (1 < _currentFilesToThreadIDs.Count) {
-            //      _currentFilesToThreadIDsToPrint.Add(new Dictionary<string, long>(_currentFilesToThreadIDs));
-            //   }
-            //}
-
-            //lock (_repeatFiles) {
-            //   if (!_repeatFiles.ContainsKey(context.SemanticModel.SyntaxTree.FilePath)) {
-            //      _repeatFiles[context.SemanticModel.SyntaxTree.FilePath] = 0;
-            //   }
-            //   _repeatFiles[context.SemanticModel.SyntaxTree.FilePath]++;
-            //}
-
             try {
-               //var watch = new System.Diagnostics.Stopwatch();
-               //watch.Start();
-               //Console.WriteLine("Starting Semantic Model Analysis For: {0}", context.SemanticModel.SyntaxTree.FilePath);
+
+               
+
                var nodes =
                      context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => _kinds.Contains(n.Kind())).ToHashSet();
-               //int nodeCount = nodes.Count;
 
                if (nodes.Any()) {
-                  List<Action<SemanticModelAnalysisContext, ConcurrentQueue<OperationDetails>>> callbacks = new List<Action<SemanticModelAnalysisContext, ConcurrentQueue<OperationDetails>>>();
-                  foreach (var opsProcessor in OpsProcessors) {
-                     callbacks.Add(opsProcessor.OpProcessor.HandleOperations);
-                  }
-                  //Console.WriteLine("Have nodes, count: {0}", nodes.Count);
-                  OPs ops = new OPs(_opKinds);
-                  int retryCount = 0;
-
-                  OPListEx opsReceived = new OPListEx(nodes.Count, _opKinds);
-                  List<Task> handlerTasks = new List<Task>();
-
-                  //var watch = new System.Diagnostics.Stopwatch();
-                  //watch.Start();
-
+                  
                   ConcurrentQueue<OperationDetails> operations;
-                  OperationDetails operation;
-                  int incompleteCount = 0, processedOpsCount = 0, sleptCount = 0;
-                  int opCount = 0;
-                  List<int> opCounts = new List<int>();
-
                   if (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
-                     
-                     while (!ops.LastBatch) {
+                     Dictionary<OperationKind, List<OperationDetails>> ops;
+                     OperationDetails operation;
+                     int opCount = 0;
+                     bool lastBatch = false;
+
+                     while (!lastBatch) {
+                        ops = new Dictionary<OperationKind, List<OperationDetails>>();
+                        foreach (var opKind in _opKinds) {
+                           ops[opKind] = new List<OperationDetails>(25);
+                        }
                         opCount = 0;
-                        operation = null;
-                        var enumerator = operations.GetEnumerator();
-                        while (enumerator.MoveNext()) {
-                           opCount++;
-                           operation = enumerator.Current;
-                           ops[operation.Operation.Kind].Add(operation);
-                           nodes.Remove(operation.Operation.Syntax);
-                        }
-                        //while (null != (operation = operations.Take())) {
-                        //   ops[operation.Operation.Kind].Add(operation);
-                        //   nodes.Remove(operation.Operation.Syntax);
-                        //   if (!nodes.Any()) {
-                        //      break;
-                        //   }
-                        //}
-
-                        if (null == operation) {
-                           retryCount++;
-                           //Log.Warn("operation was null; trying again! File: " + context.SemanticModel.SyntaxTree.FilePath);
-                           continue;
+                        while (operations.TryDequeue(out operation)) {
+                           if (nodes.Contains(operation.Operation.Syntax)) {
+                              opCount++;
+                              ops[operation.Operation.Kind].Add(operation);
+                              nodes.Remove(operation.Operation.Syntax);
+                           }
                         }
 
-
-                        ops.LastBatch = !nodes.Any();
+                        lastBatch = !nodes.Any();
                         if (0 < opCount) {
-                           opCounts.Add(opCount);
-                           processedOpsCount++;
+                           Dictionary<OperationKind, IReadOnlyList<OperationDetails>> opsReadOnlyList = new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
+                           foreach (var opDetails in ops) {
+                              opsReadOnlyList[opDetails.Key] = opDetails.Value;
+                           }
                            foreach (var opsProcessor in OpsProcessors) {
                               if (opsProcessor.IsActive) {
-                                 //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
-                                 //handlerTasks.Add(Task.Run(() =>
-                                 opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
-                                    //))
-                                 ;
+                                 opsProcessor.OpProcessor.HandleSemanticModelOps(context, opsReadOnlyList, lastBatch);
                               }
                            }
-                           if (!ops.LastBatch) {
-                              ops = new OPs(_opKinds);
+                           if (lastBatch) {
+                              break;
                            }
-                        } else if (!ops.LastBatch) {
-                           sleptCount++;
-                           Thread.Sleep(0);
+                        } else if (!lastBatch) {
+                           Thread.Sleep(3);
                         }
-
-                        if (!nodes.Any()) {
-                           break;
-                        }
-
-
-                        incompleteCount++;
                      }
                   }
-
-                  if (0 < retryCount) {
-                     Log.WarnFormat("File: {0} Retry Count: {1}", context.SemanticModel.SyntaxTree.FilePath, retryCount);
-                  }
-
-                  if (0 < incompleteCount) {
-                     Log.WarnFormat("File: {0} Incomplete Count: {1} Processed Ops Count: {2} Slept Count: {3}",  
-                        context.SemanticModel.SyntaxTree.FilePath, incompleteCount, processedOpsCount, sleptCount);
-                     foreach (var opCnt in opCounts) {
-                        Log.WarnFormat("   ops processed: {0}", opCnt);
-                     }
-                  }
-
-
-
-                  //Task.WaitAll(handlerTasks.ToArray());
-                  //handlerTasks.Clear();
-                  //Console.WriteLine("Processing Ops For {0} OP Processor Count: {1}" ,
-                  //   context.SemanticModel.SyntaxTree.FilePath, OpsProcessors.Count);
-                  //foreach (var opsProcessor in OpsProcessors) {
-                  //   if (opsProcessor.IsActive) {
-                  //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
-                  //      handlerTasks.Add(Task.Run(() =>
-                  //      opsProcessor.OpProcessor.HandleOperation(context, null)
-                  //         ))
-                  //      ;
-                  //   }
-                  //}
-
-                  //ops.LastBatch = true;
-                  //foreach (var opsProcessor in OpsProcessors) {
-                  //   if (opsProcessor.IsActive) {
-                  //      //Console.WriteLine("   Processing {0}", ((AbstractRuleChecker)opsProcessor.OpProcessor).GetRuleName());
-                  //      handlerTasks.Add(Task.Run(() =>
-                  //      opsProcessor.OpProcessor.HandleSemanticModelOps(context, ops)
-                  //         ))
-                  //      ;
-                  //   }
-                  //}
-
-                  //Task.WaitAll(handlerTasks.ToArray());
-                  //Log.WarnFormat("Operation Null Count: {0} File {1}", operationNullCount, context.SemanticModel.SyntaxTree.FilePath);
                }
-               //watch.Stop();
-
-
-               //lock (_perfDataOps) {
-               //   _perfDataOps.Add(new PerfDatumOps(context.SemanticModel.SyntaxTree.FilePath, watch.ElapsedTicks, nodeCount));
-               //}
             } catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
-
-            //lock (_currentFilesToThreadIDs) {
-            //   _currentFilesToThreadIDs.Remove(context.SemanticModel.SyntaxTree.FilePath);
-            //}
-
          }
       }
 
