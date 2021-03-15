@@ -125,7 +125,7 @@
     <None Include="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
-    <Compile Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
