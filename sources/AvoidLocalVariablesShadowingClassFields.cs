@@ -74,7 +74,7 @@ namespace CastDotNetExtension {
                            if (!fields[name].Locations.IsDefaultOrEmpty) {
                               poses.Add(fields[name].Locations[0].GetMappedLineSpan());
                            }
-                           //Log.WarnFormat("Thread ID: {0} Adding violation at {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, pos.StartLinePosition.ToString());
+                           //Log.WarnFormat("[com.castsoftware.eidotnetrules] Thread ID: {0} Adding violation at {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, pos.StartLinePosition.ToString());
                            AddViolation(context, poses);
                         }
                      }
@@ -82,7 +82,7 @@ namespace CastDotNetExtension {
                }
             }
             catch (Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
       }
@@ -94,7 +94,7 @@ namespace CastDotNetExtension {
                base.Reset();
             }
             catch (Exception e) {
-               Log.Warn("Exception during  AvoidLocalVariablesShadowingClassFields.Reset ", e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception during  AvoidLocalVariablesShadowingClassFields.Reset ", e);
             }
          }
       }

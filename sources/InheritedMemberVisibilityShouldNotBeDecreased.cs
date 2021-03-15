@@ -142,7 +142,7 @@ namespace CastDotNetExtension {
                                     if (addViolation) {
                                        var mainPos = sourceMethod.Locations.FirstOrDefault().GetMappedLineSpan();
                                        var additionalPos = targetMethod.Locations.FirstOrDefault().GetMappedLineSpan();
-                                       //Log.WarnFormat("Method: {0} MainPos {1} Additional Pos: {2}", method.Name, mainPos.ToString(), additionalPos.ToString());
+                                       //Log.WarnFormat("[com.castsoftware.eidotnetrules] Method: {0} MainPos {1} Additional Pos: {2}", method.Name, mainPos.ToString(), additionalPos.ToString());
                                        AddViolation(sourceMethod, new List<FileLinePositionSpan> { mainPos, additionalPos });
                                     }
 
@@ -160,7 +160,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
       }
@@ -174,7 +174,7 @@ namespace CastDotNetExtension {
                base.Reset();
             }
             catch (Exception e) {
-               Log.Warn("Exception while analyzing during reset", e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing during reset", e);
             }
          }
       }

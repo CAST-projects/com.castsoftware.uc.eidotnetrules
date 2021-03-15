@@ -65,13 +65,13 @@ namespace CastDotNetExtension {
                   if (null != method) {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                     //Log.WarnFormat("{0}: {1}", method.OriginalDefinition.ToString(), pos.ToString());
+                     //Log.WarnFormat("[com.castsoftware.eidotnetrules] {0}: {1}", method.OriginalDefinition.ToString(), pos.ToString());
                      AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
                   }
                }
             }
             catch (Exception e) {
-               Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
       }
 

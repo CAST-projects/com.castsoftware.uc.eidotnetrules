@@ -55,7 +55,7 @@ namespace CastDotNetExtension {
 
                      foreach (IFieldSymbol field in targetFields) {
                         var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                        //Log.WarnFormat("{0}: {1}", field.Name, pos);
+                        //Log.WarnFormat("[com.castsoftware.eidotnetrules] {0}: {1}", field.Name, pos);
                         AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
                      }
                   }
@@ -66,7 +66,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("Exception while analyzing " + string.Join(",", filePaths), e);
+               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + string.Join(",", filePaths), e);
 
             }
          }

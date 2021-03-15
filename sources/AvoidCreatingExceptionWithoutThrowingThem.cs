@@ -79,17 +79,17 @@ namespace CastDotNetExtension {
             Context.SystemException = context.Compilation.GetTypeByMetadataName("System.Exception");
             Context.Interface_Exception = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices._Exception");
             if (null == Context.Interface_Exception) {
-               Log.WarnFormat("Could not get type for System.Runtime.InteropServices._Exception while analyzing {0}.",
+               Log.WarnFormat("[com.castsoftware.eidotnetrules] Could not get type for System.Runtime.InteropServices._Exception while analyzing {0}.",
                   context.Compilation.AssemblyName);
             }
             if (null != Context.SystemException) {
                return SyntaxKinds.ToArray();
             } else {
-               Log.WarnFormat("Could not get type for System.Exception while analyzing {0}. QR \"{1}\" will be disabled for this project.",
+               Log.WarnFormat("[com.castsoftware.eidotnetrules] Could not get type for System.Exception while analyzing {0}. QR \"{1}\" will be disabled for this project.",
                   context.Compilation.AssemblyName, this.GetRuleName());
             }
          } catch (Exception e) {
-            Log.Warn("Exception while analyzing " + context.Compilation.AssemblyName, e);
+            Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + context.Compilation.AssemblyName, e);
          }
          return new SyntaxKind[] { };
 
@@ -112,7 +112,7 @@ namespace CastDotNetExtension {
                }
             }
          } catch (Exception e) {
-            Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
+            Log.Warn("[com.castsoftware.eidotnetrules] Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
       }
 
