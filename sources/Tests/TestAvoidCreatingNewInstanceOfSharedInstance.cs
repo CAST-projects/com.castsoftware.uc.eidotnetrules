@@ -36,8 +36,10 @@ namespace UnitTests.UnitTest {
              .Apply(testSrc);
 
          checker
-            .AddExpected(103, 20)
-            .AddExpected(81, 25)
+            .AddExpected(112,20)
+            .AddExpected(90,25)
+            .AddExpected(83,31)
+            .AddExpected(77,22)            
             .Validate();
 
          /// [TODO#13] Check the results

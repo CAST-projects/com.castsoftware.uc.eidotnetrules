@@ -137,25 +137,61 @@ namespace CastDotNetExtension.Utils {
                         null != iOperation.Parent && OperationKind.SimpleAssignment == iOperation.Parent.Kind ?
                            iOperation.Parent as ISimpleAssignmentOperation : null;
                   if (null != simpleAssignment) {
-                     ISymbol iSymbol = null;
-                     switch (simpleAssignment.Target.Kind) {
-                        case OperationKind.LocalReference:
-                           iSymbol = (simpleAssignment.Target as ILocalReferenceOperation).Local;
-                           break;
-                        case OperationKind.FieldReference:
-                           iSymbol = (simpleAssignment.Target as IFieldReferenceOperation).Field;
-                           break;
-                     }
+                     ISymbol iSymbol = simpleAssignment.Target.GetReferenceTarget(false);
                      if (null != iSymbol) {
                         symbols.Add(iSymbol);
                      }
                   }
-
                   break;
             }
          }
          return symbols;
       }
+
+      public static ISymbol GetReferenceTarget(this IOperation iOperation, bool includeMethodTarget = true)
+      {
+         ISymbol iSymbol = null;
+         if (null != iOperation) {
+            switch (iOperation.Kind) {
+               case OperationKind.LocalReference:
+                  iSymbol = (iOperation as ILocalReferenceOperation).Local;
+                  break;
+               case OperationKind.FieldReference:
+                  iSymbol = (iOperation as IFieldReferenceOperation).Field;
+                  break;
+               case OperationKind.PropertyReference:
+                  iSymbol = (iOperation as IPropertyReferenceOperation).Property;
+                  break;
+               case OperationKind.MethodReference:
+                  if (includeMethodTarget) {
+                     iSymbol = (iOperation as IMethodReferenceOperation).Method;
+                  }
+                  break;
+               default:
+#if DEBUG
+                  System.Console.WriteLine("Unhandled Target Type: ", iOperation.Kind);
+#endif
+                  break;
+            }
+         }
+         return iSymbol;
+      }
+
+      public static ISymbol GetReturningSymbol(this IOperation iOperation, SemanticModel semanticModel) {
+         ISymbol iSymbol = null;
+         if (null != iOperation && null != iOperation.Parent) {
+            if (OperationKind.Return == iOperation.Parent.Kind || 
+               (OperationKind.Conversion == iOperation.Parent.Kind && null != iOperation.Parent.Parent &&
+               OperationKind.Return == iOperation.Parent.Parent.Kind)) {
+               iSymbol = semanticModel.GetEnclosingSymbol(iOperation.Syntax.SpanStart);
+            } 
+         }
+         return iSymbol;
+      }
+
+
+
+
    }
 
    public static class SyntaxNodeExtensions

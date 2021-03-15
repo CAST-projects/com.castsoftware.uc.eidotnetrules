@@ -66,6 +66,7 @@ namespace CastDotNetExtension
       public OperationsRetriever()
       {
          SubscriberSink.Instance.Log = Log;
+         //Log.WarnFormat("Registering {0}", this.GetRuleName());
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
@@ -114,30 +115,9 @@ namespace CastDotNetExtension
             public List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>> _assemblyDetails
                = new List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>>();
          }
-         private OpVisitData _opVisitData = new OpVisitData();
 
-         ~SubscriberSink()
-         {
-            Console.WriteLine("Op Visit Time: Total Time: {0} ms, Total Ops: {1}",
-               _opVisitData.Time / TimeSpan.TicksPerMillisecond, _opVisitData.TotalOps);
-
-            foreach (var assemblyDetails in _opVisitData._assemblyDetails) {
-               Console.WriteLine("Assembly Name: {0} Time: {1}", assemblyDetails.Key, assemblyDetails.Value.Key);
-               foreach (var fileDetails in assemblyDetails.Value.Value) {
-                  Console.WriteLine("  File: {0}, Total Ops: {1}", fileDetails.Key, fileDetails.Value);
-               }
-            }
-         }
-
-         
-
-         private ConcurrentDictionary<string, KeyValuePair<Task, ConcurrentQueue<IOperation>>> _fileToOperationData =
-            new ConcurrentDictionary<string, KeyValuePair<Task, ConcurrentQueue<IOperation>>>();
-
-         private void OnCompilationEnd(CompilationAnalysisContext context)
-         {
-
-         }
+         private ConcurrentDictionary<string, KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>> _fileToOperationData =
+            new ConcurrentDictionary<string, KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>>();
 
          private void SetSyntaxKinds(CompilationStartAnalysisContext context)
          {
@@ -187,7 +167,9 @@ namespace CastDotNetExtension
          {
             lock (Lock) {
                try {
+                  
                   if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
+                     _fileToOperationData.Clear();
                      CurrentCompilation = context.Compilation;
                      SetOpKinds(context);
                      if (_opKinds.Any()) {
@@ -197,8 +179,12 @@ namespace CastDotNetExtension
                         //context.RegisterCompilationEndAction(OnCompilationEnd);
                         foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
                            ConcurrentQueue<IOperation> opQueue = new ConcurrentQueue<IOperation>();
-                           var task = Task.Run(() => GetOperations(context.Compilation.GetSemanticModel(syntaxTree)));
-                           _fileToOperationData[syntaxTree.FilePath] = new KeyValuePair<Task, ConcurrentQueue<IOperation>>(task, opQueue);
+                           List<Task> tasks = new List<Task>();
+                           _fileToOperationData[syntaxTree.FilePath] = new KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>(tasks, opQueue);
+                           //var task = Task.Run(() => GetOperations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
+                           var task = new Task(() => GetOperations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
+                           tasks.Add(task);
+                           task.Start();
                         }
 
                         context.RegisterSemanticModelAction(OnSemanticModelAnalysisEnd);
@@ -231,7 +217,7 @@ namespace CastDotNetExtension
             }
          }
 
-         private void GetOperations(SemanticModel semanticModel)
+         private void GetOperations(SemanticModel semanticModel, List<Task> tasks)
          {
             try {
                ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>> opMap =
@@ -243,7 +229,9 @@ namespace CastDotNetExtension
                      opTasks.Add(Task.Run(() => {
                         IOperation operation = semanticModel.GetOperation(node);
                         if (null != operation) {
-                           opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<OperationDetails>()).Enqueue(new OperationDetails(operation, null, null));
+                           
+                           opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<OperationDetails>()).
+                              Enqueue(new OperationDetails(operation, null, null));
                         }
                      }));
                   }
@@ -263,12 +251,12 @@ namespace CastDotNetExtension
                      }
                   }
 
-                  List<Task> handlerTasks = new List<Task>();
+                  
                   foreach (var opsProcessor in OpsProcessors) {
                      if (opsProcessor.IsActive) {
-                        handlerTasks.Add(Task.Run(() =>
-                        opsProcessor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true
-                        )))
+                        tasks.Add(Task.Run(() =>
+                        opsProcessor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true)
+                        ))
                         ;
                      }
                   }
@@ -278,22 +266,15 @@ namespace CastDotNetExtension
             } catch (Exception e) {
                Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
             }
-
-            
          }
-
-         
 
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
          {
             try {
 
-               KeyValuePair<Task, ConcurrentQueue<IOperation>> opData;
+               KeyValuePair<List<Task>, ConcurrentQueue<IOperation>> opData;
                if (_fileToOperationData.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out opData)) {
-                  if (opData.Key.IsCompleted) {
-                  } else {
-                     Task.WaitAll(new Task[] { opData.Key });
-                  }
+                  Task.WaitAll(opData.Key.ToArray());
                } else {
                   Log.WarnFormat("Could not get Operation Task for {0}", context.SemanticModel.SyntaxTree.FilePath);
                }

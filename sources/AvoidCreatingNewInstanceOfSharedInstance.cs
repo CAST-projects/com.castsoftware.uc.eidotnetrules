@@ -37,16 +37,11 @@ namespace CastDotNetExtension {
       private ConcurrentDictionary<ITypeSymbol, bool> _typeToShared =
          new ConcurrentDictionary<ITypeSymbol, bool>();
 
-      private static readonly HashSet<SyntaxKind> SyntaxKinds = new HashSet<SyntaxKind> {
+      private static readonly SyntaxKind[] SyntaxKinds = new SyntaxKind[] {
                SyntaxKind.InvocationExpression,
                SyntaxKind.ObjectCreationExpression,
             };
 
-
-      public AvoidCreatingNewInstanceOfSharedInstance()
-      {
-         //Subscribe(this);
-      }
 
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
@@ -65,7 +60,7 @@ namespace CastDotNetExtension {
                      _addServiceMethods = _serviceContainer.GetMembers().OfType<IMethodSymbol>().Where(m => "AddService" == m.Name).ToHashSet();
                      if (_addServiceMethods.Any()) {
 
-                        return SyntaxKinds.ToArray();
+                        return SyntaxKinds;
                      }
                   }
                }
@@ -76,6 +71,12 @@ namespace CastDotNetExtension {
             GetRuleName(), context.Compilation.Assembly.Name);
          
          return new SyntaxKind [] {};
+      }
+
+      public override void Init(AnalysisContext context)
+      {
+         _typeToShared.Clear();
+         base.Init(context);
       }
 
       private bool IsShared(ITypeSymbol iType)
@@ -99,42 +100,68 @@ namespace CastDotNetExtension {
       {
          try {
             var sharedObjCreationOps =
-               ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type));
+               ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type)).ToHashSet();
+
             if (sharedObjCreationOps.Any()) {
-
-               List<IArgumentOperation> arguments = new List<IArgumentOperation>();
-               foreach (var op in sharedObjCreationOps) {
-                  //if (OperationKind.Return == op.Parent.Kind ||
-                  //   (OperationKind.Conversion == op.Parent.Kind &&
-                  //   null != op.Parent.Parent && OperationKind.Return == op.Parent.Parent.Kind)) {
-
-                  //   var method = op.SemanticModel.GetEnclosingSymbol(op.Syntax.SpanStart) as IMethodSymbol;
-                  //   if (null != method) {
-                  //      if (MethodKind.LambdaMethod == method.MethodKind) {
-                  //         var parent = op.Parent.Parent;
-                  //         while (null != parent && OperationKind.Argument != parent.Kind) {
-                  //            parent = parent.Parent;
-                  //         }
-                  //         if (null != parent) {
-                  //            if (!_addServiceMethods.Contains((parent.Parent as IInvocationOperation).TargetMethod)) {
-                  //               arguments.Add(parent as IArgumentOperation);
-                  //            }
-                  //         }
-                  //      }
-                  //   }
-                  //} else {
-                  //if (OperationKind.Conversion == op.Parent.Kind) {
-                  //   if (null != op.Parent.Parent && OperationKind.Argument == op.Parent.Parent.Kind) {
-                  //      if (!_addServiceMethods.Contains((op.Parent.Parent.Parent as IInvocationOperation).TargetMethod)) {
-                  //         arguments.Add(op.Parent.Parent as IArgumentOperation);
-                  //      }
-                  //   }
-                  //}
-                  //Console.WriteLine(op.Parent.Kind);
-                  //   }
+               HashSet<ISymbol> refs = new HashSet<ISymbol>();
+               List<OperationDetails> addServiceOps = new List<OperationDetails>();
+               //Console.WriteLine("Before RemoveWhere: {0}", sharedObjCreationOps.Count);
+               foreach (var invocationDetails in ops[OperationKind.Invocation]) {
+                  var iInvocation = invocationDetails.Operation as IInvocationOperation;
+                  if (_addServiceMethods.Contains(iInvocation.TargetMethod)) {
+                     addServiceOps.Add(invocationDetails);
+                     var secondArgument = ((IArgumentOperation)iInvocation.Arguments.ElementAt(1));
+                     //Console.WriteLine(secondArgument.Value.Kind + ": " + ((IArgumentOperation)iInvocation.Arguments.ElementAt(1)).Value.Syntax);
+                     if (0 == sharedObjCreationOps.RemoveWhere(s => secondArgument.Syntax.Contains(s.Operation.Syntax))) {
+                        if (sharedObjCreationOps.Any()) {
+                           foreach (var op in secondArgument.Descendants()) {
+                              ISymbol iSymbol = null;
+                              if (OperationKind.Conversion == op.Kind) {
+                                 iSymbol = op.Children.ElementAt(0).GetReferenceTarget();
+                              } else {
+                                 iSymbol = op.GetReferenceTarget();
+                              }
+                              if (null != iSymbol) {
+                                 refs.Add(iSymbol);
+                              }
+                           }
+                        }
+                     }
+                  }
                }
-               //var addServiceCalls = 
-               //   ops[OperationKind.Invocation].Where(o => _addServiceMethods.Contains((o.Operation as IInvocationOperation).TargetMethod));
+
+               if (refs.Any()) {
+                  //Console.WriteLine("Refs: {0}", refs.Count);
+                  List<KeyValuePair<ISymbol, IOperation>> violations = new List<KeyValuePair<ISymbol,IOperation>>();
+                  sharedObjCreationOps.RemoveWhere(op => {
+                     //var line = op.Operation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+                     HashSet<ISymbol> targetSymbols = op.Operation.Parent.GetInitializedSymbols();
+                     if (!targetSymbols.Any()) {
+                        ISymbol iSymbol = op.Operation.GetReturningSymbol(semanticModel);
+                        if (null != iSymbol) {
+                           if (SymbolKind.Method == iSymbol.Kind && MethodKind.PropertyGet == (iSymbol as IMethodSymbol).MethodKind) {
+                              iSymbol = (iSymbol as IMethodSymbol).AssociatedSymbol;
+                           }
+                           targetSymbols.Add(iSymbol);
+                        }
+                     }
+                     if (targetSymbols.Any()) {
+                        if (refs.Any(r => targetSymbols.Contains(r))) {
+                           return true;
+                        }
+                     }
+                     if (targetSymbols.Any()) {
+                        violations.Add(new KeyValuePair<ISymbol, IOperation>(targetSymbols.ElementAt(0), op.Operation));
+                     }
+                     return false;
+                  });
+
+                  foreach (var violationDetails in violations) {
+                     AddViolation(violationDetails.Key, new FileLinePositionSpan [] { violationDetails.Value.Syntax.GetLocation().GetMappedLineSpan()});
+                  }
+               }
+
+               //Console.WriteLine("After RemoveWhere: {0}", sharedObjCreationOps.Count);
             }
          } catch (Exception e) {
             Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
