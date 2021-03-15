@@ -64,14 +64,6 @@ namespace CastDotNetExtension {
                SyntaxKind.ObjectCreationExpression,
             };
 
-      private ConcurrentDictionary<string, Context> _fileToContext = new ConcurrentDictionary<string, Context>();
-
-      public override void Init(AnalysisContext context)
-      {
-         _fileToContext.Clear();
-         base.Init(context);
-      }
-
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
          try {
@@ -102,7 +94,7 @@ namespace CastDotNetExtension {
          try {
             IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
             if (objCreationOps.Any()) {
-               Context ctx = _fileToContext.GetOrAdd(semanticModel.SyntaxTree.FilePath, (key) => new Context(semanticModel.Compilation, semanticModel));
+               Context ctx = new Context(semanticModel.Compilation, semanticModel);
                ProcessObjectCreationOps(objCreationOps, ctx);
                if (lastBatch) {
                   if (ctx.ExceptionVars.Any()) {

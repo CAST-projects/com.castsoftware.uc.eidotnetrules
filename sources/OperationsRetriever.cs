@@ -78,18 +78,36 @@ namespace CastDotNetExtension
 
          private HashSet<SyntaxKind> _kinds = new HashSet<SyntaxKind>();
 
-         private ConcurrentDictionary<string, ConcurrentQueue<OperationDetails>> _operations =
-            new ConcurrentDictionary<string, ConcurrentQueue<OperationDetails>>();
          private HashSet<OperationKind> _opKinds = new HashSet<OperationKind>();
-         private Compilation CurrentCompilation { get; set; }
+         public Compilation CurrentCompilation { get; private set; }
 
          internal static object Lock = new object();
 
          public HashSet<OpsProcessor> OpsProcessors { get; private set; }
 
+         public Task AllViolationTasks { get; private set; }
+
          private SubscriberSink()
          {
             OpsProcessors = new HashSet<OpsProcessor>();
+         }
+
+         public void WaitForAllViolationTasksToFinish(string caller)
+         {
+            //Log.Info("WaitForAllViolationTasksToFinish: caller: " +  caller);
+            if (null != AllViolationTasks && null != CurrentCompilation) {
+               if (TaskStatus.Running == SubscriberSink.Instance.AllViolationTasks.Status) {
+                  Log.WarnFormat("[com.castsoftware.eidotnetrules] In Finalizer: {1} Task all for {0} is still running. Going to wait!",
+                     CurrentCompilation.Assembly.Name, caller);
+                  SubscriberSink.Instance.AllViolationTasks.Wait();
+               }
+               SubscriberSink.Instance.AllViolationTasks = null;
+            }
+         }
+
+         ~SubscriberSink()
+         {
+            WaitForAllViolationTasksToFinish("~SubscriberSink()");
          }
 
          public static SubscriberSink Instance { get { return ObjSubscriberSink; } }
@@ -103,21 +121,8 @@ namespace CastDotNetExtension
 
          public void RegisterCompilationStartAction(AnalysisContext context)
          {
-            context.RegisterCompilationStartAction(CompiliationStart);
+            context.RegisterCompilationStartAction(OnCompiliationStart);
          }
-
-         class OpVisitData
-         {
-
-            public long Time = 0;
-            public long TotalOps = 0;
-            //public List<KeyValuePair<string, long>> FileToOps = new List<KeyValuePair<string, long>>();
-            public List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>> _assemblyDetails
-               = new List<KeyValuePair<IAssemblySymbol, KeyValuePair<long, List<KeyValuePair<string, long>>>>>();
-         }
-
-         private ConcurrentDictionary<string, KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>> _fileToOperationData =
-            new ConcurrentDictionary<string, KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>>();
 
          private void SetSyntaxKinds(CompilationStartAnalysisContext context)
          {
@@ -160,30 +165,30 @@ namespace CastDotNetExtension
                      break;
                }
             }
-
          }
 
-         private void CompiliationStart(CompilationStartAnalysisContext context)
+         private void OnCompiliationStart(CompilationStartAnalysisContext context)
          {
             lock (Lock) {
                try {
-                  
+
                   if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
-                     _fileToOperationData.Clear();
+                     AllViolationTasks = null;
                      CurrentCompilation = context.Compilation;
                      SetOpKinds(context);
                      if (_opKinds.Any()) {
                         _opKinds.Add(OperationKind.End);
+
+                        List<Task> tasks = new List<Task>();
                         foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
-                           ConcurrentQueue<IOperation> opQueue = new ConcurrentQueue<IOperation>();
-                           List<Task> tasks = new List<Task>();
-                           _fileToOperationData[syntaxTree.FilePath] = new KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>(tasks, opQueue);
                            var task = new Task(() => SetViolations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
                            tasks.Add(task);
                            task.Start();
                         }
 
-                        context.RegisterSemanticModelAction(OnSemanticModelAnalysisEnd);
+                        if (tasks.Any()) {
+                           AllViolationTasks = Task.WhenAll(tasks);
+                        }
                      }
                   }
                } catch (Exception e) {
@@ -192,19 +197,15 @@ namespace CastDotNetExtension
             }
          }
 
-         private void OnOperation(OperationAnalysisContext context)
-         {
-            var ops = _operations.GetOrAdd(context.Operation.Syntax.SyntaxTree.FilePath, (key) => new ConcurrentQueue<OperationDetails>());
-            ops.Enqueue(new OperationDetails(context.Operation, context.ContainingSymbol,
-               OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null));
-         }
-
          private void SetViolations(SemanticModel semanticModel, List<Task> tasks)
          {
             try {
+
+               //Log.Info("Start: SetViolations: " + semanticModel.SyntaxTree.FilePath);
                ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>> opMap =
                   new ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>>();
                List<Task> opTasks = new List<Task>();
+
                foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
 
                   if (_kinds.Contains(node.Kind())) {
@@ -218,48 +219,39 @@ namespace CastDotNetExtension
                   }
                }
 
-               Task.WaitAll(opTasks.ToArray());
+               if (opTasks.Any()) {
+                  //Log.Info("[com.castsoftware.eidotnetrules] Number of GetOperation tasks: " + opTasks.Count);
+                  Task.WaitAll(opTasks.ToArray());
 
-               if (opMap.Any()) {
+                  if (opMap.Any()) {
+                     opTasks.Clear();
 
-                  Dictionary<OperationKind, IReadOnlyList<OperationDetails>> ops =
-                     new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
-                  foreach (var opKind in _opKinds) {
-                     if (opMap.ContainsKey(opKind)) {
-                        ops[opKind] = opMap[opKind].ToList();
-                     } else {
-                        ops[opKind] = new List<OperationDetails>();
+                     Dictionary<OperationKind, IReadOnlyList<OperationDetails>> ops =
+                        new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
+                     foreach (var opKind in _opKinds) {
+                        if (opMap.ContainsKey(opKind)) {
+                           ops[opKind] = opMap[opKind].ToList();
+                        } else {
+                           ops[opKind] = new List<OperationDetails>();
+                        }
                      }
-                  }
 
-                  
-                  foreach (var opsProcessor in OpsProcessors) {
-                     if (opsProcessor.IsActive) {
-                        tasks.Add(Task.Run(() =>
-                        opsProcessor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true)
-                        ))
-                        ;
+                     foreach (var opsProcessor in OpsProcessors) {
+                        if (opsProcessor.IsActive) {
+                           opTasks.Add(Task.Run(() =>
+                           opsProcessor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true)
+                           ))
+                           ;
+                        }
                      }
-                  }
 
-                  //Task.WaitAll(handlerTasks.ToArray());
+                     //Log.Info("End: SetViolations: " + semanticModel.SyntaxTree.FilePath);
+
+                     Task.WaitAll(opTasks.ToArray());
+                  }
                }
             } catch (Exception e) {
                Log.Warn("[com.castsoftware.eidotnetrules] Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
-            }
-         }
-
-         private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
-         {
-            try {
-               KeyValuePair<List<Task>, ConcurrentQueue<IOperation>> opData;
-               if (_fileToOperationData.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out opData)) {
-                  Task.WaitAll(opData.Key.ToArray());
-               } else {
-                  Log.WarnFormat("[com.castsoftware.eidotnetrules] Could not get Operation Task for {0}", context.SemanticModel.SyntaxTree.FilePath);
-               }
-            } catch (Exception e) {
-               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
          }
       }
@@ -271,6 +263,17 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("[com.castsoftware.eidotnetrules] Exception while Initing", e);
          }
+      }
+
+      ~OperationsRetriever()
+      {
+         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~OperationsRetriever()");
+      }
+
+      public override void Reset()
+      {
+         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("OperationsRetriever.Reset");
+         base.Reset();
       }
 
       private static readonly OperationKind[] OperationsKinds = {

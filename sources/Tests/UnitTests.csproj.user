@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Work\DotNet\com.castsoftware.eidotnetrules\com.castsoftware.uc.eidotnetrules\sources\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
+    <StartProgram>C:\Work\DotNet\com.castsoftware.eidotnetrules\master\sources\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
     <StartArguments>/run=UnitTests.UnitTest.TestAvoidCreatingNewInstanceOfSharedInstance.Test UnitTests.dll</StartArguments>
   </PropertyGroup>
 </Project>
