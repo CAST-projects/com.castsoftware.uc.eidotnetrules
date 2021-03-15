@@ -173,16 +173,12 @@ namespace CastDotNetExtension
                      CurrentCompilation = context.Compilation;
                      SetOpKinds(context);
                      if (_opKinds.Any()) {
-                        //_opKinds.Add(OperationKind.End);
-                        //_operations.Clear();
-                        //context.RegisterOperationAction(OnOperation, _opKinds.ToArray());
-                        //context.RegisterCompilationEndAction(OnCompilationEnd);
+                        _opKinds.Add(OperationKind.End);
                         foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
                            ConcurrentQueue<IOperation> opQueue = new ConcurrentQueue<IOperation>();
                            List<Task> tasks = new List<Task>();
                            _fileToOperationData[syntaxTree.FilePath] = new KeyValuePair<List<Task>, ConcurrentQueue<IOperation>>(tasks, opQueue);
-                           //var task = Task.Run(() => GetOperations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
-                           var task = new Task(() => GetOperations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
+                           var task = new Task(() => SetViolations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
                            tasks.Add(task);
                            task.Start();
                         }
@@ -203,21 +199,7 @@ namespace CastDotNetExtension
                OperationKind.MethodBody == context.Operation.Kind ? context.GetControlFlowGraph() : null));
          }
 
-         
-         private class AllOperationVisitor : OperationWalker
-         {
-            public ConcurrentDictionary<SyntaxNode, IOperation> _allOps = new ConcurrentDictionary<SyntaxNode, IOperation>();
-
-            public override void Visit(IOperation operation)
-            {
-               if (!_allOps.ContainsKey(operation.Syntax)) {
-                  _allOps[operation.Syntax] = operation;
-                  base.Visit(operation);
-               }
-            }
-         }
-
-         private void GetOperations(SemanticModel semanticModel, List<Task> tasks)
+         private void SetViolations(SemanticModel semanticModel, List<Task> tasks)
          {
             try {
                ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>> opMap =
@@ -229,7 +211,6 @@ namespace CastDotNetExtension
                      opTasks.Add(Task.Run(() => {
                         IOperation operation = semanticModel.GetOperation(node);
                         if (null != operation) {
-                           
                            opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<OperationDetails>()).
                               Enqueue(new OperationDetails(operation, null, null));
                         }
@@ -271,60 +252,12 @@ namespace CastDotNetExtension
          private void OnSemanticModelAnalysisEnd(SemanticModelAnalysisContext context)
          {
             try {
-
                KeyValuePair<List<Task>, ConcurrentQueue<IOperation>> opData;
                if (_fileToOperationData.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out opData)) {
                   Task.WaitAll(opData.Key.ToArray());
                } else {
                   Log.WarnFormat("Could not get Operation Task for {0}", context.SemanticModel.SyntaxTree.FilePath);
                }
-
-               //var nodes =
-               //      context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes().Where(n => _kinds.Contains(n.Kind())).ToHashSet();
-
-               //if (nodes.Any()) {
-                  
-               //   ConcurrentQueue<OperationDetails> operations;
-               //   if (_operations.TryGetValue(context.SemanticModel.SyntaxTree.FilePath, out operations)) {
-               //      Dictionary<OperationKind, List<OperationDetails>> ops;
-               //      OperationDetails operation;
-               //      int opCount = 0;
-               //      bool lastBatch = false;
-
-               //      while (!lastBatch) {
-               //         ops = new Dictionary<OperationKind, List<OperationDetails>>();
-               //         foreach (var opKind in _opKinds) {
-               //            ops[opKind] = new List<OperationDetails>(25);
-               //         }
-               //         opCount = 0;
-               //         while (operations.TryDequeue(out operation)) {
-               //            if (nodes.Contains(operation.Operation.Syntax)) {
-               //               opCount++;
-               //               ops[operation.Operation.Kind].Add(operation);
-               //               nodes.Remove(operation.Operation.Syntax);
-               //            }
-               //         }
-
-               //         lastBatch = !nodes.Any();
-               //         if (0 < opCount) {
-               //            Dictionary<OperationKind, IReadOnlyList<OperationDetails>> opsReadOnlyList = new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
-               //            foreach (var opDetails in ops) {
-               //               opsReadOnlyList[opDetails.Key] = opDetails.Value;
-               //            }
-               //            foreach (var opsProcessor in OpsProcessors) {
-               //               if (opsProcessor.IsActive) {
-               //                  opsProcessor.OpProcessor.HandleSemanticModelOps(context, opsReadOnlyList, lastBatch);
-               //               }
-               //            }
-               //            if (lastBatch) {
-               //               break;
-               //            }
-               //         } else if (!lastBatch) {
-               //            Thread.Sleep(3);
-               //         }
-               //      }
-               //   }
-               //}
             } catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }

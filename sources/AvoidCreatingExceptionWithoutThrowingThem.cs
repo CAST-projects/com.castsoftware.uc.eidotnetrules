@@ -58,27 +58,14 @@ namespace CastDotNetExtension {
    public class AvoidCreatingExceptionWithoutThrowingThem : OperationsRetriever
    {
 
-
-
-      private static readonly OperationKind[] OperationKinds =  {
-                                                          OperationKind.Throw, 
-                                                          OperationKind.ObjectCreation, 
-                                                          OperationKind.DynamicObjectCreation, 
-                                                          OperationKind.Invalid, 
-                                                          OperationKind.DelegateCreation, 
-                                                          OperationKind.TypeParameterObjectCreation,
-                                                          OperationKind.End,
-                                                          //OperationKind.ArrayCreation, 
-                                                          //OperationKind.AnonymousObjectCreation,
-                                                       };
-
-      private static readonly HashSet<SyntaxKind> SyntaxKinds = new HashSet<SyntaxKind> {
+      private static readonly SyntaxKind[] SyntaxKinds = new SyntaxKind[] {
                SyntaxKind.ThrowStatement,
                SyntaxKind.ThrowExpression,
                SyntaxKind.ObjectCreationExpression,
             };
 
       private ConcurrentDictionary<string, Context> _fileToContext = new ConcurrentDictionary<string, Context>();
+
       public override void Init(AnalysisContext context)
       {
          _fileToContext.Clear();
@@ -107,8 +94,6 @@ namespace CastDotNetExtension {
          return new SyntaxKind[] { };
 
       }
-
-
 
 
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
