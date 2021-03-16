@@ -160,6 +160,10 @@ namespace CastDotNetExtension
                            OperationKind.NameOf,
                            /*OperationKind.Invalid*/});
                      break;
+                  case SyntaxKind.MethodDeclaration:
+                     _opKinds.Add(OperationKind.MethodBody);
+                     break;
+
                }
             }
          }
