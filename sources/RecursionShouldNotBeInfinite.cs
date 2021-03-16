@@ -35,7 +35,7 @@ namespace CastDotNetExtension
 
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
-         return new SyntaxKind[] { SyntaxKind.MethodDeclaration };
+         return new SyntaxKind[] { SyntaxKind.InvocationExpression };
       }
 
       ~RecursionShouldNotBeInfinite()
@@ -76,105 +76,42 @@ namespace CastDotNetExtension
       private ConcurrentDictionary<string, FilePerfData> PerfData = 
          new ConcurrentDictionary<string, FilePerfData>();
 
-      private bool DetectRecursiveCall(IOperation parentOp, IMethodBodyOperation methodBodyOp, SemanticModel semanticModel, Dictionary<string, int> methodToRecursiveCallLine, ref ISymbol method, ref int processedOps, ref int getDeclaredMethodCalls)
-      {
-         foreach (var bodyOp in parentOp.Children) {
-            if (OperationKind.Invocation == bodyOp.Kind) {
-               processedOps++;
-               if (null == method) {
-                  var methodDeclaration = (methodBodyOp.Syntax as MethodDeclarationSyntax);
-                  var enclosingMethodName = methodDeclaration.Identifier.ValueText;
-                  var calledMethod = bodyOp as IInvocationOperation;
-                  var invocationExprSyntax = (bodyOp.Syntax as InvocationExpressionSyntax);
-                  if (null != invocationExprSyntax) {
-                     var calledMethodName = invocationExprSyntax.Expression.ToString();
-
-                     if (enclosingMethodName == calledMethodName && methodDeclaration.ParameterList.Parameters.Count == calledMethod.Arguments.Length) {
-                        //Console.WriteLine("getDeclaredMethodCall: File: {0} Line: {1} Method Name: {2}",
-                        //   semanticModel.SyntaxTree.FilePath, calledMethod.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line, enclosingMethodName);
-                        method = semanticModel.GetDeclaredSymbol(methodBodyOp.Syntax);
-                        getDeclaredMethodCalls++;
-                        System.Diagnostics.Debug.Assert(null != method);
-                        if (null == method) {
-                           break;
-                        }
-                     }
-                  } /*else {
-                     Console.WriteLine("bodyOp.Syntax is not invocation: " + bodyOp.Syntax.Kind());
-                  }*/
-               }
-               if (method == ((IInvocationOperation)bodyOp).TargetMethod) {
-                  methodToRecursiveCallLine.Add(method.OriginalDefinition.ToString(),
-                     bodyOp.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line);
-                  return true;
-               }
-            }
-            if (DetectRecursiveCall(bodyOp, methodBodyOp, semanticModel, methodToRecursiveCallLine, ref method, ref processedOps, ref getDeclaredMethodCalls)) {
-               return true;
-            }
-         }
-         return false;
-      }
-
+      private ConcurrentQueue<MethodKind> _methodKinds = new ConcurrentQueue<MethodKind>();
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
          var watch = new System.Diagnostics.Stopwatch();
          watch.Start();
+         var invocationOps = ops[OperationKind.Invocation];
          Dictionary<string, int> methodToRecursiveCallLine = new Dictionary<string, int>();
-
-         var methodBodyOps = ops[OperationKind.MethodBody];
-         int getDeclaredSymbolCalls = 0;
          int processedOps = 0;
-         foreach (var op in methodBodyOps) {
-            ISymbol method = null;
-            var methodBodyOp = op.Operation as IMethodBodyOperation;
-            if (DetectRecursiveCall(methodBodyOp, methodBodyOp, semanticModel, methodToRecursiveCallLine, ref method, ref processedOps, ref getDeclaredSymbolCalls)) {
-               //Console.WriteLine("Method {0} is recursive", method.Name);
+
+         foreach (var op in invocationOps) {
+            var invocationOp = op.Operation as IInvocationOperation;
+            if (!methodToRecursiveCallLine.ContainsKey(invocationOp.TargetMethod.OriginalDefinition.ToString())) {
+               processedOps++;
+               foreach (var declSynRef in invocationOp.TargetMethod.DeclaringSyntaxReferences) {
+
+                  //if (syntax.FullSpan.Contains(invocationOp.Syntax.FullSpan) && 
+                  //   
+                  //_methodKinds.Enqueue(invocationOp.TargetMethod.MethodKind);
+                  var syntax = declSynRef.GetSyntax();
+                  if (syntax.SyntaxTree.FilePath == invocationOp.Syntax.SyntaxTree.FilePath) {
+                     //if (syntax.Contains(invocationOp.Syntax)) {
+                     if (syntax.FullSpan.Contains(invocationOp.Syntax.FullSpan)) {
+                        methodToRecursiveCallLine[invocationOp.TargetMethod.OriginalDefinition.ToString()] =
+                           invocationOp.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+                        break;
+                     }
+                  }
+               }
             }
          }
+
          watch.Stop();
+
          PerfData[semanticModel.SyntaxTree.FilePath] =
-            new FilePerfData(watch.ElapsedTicks, methodBodyOps.Count(), processedOps, getDeclaredSymbolCalls, methodToRecursiveCallLine);
-
+            new FilePerfData(watch.ElapsedTicks, invocationOps.Count(), processedOps, 0, methodToRecursiveCallLine);
       }
-
-      //private ConcurrentQueue<MethodKind> _methodKinds = new ConcurrentQueue<MethodKind>();
-      //public override void HandleSemanticModelOps(SemanticModel semanticModel,
-      //      IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
-      //{
-      //   var watch = new System.Diagnostics.Stopwatch();
-      //   watch.Start();
-      //   var invocationOps = ops[OperationKind.Invocation];
-      //   Dictionary<string, int> methodToRecursiveCallLine = new Dictionary<string, int>();
-      //   int processedOps = 0;
-
-      //   foreach (var op in invocationOps) {
-      //      var invocationOp = op.Operation as IInvocationOperation;
-      //      if (!methodToRecursiveCallLine.ContainsKey(invocationOp.TargetMethod.OriginalDefinition.ToString())) {
-      //         processedOps++;
-      //         foreach (var declSynRef in invocationOp.TargetMethod.DeclaringSyntaxReferences) {
-                  
-      //            //if (syntax.FullSpan.Contains(invocationOp.Syntax.FullSpan) && 
-      //            //   
-      //            //_methodKinds.Enqueue(invocationOp.TargetMethod.MethodKind);
-      //            var syntax = declSynRef.GetSyntax();
-      //            if (syntax.SyntaxTree.FilePath == invocationOp.Syntax.SyntaxTree.FilePath) {
-      //               //if (syntax.Contains(invocationOp.Syntax)) {
-      //               if (syntax.FullSpan.Contains(invocationOp.Syntax.FullSpan)) {
-      //                  methodToRecursiveCallLine[invocationOp.TargetMethod.OriginalDefinition.ToString()] =
-      //                     invocationOp.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
-      //                  break;
-      //               }
-      //            }
-      //         }
-      //      }
-      //   }
-
-      //   watch.Stop();
-
-      //   PerfData[semanticModel.SyntaxTree.FilePath] =
-      //      new FilePerfData(watch.ElapsedTicks, invocationOps.Count(), processedOps, 0, methodToRecursiveCallLine);
-      //}
    }
 }
