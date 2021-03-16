@@ -149,7 +149,7 @@ namespace CastDotNetExtension
                      _opKinds.UnionWith(new OperationKind[] {                                                          
                            OperationKind.ObjectCreation, 
                            OperationKind.DynamicObjectCreation, 
-                           OperationKind.Invalid, 
+                           //OperationKind.Invalid, 
                            OperationKind.DelegateCreation, 
                            OperationKind.TypeParameterObjectCreation});
                      break;
@@ -158,7 +158,7 @@ namespace CastDotNetExtension
                            OperationKind.Invocation, 
                            OperationKind.DynamicInvocation,
                            OperationKind.NameOf,
-                           OperationKind.Invalid});
+                           /*OperationKind.Invalid*/});
                      break;
                }
             }
@@ -208,7 +208,10 @@ namespace CastDotNetExtension
                   if (_kinds.Contains(node.Kind())) {
                      opTasks.Add(Task.Run(() => {
                         IOperation operation = semanticModel.GetOperation(node);
-                        if (null != operation) {
+                        //actually, following condition should be:
+                        //if(null != operation && (OperationKind.Invalid != operation.Kind || _opKinds.Contains(OperationKind.Invalid)))
+                        //But, we don't need Invalid nodes right now. And it would cost _some time_..
+                        if (null != operation && OperationKind.Invalid != operation.Kind) {
                            opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<OperationDetails>()).
                               Enqueue(new OperationDetails(operation, null, null));
                         }
