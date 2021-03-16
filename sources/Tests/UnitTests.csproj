@@ -117,6 +117,7 @@
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
     <Compile Include="TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
+    <Compile Include="TestRecursionShouldNotBeInfinite.cs" />
     <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
     <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
@@ -126,6 +127,7 @@
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <None Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
     <None Include="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />

@@ -57,6 +57,7 @@
     <Compile Include="MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecursionShouldNotBeInfinite.cs" />
     <Compile Include="TrackFIXMETags.cs" />
     <Compile Include="TrackTODOTags.cs" />
     <Compile Include="TypeAttributes.cs" />

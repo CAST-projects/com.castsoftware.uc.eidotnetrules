@@ -126,6 +126,8 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Dynamic;
+        ///
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class AvoidCreatingExceptionWithoutThrowingThem_Source {
@@ -133,8 +135,7 @@ namespace UnitTests.Properties {
         ///      private NullReferenceException _nullReferenceExceptionNotThrown = new NullReferenceException();
         ///      private NullReferenceException _nullReferenceExceptionThrown = new NullReferenceException();
         ///
-        ///      private void ThrowNullReferenceException() {
-        ///         throw _nullRe [rest of string was truncated]&quot;;.
+        ///      private void ThrowNullReferenceException()  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidCreatingExceptionWithoutThrowingThem_Source {
             get {
@@ -300,7 +301,7 @@ namespace UnitTests.Properties {
         ///    {
         ///        Action&lt;object&gt; action = (object obj) =&gt;
         ///                        {
-        ///                           Console.WriteLine(&quot;Ta [rest of string was truncated]&quot;;.
+        ///                           Console.WriteLin [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source {
             get {
@@ -425,36 +426,6 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///
-        ///namespace UnitTests.UnitTest.Sources {
-        ///   public class ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
-        ///      private bool ReturnTrue() {
-        ///         return true;
-        ///      }
-        ///
-        ///      private bool ReturnFalse(int i = 0) {
-        ///         return false;
-        ///      }
-        ///
-        ///      private void TestSwitchBranchesKO(int i = 0) {
-        ///
-        ///         switch (i) {
-        ///            case 1:
-        ///               i++;
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalStructuresShouldNotHaveIdenticalBranches_Source {
-            get {
-                return ResourceManager.GetString("ConditionalStructuresShouldNotHaveIdenticalBranches_Source", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
         ///using System.Globalization;
         ///
         ///namespace UnitTests.UnitTest.Sources {
@@ -548,7 +519,7 @@ namespace UnitTests.Properties {
         ///      public class Klass2 {
         ///         public static event EventHandler foo;
         ///
-        ///         protect [rest of string was truncated]&quot;;.
+        ///         prote [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureProperArgumentsToEvents_Source {
             get {
@@ -693,6 +664,33 @@ namespace UnitTests.Properties {
         internal static string MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source {
             get {
                 return ResourceManager.GetString("MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///   public class RecursionShouldNotBeInfinite_Source
+        ///   {
+        ///
+        ///      //int PowKO16(int num, int exponent)   // Noncompliant; no condition under which pow isn&apos;t re-called
+        ///      //{
+        ///      //   switch (num) {
+        ///      //      case 1:
+        ///      //         try {
+        ///      //            try {
+        ///      //               if (10 &lt; exponent) {
+        ///      //               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string RecursionShouldNotBeInfinite_Source {
+            get {
+                return ResourceManager.GetString("RecursionShouldNotBeInfinite_Source", resourceCulture);
             }
         }
         
