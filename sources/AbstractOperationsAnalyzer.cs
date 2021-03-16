@@ -15,13 +15,13 @@ using Roslyn.DotNet.CastDotNetExtension;
 
 namespace CastDotNetExtension
 {
-   public class AbstractOperationsAnalyzer
+   public class OperationDetails
    {
       public IOperation Operation { get; private set; }
       public ControlFlowGraph ControlFlowGraph { get; private set; }
       public ISymbol ContainingSymbol { get; private set; }
       public IOperation OriginalOperation { get; private set; }
-      public AbstractOperationsAnalyzer(IOperation operation, ISymbol containingSymbol, ControlFlowGraph controlFlowGraph)
+      public OperationDetails(IOperation operation, ISymbol containingSymbol, ControlFlowGraph controlFlowGraph)
       {
          Operation = operation;
          ContainingSymbol = containingSymbol;
@@ -40,14 +40,14 @@ namespace CastDotNetExtension
    {
       SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       void HandleSemanticModelOps(SemanticModel semanticModel,
-         IReadOnlyDictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>> ops, bool lastBatch);
+         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
    }
 
-   public abstract class OperationsRetriever : AbstractRuleChecker, IOpProcessor
+   public abstract class AbstractOperationsAnalyzer : AbstractRuleChecker, IOpProcessor
    {
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       public abstract void HandleSemanticModelOps(SemanticModel semanticModel,
-         IReadOnlyDictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>> ops, bool lastBatch);
+         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
 
       private class OpsProcessor
       {
@@ -60,7 +60,7 @@ namespace CastDotNetExtension
          }
       }
 
-      public OperationsRetriever()
+      public AbstractOperationsAnalyzer()
       {
          SubscriberSink.Instance.Log = Log;
          //Log.WarnFormat("[com.castsoftware.eidotnetrules] Registering {0}", this.GetRuleName());
@@ -199,8 +199,8 @@ namespace CastDotNetExtension
             try {
 
                //Log.Info("Start: SetViolations: " + semanticModel.SyntaxTree.FilePath);
-               ConcurrentDictionary<OperationKind, ConcurrentQueue<AbstractOperationsAnalyzer>> opMap =
-                  new ConcurrentDictionary<OperationKind, ConcurrentQueue<AbstractOperationsAnalyzer>>();
+               ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>> opMap =
+                  new ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>>();
                List<Task> opTasks = new List<Task>();
 
                foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
@@ -209,8 +209,8 @@ namespace CastDotNetExtension
                      opTasks.Add(Task.Run(() => {
                         IOperation operation = semanticModel.GetOperation(node);
                         if (null != operation) {
-                           opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<AbstractOperationsAnalyzer>()).
-                              Enqueue(new AbstractOperationsAnalyzer(operation, null, null));
+                           opMap.GetOrAdd(operation.Kind, (key) => new ConcurrentQueue<OperationDetails>()).
+                              Enqueue(new OperationDetails(operation, null, null));
                         }
                      }));
                   }
@@ -223,13 +223,13 @@ namespace CastDotNetExtension
                   if (opMap.Any()) {
                      opTasks.Clear();
 
-                     Dictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>> ops =
-                        new Dictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>>();
+                     Dictionary<OperationKind, IReadOnlyList<OperationDetails>> ops =
+                        new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
                      foreach (var opKind in _opKinds) {
                         if (opMap.ContainsKey(opKind)) {
                            ops[opKind] = opMap[opKind].ToList();
                         } else {
-                           ops[opKind] = new List<AbstractOperationsAnalyzer>();
+                           ops[opKind] = new List<OperationDetails>();
                         }
                      }
 
@@ -262,7 +262,7 @@ namespace CastDotNetExtension
          }
       }
 
-      ~OperationsRetriever()
+      ~AbstractOperationsAnalyzer()
       {
          SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~OperationsRetriever()");
       }

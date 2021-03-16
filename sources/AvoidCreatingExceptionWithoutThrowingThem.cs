@@ -55,7 +55,7 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingExceptionWithoutThrowingThem"
    )]
-   public class AvoidCreatingExceptionWithoutThrowingThem : OperationsRetriever
+   public class AvoidCreatingExceptionWithoutThrowingThem : AbstractOperationsAnalyzer
    {
 
       private static readonly SyntaxKind[] SyntaxKinds = new SyntaxKind[] {
@@ -89,10 +89,10 @@ namespace CastDotNetExtension {
 
 
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
-            IReadOnlyDictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>> ops, bool lastBatch)
+            IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
          try {
-            IReadOnlyList<AbstractOperationsAnalyzer> objCreationOps = ops[OperationKind.ObjectCreation];
+            IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
             if (objCreationOps.Any()) {
                Context ctx = new Context(semanticModel.Compilation, semanticModel);
                ProcessObjectCreationOps(objCreationOps, ctx);
@@ -117,7 +117,7 @@ namespace CastDotNetExtension {
          public bool AnalysisDone = false;
          public List<IOperation> ObjectCreationVars = new List<IOperation>();
          public HashSet<IOperation> ExcludedThrows = new HashSet<IOperation>();
-         public IReadOnlyList<AbstractOperationsAnalyzer> Throws = new List<AbstractOperationsAnalyzer>();
+         public IReadOnlyList<OperationDetails> Throws = new List<OperationDetails>();
          public HashSet<ISymbol> ExceptionVars = new HashSet<ISymbol>();
          public Dictionary<ISymbol, HashSet<FileLinePositionSpan>> Symbol2ViolatingNodes = new Dictionary<ISymbol, HashSet<FileLinePositionSpan>>();
 
@@ -205,7 +205,7 @@ namespace CastDotNetExtension {
          return isException;
       }
 
-      private void ProcessObjectCreationOps(IReadOnlyList<AbstractOperationsAnalyzer> objCreationOps, Context ctx)
+      private void ProcessObjectCreationOps(IReadOnlyList<OperationDetails> objCreationOps, Context ctx)
       {
          foreach (var opDetail in objCreationOps) {
             var objCreationOperation = opDetail.Operation;

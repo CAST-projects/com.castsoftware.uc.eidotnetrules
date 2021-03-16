@@ -25,7 +25,7 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingNewInstanceOfSharedInstance"
    )]
-   public class AvoidCreatingNewInstanceOfSharedInstance : OperationsRetriever, IOpProcessor
+   public class AvoidCreatingNewInstanceOfSharedInstance : AbstractOperationsAnalyzer, IOpProcessor
    {
 
       private INamedTypeSymbol _partCreationPolicyAttribute = null;
@@ -96,7 +96,7 @@ namespace CastDotNetExtension {
       }
 
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
-            IReadOnlyDictionary<OperationKind, IReadOnlyList<AbstractOperationsAnalyzer>> ops, bool lastBatch)
+            IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
          try {
             var sharedObjCreationOps =
@@ -104,7 +104,7 @@ namespace CastDotNetExtension {
 
             if (sharedObjCreationOps.Any()) {
                HashSet<ISymbol> refs = new HashSet<ISymbol>();
-               List<AbstractOperationsAnalyzer> addServiceOps = new List<AbstractOperationsAnalyzer>();
+               List<OperationDetails> addServiceOps = new List<OperationDetails>();
                foreach (var invocationDetails in ops[OperationKind.Invocation]) {
                   var iInvocation = invocationDetails.Operation as IInvocationOperation;
                   if (_addServiceMethods.Contains(iInvocation.TargetMethod)) {
