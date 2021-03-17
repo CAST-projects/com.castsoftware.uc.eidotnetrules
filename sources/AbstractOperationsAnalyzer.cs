@@ -41,13 +41,26 @@ namespace CastDotNetExtension
       SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       void HandleSemanticModelOps(SemanticModel semanticModel,
          IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
+      void HandleProjectOps(Compilation compilation, Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps);
+
    }
 
    public abstract class AbstractOperationsAnalyzer : AbstractRuleChecker, IOpProcessor
    {
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
-      public abstract void HandleSemanticModelOps(SemanticModel semanticModel,
-         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch);
+      public virtual void HandleSemanticModelOps(SemanticModel semanticModel,
+         IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
+      {
+
+      }
+
+      public virtual void HandleProjectOps(Compilation compilation, Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps)
+      {
+
+      }
+
+
+      
 
       private class OpsProcessor
       {
@@ -180,15 +193,43 @@ namespace CastDotNetExtension
                      if (_opKinds.Any()) {
                         _opKinds.Add(OperationKind.End);
 
-                        List<Task> tasks = new List<Task>();
+                        List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>> tasks =
+                           new List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>>();
                         foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
-                           var task = new Task(() => SetViolations(context.Compilation.GetSemanticModel(syntaxTree), tasks));
+                           var task = Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>.Run(() => SetViolationsAsync(context.Compilation.GetSemanticModel(syntaxTree)));
                            tasks.Add(task);
-                           task.Start();
                         }
 
                         if (tasks.Any()) {
-                           AllViolationTasks = Task.WhenAll(tasks);
+
+                           AllViolationTasks = Task.Run(() => {
+                              
+                              var tasksArray = tasks.ToArray();
+                              Task.WaitAll(tasksArray);
+                              //Log.Info("All Tasks Finished");
+
+                              Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps =
+                                 new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>(tasksArray.Length);
+                              foreach (var task in tasksArray) {
+                                 var result = task.Result;
+                                 if (result.Any()) {
+                                    var kv = result.ElementAt(0);
+                                    if (allProjectOps.ContainsKey(kv.Key)) {
+                                       Log.WarnFormat("Semantic model for {0} already exists!", kv.Key.SyntaxTree.FilePath);
+                                    } else {
+                                       allProjectOps[kv.Key] = kv.Value;
+                                    }
+                                 }
+                              }
+
+                              foreach (var opProcessor in OpsProcessors) {
+                                 if (opProcessor.IsActive) {
+                                    opProcessor.OpProcessor.HandleProjectOps(context.Compilation, allProjectOps);
+                                 }
+                              }
+
+                           }
+                              );
                         }
                      }
                   }
@@ -198,8 +239,12 @@ namespace CastDotNetExtension
             }
          }
 
-         private void SetViolations(SemanticModel semanticModel, List<Task> tasks)
+         private Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>
+            SetViolationsAsync(SemanticModel semanticModel)
          {
+            Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allOps =
+               new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>();
+
             try {
 
                //Log.Info("Start: SetViolations: " + semanticModel.SyntaxTree.FilePath);
@@ -252,11 +297,15 @@ namespace CastDotNetExtension
                      //Log.Info("End: SetViolations: " + semanticModel.SyntaxTree.FilePath);
 
                      Task.WaitAll(opTasks.ToArray());
+
+                     allOps[semanticModel] = ops;
+                     
                   }
                }
             } catch (Exception e) {
                Log.Warn("[com.castsoftware.eidotnetrules] Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
             }
+            return Task.FromResult(allOps);
          }
       }
 

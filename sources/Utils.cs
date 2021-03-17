@@ -202,5 +202,23 @@ namespace CastDotNetExtension.Utils {
       }
    }
 
+   public static class SymbolExtensions
+   {
+      public static SyntaxNode GetImplemenationSyntax(this IMethodSymbol iMethod)
+      {
+         if (null != iMethod) {
+            var declSynRefs = null != iMethod.PartialImplementationPart ?
+               iMethod.PartialImplementationPart.DeclaringSyntaxReferences :
+               iMethod.DeclaringSyntaxReferences;
+
+            var declSynRef = null != declSynRefs && declSynRefs.Any() ? declSynRefs.ElementAt(0) : null;
+
+            return (null != declSynRef ? declSynRef.GetSyntax() : null);
+
+         }
+         return null;
+      }
+
+   }
 
 }
