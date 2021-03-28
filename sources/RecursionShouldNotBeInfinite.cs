@@ -462,57 +462,6 @@ namespace CastDotNetExtension
             Log.Warn("Exception while analyzing all projects!", e);
          }
       }
-
-      //public override void HandleSemanticModelOps(SemanticModel semanticModel,
-      //      IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
-      //{
-      //   var watch = new System.Diagnostics.Stopwatch();
-      //   watch.Start();
-      //   var invocationOps = ops[OperationKind.Invocation];
-      //   Dictionary<IMethodSymbol, List<SyntaxNode>> methodToCalls = new Dictionary<IMethodSymbol, List<SyntaxNode>>();
-      //   IMethodSymbol iMethod = null;
-      //   foreach (var op in invocationOps) {
-      //      iMethod = (op.Operation as IInvocationOperation).TargetMethod;
-      //      /*if (_methodToIsRecursive.ContainsKey(iMethod.OriginalDefinition.ToString()))*/ {
-      //         if (!methodToCalls.ContainsKey(iMethod)) {
-      //            methodToCalls[iMethod] = new List<SyntaxNode>(10);
-      //         }
-      //         methodToCalls[iMethod].Add(op.Operation.Syntax);
-      //      }
-      //   }
-
-      //   int processedOps = 0;
-      //   HashSet<string> recursiveMethods = new HashSet<string>();
-
-      //   foreach (var methodDetails in methodToCalls) {
-      //      var fullName = methodDetails.Key.OriginalDefinition.ToString();
-      //      foreach (var syntaxRef in methodDetails.Key.DeclaringSyntaxReferences) {
-      //         var syntax = syntaxRef.GetSyntax();
-      //         var syntaxTree = syntax.SyntaxTree;
-               
-      //         foreach (var invocationSyntax in methodDetails.Value) {
-      //            if (syntaxTree == invocationSyntax.SyntaxTree) {
-      //               processedOps++;
-      //               if (syntax.Contains(invocationSyntax)) {
-      //                  recursiveMethods.Add(fullName);
-      //                  break;
-      //               }
-      //            }
-      //         }
-      //      }
-      //   }
-         
-
-      //   watch.Stop();
-
-      //   PerfData[semanticModel.SyntaxTree.FilePath] =
-      //      new FilePerfData(watch.ElapsedTicks, invocationOps.Count(), processedOps, 0, new Dictionary<string, int>());
-      //   _recursiveMethods.UnionWith(recursiveMethods);
-      //   //foreach (var methodDetails in methodToCalls) {
-      //   //   _methodToCallCount[methodDetails.Key.OriginalDefinition.ToString()] =
-      //   //      methodDetails.Value.Count;
-      //   //}
-      //}
    }
 }
 

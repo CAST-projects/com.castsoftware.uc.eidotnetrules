@@ -21,5 +21,6 @@
   <metric id="2200036" type="quality-rule" originalName="Ensure constructors of serializable classes are secure" filter="138383" filterLabel="C#" />
   <metric id="2200038" type="quality-rule" originalName="Merge adjacent try blocks with identical catch/finally statements" filter="138383" filterLabel="C#" />
   <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" filter="138383" filterLabel="C#" />
-  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" filter="0" filterLabel="NO LABEL" />
+  <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" filter="138383" filterLabel="C#" />
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" filter="138383" filterLabel="C#" />
 </root>

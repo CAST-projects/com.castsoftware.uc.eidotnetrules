@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="61009" type="technical-criterion" originalName="Complexity - Algorithmic and Control Structure Complexity" section="name">
+    <english>Complexity - Algorithmic and Control Structure Complexity</english>
+  </metric>
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -1234,5 +1237,37 @@ namespace GenericObject {
   </metric>
   <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" section="total">
     <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="description">
+    <english>If recursive methods have a call that results in them being recursive from every control path, recursion becomes infinite. This QR checks for such methods.</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="name">
+    <english>Recursion should not be infinite</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for infinite recursive method</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="rationale">
+    <english>Recursion if become infinite, would crash the program.</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="remediation">
+    <english>Change code to make sure control is returned to caller.</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="remediationSample">
+    <english>void RecursiveMethod(int i) {
+   if (100 &lt; i) {
+      RecursiveMethod(++i);
+   }
+}</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="sample">
+    <english>void RecursiveMethod(int i) {
+   RecursiveMethod(++i);
+}</english>
+  </metric>
+  <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="total">
+    <english>Number of methods</english>
   </metric>
 </root>
