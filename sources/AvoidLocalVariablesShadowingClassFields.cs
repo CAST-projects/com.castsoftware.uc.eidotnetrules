@@ -93,7 +93,7 @@ namespace CastDotNetExtension {
                base.Reset();
             }
             catch (Exception e) {
-               Log.Warn(" Exception during  AvoidLocalVariablesShadowingClassFields.Reset ", e);
+               Log.Warn("Exception during  AvoidLocalVariablesShadowingClassFields.Reset ", e);
             }
          }
       }
