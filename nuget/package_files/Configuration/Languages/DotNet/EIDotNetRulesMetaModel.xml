@@ -213,6 +213,15 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="RecursionShouldNotBeInfinite" type="integer"  merge="sum" rid="23">
+        <description>Avoid Creating New Instance Of Shared Instance</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="23"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+
   </category>
 
 

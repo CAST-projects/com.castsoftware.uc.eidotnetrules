@@ -177,6 +177,21 @@ namespace CastDotNetExtension.Utils {
          return iSymbol;
       }
 
+      public static ITypeSymbol GetThrownSymbol(this IThrowOperation iThrow) {
+         ITypeSymbol thrown = null;
+         if (1 == iThrow.Children.Count()) {
+            var firstOne = iThrow.Children.ElementAt(0);
+            if (OperationKind.Conversion == firstOne.Kind) {
+               if (OperationKind.ObjectCreation == firstOne.Children.ElementAt(0).Kind) {
+                  thrown = (firstOne.Children.ElementAt(0) as IObjectCreationOperation).Type;
+               }
+            }
+         }
+         return thrown;
+      }
+
+
+
       public static ISymbol GetReturningSymbol(this IOperation iOperation, SemanticModel semanticModel) {
          ISymbol iSymbol = null;
          if (null != iOperation && null != iOperation.Parent) {
@@ -189,7 +204,28 @@ namespace CastDotNetExtension.Utils {
          return iSymbol;
       }
 
+      public enum BooleanLiteralCondition
+      {
+         None,
+         AlwaysTrue,
+         AlwaysFalse,
+      }
 
+      public static BooleanLiteralCondition GetBooleanLiteralCondition(this IOperation op)
+      {
+         BooleanLiteralCondition literalCondition = BooleanLiteralCondition.None;
+         if (null != op && OperationKind.Literal == op.Kind) {
+
+            var literal = op.ConstantValue.Value.ToString();
+            if ("True" == literal) {
+               literalCondition = BooleanLiteralCondition.AlwaysTrue;
+            } else if ("False" == literal) {
+               literalCondition = BooleanLiteralCondition.AlwaysFalse;
+            }
+         }
+         return literalCondition;
+
+      }
 
 
    }
