@@ -59,9 +59,6 @@ namespace CastDotNetExtension
 
       }
 
-
-      
-
       private class OpsProcessor
       {
          public bool IsActive { get; set; }
@@ -76,7 +73,7 @@ namespace CastDotNetExtension
       public AbstractOperationsAnalyzer()
       {
          SubscriberSink.Instance.Log = Log;
-         //Log.WarnFormat("[com.castsoftware.eidotnetrules] Registering {0}", this.GetRuleName());
+         Log.DebugFormat("[com.castsoftware.eidotnetrules] Registering {0}", this.GetRuleName());
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
@@ -104,11 +101,18 @@ namespace CastDotNetExtension
 
          public void WaitForAllViolationTasksToFinish(string caller)
          {
-            //Log.Info("WaitForAllViolationTasksToFinish: caller: " +  caller);
+
+            if (Log.IsDebugEnabled) {
+               if (null != AllViolationTasks) {
+                  Log.Debug("WaitForAllViolationTasksToFinish: caller: " + caller + " AllViolationTasks Status: " + AllViolationTasks.Status);
+               } else {
+                  Log.Debug("WaitForAllViolationTasksToFinish: caller: " + caller + " AllViolationTasks null");
+               }
+            }
             if (null != AllViolationTasks && null != CurrentCompilation) {
                if (TaskStatus.Running == SubscriberSink.Instance.AllViolationTasks.Status) {
-                  Log.WarnFormat("[com.castsoftware.eidotnetrules] In Finalizer: {1} Task all for {0} is still running. Going to wait!",
-                     CurrentCompilation.Assembly.Name, caller);
+                  Log.DebugFormat("[com.castsoftware.eidotnetrules] {0} : Task all for \"{1}\" is still running. Going to wait!",
+                     caller, CurrentCompilation.Assembly.Name);
                   SubscriberSink.Instance.AllViolationTasks.Wait();
                }
                SubscriberSink.Instance.AllViolationTasks = null;
@@ -320,12 +324,12 @@ namespace CastDotNetExtension
 
       ~AbstractOperationsAnalyzer()
       {
-         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~OperationsRetriever()");
+         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~AbstractOperationsAnalyzer: " + GetRuleName());
       }
 
       public override void Reset()
       {
-         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("OperationsRetriever.Reset");
+         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("AbstractOperationsAnalyzer.Reset: " + GetRuleName());
          base.Reset();
       }
 
