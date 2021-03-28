@@ -15,19 +15,13 @@ namespace UnitTests.UnitTest
       [Test]
       public void Test() {
 
-         /// [TODO#9] load the source code to test from resources
-         // note: a source file should have been added to the resources using the Resource file "SourcesToTest.resx"
          var testSrc = UnitTests.Properties.SourcesToTest.RecursionShouldNotBeInfinite_Source;
 
-         /// [TODO#10] create the checker object, parametrized with the type of the QR to test
          var checker = CastDotNetExtensionChecker<RecursionShouldNotBeInfinite>.CreateInstance();
          Assert.IsTrue(checker != null);
 
 
-         /// [TODO#11] setup the expected bookmarks
-         /// [TODO#12] launch the processing on the given source code
          checker
-            //.AddSource(@"C:\Sources\tools.cs")
             //.AddAssemblyRef(@"C:\packages\assembly.dll")
              .Apply(testSrc);
 
