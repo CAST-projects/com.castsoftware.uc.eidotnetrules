@@ -75,12 +75,8 @@ namespace CastDotNetExtension {
                               if (addViolation) {
                                  var span = klazz.DeclaringSyntaxReferences.First().Span;
                                  var pos = klazz.DeclaringSyntaxReferences.First().SyntaxTree.GetMappedLineSpan(span);
-                                 //Log.WarnFormat("[com.castsoftware.eidotnetrules] Violation: Class Name: {0}.AddExpected({1}, {2})", klazz.Name, pos.StartLinePosition.Line, pos.StartLinePosition.Character);
                                  AddViolation(klazz, new FileLinePositionSpan[] { pos });
                               }
-                              /*else {
-                                 //Log.WarnFormat("[com.castsoftware.eidotnetrules] No Violation: Class Name: {0}", klazz.Name);
-                              }*/
                            }
                         }
                      }
@@ -92,7 +88,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + string.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
+               Log.Warn(" Exception while analyzing " + string.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
             }
          }
       }

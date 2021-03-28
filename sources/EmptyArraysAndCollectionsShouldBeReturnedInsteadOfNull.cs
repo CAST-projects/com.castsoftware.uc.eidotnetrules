@@ -72,7 +72,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + string.Join(",", filePaths), e);
+               Log.Warn(" Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
       } 

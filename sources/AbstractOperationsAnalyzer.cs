@@ -73,7 +73,7 @@ namespace CastDotNetExtension
       public AbstractOperationsAnalyzer()
       {
          SubscriberSink.Instance.Log = Log;
-         Log.DebugFormat("[com.castsoftware.eidotnetrules] Registering {0}", this.GetRuleName());
+         Log.DebugFormat("Registering {0}", this.GetRuleName());
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
@@ -111,7 +111,7 @@ namespace CastDotNetExtension
             }
             if (null != AllViolationTasks && null != CurrentCompilation) {
                if (TaskStatus.Running == SubscriberSink.Instance.AllViolationTasks.Status) {
-                  Log.DebugFormat("[com.castsoftware.eidotnetrules] {0} : Task all for \"{1}\" is still running. Going to wait!",
+                  Log.DebugFormat("{0} : Task all for \"{1}\" is still running. Going to wait!",
                      caller, CurrentCompilation.Assembly.Name);
                   SubscriberSink.Instance.AllViolationTasks.Wait();
                }
@@ -238,7 +238,7 @@ namespace CastDotNetExtension
                      }
                   }
                } catch (Exception e) {
-                  Log.Warn("[com.castsoftware.eidotnetrules] Exception while initializing Op Retriever for " + context.Compilation.Assembly.Name, e);
+                  Log.Warn("Exception while initializing Op Retriever for " + context.Compilation.Assembly.Name, e);
                }
             }
          }
@@ -273,7 +273,6 @@ namespace CastDotNetExtension
                }
 
                if (opTasks.Any()) {
-                  //Log.Info("[com.castsoftware.eidotnetrules] Number of GetOperation tasks: " + opTasks.Count);
                   Task.WaitAll(opTasks.ToArray());
 
                   if (opMap.Any()) {
@@ -307,7 +306,7 @@ namespace CastDotNetExtension
                   }
                }
             } catch (Exception e) {
-               Log.Warn("[com.castsoftware.eidotnetrules] Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
+               Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
             }
             return Task.FromResult(allOps);
          }
@@ -318,7 +317,7 @@ namespace CastDotNetExtension
          try {
             SubscriberSink.Instance.RegisterCompilationStartAction(context);
          } catch (Exception e) {
-            Log.Warn("[com.castsoftware.eidotnetrules] Exception while Initing", e);
+            Log.Warn("Exception while Initing", e);
          }
       }
 

@@ -38,14 +38,12 @@ namespace CastDotNetExtension {
 
       private void ProcessField(ISymbol field, Dictionary<string, ISymbol> fields, bool isTargetClass) {
          string fieldName = field.Name.ToLowerInvariant();
-         //Log.WarnFormat("[com.castsoftware.eidotnetrules] Field Name: {0}", fieldName);
          if (isTargetClass) {
             fields[fieldName] = field;
          } else if (fields.ContainsKey(fieldName)) {
             var fieldSymbol = fields[fieldName];
             var mainPos = fieldSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
             var additionalPos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-            //Log.InfoFormat("[com.castsoftware.eidotnetrules] Field: {0} Main Pos: {1} Additional Pos: {2}", fieldSymbol.Name, mainPos.ToString(), additionalPos.ToString());
             AddViolation(fieldSymbol, new List<FileLinePositionSpan> { mainPos, additionalPos });
          }
 
@@ -103,7 +101,7 @@ namespace CastDotNetExtension {
                foreach (var synRef in context.Symbol.DeclaringSyntaxReferences) {
                   filePaths.Add(synRef.SyntaxTree.FilePath);
                }
-               Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + string.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
+               Log.Warn(" Exception while analyzing " + string.Join(",", filePaths) + ": " + context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan(), e);
             }
          }
       }

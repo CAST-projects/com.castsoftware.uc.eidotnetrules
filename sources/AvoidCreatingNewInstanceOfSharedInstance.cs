@@ -67,7 +67,7 @@ namespace CastDotNetExtension {
             }
          }
 
-         Log.InfoFormat("[com.castsoftware.eidotnetrules] Could not get one or more symbols needed. {0} will be disabled for {1}.",
+         Log.InfoFormat(" Could not get one or more symbols needed. {0} will be disabled for {1}.",
             GetRuleName(), context.Compilation.Assembly.Name);
          
          return new SyntaxKind [] {};
@@ -159,7 +159,7 @@ namespace CastDotNetExtension {
 
             }
          } catch (Exception e) {
-            Log.Warn("[com.castsoftware.eidotnetrules] Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
+            Log.Warn(" Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
       }
    }

@@ -48,7 +48,7 @@ namespace CastDotNetExtension
                  }
               }
               catch (Exception e) {
-                 Log.Warn("[com.castsoftware.eidotnetrules] Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
+                 Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
               }
            }
         }
