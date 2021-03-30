@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="66063" type="technical-criterion" originalName="Secure Coding - API Abuse" section="name">
+    <english>Secure Coding - API Abuse</english>
+  </metric>
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -1302,6 +1305,81 @@ https://medium.com/@CPP_Coder/how-to-not-shoot-yourself-in-the-foot-when-working
     <english>Follow best practices for serializable type.</english>
   </metric>
   <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="total">
+    <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="description">
+    <english>This rule will raise a violation when a type member is marked with a System.Security security attribute that has a different transparency than the security attribute of a container of the member.
+
+Following Security Attributes are considered for comparison:
+
+System.Security.SecurityCriticalAttribute
+System.Security.SecurityRulesAttribute
+System.Security.SecuritySafeCriticalAttribute
+System.Security.SecurityTransparentAttribute
+System.Security.SecurityTreatAsSafeAttribute
+System.Security.SuppressUnmanagedCodeSecurityAttribute
+System.Security.UnverifiableCodeAttribute</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="name">
+    <english>Members of larger scope element should not have conflicting transparency annotations</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="rationale">
+    <english>Transparency attributes are applied from code elements of larger scope to elements of smaller scope. The transparency attributes of code elements with larger scope take precedence over transparency attributes of code elements that are contained in the first element. For example, a class that is marked with the SecurityCriticalAttribute attribute cannot contain a method that is marked with the SecuritySafeCriticalAttribute attribute.</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="reference">
+    <english>https://docs.microsoft.com/en-us/visualstudio/code-quality/ca2136?view=vs-2019
+
+OWASP Top 10 2017 Category A6 - Security Misconfiguration</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="remediation">
+    <english>To fix this violation, remove the security attribute from the code element that has lower scope, or change its attribute to be the same as the containing code element.</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="remediationSample">
+    <english>using System;
+using System.Security;
+
+namespace TransparencyWarningsDemo
+{
+
+    [SecurityCritical]
+    public class CriticalClass
+    {
+       //Violation Fixed
+        public void SafeCriticalMethod()
+        {
+        }
+    }
+}</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="sample">
+    <english>using System;
+using System.Security;
+
+namespace TransparencyWarningsDemo
+{
+
+    [SecurityCritical]
+    public class CriticalClass
+    {
+        // CA2136 violation - this method is not really safe critical, since the larger scoped type annotation
+        // has precidence over the smaller scoped method annotation.  This can be fixed by removing the
+        // SecuritySafeCritical attribute on this method
+        [SecuritySafeCritical] //Violation
+        public void SafeCriticalMethod()
+        {
+        }
+    }
+}</english>
+  </metric>
+  <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="total">
     <english>Number of Artifacts</english>
   </metric>
 </root>

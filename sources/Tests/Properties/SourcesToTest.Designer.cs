@@ -533,14 +533,16 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Runtime.Serialization;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
         ///   public class EnsureSerializableTypesFollowBestPractices_Source
         ///   {
-        ///   }
-        ///}
-        ///.
+        ///      private class SerializableAttributeKO : ISerializable // Violation: No Serializable attribute
+        ///      {
+        ///         protected SerializableAttributeKO(SerializationInfo info, StreamingContext context) { }
+        ///         public virtual void G [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureSerializableTypesFollowBestPractices_Source {
             get {
@@ -630,6 +632,33 @@ namespace UnitTests.Properties {
         internal static string InterfaceInstancesShouldNotBeCastToConcreteTypes_Source {
             get {
                 return ResourceManager.GetString("InterfaceInstancesShouldNotBeCastToConcreteTypes_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Security;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///
+        ///   public class MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source
+        ///   {
+        ///
+        ///      [SecurityCritical]
+        ///      public class CriticalClass
+        ///      {
+        ///         // CA2136 violation - this method is not really safe critical, since the larger scoped type annotation
+        ///         // has precidence over t [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source {
+            get {
+                return ResourceManager.GetString("MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source" +
+                        "", resourceCulture);
             }
         }
         

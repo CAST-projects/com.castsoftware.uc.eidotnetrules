@@ -116,6 +116,7 @@
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
+    <Compile Include="TestMembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations.cs" />
     <Compile Include="TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestRecursionShouldNotBeInfinite.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
+    <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
