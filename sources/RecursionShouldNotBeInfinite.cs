@@ -38,68 +38,6 @@ namespace CastDotNetExtension
          return new SyntaxKind[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
       }
 
-      private HashSet<string> _recursiveMethods = new HashSet<string>();
-
-      ~RecursionShouldNotBeInfinite()
-      {
-         
-         long TotalTime = 0, TotalOps = 0, TotalProcessedOps = 0, RecursiveMethodCount = 0;
-         Console.WriteLine("File,Time(ticks),Total Ops,Processed Ops,Recursive Methods");
-         foreach (var filePerfDataQ in PerfData) {
-            foreach (var filePerfData in filePerfDataQ.Value.ToArray()) {
-               TotalTime += filePerfData.Time;
-               TotalOps += filePerfData.Ops;
-               TotalProcessedOps += filePerfData.ProcessedOps;
-               RecursiveMethodCount += filePerfData.RecursiveMethodCount;
-               Console.WriteLine("\"{0}\",{1},{2},{3},{4}",
-                  filePerfDataQ.Key, filePerfData.Time, filePerfData.Ops, filePerfData.ProcessedOps,filePerfData.RecursiveMethodCount);
-               foreach (var methodDetails in filePerfData.MethodToLine) {
-                  Console.WriteLine("   Recursive Call: {0}: {1}", methodDetails.Key, methodDetails.Value);
-               }
-            }
-         }
-         Console.WriteLine("{0},{1} ms,{2},{3},{4}", "All", TotalTime / TimeSpan.TicksPerMillisecond, TotalOps, TotalProcessedOps,RecursiveMethodCount);
-
-         /*
-         Console.WriteLine("Method Name,Call Count");
-         foreach (var methodDetails in _methodToCallCount) {
-            Console.WriteLine(methodDetails.Key + "," + methodDetails.Value);
-         }
-
-         Console.WriteLine("Method Kind,Count");
-         foreach (var methodKindDetails in _methodKindToCount) {
-            Console.WriteLine("{0},{1}", methodKindDetails.Key, methodKindDetails.Value);
-         }
-         */
-
-
-         Console.WriteLine("Recursive Methods:\r\n{0}", string.Join("\r\n", _recursiveMethods));
-      }
-
-      private class FilePerfData {
-         public long Time {get;private set;}
-         public long Ops {get;private set;}
-         public long ProcessedOps { get; private set; }
-         public long RecursiveMethodCount { get; private set; }
-         public Dictionary<string, int> MethodToLine {get;private set;}
-         public FilePerfData(long time, long ops, long processedOps, long recursiveMethodCount, Dictionary<string, int> methodToLine)
-         {
-            Time = time;
-            Ops = ops;
-            ProcessedOps = processedOps;
-            RecursiveMethodCount = recursiveMethodCount;
-            MethodToLine = methodToLine;
-         }
-      }
-
-      private ConcurrentDictionary<string, ConcurrentQueue<FilePerfData>> PerfData =
-         new ConcurrentDictionary<string, ConcurrentQueue<FilePerfData>>();
-
-      //private ConcurrentDictionary<string, int> _methodToCallCount =
-      //   new ConcurrentDictionary<string, int>();
-
-      //private ConcurrentDictionary<MethodKind, int> _methodKindToCount = new ConcurrentDictionary<MethodKind, int>();
-
       private class DefiniteCallDetector
       {
          private IOperation _targetBlockOp;
@@ -314,8 +252,6 @@ namespace CastDotNetExtension
             }
          }
 
-
-
          public IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException)
          {
             bool added = false;
@@ -403,7 +339,6 @@ namespace CastDotNetExtension
                            if (null != syntax) {
                               if (syntax.SyntaxTree == op.Operation.Syntax.SyntaxTree) {
                                  if (syntax.FullSpan.Contains(op.Operation.Syntax.FullSpan)) {
-                                    _recursiveMethods.Add(invocationOp.TargetMethod.OriginalDefinition.ToString());
                                     if (SyntaxKind.MethodDeclaration == syntax.Kind()) {
                                        recursiveOnes.Add(invocationOp.TargetMethod,
                                           new Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>(invocationOp, syntax as MethodDeclarationSyntax, compilation.GetSemanticModel(syntax.SyntaxTree)));
@@ -419,11 +354,6 @@ namespace CastDotNetExtension
                }
             }
 
-            long processedOps = 0;
-
-
-            var watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
 
             if (recursiveOnes.Any()) {
                var systemException = compilation.GetTypeByMetadataName("System.Exception");
@@ -446,14 +376,6 @@ namespace CastDotNetExtension
                   }
                }
             }
-
-            watch.Stop();
-
-            Dictionary<string, int> methodToCallCount = new Dictionary<string, int>();
-
-            PerfData.GetOrAdd(compilation.Assembly.Name, (key) => new ConcurrentQueue<FilePerfData>()).Enqueue(
-                  new FilePerfData(watch.ElapsedTicks, allProjectOps.Count, processedOps, recursiveOnes.Count, methodToCallCount)
-                  );
          } catch (Exception e) {
             Log.Warn("Exception while analyzing all projects!", e);
          }
