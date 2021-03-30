@@ -23,4 +23,5 @@
   <metric id="2200040" type="quality-rule" originalName="Avoid assignments in sub-expressions" filter="138383" filterLabel="C#" />
   <metric id="2200042" type="quality-rule" originalName="Avoid creating new instance of shared instance (.NET)" filter="138383" filterLabel="C#" />
   <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" filter="138383" filterLabel="C#" />
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" filter="138383" filterLabel="C#" />
 </root>

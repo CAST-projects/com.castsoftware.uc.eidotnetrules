@@ -24,4 +24,5 @@
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200024" contributorType="quality-rule" contributorOriginalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" critical="false" weight="1" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200028" contributorType="quality-rule" contributorOriginalName="Use Logical OR instead of Bitwise OR in boolean context" critical="false" weight="1" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200034" contributorType="quality-rule" contributorOriginalName="For loop stop condition should be invariant" critical="false" weight="5" />
+  <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200046" contributorType="quality-rule" contributorOriginalName="Ensure Serializable Types Follow Best Practices" critical="false" weight="5" />
 </root>

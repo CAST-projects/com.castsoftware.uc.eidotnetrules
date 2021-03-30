@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="61009" type="technical-criterion" originalName="Complexity - Algorithmic and Control Structure Complexity" section="name">
-    <english>Complexity - Algorithmic and Control Structure Complexity</english>
-  </metric>
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -1269,5 +1266,42 @@ namespace GenericObject {
   </metric>
   <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" section="total">
     <english>Number of methods</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="description">
+    <english>This rule will raise a violation when an externally visible type is assignable to the System.Runtime.Serialization.ISerializable interface and one of the following conditions is true:
+
+- The System.SerializableAttribute attribute is missing.
+- Non-serializable fields are not marked with the System.NonSerializedAttribute attribute.
+- There is no serialization constructor.
+- An unsealed type has a serialization constructor that is not protected.
+- A sealed type has a serialization constructor that is not private.
+- An unsealed type has a ISerializable.GetObjectData that is not both public and virtual.
+- A derived type has a serialization constructor that does not call the base constructor.
+- A derived type has a ISerializable.GetObjectData method that does not call the base method.
+- A derived type has serializable fields but the ISerializable.GetObjectData method is not overridden.</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="name">
+    <english>Ensure Serializable Types Follow Best Practices</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="rationale">
+    <english>Instance fields that are declared in a type that inherits the System.Runtime.Serialization.ISerializable interface are not automatically included in the serialization process. To include the fields, the type must implement the GetObjectData method and the serialization constructor. If the fields should not be serialized, apply the NonSerializedAttribute attribute to the fields to explicitly indicate the decision.
+
+In types that are not sealed, implementations of the GetObjectData method should be externally visible. Therefore, the method can be called by derived types, and is overridable.</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="reference">
+    <english>https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable?view=net-5.0
+https://docs.microsoft.com/en-us/dotnet/api/system.nonserializedattribute?view=net-5.0
+https://medium.com/@CPP_Coder/how-to-not-shoot-yourself-in-the-foot-when-working-with-serialization-20a9a13b69b5</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="remediation">
+    <english>Follow best practices for serializable type.</english>
+  </metric>
+  <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" section="total">
+    <english>Number of Artifacts</english>
   </metric>
 </root>

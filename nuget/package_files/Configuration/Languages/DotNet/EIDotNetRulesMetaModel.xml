@@ -214,7 +214,7 @@
      </property>
 
      <property name="RecursionShouldNotBeInfinite" type="integer"  merge="sum" rid="23">
-        <description>Avoid Creating New Instance Of Shared Instance</description>
+        <description>Recursion should not be infinite</description>
         <attribute name="INF_TYPE"       intValue="2200000"/>
         <attribute name="INF_SUB_TYPE"   intValue="23"  />
         <attribute name="ACCESS_APPVIEW" intValue="1"   />
@@ -222,10 +222,25 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
+     <property name="EnsureSerializableTypesFollowBestPractices" type="integer"  merge="sum" rid="24">
+        <description>Ensure Serializable Types Follow Best Practices</description>
+        <attribute name="INF_TYPE"       intValue="2200000"/>
+        <attribute name="INF_SUB_TYPE"   intValue="24"  />
+        <attribute name="ACCESS_APPVIEW" intValue="1"   />
+        <attribute name="ACCESS_HTML"    intValue="1"   />
+        <attribute name="ACCESS_CVS"     intValue="1"   />
+     </property>
+     
   </category>
 
 
-  <!--  [TODO#2] Add the category to the list of metrics -->
+
+
+   
+   
+
+
+   <!--  [TODO#2] Add the category to the list of metrics -->
   
   <partialCategory name="CAST_DotNet_Metricable">
     <inheritedCategory name="EIDotNetQualityRules"/>

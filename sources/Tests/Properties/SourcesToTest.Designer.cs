@@ -536,6 +536,27 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
+        ///   public class EnsureSerializableTypesFollowBestPractices_Source
+        ///   {
+        ///   }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EnsureSerializableTypesFollowBestPractices_Source {
+            get {
+                return ResourceManager.GetString("EnsureSerializableTypesFollowBestPractices_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
         ///   public class ForLoopConditionShouldBeInvariant_Source
         ///   {
         ///
@@ -678,15 +699,17 @@ namespace UnitTests.Properties {
         ///{
         ///   public class RecursionShouldNotBeInfinite_Source
         ///   {
-        ///
-        ///      //int PowKO16(int num, int exponent)   // Noncompliant; no condition under which pow isn&apos;t re-called
-        ///      //{
-        ///      //   switch (num) {
-        ///      //      case 1:
-        ///      //         try {
-        ///      //            try {
-        ///      //               if (10 &lt; exponent) {
-        ///      //               [rest of string was truncated]&quot;;.
+        ///      #region RecursiveIfElse
+        ///      void RecursiveIfElseKO1(int i)
+        ///      {
+        ///         if (i &gt;= 0) {
+        ///            RecursiveIfElseKO1(i--);
+        ///         } else if (10 == i) {
+        ///            RecursiveIfElseKO1(i += 2);
+        ///         } else {
+        ///            RecursiveIfElseKO1(--i);
+        ///         }
+        ///      } [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RecursionShouldNotBeInfinite_Source {
             get {

@@ -112,6 +112,7 @@
     <Compile Include="TestEmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull.cs" />
     <Compile Include="TestEnsureConstructorsOfSerializableClassesAreSecure.cs" />
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
+    <Compile Include="TestEnsureSerializableTypesFollowBestPractices.cs" />
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
@@ -127,6 +128,7 @@
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
     <None Include="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
