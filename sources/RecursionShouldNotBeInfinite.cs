@@ -301,12 +301,6 @@ namespace CastDotNetExtension
                         returnedOp = _loops.Last();
                      }
                      break;
-                  //case OperationKind.Block:
-                  //case OperationKind.Switch:
-                  //case OperationKind.Loop:
-                  //case OperationKind.ExpressionStatement:
-                  //case OperationKind.Binary:
-                  //case OperationKind.SimpleAssignment:
                   default:
                      returnedOp = Detect(op, targetMethod, systemException);
                      break;
@@ -326,31 +320,32 @@ namespace CastDotNetExtension
          {
             bool added = false;
             try {
-               IOperation _returnedOp = null;
+               IOperation returnedOp = null;
                if (!_ops.Any() || targetBlockOp != _ops.Last()) {
                   _ops.Add(targetBlockOp);
                   added = true;
                }
                foreach (var op in targetBlockOp.Children) {
-                  if (null != _returnedOp) {
-                     if (OperationKind.Branch == _returnedOp.Kind && _returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
-                        if (OperationKind.Labeled != op.Kind || (op as ILabeledOperation).Label.Name != (((GotoStatementSyntax)_returnedOp.Syntax).Expression as IdentifierNameSyntax).Identifier.Value.ToString()) {
-                           //Console.WriteLine("Skipping: {0} Syntax: {1}", op.Kind, op.Syntax);
+                  if (null != returnedOp) {
+                     if (OperationKind.Branch == returnedOp.Kind && returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
+                        if (OperationKind.Labeled != op.Kind || (op as ILabeledOperation).Label.Name != (((GotoStatementSyntax)returnedOp.Syntax).Expression as IdentifierNameSyntax).Identifier.Value.ToString()) {
                            continue;
                         }
+                     } else if (op != returnedOp) {
+                        continue;
                      }
                   }
 
-                  _returnedOp = RouteAndDetect(op, targetMethod, systemException);
+                  returnedOp = RouteAndDetect(op, targetMethod, systemException);
 
-                  if (null != _returnedOp) {
-                     if (OperationKind.Invocation == op.Kind || _returnedOp != targetBlockOp) {
-                        if (OperationKind.Throw == _returnedOp.Kind || OperationKind.Return == _returnedOp.Kind) {
+                  if (null != returnedOp) {
+                     if (OperationKind.Invocation == op.Kind || returnedOp != targetBlockOp) {
+                        if (OperationKind.Throw == returnedOp.Kind || OperationKind.Return == returnedOp.Kind) {
                            throw new DoneException();
-                        } else if (OperationKind.Branch == _returnedOp.Kind) {
-                           if (_returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
-                              if (!((GotoStatementSyntax)_returnedOp.Syntax).Expression.IsKind(SyntaxKind.IdentifierName)) {
-                                 _returnedOp = null;
+                        } else if (OperationKind.Branch == returnedOp.Kind) {
+                           if (returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
+                              if (!((GotoStatementSyntax)returnedOp.Syntax).Expression.IsKind(SyntaxKind.IdentifierName)) {
+                                 returnedOp = null;
                               } else {
                                  continue;
                               }
@@ -359,11 +354,11 @@ namespace CastDotNetExtension
                         //Console.WriteLine("Breaking: Op Kind: {0} Syntax: {1}", _returnedOp.Kind, _returnedOp.Syntax);
                         break;
                      } else {
-                        Console.WriteLine("Weird returned op: Kind: {0} Syntax: {1}", _returnedOp.Kind, _returnedOp.Syntax.ToString());
+                        _log.DebugFormat("Weird returned op: Kind: {0} Syntax: {1}", returnedOp.Kind, returnedOp.Syntax.ToString());
                      }
                   }
                }
-               return _returnedOp;
+               return returnedOp;
             } finally {
                if (added) {
                   _ops.Remove(_ops.Last());
@@ -439,6 +434,7 @@ namespace CastDotNetExtension
                      iMethodBodyOp = iMethodBodyOp.Parent;
                   }
                   if (null != iMethodBodyOp) {
+                     Log.DebugFormat("Detecting definite recursive call for ", recursiveOne.Value.Item1.TargetMethod.OriginalDefinition.ToString());
                      bool hasDefiniteCall = new DefiniteCallDetector(iMethodBodyOp, recursiveOne.Value.Item1.TargetMethod, systemException, Log).Detect();
                      if (hasDefiniteCall) {
                         var syntax = recursiveOne.Value.Item1.TargetMethod.GetImplemenationSyntax();
