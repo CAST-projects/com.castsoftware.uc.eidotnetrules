@@ -169,7 +169,7 @@ namespace CastDotNetExtension.Utils {
                   break;
                default:
 #if DEBUG
-                  System.Console.WriteLine("Unhandled Target Type: ", iOperation.Kind);
+                  System.Console.WriteLine("Unhandled Target Type: {0}", iOperation.Kind);
 #endif
                   break;
             }
