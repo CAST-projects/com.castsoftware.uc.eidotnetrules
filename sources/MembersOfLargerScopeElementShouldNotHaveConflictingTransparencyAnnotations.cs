@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslyn.DotNet.CastDotNetExtension;
@@ -120,6 +121,9 @@ namespace CastDotNetExtension
       {
       }
 
+      private Task _violationTask;
+
+
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
       /// to listen during the visit and provide a specific callback for each one
@@ -127,10 +131,10 @@ namespace CastDotNetExtension
       /// <param name="context"></param>
       public override void Init(AnalysisContext context)
       {
-         context.RegisterCompilationAction(OnCompilationStart);
+         context.RegisterCompilationAction(OnCompilationEnd);
       }
 
-      private void OnCompilationStart(CompilationAnalysisContext context)
+      private void OnCompilationEnd(CompilationAnalysisContext context)
       {
          HashSet<INamedTypeSymbol> securityAttributeSymbols = new HashSet<INamedTypeSymbol>();
          foreach (var attrClassName in SECURITY_ATTRIBUTE_CLASSES) {
@@ -149,21 +153,40 @@ namespace CastDotNetExtension
                   GetRuleName(), context.Compilation.Assembly);
             }
 
-            try {
-               AllSymbolsSecurityAttrVisitor visitor = new AllSymbolsSecurityAttrVisitor(securityAttributeSymbols);
-               visitor.Visit(context.Compilation.Assembly);
-               foreach (var violation in visitor.Violations) {
-                  AddViolation(violation.Key, new[] { violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan(), violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan() });
+            _violationTask = Task.Run(() =>
+            {
+
+               try
+               {
+                  AllSymbolsSecurityAttrVisitor visitor = new AllSymbolsSecurityAttrVisitor(securityAttributeSymbols);
+                  visitor.Visit(context.Compilation.Assembly);
+                  foreach (var violation in visitor.Violations)
+                  {
+                     AddViolation(violation.Key,
+                        new[]
+                        {
+                           violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation()
+                              .GetMappedLineSpan(),
+                           violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation()
+                              .GetMappedLineSpan()
+                        });
+                  }
                }
-            } catch (Exception e) {
-               Log.Warn("Exception while analyzing " + context.Compilation.Assembly.Name, e);
-            }
+               catch (Exception e)
+               {
+                  Log.Warn("Exception while analyzing " + context.Compilation.Assembly.Name, e);
+               }
+            });
          }
       }
 
-      private void OnSymbol(SymbolAnalysisContext context)
+      public override void Reset()
       {
-
+         if (null != _violationTask && TaskStatus.Running == _violationTask.Status) {
+            Log.Info("Violation task is still running. Going to wait.");
+            _violationTask.Wait();
+         }
+         base.Reset();
       }
 
    }
