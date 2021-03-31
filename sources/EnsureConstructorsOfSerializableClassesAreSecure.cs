@@ -68,7 +68,7 @@ namespace CastDotNetExtension
                      if (regularConstructorSecured && !serializationConstructorSecured) {
                         var pos = ctorSerializing.Locations.FirstOrDefault().GetMappedLineSpan();
                         //Console.WriteLine(ctorSerializing.ToString() + ": " + pos);
-                        AddViolation(ctorSerializing, new FileLinePositionSpan[] { pos });
+                        AddViolation(ctorSerializing, new[] { pos });
                      }
                   }
                }

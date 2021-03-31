@@ -84,7 +84,7 @@ namespace CastDotNetExtension
                   foreach (var expr in expressions) {
                      var pos = expr.GetLocation().GetMappedLineSpan();
                      //Console.WriteLine(context.ContainingSymbol + ": " + expr + ": " + pos);
-                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                     AddViolation(context.ContainingSymbol, new[] { pos });
                   }
                }
             } catch (Exception e) {

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslyn.DotNet.CastDotNetExtension;
 using Roslyn.DotNet.Common;
 
@@ -24,7 +21,7 @@ namespace CastDotNetExtension
    )]
    public class MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations : AbstractRuleChecker
    {
-      private static readonly string[] SECURITY_ATTRIBUTE_CLASSES = new string[] {
+      private static readonly string[] SECURITY_ATTRIBUTE_CLASSES = new[] {
          "System.Security.SecurityCriticalAttribute",
          "System.Security.SecurityRulesAttribute",
          "System.Security.SecuritySafeCriticalAttribute",
@@ -156,7 +153,7 @@ namespace CastDotNetExtension
                AllSymbolsSecurityAttrVisitor visitor = new AllSymbolsSecurityAttrVisitor(securityAttributeSymbols);
                visitor.Visit(context.Compilation.Assembly);
                foreach (var violation in visitor.Violations) {
-                  AddViolation(violation.Key, new FileLinePositionSpan[] { violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan(), violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan() });
+                  AddViolation(violation.Key, new[] { violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan(), violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation().GetMappedLineSpan() });
                }
             } catch (Exception e) {
                Log.Warn("Exception while analyzing " + context.Compilation.Assembly.Name, e);

@@ -75,7 +75,7 @@ namespace CastDotNetExtension {
                               if (addViolation) {
                                  var span = klazz.DeclaringSyntaxReferences.First().Span;
                                  var pos = klazz.DeclaringSyntaxReferences.First().SyntaxTree.GetMappedLineSpan(span);
-                                 AddViolation(klazz, new FileLinePositionSpan[] { pos });
+                                 AddViolation(klazz, new[] { pos });
                               }
                            }
                         }

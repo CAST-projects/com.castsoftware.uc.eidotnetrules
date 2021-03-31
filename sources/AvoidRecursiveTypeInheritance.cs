@@ -49,7 +49,7 @@ namespace CastDotNetExtension {
                               for (int i = 1; i < parts.Length - 1; ++i) {
                                  if (parts.ElementAt(i) == fullName) {
                                     var pos = context.Symbol.Locations.FirstOrDefault().GetMappedLineSpan();
-                                    AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
+                                    AddViolation(context.Symbol, new[] { pos });
                                     break;
                                  }
                               }

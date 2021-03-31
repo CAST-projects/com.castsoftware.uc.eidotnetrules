@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
 using CastDotNetExtension.Utils;
 using System.Collections.Concurrent;
 
@@ -26,11 +23,11 @@ namespace CastDotNetExtension
    )]
    public class EnsureSerializableTypesFollowBestPractices : AbstractRuleChecker
    {
-      private INamedTypeSymbol _SerializableAttr = null;
-      private INamedTypeSymbol _ISerializable = null;
-      private INamedTypeSymbol _SerializationInfo = null;
-      private INamedTypeSymbol _StreamingContext = null;
-      private INamedTypeSymbol _NonSerializedAttr = null;
+      private INamedTypeSymbol _SerializableAttr;
+      private INamedTypeSymbol _ISerializable;
+      private INamedTypeSymbol _SerializationInfo;
+      private INamedTypeSymbol _StreamingContext;
+      private INamedTypeSymbol _NonSerializedAttr;
 
       private ConcurrentDictionary<INamedTypeSymbol, Data> _symbolToData =
          new ConcurrentDictionary<INamedTypeSymbol, Data>();
@@ -169,11 +166,11 @@ namespace CastDotNetExtension
                }
 
                if (null != data.SerializableCtor && data.SerializableCtor.Item2) {
-                  AddViolation(data.SerializableCtor.Item1, new FileLinePositionSpan[] { data.SerializableCtor.Item1.GetImplemenationSyntax().GetLocation().GetMappedLineSpan()});
+                  AddViolation(data.SerializableCtor.Item1, new[] { data.SerializableCtor.Item1.GetImplemenationSyntax().GetLocation().GetMappedLineSpan()});
                }
 
                if (null != data.GetObjectData && data.GetObjectData.Item2) {
-                  AddViolation(data.SerializableCtor.Item1, new FileLinePositionSpan[] { data.GetObjectData.Item1.GetImplemenationSyntax().GetLocation().GetMappedLineSpan() });
+                  AddViolation(data.SerializableCtor.Item1, new[] { data.GetObjectData.Item1.GetImplemenationSyntax().GetLocation().GetMappedLineSpan() });
                }
 
                if (null != data.NonSerialiazbleFieldsNotMarked) {

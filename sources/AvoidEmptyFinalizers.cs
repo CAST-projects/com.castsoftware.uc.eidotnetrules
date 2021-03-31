@@ -43,7 +43,7 @@ namespace CastDotNetExtension {
                      if (!statements.Any()) {
                         var pos = context.ContainingSymbol.Locations.FirstOrDefault().GetMappedLineSpan();
                         //Log.Warn(context.ContainingSymbol.ContainingSymbol.Name + ": " + pos);
-                        AddViolation(context.ContainingSymbol, new FileLinePositionSpan [] {pos});
+                        AddViolation(context.ContainingSymbol, new[] {pos});
                      }
                   }
                }

@@ -55,7 +55,7 @@ namespace CastDotNetExtension {
 
                      foreach (IFieldSymbol field in targetFields) {
                         var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
-                        AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
+                        AddViolation(context.Symbol, new[] { pos });
                      }
                   }
                }

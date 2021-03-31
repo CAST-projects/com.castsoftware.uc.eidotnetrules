@@ -38,7 +38,7 @@ namespace CastDotNetExtension {
                   null != expr.Right && context.SemanticModel.GetTypeInfo(expr.Right).Type.Equals(booleanType)) {
                      var pos = expr.SyntaxTree.GetMappedLineSpan(expr.Span);
                      //Log.Warn(pos);
-                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                     AddViolation(context.ContainingSymbol, new[] { pos });
                   }
                }
             }

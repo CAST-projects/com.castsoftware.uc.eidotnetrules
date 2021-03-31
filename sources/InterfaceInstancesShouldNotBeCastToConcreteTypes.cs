@@ -69,7 +69,7 @@ namespace CastDotNetExtension {
                   if (TypeKind.Interface == fromType.TypeKind) {
                      if (TypeKind.Class == toType.TypeKind && !toType.IsAbstract || TypeKind.Struct == toType.TypeKind) {
                         //Log.Warn(pos.ToString());
-                        AddViolation(context, new FileLinePositionSpan[] { pos });
+                        AddViolation(context, new[] { pos });
                      }
                   }
                }

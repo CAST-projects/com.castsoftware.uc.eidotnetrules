@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.DotNet.Common;
-using System.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 using CastDotNetExtension.Utils;
 using log4net;
@@ -28,23 +22,23 @@ namespace CastDotNetExtension
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.RecursionShouldNotBeInfinite"
    )]
-   public class RecursionShouldNotBeInfinite : AbstractOperationsAnalyzer, IOpProcessor
+   public class RecursionShouldNotBeInfinite : AbstractOperationsAnalyzer
    {
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
-         return new SyntaxKind[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
+         return new[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
       }
 
       private class DefiniteCallDetector
       {
-         private IOperation _targetBlockOp;
-         private IMethodSymbol _targetMethod;
-         private List<IOperation> _ops = new List<IOperation>();
-         private List<ITryOperation> _tries = new List<ITryOperation>();
-         private List<ILoopOperation> _loops = new List<ILoopOperation>();
-         private INamedTypeSymbol _systemException;
-         private Stack<OperationKind> _breakables = new Stack<OperationKind>();
-         private ILog _log;
+         private readonly IOperation _targetBlockOp;
+         private readonly IMethodSymbol _targetMethod;
+         private readonly List<IOperation> _ops = new List<IOperation>();
+         private readonly List<ITryOperation> _tries = new List<ITryOperation>();
+         private readonly List<ILoopOperation> _loops = new List<ILoopOperation>();
+         private readonly INamedTypeSymbol _systemException;
+         private readonly Stack<OperationKind> _breakables = new Stack<OperationKind>();
+         private readonly ILog _log;
 
          private class DoneException : Exception
          {
@@ -95,10 +89,7 @@ namespace CastDotNetExtension
                         break;
                      }
                   case OperationKind.Return: {
-                        returnedOp = Detect(op, targetMethod, systemException);
-                        if (null == returnedOp) {
-                           returnedOp = op;
-                        }
+                        returnedOp = Detect(op, targetMethod, systemException) ?? op;
                         break;
                      }
                   case OperationKind.Throw: {
@@ -132,7 +123,6 @@ namespace CastDotNetExtension
                            }
                            if (null == returnedOp) {
                               returnedOp = op;
-                              break;
                            }
                         }
                         break;
@@ -154,20 +144,18 @@ namespace CastDotNetExtension
                                     if (3 != ifOp.Children.Count()) {
                                        hasElse = false;
                                        break;
-                                    } else {
-                                       ifOp = ifOp.Children.ElementAt(2);
-                                       if (null != ifOp && OperationKind.Conditional != ifOp.Kind) {
-                                          hasElse = true;
-                                          break;
-                                       }
+                                    } 
+                                    ifOp = ifOp.Children.ElementAt(2);
+                                    if (null != ifOp && OperationKind.Conditional != ifOp.Kind) {
+                                       break;
                                     }
+                                    
                                  } while (null != ifOp);
                               }
                            }
 
 
-                           int line = op.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
-                           var parentOpKinds = new HashSet<OperationKind> { OperationKind.Switch, OperationKind.Loop, OperationKind.Try };
+                           //int line = op.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
                            int lastCounterFoundCall = -1;
                            for (int i = 0; i < count; ++i) {
                               var child = op.Children.ElementAt(i);
@@ -249,7 +237,7 @@ namespace CastDotNetExtension
             }
          }
 
-         public IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException)
+         private IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException)
          {
             bool added = false;
             try {
@@ -272,22 +260,31 @@ namespace CastDotNetExtension
                   returnedOp = RouteAndDetect(op, targetMethod, systemException);
 
                   if (null != returnedOp) {
-                     if (OperationKind.Invocation == op.Kind || returnedOp != targetBlockOp) {
-                        if (OperationKind.Throw == returnedOp.Kind || OperationKind.Return == returnedOp.Kind) {
-                           throw new DoneException();
-                        } else if (OperationKind.Branch == returnedOp.Kind) {
-                           if (returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
-                              if (!((GotoStatementSyntax)returnedOp.Syntax).Expression.IsKind(SyntaxKind.IdentifierName)) {
-                                 returnedOp = null;
-                              } else {
-                                 continue;
+                     if (OperationKind.Invocation == op.Kind || returnedOp != targetBlockOp)
+                     {
+                        switch (returnedOp.Kind)
+                        {
+                           case OperationKind.Throw:
+                           case OperationKind.Return:
+                              throw new DoneException();
+                           case OperationKind.Branch:
+                           {
+                              if (returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
+                                 if (!((GotoStatementSyntax)returnedOp.Syntax).Expression.IsKind(SyntaxKind.IdentifierName)) {
+                                    returnedOp = null;
+                                 } else {
+                                    continue;
+                                 }
                               }
+
+                              break;
                            }
                         }
+
                         //Console.WriteLine("Breaking: Op Kind: {0} Syntax: {1}", _returnedOp.Kind, _returnedOp.Syntax);
                         break;
                      } else {
-                        _log.DebugFormat("Weird returned op: Kind: {0} Syntax: {1}", returnedOp.Kind, returnedOp.Syntax.ToString());
+                        _log.DebugFormat("Weird returned op: Kind: {0} Syntax: {1}", returnedOp.Kind, returnedOp.Syntax);
                      }
                   }
                }
@@ -321,14 +318,14 @@ namespace CastDotNetExtension
             Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>> recursiveOnes =
                new Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>>();
             Dictionary<IMethodSymbol, SyntaxNode> methodToSyntax = new Dictionary<IMethodSymbol, SyntaxNode>();
-            HashSet<IMethodSymbol> _noImplementationMethods = new HashSet<IMethodSymbol>();
+            HashSet<IMethodSymbol> noImplementationMethods = new HashSet<IMethodSymbol>();
             foreach (var semanticModelDetails in allProjectOps) {
                if (semanticModelDetails.Value.Any()) {
                   var invocationOps = semanticModelDetails.Value[OperationKind.Invocation];
                   foreach (var op in invocationOps) {
                      var invocationOp = op.Operation as IInvocationOperation;
                      if (!recursiveOnes.ContainsKey(invocationOp.TargetMethod)) {
-                        if (!_noImplementationMethods.Contains(invocationOp.TargetMethod)) {
+                        if (!noImplementationMethods.Contains(invocationOp.TargetMethod)) {
                            SyntaxNode syntax = null;
                            if (!methodToSyntax.TryGetValue(invocationOp.TargetMethod, out syntax)) {
                               methodToSyntax[invocationOp.TargetMethod] = syntax = invocationOp.TargetMethod.GetImplemenationSyntax();
@@ -343,7 +340,7 @@ namespace CastDotNetExtension
                                  }
                               }
                            } else {
-                              _noImplementationMethods.Add(invocationOp.TargetMethod);
+                              noImplementationMethods.Add(invocationOp.TargetMethod);
                            }
                         }
                      }
@@ -367,7 +364,7 @@ namespace CastDotNetExtension
                         var syntax = recursiveOne.Value.Item1.TargetMethod.GetImplemenationSyntax();
                         if (null != syntax) {
                            //Console.WriteLine("Adding Violation: " + recursiveOne.Value.Item1.TargetMethod.Name);
-                           AddViolation(recursiveOne.Value.Item1.TargetMethod, new FileLinePositionSpan[] { syntax.GetLocation().GetMappedLineSpan()});
+                           AddViolation(recursiveOne.Value.Item1.TargetMethod, new[] { syntax.GetLocation().GetMappedLineSpan()});
                         }
                      }
                   }

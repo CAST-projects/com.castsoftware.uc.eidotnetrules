@@ -6,12 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using CastDotNetExtension.Utils;
 using Roslyn.DotNet.CastDotNetExtension;
-using Roslyn.Utilities;
-using System.Threading;
-using System.Collections.Immutable;
 
 
 namespace CastDotNetExtension {
@@ -25,19 +21,19 @@ namespace CastDotNetExtension {
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.AvoidCreatingNewInstanceOfSharedInstance"
    )]
-   public class AvoidCreatingNewInstanceOfSharedInstance : AbstractOperationsAnalyzer, IOpProcessor
+   public class AvoidCreatingNewInstanceOfSharedInstance : AbstractOperationsAnalyzer
    {
 
-      private INamedTypeSymbol _partCreationPolicyAttribute = null;
-      private INamedTypeSymbol _creationPolicy = null;
-      private IFieldSymbol _shared = null;
-      private INamedTypeSymbol _serviceContainer = null;
-      private HashSet<IMethodSymbol> _addServiceMethods = null;
+      private INamedTypeSymbol _partCreationPolicyAttribute;
+      private INamedTypeSymbol _creationPolicy;
+      private IFieldSymbol _shared;
+      private INamedTypeSymbol _serviceContainer;
+      private HashSet<IMethodSymbol> _addServiceMethods;
 
-      private ConcurrentDictionary<ITypeSymbol, bool> _typeToShared =
+      private readonly ConcurrentDictionary<ITypeSymbol, bool> _typeToShared =
          new ConcurrentDictionary<ITypeSymbol, bool>();
 
-      private static readonly SyntaxKind[] SyntaxKinds = new SyntaxKind[] {
+      private static readonly SyntaxKind[] SyntaxKinds = new[] {
                SyntaxKind.InvocationExpression,
                SyntaxKind.ObjectCreationExpression,
             };
@@ -104,21 +100,15 @@ namespace CastDotNetExtension {
 
             if (sharedObjCreationOps.Any()) {
                HashSet<ISymbol> refs = new HashSet<ISymbol>();
-               List<OperationDetails> addServiceOps = new List<OperationDetails>();
                foreach (var invocationDetails in ops[OperationKind.Invocation]) {
                   var iInvocation = invocationDetails.Operation as IInvocationOperation;
                   if (_addServiceMethods.Contains(iInvocation.TargetMethod)) {
-                     addServiceOps.Add(invocationDetails);
-                     var secondArgument = ((IArgumentOperation)iInvocation.Arguments.ElementAt(1));
+                     var secondArgument = iInvocation.Arguments.ElementAt(1);
                      if (0 == sharedObjCreationOps.RemoveWhere(s => secondArgument.Syntax.Contains(s.Operation.Syntax))) {
                         if (sharedObjCreationOps.Any()) {
                            foreach (var op in secondArgument.Descendants()) {
                               ISymbol iSymbol = null;
-                              if (OperationKind.Conversion == op.Kind) {
-                                 iSymbol = op.Children.ElementAt(0).GetReferenceTarget();
-                              } else {
-                                 iSymbol = op.GetReferenceTarget();
-                              }
+                              iSymbol = OperationKind.Conversion == op.Kind ? op.Children.ElementAt(0).GetReferenceTarget() : op.GetReferenceTarget();
                               if (null != iSymbol) {
                                  refs.Add(iSymbol);
                               }
@@ -153,7 +143,7 @@ namespace CastDotNetExtension {
                   });
 
                   foreach (var violationDetails in violations) {
-                     AddViolation(violationDetails.Key, new FileLinePositionSpan [] { violationDetails.Value.Syntax.GetLocation().GetMappedLineSpan()});
+                     AddViolation(violationDetails.Key, new[] { violationDetails.Value.Syntax.GetLocation().GetMappedLineSpan()});
                   }
                }
 

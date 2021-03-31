@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -45,7 +44,7 @@ namespace CastDotNetExtension {
                context.Compilation.GetTypeByMetadataName("System.Reflection.Assembly"), MethodNames, false, 8);
 
          if (methodSymbols.Contains(invocation.TargetMethod)) {
-            AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
+            AddViolation(context.ContainingSymbol, new[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
          }
       }
    }

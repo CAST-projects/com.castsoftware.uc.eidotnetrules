@@ -2,11 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -73,7 +70,7 @@ namespace CastDotNetExtension
       public AbstractOperationsAnalyzer()
       {
          SubscriberSink.Instance.Log = Log;
-         Log.DebugFormat("Registering {0}", this.GetRuleName());
+         Log.DebugFormat("Registering {0}", GetRuleName());
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
@@ -163,7 +160,7 @@ namespace CastDotNetExtension
                      _opKinds.Add(OperationKind.Throw);
                      break;
                   case SyntaxKind.ObjectCreationExpression:
-                     _opKinds.UnionWith(new OperationKind[] {                                                          
+                     _opKinds.UnionWith(new[] {                                                          
                            OperationKind.ObjectCreation, 
                            OperationKind.DynamicObjectCreation, 
                            //OperationKind.Invalid, 
@@ -171,7 +168,7 @@ namespace CastDotNetExtension
                            OperationKind.TypeParameterObjectCreation});
                      break;
                   case SyntaxKind.InvocationExpression:
-                     _opKinds.UnionWith(new OperationKind[] {
+                     _opKinds.UnionWith(new[] {
                            OperationKind.Invocation, 
                            OperationKind.DynamicInvocation,
                            OperationKind.NameOf,
@@ -200,7 +197,8 @@ namespace CastDotNetExtension
                         List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>> tasks =
                            new List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>>();
                         foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
-                           var task = Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>.Run(() => SetViolationsAsync(context.Compilation.GetSemanticModel(syntaxTree)));
+                           var tree = syntaxTree;
+                           var task = Task.Run(() => SetViolationsAsync(context.Compilation.GetSemanticModel(tree)));
                            tasks.Add(task);
                         }
 
@@ -258,9 +256,11 @@ namespace CastDotNetExtension
 
                foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
 
-                  if (_kinds.Contains(node.Kind())) {
+                  if (_kinds.Contains(node.Kind()))
+                  {
+                     var node1 = node;
                      opTasks.Add(Task.Run(() => {
-                        IOperation operation = semanticModel.GetOperation(node);
+                        IOperation operation = semanticModel.GetOperation(node1);
                         //actually, following condition should be:
                         //if(null != operation && (OperationKind.Invalid != operation.Kind || _opKinds.Contains(OperationKind.Invalid)))
                         //But, we don't need Invalid nodes right now. And it would cost _some time_..
@@ -289,9 +289,11 @@ namespace CastDotNetExtension
                      }
 
                      foreach (var opsProcessor in OpsProcessors) {
-                        if (opsProcessor.IsActive) {
+                        if (opsProcessor.IsActive)
+                        {
+                           var processor = opsProcessor;
                            opTasks.Add(Task.Run(() =>
-                           opsProcessor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true)
+                           processor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true)
                            ))
                            ;
                         }

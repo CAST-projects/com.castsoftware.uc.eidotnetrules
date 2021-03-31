@@ -43,7 +43,7 @@ namespace CastDotNetExtension {
          "string.ToUpper()",                                                     
       };
 
-      private HashSet<IMethodSymbol> _methodSymbols = null;
+      private HashSet<IMethodSymbol> _methodSymbols;
       private HashSet<INamedTypeSymbol> _cultureArgTypes = new HashSet<INamedTypeSymbol>();
 
       /// <summary>
@@ -65,7 +65,7 @@ namespace CastDotNetExtension {
                   if (null != method) {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
-                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                     AddViolation(context.ContainingSymbol, new[] { pos });
                   }
                }
             }
@@ -74,7 +74,7 @@ namespace CastDotNetExtension {
             }
       }
 
-      private IAssemblySymbol _mscorlib = null;
+      private IAssemblySymbol _mscorlib;
 
       private void Init(Compilation compilation) {
          lock (_lock) {

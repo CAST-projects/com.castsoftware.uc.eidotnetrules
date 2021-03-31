@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Roslyn.DotNet.CastDotNetExtension;
 using Microsoft.CodeAnalysis.Operations;
@@ -48,7 +46,7 @@ namespace CastDotNetExtension {
                   null == invocation.Arguments.ElementAt(1).Value.ConstantValue.Value;
 
                if ((!eventReference.Member.IsStatic && arg0null) || arg1null) {
-                  AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
+                  AddViolation(context.ContainingSymbol, new[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
                }
             }
          } catch (Exception e) {

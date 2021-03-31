@@ -40,7 +40,7 @@ namespace CastDotNetExtension {
                      bool isAsync = typeFullName.StartsWith("System.Threading.Tasks.Task"); //method.IsAsync <=== is always false
                      if (isAsync != method.Name.EndsWith("Async")) {
                         var pos = method.Locations.FirstOrDefault().GetMappedLineSpan();
-                        AddViolation(method, new FileLinePositionSpan[] { pos });
+                        AddViolation(method, new[] { pos });
                      }
                   }
                }

@@ -107,7 +107,7 @@ namespace CastDotNetExtension
                   foreach (var violatingSyntaxNode in violatingSyntaxNodes) {
                      var pos = violatingSyntaxNode.GetLocation().GetMappedLineSpan();
                      //Console.WriteLine(context.ContainingSymbol + ": " + pos);
-                     AddViolation(context.ContainingSymbol, new FileLinePositionSpan[] { pos });
+                     AddViolation(context.ContainingSymbol, new[] { pos });
                   }
                }
 

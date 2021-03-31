@@ -34,7 +34,7 @@ namespace CastDotNetExtension
 
       private class FinallyCatchBlocksMatcher : CSharpSyntaxWalker
       {
-         private int _nestingLevel = 0;
+         private int _nestingLevel;
          private Dictionary<int, SyntaxNode> TryStatementsWithNestingLevel { get; set; }
          public Dictionary<SyntaxNode, List<SyntaxNode>> TryStatementsWithEquivalentCatchFinallyBlocks { get; private set; }
 
@@ -138,7 +138,7 @@ namespace CastDotNetExtension
                            firstTry.GetLocation().GetLineSpan().StartLinePosition,
                            endBlock.GetLocation().GetLineSpan().EndLinePosition);
                         //Console.WriteLine(context.Symbol + ": " + pos);
-                        AddViolation(context.Symbol, new FileLinePositionSpan[] { pos });
+                        AddViolation(context.Symbol, new[] { pos });
 
                      }
                   }
