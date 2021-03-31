@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
+using CastDotNetExtension;
 
-namespace CastDotNetExtension.UnitTest
+namespace UnitTests.UnitTest
 {
     [TestFixture]
-    class TemplateQualityRuleTests
+    class TestAvoidClassesWithTooManyConstructors
     {
         [Test]
         public void TestMethod1()
