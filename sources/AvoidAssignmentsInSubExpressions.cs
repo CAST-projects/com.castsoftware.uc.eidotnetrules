@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 using Roslyn.DotNet.CastDotNetExtension;
 
 
@@ -67,19 +68,34 @@ namespace CastDotNetExtension
          /*lock (_lock)*/ {
             try {
                IEnumerable<SyntaxNode> expressions = new List<ExpressionSyntax>();
-               if (context.Node is IfStatementSyntax) {
-                  var exprToCheck = (context.Node as IfStatementSyntax).Condition;
-                  AddIfAssignment(exprToCheck, ref expressions);
-               } else if (context.Node is SwitchStatementSyntax) {
-                  var exprToCheck = (context.Node as SwitchStatementSyntax).Expression;
-                  AddIfAssignment(exprToCheck, ref expressions);
-               } else if (context.Node is InvocationExpressionSyntax) {
-                  var invocation = context.Node as InvocationExpressionSyntax;
-                  AddIfHasAssignmentsInArguments(invocation.ArgumentList, ref expressions);
-               } else if (context.Node is ObjectCreationExpressionSyntax) {
-                  var objCreation = context.Node as ObjectCreationExpressionSyntax;
-                  AddIfHasAssignmentsInArguments(objCreation.ArgumentList, ref expressions);
+               switch (context.Node.Kind())
+               {
+                  case SyntaxKind.IfStatement:
+                  {
+                     var exprToCheck = (context.Node as IfStatementSyntax).Condition;
+                     AddIfAssignment(exprToCheck, ref expressions);
+                     break;
+                  }
+                  case SyntaxKind.SwitchStatement:
+                  {
+                     var exprToCheck = (context.Node as SwitchStatementSyntax).Expression;
+                     AddIfAssignment(exprToCheck, ref expressions);
+                     break;
+                  }
+                  case SyntaxKind.InvocationExpression:
+                  {
+                     var invocation = context.Node as InvocationExpressionSyntax;
+                     AddIfHasAssignmentsInArguments(invocation.ArgumentList, ref expressions);
+                     break;
+                  }
+                  case SyntaxKind.ObjectCreationExpression:
+                  {
+                     var objCreation = context.Node as ObjectCreationExpressionSyntax;
+                     AddIfHasAssignmentsInArguments(objCreation.ArgumentList, ref expressions);
+                     break;
+                  }
                }
+
                if (expressions.Any()) {
                   foreach (var expr in expressions) {
                      var pos = expr.GetLocation().GetMappedLineSpan();
