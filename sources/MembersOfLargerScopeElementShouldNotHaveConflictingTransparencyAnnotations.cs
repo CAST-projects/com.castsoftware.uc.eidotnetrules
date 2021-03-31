@@ -22,7 +22,7 @@ namespace CastDotNetExtension
    )]
    public class MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations : AbstractRuleChecker
    {
-      private static readonly string[] SECURITY_ATTRIBUTE_CLASSES = new[] {
+      private static readonly string[] SECURITY_ATTRIBUTE_CLASSES = {
          "System.Security.SecurityCriticalAttribute",
          "System.Security.SecurityRulesAttribute",
          "System.Security.SecuritySafeCriticalAttribute",
@@ -35,8 +35,8 @@ namespace CastDotNetExtension
       public class AllSymbolsSecurityAttrVisitor : SymbolVisitor
       {
 
-         private HashSet<INamedTypeSymbol> _securityAttributeSymbols = new HashSet<INamedTypeSymbol>();
-         private Dictionary<ISymbol, List<AttributeData>> _allSecurityAttrsSoFar = new Dictionary<ISymbol, List<AttributeData>>();
+         private readonly HashSet<INamedTypeSymbol> _securityAttributeSymbols;
+         private readonly Dictionary<ISymbol, List<AttributeData>> _allSecurityAttrsSoFar = new Dictionary<ISymbol, List<AttributeData>>();
          public Dictionary<ISymbol, Tuple<AttributeData, AttributeData>> Violations { get; private set; }
 
          private enum ProcessInstruction
