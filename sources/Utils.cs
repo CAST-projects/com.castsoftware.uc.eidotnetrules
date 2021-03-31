@@ -214,13 +214,17 @@ namespace CastDotNetExtension.Utils {
       public static BooleanLiteralCondition GetBooleanLiteralCondition(this IOperation op)
       {
          BooleanLiteralCondition literalCondition = BooleanLiteralCondition.None;
-         if (null != op && OperationKind.Literal == op.Kind) {
-
+         if (null != op && OperationKind.Literal == op.Kind)
+         {
             var literal = op.ConstantValue.Value.ToString();
-            if ("True" == literal) {
-               literalCondition = BooleanLiteralCondition.AlwaysTrue;
-            } else if ("False" == literal) {
-               literalCondition = BooleanLiteralCondition.AlwaysFalse;
+            switch (literal)
+            {
+               case "True":
+                  literalCondition = BooleanLiteralCondition.AlwaysTrue;
+                  break;
+               case "False":
+                  literalCondition = BooleanLiteralCondition.AlwaysFalse;
+                  break;
             }
          }
          return literalCondition;
