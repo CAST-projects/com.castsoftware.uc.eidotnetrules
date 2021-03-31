@@ -39,7 +39,7 @@ namespace CastDotNetExtension {
          context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
       }
 
-      private static bool isNewedMethod(IMethodSymbol method)
+      private static bool IsNewedMethod(IMethodSymbol method)
       {
          var methodDeclaration = method.DeclaringSyntaxReferences.FirstOrDefault();
          bool newedMethod = false;
@@ -83,7 +83,7 @@ namespace CastDotNetExtension {
                   var method = member as IMethodSymbol;
                   if (null != method && !method.IsVirtual && !method.IsOverride) {
                      string signature = GetMethodSignature(method);
-                     if (null != signature && !isNewedMethod(method)) {
+                     if (null != signature && !IsNewedMethod(method)) {
                         methods[signature] = method;
                      }
                   }
