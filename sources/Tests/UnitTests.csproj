@@ -99,6 +99,7 @@
       <DependentUpon>SourcesToTest.resx</DependentUpon>
     </Compile>
     <Compile Include="TestAvoidAssignmentsInSubExpressions.cs" />
+    <Compile Include="TestAvoidClassesWithTooManyConstructors.cs" />
     <Compile Include="TestAvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="TestMergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements.cs" />
     <Compile Include="TestMutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic.cs" />
     <Compile Include="TestRecursionShouldNotBeInfinite.cs" />
-    <Compile Include="TestsAvoidClassesWithTooManyConstructors.cs" />
     <None Include="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
     <None Include="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <None Include="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
