@@ -76,7 +76,7 @@ namespace CastDotNetExtension
 
       private class SubscriberSink
       {
-         public ILog Log;
+         public ILog Log { get; set; }
 
          private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
 
