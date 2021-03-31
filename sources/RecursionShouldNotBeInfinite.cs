@@ -24,15 +24,12 @@ namespace CastDotNetExtension
        Id = "EI_RecursionShouldNotBeInfinite",
        Title = "Recursion should not be infinite",
        MessageFormat = "Recursion should not be infinite",
-       Category = "TODO: Add Category",
+       Category = "Complexity - Algorithmic and Control Structure Complexity",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.RecursionShouldNotBeInfinite"
    )]
    public class RecursionShouldNotBeInfinite : AbstractOperationsAnalyzer, IOpProcessor
    {
-      public RecursionShouldNotBeInfinite() {
-      }
-
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
          return new SyntaxKind[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
