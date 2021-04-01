@@ -136,5 +136,23 @@ namespace UnitTests.UnitTest.Sources
       {
          protected NoGetObjectDataOK2(SerializationInfo info, StreamingContext context) : base(info, context) { }
       }
+
+      [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+      [Serializable]
+      public /*sealed*/ class AliasRepositoryAttribute : Attribute
+      {
+         public AliasRepositoryAttribute(string name)
+         {
+            Name = name;
+         }
+
+         public string Name
+         {
+            get { return m_name; }
+            set { m_name = value; }
+         }
+
+         private string m_name = null;
+      }   
    }
 }

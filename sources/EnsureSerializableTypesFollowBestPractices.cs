@@ -29,7 +29,7 @@ namespace CastDotNetExtension
       private INamedTypeSymbol _StreamingContext;
       private INamedTypeSymbol _NonSerializedAttr;
 
-      private ConcurrentDictionary<INamedTypeSymbol, Data> _symbolToData =
+      private readonly ConcurrentDictionary<INamedTypeSymbol, Data> _symbolToData =
          new ConcurrentDictionary<INamedTypeSymbol, Data>();
 
          
@@ -64,16 +64,15 @@ namespace CastDotNetExtension
 
       private class Data
       {
-         public static readonly string GetObjectDataStr = "GetObjectData";
+         private const string GetObjectDataStr = "GetObjectData";
          public bool ImplementsISerializable { get; private set; }
          public bool HasSerializableAttribute { get; private set; }
          public bool HasSerializableFields { get; private set; }
          public bool BaseImplementsISerializable { get; private set; }
          public bool Violationable /*new word in english language */ { get; private set; }
-         public FileLinePositionSpan Position { get; private set; }
          public Tuple<IMethodSymbol, bool> SerializableCtor { get; private set; }
          public Tuple<IMethodSymbol, bool> GetObjectData { get; private set; }
-         public List<IFieldSymbol> NonSerialiazbleFieldsNotMarked { get; private set; }
+         public List<IFieldSymbol> NonSerializableFieldsNotMarked { get; private set; }
 
          public Data(INamedTypeSymbol type,
             INamedTypeSymbol iSerializable,
@@ -83,10 +82,10 @@ namespace CastDotNetExtension
          {
 
             HasSerializableAttribute = type.IsSerializable;
-            ImplementsISerializable = type.Interfaces.Contains(iSerializable);
+            ImplementsISerializable = type.AllInterfaces.Contains(iSerializable);
             HasSerializableFields = false;
 
-            if (HasSerializableAttribute || ImplementsISerializable) {
+            if (ImplementsISerializable) {
                Violationable = true;
                Dictionary<string, IFieldSymbol> fields = new Dictionary<string, IFieldSymbol>();
                var members = type.GetMembers();
@@ -126,7 +125,7 @@ namespace CastDotNetExtension
                            fields.Remove(identifierSyntax.Identifier.ValueText);
                         }
                      }
-                     NonSerialiazbleFieldsNotMarked = fields.Values.ToList();
+                     NonSerializableFieldsNotMarked = fields.Values.ToList();
                   }
 
                   if (!callsBaseGetObjectData) {
@@ -152,7 +151,7 @@ namespace CastDotNetExtension
          try {
 
             var data =
-               _symbolToData.GetOrAdd(context.Symbol as INamedTypeSymbol, (key) => new Data(key, _ISerializable, _SerializationInfo, _StreamingContext, _NonSerializedAttr));
+               _symbolToData.GetOrAdd(context.Symbol as INamedTypeSymbol, key => new Data(key, _ISerializable, _SerializationInfo, _StreamingContext, _NonSerializedAttr));
 
             if (data.Violationable) {
 
@@ -173,9 +172,9 @@ namespace CastDotNetExtension
                   AddViolation(data.SerializableCtor.Item1, new[] { data.GetObjectData.Item1.GetImplemenationSyntax().GetLocation().GetMappedLineSpan() });
                }
 
-               if (null != data.NonSerialiazbleFieldsNotMarked) {
+               if (null != data.NonSerializableFieldsNotMarked) {
                   
-                  foreach (var field in data.NonSerialiazbleFieldsNotMarked) {
+                  foreach (var field in data.NonSerializableFieldsNotMarked) {
                      List<FileLinePositionSpan> positions = new List<FileLinePositionSpan>();
                      foreach (var synRef in field.DeclaringSyntaxReferences) {
                         positions.Add(synRef.GetSyntax().GetLocation().GetMappedLineSpan());
@@ -186,7 +185,7 @@ namespace CastDotNetExtension
             }
 
          } catch (Exception e) {
-            Log.Warn("Exception while analyzing " + context.Symbol.OriginalDefinition.ToString(), e);
+            Log.Warn("Exception while analyzing " + context.Symbol.OriginalDefinition, e);
          }
       }
    }
