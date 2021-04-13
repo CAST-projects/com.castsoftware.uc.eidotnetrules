@@ -15,7 +15,7 @@ for %%a in (%0) do set TOOLNAME=%%~na
 set CMDPATH=%0
 set RETCODE=1
 
-set NOPUB=false
+set NOPUB=true
 for %%a in (WKSP SRCDIR RESDIR BUILDNO) do set %%a=
 :LOOP_ARG
     set option=%1
@@ -189,7 +189,7 @@ if errorlevel 1 (
 :: ========================================================================================
 :: Nuget checking
 :: ========================================================================================
-set CMD=%GROOVYEXE% %BUILDDIR%\nuget_package_verification.groovy --packpath=%PACKPATH%
+set CMD=%GROOVYEXE% %BUILDDIR%\nuget_package_verification.groovy -i --packpath=%PACKPATH%
 echo Executing command:
 echo %CMD%
 call %CMD%
