@@ -111,8 +111,7 @@ namespace UnitTests.Properties {
         ///        }
         ///
         ///        public AvoidClassesWithTooManyConstructors_QualUatExample(string maChaine)
-        ///        {
-        ///         [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidClassesWithTooManyConstructors_QualUatExample {
             get {
@@ -244,8 +243,7 @@ namespace UnitTests.Properties {
         ///            }
         ///         }
         ///
-        ///         void DontShadow_aMemberOK() {
-        ///             [rest of string was truncated]&quot;;.
+        ///         void DontShadow_aMemb [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidLocalVariablesShadowingClassFields_Source {
             get {
@@ -275,8 +273,7 @@ namespace UnitTests.Properties {
         ///            }
         ///         }
         ///
-        ///         void DontShadow_aMemberOK() {
-        ///             [rest of string was truncated]&quot;;.
+        ///         void DontShadow_aMemb [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidLocalVariablesShadowingClassFields_Source1 {
             get {
@@ -306,6 +303,37 @@ namespace UnitTests.Properties {
         internal static string AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source {
             get {
                 return ResourceManager.GetString("AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidNullPointerDereference_Source
+        ///    {
+        ///        object foo2 = null;
+        ///        object foo3;
+        ///        void f()
+        ///        {
+        ///            object foo = null;
+        ///            int i = 0;
+        ///            if (i &gt; 0)
+        ///            {
+        ///                foo.ToString(); // VIOLATION IT IS NULL
+        ///            }
+        ///            else
+        ///            {
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidNullPointerDereference_Source {
+            get {
+                return ResourceManager.GetString("AvoidNullPointerDereference_Source", resourceCulture);
             }
         }
         

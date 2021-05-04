@@ -10,9 +10,9 @@
   <metric id="61024" type="technical-criterion" originalName="Programming Practices - Structuredness" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61026" type="technical-criterion" originalName="Complexity - Technical Complexity" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="66063" type="technical-criterion" originalName="Secure Coding - API Abuse" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
-  <metric id="66063" type="technical-criterion" originalName="Secure Coding - API Abuse" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" active="true" detached="false" ignored="false" />
   <metric id="2200002" type="quality-rule" originalName="Child class fields should not shadow parent class fields" active="true" detached="false" ignored="false" />
   <metric id="2200004" type="quality-rule" originalName="Inherited member visibility should not be decreased" active="true" detached="false" ignored="false" />
@@ -38,4 +38,5 @@
   <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" active="true" detached="false" ignored="false" />
   <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" active="true" detached="false" ignored="false" />
   <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" active="true" detached="false" ignored="false" />
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" active="true" detached="false" ignored="false" />
 </root>

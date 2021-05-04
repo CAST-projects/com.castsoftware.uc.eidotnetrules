@@ -25,4 +25,5 @@
   <metric id="2200044" type="quality-rule" originalName="Recursion should not be infinite" filter="138383" filterLabel="C#" />
   <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" filter="138383" filterLabel="C#" />
   <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" filter="138383" filterLabel="C#" />
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" filter="138383" filterLabel="C#" />
 </root>

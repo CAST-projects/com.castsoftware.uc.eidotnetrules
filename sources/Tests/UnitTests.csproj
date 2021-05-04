@@ -105,6 +105,7 @@
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
+    <Compile Include="TestAvoidNullPointerDereference.cs" />
     <Compile Include="TestAvoidRecursiveTypeInheritance.cs" />
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
@@ -129,6 +130,7 @@
     <None Include="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <None Include="TestSources\AvoidNullPointerDereference_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
