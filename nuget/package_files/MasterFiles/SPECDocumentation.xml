@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <metric id="66063" type="technical-criterion" originalName="Secure Coding - API Abuse" section="name">
-    <english>Secure Coding - API Abuse</english>
-  </metric>
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -1381,5 +1378,63 @@ namespace TransparencyWarningsDemo
   </metric>
   <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" section="total">
     <english>Number of Artifacts</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="description">
+    <english>This rule will check if any object set as NULL is used inside a method/function.
+Limitation to object set as NULL inside the method/function.</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="name">
+    <english>Avoid NULL Pointer Dereference</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="rationale">
+    <english>A NULL pointer dereference occurs when the application dereferences a pointer that it expects to be valid, but is NULL, typically causing a crash or exit.</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="reference">
+    <english>https://cwe.mitre.org/data/definitions/476.html</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="remediation">
+    <english>Always check the object is not null before using it or it is not used in a try block.</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="remediationSample">
+    <english>object foo = null;
+
+if ( i &gt; 0)
+{
+   if(foo != null)
+   {
+     M1(foo.ToString()); // NO VIOLATION
+   }
+}
+else
+{
+  foo = new object();
+}
+
+M2(foo.ToString());</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="sample">
+    <english>object foo = null;
+
+if ( i &gt; 0)
+{
+  M1(foo.ToString()); // VIOLATION IT IS NULL
+}
+else
+{
+  foo = new object();
+}
+
+M2(foo.ToString());</english>
+  </metric>
+  <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="total">
+    <english>Number of methods</english>
   </metric>
 </root>
