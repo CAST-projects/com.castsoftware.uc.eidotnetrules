@@ -316,6 +316,50 @@ namespace UnitTests.UnitTest.Sources
             }
         }
 
+        int func3(int val)
+        {
+            val = val*2;
+            return val;
+        }
+        // test for unresolved symbol Klass
+        void f24(Klass klass)
+        {
+            if(klass.dict != null)
+            {
+                if(klass.dict.ContainsKey("toto"))
+                {
+                    func3(klass.dict["toto"]);
+                }
+            }
+        }
+
+        void f25()
+        {
+            object foo = null;
+            int i = 0;
+            List<int> list = new List<int>() {1,2,3,4};
+            foreach (var j in list)
+            {
+                if (i == 0)
+                {
+                    while (i > 0)
+                    {
+                        foo = null;
+                        foo = new object();
+                        if (j > 2)
+                        {
+                            foreach (var k in list)
+                            {
+                                foo = new object();
+                                foo.ToString(); //NO VIOLATION 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         //public string formatedAccount;
         //public string maskedFormatedAccount;
         //public bool SetAccount(string country, string account)

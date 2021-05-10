@@ -46,8 +46,10 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
+                    
                     Scope methodScope = new Scope(node, this);
                     methodScope.AnalyzeScope();
+
                 }
                 catch (Exception e)
                 {
@@ -56,18 +58,18 @@ namespace CastDotNetExtension
             }
         }
 
+        public class KeyValuePairOfScopeComparer : IEqualityComparer<KeyValuePair<ISymbol, bool>>
+       {
+            public bool Equals(KeyValuePair<ISymbol, bool> x, KeyValuePair<ISymbol, bool> y)
+            {
+                return x.Key.Equals(y.Key);
+            }
 
-        public enum ScopeType
-        {
-            MethodeScope,
-            ConditionalScope,
-            SwitchScope,
-            ForScope,
-            ForeachScope,
-            WhileScope,
-            DoWhileScope,
-            BlockALoneScope
-        };
+            public int GetHashCode(KeyValuePair<ISymbol, bool> x)
+            {
+                return x.GetHashCode();
+            }
+       }
 
         public class Scope
         {
@@ -93,8 +95,10 @@ namespace CastDotNetExtension
                 _scopeNode = node;
                 _parentScope = parentScope;
                 _checker = parentScope._checker;
-                _varSetAtNullInAncestorScopes = _parentScope._varSetAtNullInAncestorScopes.Concat(parentScope._varSetAtNullInScope)
-                                                                .ToDictionary(x => x.Key, x => x.Value);
+                _varSetAtNullInAncestorScopes = _parentScope._varSetAtNullInAncestorScopes
+                                                    .Concat(parentScope._varSetAtNullInScope)
+                                                    .Distinct(new KeyValuePairOfScopeComparer())
+                                                    .ToDictionary(x => x.Key, x => x.Value);
             }
 
             private Scope AddChildScope(SyntaxNode childNode)
@@ -124,13 +128,15 @@ namespace CastDotNetExtension
                             {
                                 var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Left);
                                 var equalSymb = symbInf.Symbol;
-                                _conditionVar[equalSymb] = !elseBlock;
+                                if (equalSymb != null)
+                                    _conditionVar[equalSymb] = !elseBlock;
                             }
                             else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
                             {
                                 var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Right);
                                 var equalSymb = symbInf.Symbol;
-                                _conditionVar[equalSymb] = !elseBlock;
+                                if(equalSymb!=null)
+                                    _conditionVar[equalSymb] = !elseBlock;
                             }
                         }
                         break;
@@ -142,13 +148,15 @@ namespace CastDotNetExtension
                             {
                                 var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Left);
                                 var inequalSymb = symbInf.Symbol;
-                                _conditionVar[inequalSymb] = elseBlock;
+                                if (inequalSymb != null)
+                                    _conditionVar[inequalSymb] = elseBlock;
                             }
                             else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
                             {
                                 var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Right);
                                 var inequalSymb = symbInf.Symbol;
-                                _conditionVar[inequalSymb] = elseBlock;
+                                if (inequalSymb != null)
+                                    _conditionVar[inequalSymb] = elseBlock;
                             }
                         }
                         break;
