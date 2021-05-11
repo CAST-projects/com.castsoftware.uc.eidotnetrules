@@ -359,6 +359,33 @@ namespace UnitTests.UnitTest.Sources
             }
         }
 
+        void f26()
+        {
+            foo3 = null;
+            if (!string.IsNullOrEmpty(foo3?.ToString()))
+            {
+                foo3.ToString();
+            }
+        }
+
+        public class StateObject<T>
+        {
+            public T Value { get; set; }
+            public T att;
+        }
+        public StateObject<string> strvar { get; set; }
+        public StateObject<string> toto { get; set; }
+        void func4(string msg) { }
+        void f27()
+        {
+            toto.Value = null;
+            func4(strvar.Value);
+            strvar.Value.ToString();
+
+            toto.att = null;
+            strvar.att.ToString();
+        }
+
 
         //public string formatedAccount;
         //public string maskedFormatedAccount;

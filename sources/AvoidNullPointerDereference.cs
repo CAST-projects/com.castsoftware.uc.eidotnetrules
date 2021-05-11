@@ -46,15 +46,111 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    
-                    Scope methodScope = new Scope(node, this);
-                    methodScope.AnalyzeScope();
+                    //if (node.Identifier.ValueText == "f14")
+                    {
+                        Scope methodScope = new Scope(node, this);
+                        methodScope.AnalyzeScope();
+                    }
 
                 }
                 catch (Exception e)
                 {
                     Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
                 }
+            }
+        }
+
+
+        public class SymbolList : IEquatable<SymbolList>
+        {
+            public List<ISymbol> symbols;
+
+            public SymbolList()
+            {
+                symbols = new List<ISymbol>();
+            }
+
+            public SymbolList(ISymbol symbol)
+            {
+                symbols = new List<ISymbol>() { symbol };
+            }
+
+            public SymbolList(List<ISymbol> symbolsList)
+            {
+                symbols = symbolsList;
+            }
+
+            public void Add(ISymbol symbol)
+            {
+                symbols.Add(symbol);
+            }
+
+            public void AddRange(SymbolList listSymbols)
+            {
+                symbols.AddRange(listSymbols.symbols);
+            }
+
+            public bool Equals(SymbolList symbList)
+            {
+                //Check for null and compare run-time types.
+                if ((symbList == null) || !this.GetType().Equals(symbList.GetType()))
+                {
+                    return false;
+                }
+                else if(symbols.Count != symbList.symbols.Count)
+                {
+                    return false;                 
+                }
+                else
+                {
+                    for(int index=0;index<symbols.Count;index++)
+                    {
+                        if(!symbols[index].Equals(symbList.symbols[index]))
+                            return false;
+                    }
+                    return true;
+                }
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 0;
+                if(symbols.Count>0)
+                {
+                    hashCode = symbols[0].GetHashCode();
+                    for(int index=1;index<symbols.Count;index++)
+                    {
+                        hashCode = hashCode ^ symbols[index].GetHashCode();
+                    }
+                }
+                return hashCode;
+            }
+           
+        }
+
+        public class KeyValuePairOfSymbolListComparer : IEqualityComparer<KeyValuePair<SymbolList, bool>>
+        {
+            public bool Equals(KeyValuePair<SymbolList, bool> x, KeyValuePair<SymbolList, bool> y)
+            {
+                return x.Key.Equals(y.Key);
+            }
+
+            public int GetHashCode(KeyValuePair<SymbolList, bool> x)
+            {
+                return x.GetHashCode();
+            }
+        }
+
+        public class SymbolListComparer : IEqualityComparer<SymbolList>
+        {
+            public bool Equals(SymbolList x, SymbolList y)
+            {
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(SymbolList x)
+            {
+                return x.GetHashCode();
             }
         }
 
@@ -77,9 +173,9 @@ namespace CastDotNetExtension
             public Scope _parentScope;
             public AvoidNullPointerDereference _checker;
             public List<Scope> _childrenScope = new List<Scope>();
-            public Dictionary<ISymbol, bool> _varSetAtNullInScope = new Dictionary<ISymbol, bool>();
-            public Dictionary<ISymbol, bool> _varSetAtNullInAncestorScopes;
-            public Dictionary<ISymbol, bool> _conditionVar = new Dictionary<ISymbol, bool>();
+            public Dictionary<SymbolList, bool> _varSetAtNullInScope = new Dictionary<SymbolList, bool>();
+            public Dictionary<SymbolList, bool> _varSetAtNullInAncestorScopes;
+            public Dictionary<SymbolList, bool> _conditionVar = new Dictionary<SymbolList, bool>();
             
             // this constructor MUST only be invoked one time for the scope of the method
             public Scope(SyntaxNode node, AvoidNullPointerDereference checker) 
@@ -87,7 +183,7 @@ namespace CastDotNetExtension
                 _scopeNode = node;
                 _parentScope = null;
                 _checker = checker;
-                _varSetAtNullInAncestorScopes = new Dictionary<ISymbol,bool>();
+                _varSetAtNullInAncestorScopes = new Dictionary<SymbolList, bool>();
             }
 
             public Scope(SyntaxNode node, Scope parentScope)
@@ -97,8 +193,9 @@ namespace CastDotNetExtension
                 _checker = parentScope._checker;
                 _varSetAtNullInAncestorScopes = _parentScope._varSetAtNullInAncestorScopes
                                                     .Concat(parentScope._varSetAtNullInScope)
-                                                    .Distinct(new KeyValuePairOfScopeComparer())
+                                                    .Distinct(new KeyValuePairOfSymbolListComparer())
                                                     .ToDictionary(x => x.Key, x => x.Value);
+
             }
 
             private Scope AddChildScope(SyntaxNode childNode)
@@ -106,6 +203,43 @@ namespace CastDotNetExtension
                 Scope child = new Scope(childNode, this);
                 _childrenScope.Add(child);
                 return child;
+            }
+
+            private SymbolList getSymbolList(SyntaxNode node)
+            {
+                var accessNode = node as MemberAccessExpressionSyntax;
+                if(accessNode!=null)
+                {
+                    SymbolInfo symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(accessNode.Name);
+                    ISymbol symb = symbInf.Symbol;
+                    SymbolList listSymbols = new SymbolList();
+                    if (symb != null)
+                    {
+                        listSymbols.Add( symb );
+                        var res = getSymbolList(accessNode.Expression);
+                        if(res == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            listSymbols.AddRange(res);
+                            return listSymbols;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(node);
+                    var symb = symbInf.Symbol;
+                    if (symb != null)
+                        return new SymbolList(symb);
+                    return null;
+                }
             }
 
             public void CheckCondition(SyntaxNode node, bool elseBlock=false)
@@ -126,15 +260,17 @@ namespace CastDotNetExtension
                         {
                             if(equalNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Left);
-                                var equalSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Left);
+                                //var equalSymb = symbInf.Symbol;
+                                var equalSymb = getSymbolList(equalNode.Left);
                                 if (equalSymb != null)
                                     _conditionVar[equalSymb] = !elseBlock;
                             }
                             else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Right);
-                                var equalSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Right);
+                                //var equalSymb = symbInf.Symbol;
+                                var equalSymb = getSymbolList(equalNode.Right);
                                 if(equalSymb!=null)
                                     _conditionVar[equalSymb] = !elseBlock;
                             }
@@ -146,15 +282,17 @@ namespace CastDotNetExtension
                         {
                             if (inequalNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Left);
-                                var inequalSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Left);
+                                //var inequalSymb = symbInf.Symbol;
+                                var inequalSymb = getSymbolList(inequalNode.Left);
                                 if (inequalSymb != null)
                                     _conditionVar[inequalSymb] = elseBlock;
                             }
                             else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Right);
-                                var inequalSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Right);
+                                //var inequalSymb = symbInf.Symbol;
+                                var inequalSymb = getSymbolList(inequalNode.Right);
                                 if (inequalSymb != null)
                                     _conditionVar[inequalSymb] = elseBlock;
                             }
@@ -162,6 +300,20 @@ namespace CastDotNetExtension
                         break;
                     default:
                         break;
+                }
+
+                var descendantNodes = node.DescendantNodes().OfType<ConditionalAccessExpressionSyntax>();
+                foreach(var conditionalAccessNode in descendantNodes)
+                {
+                    var identifier = conditionalAccessNode.Expression as IdentifierNameSyntax;
+                    if(identifier!=null)
+                    {
+                        //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(identifier);
+                        //var identSymb = symbInf.Symbol;
+                        var identSymb = getSymbolList(identifier);
+                        if (identSymb != null)
+                            _conditionVar[identSymb] = elseBlock;
+                    }
                 }
             }
 
@@ -199,7 +351,7 @@ namespace CastDotNetExtension
                                     var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
                                     if(declarSymb!=null)
                                     {
-                                        _varSetAtNullInScope[declarSymb] = false;
+                                        _varSetAtNullInScope[new SymbolList( declarSymb )] = false;
                                     }
                                 }
                             }
@@ -208,8 +360,9 @@ namespace CastDotNetExtension
                             var assignmentNode = descendantNode as AssignmentExpressionSyntax;
                             if(assignmentNode!=null)
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(assignmentNode.Left);
-                                var assignSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(assignmentNode.Left);
+                                //var assignSymb = symbInf.Symbol;
+                                var assignSymb = getSymbolList(assignmentNode.Left);
                                 if (assignSymb != null)
                                 {
                                     if(assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
@@ -231,8 +384,9 @@ namespace CastDotNetExtension
                             var argNode = descendantNode as ArgumentSyntax;
                             if (argNode != null && argNode.RefKindKeyword.ValueText == "out")
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(argNode.Expression);
-                                var argSymb = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(argNode.Expression);
+                                //var argSymb = symbInf.Symbol;
+                                var argSymb = getSymbolList(argNode.Expression);
                                 if (argSymb != null && _varSetAtNullInScope.ContainsKey(argSymb))
                                 {
                                     _varSetAtNullInScope[argSymb] = true;
@@ -243,8 +397,9 @@ namespace CastDotNetExtension
                             var memberAccessNode = descendantNode as MemberAccessExpressionSyntax;
                             if (memberAccessNode != null)
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(memberAccessNode.Expression);
-                                var elementAccessSymbol = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(memberAccessNode.Expression);
+                                //var elementAccessSymbol = symbInf.Symbol;
+                                var elementAccessSymbol = getSymbolList(memberAccessNode.Expression);
                                 if (_conditionVar != null && elementAccessSymbol != null &&
                                     (!_conditionVar.ContainsKey(elementAccessSymbol)|| _conditionVar[elementAccessSymbol])
                                   )
@@ -254,7 +409,7 @@ namespace CastDotNetExtension
                                         if(!_varSetAtNullInScope[elementAccessSymbol])
                                         {
                                             var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol, new[] { pos });
+                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
                                         }
                                     }
                                     else if(_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
@@ -262,7 +417,7 @@ namespace CastDotNetExtension
                                         if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
                                         {
                                             var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol, new[] { pos });
+                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
                                         }
                                     }
                                 }
@@ -272,8 +427,9 @@ namespace CastDotNetExtension
                             var elementAccessNode = descendantNode as ElementAccessExpressionSyntax;
                             if(elementAccessNode!=null)
                             {
-                                var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(elementAccessNode.Expression);
-                                var elementAccessSymbol = symbInf.Symbol;
+                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(elementAccessNode.Expression);
+                                //var elementAccessSymbol = symbInf.Symbol;
+                                var elementAccessSymbol = getSymbolList(elementAccessNode.Expression);
                                 if (_conditionVar != null && elementAccessSymbol != null &&
                                     (!_conditionVar.ContainsKey(elementAccessSymbol) || _conditionVar[elementAccessSymbol])
                                   )
@@ -283,7 +439,7 @@ namespace CastDotNetExtension
                                         if (!_varSetAtNullInScope[elementAccessSymbol])
                                         {
                                             var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol, new[] { pos });
+                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
                                         }
                                     }
                                     else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
@@ -291,7 +447,7 @@ namespace CastDotNetExtension
                                         if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
                                         {
                                             var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol, new[] { pos });
+                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
                                         }
                                     }
                                 }
