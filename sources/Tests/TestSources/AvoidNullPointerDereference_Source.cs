@@ -386,6 +386,39 @@ namespace UnitTests.UnitTest.Sources
             strvar.att.ToString();
         }
 
+        void f28()
+        {
+            object foo = null;
+            if (foo == null)
+            {
+                return;
+            }
+
+            foo.ToString(); //NO VIOLATION 
+        }
+
+        void f29()
+        {
+            this.foo3 = null;
+            if (this.foo3 == null)
+            {
+                foo3 = new object();
+            }
+
+            this.foo.ToString(); //NO VIOLATION 
+        }
+
+        void f30()
+        {
+            object foo = null;
+            if (foo != null)
+            {
+                return;
+            }
+
+            foo.ToString(); //VIOLATION 
+        }
+
 
         //public string formatedAccount;
         //public string maskedFormatedAccount;

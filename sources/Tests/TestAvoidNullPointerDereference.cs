@@ -40,6 +40,7 @@ namespace UnitTests.UnitTest
                 .AddExpected(309, 16)
                 .AddExpected(310, 16)
                 .AddExpected(314, 16)
+                .AddExpected(418, 12)
                 .Validate();
 
             Assert.IsTrue(checker.IsValid(), checker.getStatus());

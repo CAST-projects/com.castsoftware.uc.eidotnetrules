@@ -46,7 +46,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f14")
+                    //if (node.Identifier.ValueText == "f28")
                     {
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
@@ -176,6 +176,7 @@ namespace CastDotNetExtension
             public Dictionary<SymbolList, bool> _varSetAtNullInScope = new Dictionary<SymbolList, bool>();
             public Dictionary<SymbolList, bool> _varSetAtNullInAncestorScopes;
             public Dictionary<SymbolList, bool> _conditionVar = new Dictionary<SymbolList, bool>();
+            public bool ScopeContainsReturn = false;
             
             // this constructor MUST only be invoked one time for the scope of the method
             public Scope(SyntaxNode node, AvoidNullPointerDereference checker) 
@@ -321,15 +322,29 @@ namespace CastDotNetExtension
             {
                 foreach (var symb in childScope._conditionVar.Keys)
                 {
-                    if (childScope._conditionVar[symb] 
-                        && childScope._varSetAtNullInAncestorScopes.ContainsKey(symb)
-                        && childScope._varSetAtNullInAncestorScopes[symb])
+                    if (childScope._conditionVar[symb] )
                     {
-                        if(_varSetAtNullInScope.ContainsKey(symb))
-                            _varSetAtNullInScope[symb] = true;
-                        else if (_varSetAtNullInAncestorScopes.ContainsKey(symb))
-                            _varSetAtNullInAncestorScopes[symb] = true;
+                        if( childScope._varSetAtNullInAncestorScopes.ContainsKey(symb)
+                            && childScope._varSetAtNullInAncestorScopes[symb])
+                        {
+                            if (_varSetAtNullInScope.ContainsKey(symb))
+                            {
+                                _varSetAtNullInScope[symb] = true;
+                            }
+                            else if (_varSetAtNullInAncestorScopes.ContainsKey(symb))
+                            {
+                                _varSetAtNullInAncestorScopes[symb] = true;
+                            }
+                        }
+                        if (childScope.ScopeContainsReturn)
+                        {
+                            if (_varSetAtNullInScope.ContainsKey(symb))
+                                _varSetAtNullInScope[symb] = true;
+                            else if (_varSetAtNullInAncestorScopes.ContainsKey(symb))
+                                _varSetAtNullInAncestorScopes[symb] = true;
+                        }
                     }
+
                 }
             }
 
@@ -516,6 +531,9 @@ namespace CastDotNetExtension
                                     setConditionVar(child);
                                 }
                             }
+                            break;
+                        case SyntaxKind.ReturnStatement:
+                            ScopeContainsReturn = true;
                             break;
                         default:
                             break;
