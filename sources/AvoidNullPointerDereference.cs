@@ -46,7 +46,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f28")
+                    //if (node.Identifier.ValueText == "f29")
                     {
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
@@ -224,6 +224,14 @@ namespace CastDotNetExtension
                         }
                         else
                         {
+                            if (res.symbols.Count == 1 && res.symbols[0] is IParameterSymbol)
+                            {
+                                var paramSymb = res.symbols[0] as IParameterSymbol;
+                                if(paramSymb!=null && paramSymb.IsThis)
+                                {
+                                    return listSymbols;
+                                }
+                            }
                             listSymbols.AddRange(res);
                             return listSymbols;
                         }
@@ -243,6 +251,7 @@ namespace CastDotNetExtension
                 }
             }
 
+            // Check conditions variables tested against "null"
             public void CheckCondition(SyntaxNode node, bool elseBlock=false)
             {
                 switch (node.Kind())
@@ -259,18 +268,14 @@ namespace CastDotNetExtension
                         var equalNode = node as BinaryExpressionSyntax;
                         if(equalNode!=null)
                         {
-                            if(equalNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
+                            if(equalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var == null
                             {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Left);
-                                //var equalSymb = symbInf.Symbol;
                                 var equalSymb = getSymbolList(equalNode.Left);
                                 if (equalSymb != null)
                                     _conditionVar[equalSymb] = !elseBlock;
                             }
-                            else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(equalNode.Right);
-                                //var equalSymb = symbInf.Symbol;
+                            else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null == var
+                            {                                
                                 var equalSymb = getSymbolList(equalNode.Right);
                                 if(equalSymb!=null)
                                     _conditionVar[equalSymb] = !elseBlock;
@@ -281,18 +286,14 @@ namespace CastDotNetExtension
                         var inequalNode = node as BinaryExpressionSyntax;
                         if (inequalNode != null)
                         {
-                            if (inequalNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Left);
-                                //var inequalSymb = symbInf.Symbol;
+                            if (inequalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var != null
+                            {                                
                                 var inequalSymb = getSymbolList(inequalNode.Left);
                                 if (inequalSymb != null)
                                     _conditionVar[inequalSymb] = elseBlock;
                             }
-                            else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression))
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(inequalNode.Right);
-                                //var inequalSymb = symbInf.Symbol;
+                            else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null != var
+                            {                                
                                 var inequalSymb = getSymbolList(inequalNode.Right);
                                 if (inequalSymb != null)
                                     _conditionVar[inequalSymb] = elseBlock;
@@ -302,15 +303,13 @@ namespace CastDotNetExtension
                     default:
                         break;
                 }
-
+                // Check conditional access expression "?."
                 var descendantNodes = node.DescendantNodes().OfType<ConditionalAccessExpressionSyntax>();
                 foreach(var conditionalAccessNode in descendantNodes)
                 {
                     var identifier = conditionalAccessNode.Expression as IdentifierNameSyntax;
                     if(identifier!=null)
                     {
-                        //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(identifier);
-                        //var identSymb = symbInf.Symbol;
                         var identSymb = getSymbolList(identifier);
                         if (identSymb != null)
                             _conditionVar[identSymb] = elseBlock;
@@ -318,12 +317,14 @@ namespace CastDotNetExtension
                 }
             }
 
+            //Use informations in conditions
             private void setConditionVar(Scope childScope)
             {
                 foreach (var symb in childScope._conditionVar.Keys)
                 {
                     if (childScope._conditionVar[symb] )
                     {
+                        // variables tested null then instantiated don't raise violation later in the scope
                         if( childScope._varSetAtNullInAncestorScopes.ContainsKey(symb)
                             && childScope._varSetAtNullInAncestorScopes[symb])
                         {
@@ -336,6 +337,7 @@ namespace CastDotNetExtension
                                 _varSetAtNullInAncestorScopes[symb] = true;
                             }
                         }
+                        //if childScope contains a return statement then the null variable in the conditionVar cannot raise violation 
                         if (childScope.ScopeContainsReturn)
                         {
                             if (_varSetAtNullInScope.ContainsKey(symb))
@@ -361,7 +363,7 @@ namespace CastDotNetExtension
                             if (declaratorNode != null && declaratorNode.Initializer != null)
                             {
                                 if(declaratorNode.Initializer.IsKind(SyntaxKind.EqualsValueClause)
-                                    && declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression))
+                                    && declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)) // null initialization
                                 {
                                     var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
                                     if(declarSymb!=null)
@@ -374,33 +376,43 @@ namespace CastDotNetExtension
                         case SyntaxKind.SimpleAssignmentExpression:
                             var assignmentNode = descendantNode as AssignmentExpressionSyntax;
                             if(assignmentNode!=null)
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(assignmentNode.Left);
-                                //var assignSymb = symbInf.Symbol;
+                            {                               
                                 var assignSymb = getSymbolList(assignmentNode.Left);
                                 if (assignSymb != null)
                                 {
-                                    if(assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression))
+                                    if(assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // null assignment
                                     {
                                         _varSetAtNullInScope[assignSymb] = false;
                                     }
-                                    else if(_varSetAtNullInScope.ContainsKey(assignSymb))
+                                    else
                                     {
-                                        _varSetAtNullInScope[assignSymb] = true;
+                                        var rightSymb = getSymbolList(assignmentNode.Right);
+                                        bool instantiated = true;
+                                        if(_varSetAtNullInScope.ContainsKey(assignSymb)) 
+                                        {
+                                            if (rightSymb != null && _varSetAtNullInScope.ContainsKey(rightSymb))
+                                            {
+                                                instantiated = _varSetAtNullInScope[rightSymb];
+                                            }
+                                            _varSetAtNullInScope[assignSymb] = instantiated;
+                                        }
+                                        else if (_varSetAtNullInAncestorScopes.ContainsKey(assignSymb))
+                                        {
+                                            if (rightSymb != null && _varSetAtNullInAncestorScopes.ContainsKey(rightSymb))
+                                            {
+                                                instantiated = _varSetAtNullInAncestorScopes[rightSymb];
+                                            }
+                                            _varSetAtNullInAncestorScopes[assignSymb] = instantiated;
+                                        }
                                     }
-                                    else if (_varSetAtNullInAncestorScopes.ContainsKey(assignSymb))
-                                    {
-                                        _varSetAtNullInAncestorScopes[assignSymb] = true;
-                                    }
+
                                 }
                             }
                             break;
                         case SyntaxKind.Argument:
                             var argNode = descendantNode as ArgumentSyntax;
                             if (argNode != null && argNode.RefKindKeyword.ValueText == "out")
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(argNode.Expression);
-                                //var argSymb = symbInf.Symbol;
+                            {                                
                                 var argSymb = getSymbolList(argNode.Expression);
                                 if (argSymb != null && _varSetAtNullInScope.ContainsKey(argSymb))
                                 {
@@ -411,9 +423,7 @@ namespace CastDotNetExtension
                         case SyntaxKind.SimpleMemberAccessExpression:
                             var memberAccessNode = descendantNode as MemberAccessExpressionSyntax;
                             if (memberAccessNode != null)
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(memberAccessNode.Expression);
-                                //var elementAccessSymbol = symbInf.Symbol;
+                            {                                
                                 var elementAccessSymbol = getSymbolList(memberAccessNode.Expression);
                                 if (_conditionVar != null && elementAccessSymbol != null &&
                                     (!_conditionVar.ContainsKey(elementAccessSymbol)|| _conditionVar[elementAccessSymbol])
@@ -441,9 +451,7 @@ namespace CastDotNetExtension
                         case SyntaxKind.ElementAccessExpression:
                             var elementAccessNode = descendantNode as ElementAccessExpressionSyntax;
                             if(elementAccessNode!=null)
-                            {
-                                //var symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(elementAccessNode.Expression);
-                                //var elementAccessSymbol = symbInf.Symbol;
+                            {                                
                                 var elementAccessSymbol = getSymbolList(elementAccessNode.Expression);
                                 if (_conditionVar != null && elementAccessSymbol != null &&
                                     (!_conditionVar.ContainsKey(elementAccessSymbol) || _conditionVar[elementAccessSymbol])
@@ -535,6 +543,23 @@ namespace CastDotNetExtension
                         case SyntaxKind.ReturnStatement:
                             ScopeContainsReturn = true;
                             break;
+                        case SyntaxKind.LogicalOrExpression:
+                            var orNode = descendantNode as BinaryExpressionSyntax;
+                            Scope leftExpression;
+                            Scope rightExpression;
+                            if (orNode != null)
+                            {
+                                //analyze left node 
+                                leftExpression = AddChildScope(orNode.Left);
+                                leftExpression.AnalyzeScope();
+                                leftExpression.CheckCondition(orNode.Left, true);
+                                //analyze right node
+                                rightExpression = AddChildScope(orNode.Right);
+                                rightExpression.setConditionVar(leftExpression);
+                                rightExpression.AnalyzeScope();
+                                
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -556,6 +581,7 @@ namespace CastDotNetExtension
                 case SyntaxKind.ForStatement:
                 case SyntaxKind.WhileStatement:
                 case SyntaxKind.SwitchStatement:
+                case SyntaxKind.LogicalOrExpression:
                     return false;
                 default:
                     return true;

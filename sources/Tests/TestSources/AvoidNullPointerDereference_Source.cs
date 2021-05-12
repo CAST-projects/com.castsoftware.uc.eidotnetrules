@@ -405,7 +405,7 @@ namespace UnitTests.UnitTest.Sources
                 foo3 = new object();
             }
 
-            this.foo.ToString(); //NO VIOLATION 
+            this.foo3.ToString(); //NO VIOLATION 
         }
 
         void f30()
@@ -419,6 +419,41 @@ namespace UnitTests.UnitTest.Sources
             foo.ToString(); //VIOLATION 
         }
 
+        void f31()
+        {
+            toto.Value = null;
+            toto.att = null;
+            if (toto.Value == null || toto.att == null || toto.att.ToString() == "" || toto.Value.ToString() == "") //NO VIOLATION
+            {
+                toto.Value = "toto";
+                toto.att = "toto";
+            }
+
+            if (toto.att != null && toto.att.ToString() != "toto") //NO VIOLATION
+            {
+                toto.att = "toto";
+            }
+
+            if (toto.Value == null  || toto.att.ToString() == "" || toto.att != null && toto.att.ToString() != "toto") //NO VIOLATION
+            {
+                toto.att = "toto";
+            }
+        }
+
+        void f32()
+        {
+            object foo = null;
+            object foo4 = null;
+            object foo5 = new object();
+            int i = 0;
+            if (i == 0)
+            {
+                foo = foo5;
+                foo.ToString(); //NO VIOLATION 
+                foo = foo4;
+                foo.ToString(); //VIOLATION     
+            }
+        }
 
         //public string formatedAccount;
         //public string maskedFormatedAccount;
