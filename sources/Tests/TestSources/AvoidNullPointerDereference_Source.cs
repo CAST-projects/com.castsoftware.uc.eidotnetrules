@@ -305,14 +305,14 @@ namespace UnitTests.UnitTest.Sources
                 tab = new int[5];
             }
 
-            if(tab[0] == 0)
+            if(tab[0] == 0) // VIOLATION
             {
-                tab[1] = -1;
-                tab[2] = 10;
+                tab[1] = -1; // VIOLATION
+                tab[2] = 10; // VIOLATION
             }
             else
             {
-                tab[0] = 0;
+                tab[0] = 0; // VIOLATION
             }
         }
 
@@ -434,7 +434,7 @@ namespace UnitTests.UnitTest.Sources
                 toto.att = "toto";
             }
 
-            if (toto.Value == null  || toto.att.ToString() == "" || toto.att != null && toto.att.ToString() != "toto") //NO VIOLATION
+            if (toto.Value == null || toto.Value.ToString() == "" || toto.att != null && toto.att.ToString() != "toto") //NO VIOLATION
             {
                 toto.att = "toto";
             }
@@ -453,6 +453,31 @@ namespace UnitTests.UnitTest.Sources
                 foo = foo4;
                 foo.ToString(); //VIOLATION     
             }
+        }
+
+        public StateObject<string> createStateObj()
+        {
+            return new StateObject<string>();
+        }
+
+        void f33()
+        {
+            this.toto = null;
+            if (this.toto == null || this.toto.Value==null)
+            {
+                this.toto = createStateObj();
+            }
+
+            if (this.toto == null || this.toto.Value == null)
+            {
+                foo3 = new object();
+            }
+
+            if(foo3!=null)
+            {
+                string name = toto.Value.ToString(); //NO VIOLATION 
+            }
+            
         }
 
         //public string formatedAccount;

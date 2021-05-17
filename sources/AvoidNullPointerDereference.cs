@@ -34,7 +34,6 @@ namespace CastDotNetExtension
         public override void Init(AnalysisContext context)
         {
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.MethodDeclaration);
-            //context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.IfStatement);
         }
 
         private readonly object _lock = new object();
@@ -46,7 +45,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f29")
+                    //if (node.Identifier.ValueText == "f33")
                     {
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
@@ -176,6 +175,7 @@ namespace CastDotNetExtension
             public Dictionary<SymbolList, bool> _varSetAtNullInScope = new Dictionary<SymbolList, bool>();
             public Dictionary<SymbolList, bool> _varSetAtNullInAncestorScopes;
             public Dictionary<SymbolList, bool> _conditionVar = new Dictionary<SymbolList, bool>();
+            public Dictionary<SymbolList, bool> _conditionalState = new Dictionary<SymbolList, bool>();
             public bool ScopeContainsReturn = false;
             
             // this constructor MUST only be invoked one time for the scope of the method
@@ -262,6 +262,14 @@ namespace CastDotNetExtension
                         {
                             CheckCondition(andNode.Left, elseBlock);
                             CheckCondition(andNode.Right, elseBlock);
+                        }
+                        break;
+                    case SyntaxKind.LogicalOrExpression:
+                        var orNode = node as BinaryExpressionSyntax;
+                        if (orNode != null)
+                        {
+                            CheckCondition(orNode.Left, elseBlock);
+                            CheckCondition(orNode.Right, elseBlock);
                         }
                         break;
                     case SyntaxKind.EqualsExpression:
@@ -353,128 +361,27 @@ namespace CastDotNetExtension
             public void AnalyzeScope()
             {
                 var descendantNodes = _scopeNode.DescendantNodes(DescendIntoChildren);
+                if (descendantNodes.Count() == 0)
+                    descendantNodes = descendantNodes.Append<SyntaxNode>(_scopeNode);
                 Scope child;
                 foreach (var descendantNode in descendantNodes)
                 {
                     switch (descendantNode.Kind())
                     {
                         case SyntaxKind.VariableDeclarator:
-                            var declaratorNode = descendantNode as VariableDeclaratorSyntax;
-                            if (declaratorNode != null && declaratorNode.Initializer != null)
-                            {
-                                if(declaratorNode.Initializer.IsKind(SyntaxKind.EqualsValueClause)
-                                    && declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)) // null initialization
-                                {
-                                    var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
-                                    if(declarSymb!=null)
-                                    {
-                                        _varSetAtNullInScope[new SymbolList( declarSymb )] = false;
-                                    }
-                                }
-                            }
+                            AnalyseVariableDeclarator(descendantNode);
                             break;
                         case SyntaxKind.SimpleAssignmentExpression:
-                            var assignmentNode = descendantNode as AssignmentExpressionSyntax;
-                            if(assignmentNode!=null)
-                            {                               
-                                var assignSymb = getSymbolList(assignmentNode.Left);
-                                if (assignSymb != null)
-                                {
-                                    if(assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // null assignment
-                                    {
-                                        _varSetAtNullInScope[assignSymb] = false;
-                                    }
-                                    else
-                                    {
-                                        var rightSymb = getSymbolList(assignmentNode.Right);
-                                        bool instantiated = true;
-                                        if(_varSetAtNullInScope.ContainsKey(assignSymb)) 
-                                        {
-                                            if (rightSymb != null && _varSetAtNullInScope.ContainsKey(rightSymb))
-                                            {
-                                                instantiated = _varSetAtNullInScope[rightSymb];
-                                            }
-                                            _varSetAtNullInScope[assignSymb] = instantiated;
-                                        }
-                                        else if (_varSetAtNullInAncestorScopes.ContainsKey(assignSymb))
-                                        {
-                                            if (rightSymb != null && _varSetAtNullInAncestorScopes.ContainsKey(rightSymb))
-                                            {
-                                                instantiated = _varSetAtNullInAncestorScopes[rightSymb];
-                                            }
-                                            _varSetAtNullInAncestorScopes[assignSymb] = instantiated;
-                                        }
-                                    }
-
-                                }
-                            }
+                            AnalyseSimpleAssignmentExpression(descendantNode);
                             break;
                         case SyntaxKind.Argument:
-                            var argNode = descendantNode as ArgumentSyntax;
-                            if (argNode != null && argNode.RefKindKeyword.ValueText == "out")
-                            {                                
-                                var argSymb = getSymbolList(argNode.Expression);
-                                if (argSymb != null && _varSetAtNullInScope.ContainsKey(argSymb))
-                                {
-                                    _varSetAtNullInScope[argSymb] = true;
-                                }
-                            }
+                            AnalyseArgument(descendantNode);
                             break;
                         case SyntaxKind.SimpleMemberAccessExpression:
-                            var memberAccessNode = descendantNode as MemberAccessExpressionSyntax;
-                            if (memberAccessNode != null)
-                            {                                
-                                var elementAccessSymbol = getSymbolList(memberAccessNode.Expression);
-                                if (_conditionVar != null && elementAccessSymbol != null &&
-                                    (!_conditionVar.ContainsKey(elementAccessSymbol)|| _conditionVar[elementAccessSymbol])
-                                  )
-                                {
-                                    if(_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
-                                    {
-                                        if(!_varSetAtNullInScope[elementAccessSymbol])
-                                        {
-                                            var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
-                                        }
-                                    }
-                                    else if(_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
-                                    {
-                                        if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
-                                        {
-                                            var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
-                                        }
-                                    }
-                                }
-                            }
+                            AnalyseSimpleMemberAccessExpression(descendantNode);
                             break;
                         case SyntaxKind.ElementAccessExpression:
-                            var elementAccessNode = descendantNode as ElementAccessExpressionSyntax;
-                            if(elementAccessNode!=null)
-                            {                                
-                                var elementAccessSymbol = getSymbolList(elementAccessNode.Expression);
-                                if (_conditionVar != null && elementAccessSymbol != null &&
-                                    (!_conditionVar.ContainsKey(elementAccessSymbol) || _conditionVar[elementAccessSymbol])
-                                  )
-                                {
-                                    if (_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
-                                    {
-                                        if (!_varSetAtNullInScope[elementAccessSymbol])
-                                        {
-                                            var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
-                                        }
-                                    }
-                                    else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
-                                    {
-                                        if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
-                                        {
-                                            var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                            _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
-                                        }
-                                    }
-                                }
-                            }
+                            AnalyseElementAccessExpression(descendantNode);
                             break;                        
                         case SyntaxKind.IfStatement:
                             var ifNode = descendantNode as IfStatementSyntax;
@@ -483,7 +390,9 @@ namespace CastDotNetExtension
                                 // check condition
                                 child = AddChildScope(ifNode.Condition);
                                 child.CheckCondition(ifNode.Condition);
-                                child.AnalyzeScope();
+                                //child.AnalyzeScope();
+                                child.AnalyseCondition(ifNode.Condition);
+                                child._conditionalState.Clear();
                                 // check then block
                                 child = AddChildScope(ifNode.Statement);
                                 child.CheckCondition(ifNode.Condition);
@@ -497,6 +406,7 @@ namespace CastDotNetExtension
                                     child.AnalyzeScope();
                                     setConditionVar(child);
                                 }
+
                             }
                             break;
                         case SyntaxKind.ForEachStatement:
@@ -543,21 +453,83 @@ namespace CastDotNetExtension
                         case SyntaxKind.ReturnStatement:
                             ScopeContainsReturn = true;
                             break;
+                        
+                        default:
+                            break;
+                    }
+                }
+
+            }
+
+            public void AnalyseCondition(SyntaxNode node, bool logicalAndExpression=false)
+            {
+                var descendantNodes = node.DescendantNodes(DescendIntoChildren);
+                //if (descendantNodes.Count() == 0)
+                descendantNodes = descendantNodes.Append<SyntaxNode>(node);
+                //Scope child;
+                foreach (var descendantNode in descendantNodes)
+                {
+                    switch (descendantNode.Kind())
+                    {
+                        case SyntaxKind.Argument:
+                            AnalyseArgument(descendantNode);
+                            break;
+                        case SyntaxKind.SimpleMemberAccessExpression:
+                            AnalyseSimpleMemberAccessExpression(descendantNode);
+                            break;
+                        case SyntaxKind.ElementAccessExpression:
+                            AnalyseElementAccessExpression(descendantNode);
+                            break;
                         case SyntaxKind.LogicalOrExpression:
-                            var orNode = descendantNode as BinaryExpressionSyntax;
-                            Scope leftExpression;
-                            Scope rightExpression;
-                            if (orNode != null)
+                                var orNode = descendantNode as BinaryExpressionSyntax;
+                                if (orNode != null)
+                                {
+                                    AnalyseCondition(orNode.Left);
+                                    AnalyseCondition(orNode.Right);
+                                }
+                            break;
+                        case SyntaxKind.LogicalAndExpression:
+                            var andNode = descendantNode as BinaryExpressionSyntax;
+                                if (andNode != null)
+                                {   
+                                    AnalyseCondition(andNode.Left, true);
+                                    AnalyseCondition(andNode.Right, true);
+                                }
+                            break;
+                        case SyntaxKind.EqualsExpression:
+                            var equalNode = descendantNode as BinaryExpressionSyntax;
+                            if (equalNode != null)
                             {
-                                //analyze left node 
-                                leftExpression = AddChildScope(orNode.Left);
-                                leftExpression.AnalyzeScope();
-                                leftExpression.CheckCondition(orNode.Left, true);
-                                //analyze right node
-                                rightExpression = AddChildScope(orNode.Right);
-                                rightExpression.setConditionVar(leftExpression);
-                                rightExpression.AnalyzeScope();
-                                
+                                if (equalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var == null
+                                {
+                                    var equalSymb = getSymbolList(equalNode.Left);
+                                    if (equalSymb != null)
+                                        _conditionalState[equalSymb] = !logicalAndExpression;
+                                }
+                                else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null == var
+                                {
+                                    var equalSymb = getSymbolList(equalNode.Right);
+                                    if (equalSymb != null)
+                                        _conditionalState[equalSymb] = !logicalAndExpression;
+                                }
+                            }
+                            break;
+                        case SyntaxKind.NotEqualsExpression:
+                            var inequalNode = descendantNode as BinaryExpressionSyntax;
+                            if (inequalNode != null)
+                            {
+                                if (inequalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var != null
+                                {
+                                    var inequalSymb = getSymbolList(inequalNode.Left);
+                                    if (inequalSymb != null)
+                                        _conditionalState[inequalSymb] = logicalAndExpression;
+                                }
+                                else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null != var
+                                {
+                                    var inequalSymb = getSymbolList(inequalNode.Right);
+                                    if (inequalSymb != null)
+                                        _conditionalState[inequalSymb] = logicalAndExpression;
+                                }
                             }
                             break;
                         default:
@@ -567,8 +539,153 @@ namespace CastDotNetExtension
 
             }
 
+            public void AnalyseVariableDeclarator(SyntaxNode node)
+            {
+                var declaratorNode = node as VariableDeclaratorSyntax;
+                if (declaratorNode != null && declaratorNode.Initializer != null)
+                {
+                    if (declaratorNode.Initializer.IsKind(SyntaxKind.EqualsValueClause)
+                        && declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)) // null initialization
+                    {
+                        var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
+                        if (declarSymb != null)
+                        {
+                            _varSetAtNullInScope[new SymbolList(declarSymb)] = false;
+                        }
+                    }
+                }
+            }
+
+            public void AnalyseSimpleAssignmentExpression(SyntaxNode node)
+            {
+                var assignmentNode = node as AssignmentExpressionSyntax;
+                if (assignmentNode != null)
+                {
+                    var assignSymb = getSymbolList(assignmentNode.Left);
+                    if (assignSymb != null)
+                    {
+                        if (assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // null assignment
+                        {
+                            _varSetAtNullInScope[assignSymb] = false;
+                        }
+                        else
+                        {
+                            var rightSymb = getSymbolList(assignmentNode.Right);
+                            bool instantiated = true;
+                            if (_varSetAtNullInScope.ContainsKey(assignSymb))
+                            {
+                                if (rightSymb != null && _varSetAtNullInScope.ContainsKey(rightSymb))
+                                {
+                                    instantiated = _varSetAtNullInScope[rightSymb];
+                                }
+                                _varSetAtNullInScope[assignSymb] = instantiated;
+                            }
+                            else if (_varSetAtNullInAncestorScopes.ContainsKey(assignSymb))
+                            {
+                                if (rightSymb != null && _varSetAtNullInAncestorScopes.ContainsKey(rightSymb))
+                                {
+                                    instantiated = _varSetAtNullInAncestorScopes[rightSymb];
+                                }
+                                _varSetAtNullInAncestorScopes[assignSymb] = instantiated;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            public void AnalyseArgument(SyntaxNode node)
+            {
+                var argNode = node as ArgumentSyntax;
+                if (argNode != null && argNode.RefKindKeyword.ValueText == "out")
+                {
+                    var argSymb = getSymbolList(argNode.Expression);
+                    if (argSymb != null && _varSetAtNullInScope.ContainsKey(argSymb))
+                    {
+                        _varSetAtNullInScope[argSymb] = true;
+                    }
+                }
+            }
+
+            public void AnalyseSimpleMemberAccessExpression(SyntaxNode node)
+            {
+                var memberAccessNode = node as MemberAccessExpressionSyntax;
+                if (memberAccessNode != null)
+                {
+                    var elementAccessSymbol = getSymbolList(memberAccessNode.Expression);
+                    if (_conditionVar != null && elementAccessSymbol != null &&
+                        (!_conditionVar.ContainsKey(elementAccessSymbol) || _conditionVar[elementAccessSymbol])
+                      )
+                    {
+                        if (_conditionalState.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_conditionalState[elementAccessSymbol])
+                            {
+                                var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                        else if (_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_varSetAtNullInScope[elementAccessSymbol])
+                            {
+                                var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                        else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
+                            {
+                                var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                    }
+                }
+            }
+
+            public void AnalyseElementAccessExpression(SyntaxNode node)
+            {
+                var elementAccessNode = node as ElementAccessExpressionSyntax;
+                if (elementAccessNode != null)
+                {
+                    var elementAccessSymbol = getSymbolList(elementAccessNode.Expression);
+                    if (_conditionVar != null && elementAccessSymbol != null &&
+                        (!_conditionVar.ContainsKey(elementAccessSymbol) || _conditionVar[elementAccessSymbol])
+                      )
+                    {
+                        if (_conditionalState.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_conditionalState[elementAccessSymbol])
+                            {
+                                var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                        else if (_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_varSetAtNullInScope[elementAccessSymbol])
+                            {
+                                var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                        else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
+                        {
+                            if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
+                            {
+                                var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
+                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                            }
+                        }
+                    }
+                }
+            }
             
         }
+
+        
 
         
 
@@ -582,6 +699,7 @@ namespace CastDotNetExtension
                 case SyntaxKind.WhileStatement:
                 case SyntaxKind.SwitchStatement:
                 case SyntaxKind.LogicalOrExpression:
+                case SyntaxKind.LogicalAndExpression:
                     return false;
                 default:
                     return true;
