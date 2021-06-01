@@ -12,7 +12,7 @@ namespace UnitTests.UnitTest {
       public void Test() {
          var testSrc = UnitTests.Properties.SourcesToTest.UseLogicalORInsteadOfBitwiseORInBooleanContext_Source;
 
-         var checker = CastDotNetExtensionChecker<UseLogicalORInsteadOfBitwiseORInBooleanContext>.CreateInstance();
+         var checker = CastDotNetExtensionChecker<UseLogicalORandANDInsteadOfBitwiseORandANDInBooleanContext>.CreateInstance();
          Assert.IsTrue(checker != null);
 
 
@@ -24,6 +24,9 @@ namespace UnitTests.UnitTest {
             .AddExpected(28, 17)
             .AddExpected(29, 13)
             .AddExpected(39, 13)
+            .AddExpected(93, 18)
+            .AddExpected(94, 14)
+            .AddExpected(95, 14)
             .Validate();
 
          Assert.IsTrue(checker.IsValid(), checker.getStatus());

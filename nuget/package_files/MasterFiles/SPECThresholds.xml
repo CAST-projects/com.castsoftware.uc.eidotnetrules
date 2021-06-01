@@ -14,7 +14,7 @@
   <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />

@@ -27,7 +27,7 @@
   <metric id="2200022" type="quality-rule" originalName="Culture Dependent String operations should specify culture" active="true" detached="false" ignored="false" />
   <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" active="true" detached="false" ignored="false" />
   <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" active="true" detached="false" ignored="false" />
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" active="true" detached="false" ignored="false" />
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" active="true" detached="false" ignored="false" />
   <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" active="true" detached="false" ignored="false" />
   <metric id="2200032" type="quality-rule" originalName="Avoid recursive type inheritance" active="true" detached="false" ignored="false" />
   <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" active="true" detached="false" ignored="false" />

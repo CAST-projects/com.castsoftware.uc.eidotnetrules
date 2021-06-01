@@ -10,13 +10,13 @@ namespace CastDotNetExtension {
    [DiagnosticAnalyzer(LanguageNames.CSharp)]
    [RuleDescription(
        Id = "EI_UseLogicalORInsteadOfBitwiseORInBooleanContext",
-       Title = "Use Logical OR instead of Bitwise OR in boolean context",
-       MessageFormat = "Use Logical OR instead of Bitwise OR in boolean context",
+       Title = "Use Logical OR and AND instead of Bitwise OR and AND in boolean context",
+       MessageFormat = "Use Logical OR and AND instead of Bitwise OR and AND in boolean context",
        Category = "Programming Practices - Unexpected Behavior",
        DefaultSeverity = DiagnosticSeverity.Warning,
        CastProperty = "EIDotNetQualityRules.UseLogicalORInsteadOfBitwiseORInBooleanContext"
    )]
-   public class UseLogicalORInsteadOfBitwiseORInBooleanContext : AbstractRuleChecker {
+   public class UseLogicalORandANDInsteadOfBitwiseORandANDInBooleanContext : AbstractRuleChecker {
 
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
@@ -24,7 +24,8 @@ namespace CastDotNetExtension {
       /// </summary>
       /// <param name="context"></param>
       public override void Init(AnalysisContext context) {
-         context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.BitwiseOrExpression);
+          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.BitwiseOrExpression);
+          context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.BitwiseAndExpression);
       }
 
       private readonly object _lock = new object();

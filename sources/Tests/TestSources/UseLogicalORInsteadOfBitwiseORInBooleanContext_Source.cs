@@ -86,5 +86,15 @@ namespace UnitTests.UnitTest.Sources {
             ReturnTrue(); ; ; ;
          }
       }
+
+      public void Test2()
+      {
+          bool b1 = false;
+          bool b2 = true;
+          var x = b1 & b2;
+          x = ReturnFalse() & ReturnTrue();
+          if (b1 & b2)
+              ReturnTrue();
+      }
    }
 }

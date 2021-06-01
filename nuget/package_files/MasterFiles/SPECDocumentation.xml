@@ -745,24 +745,25 @@ new Exception();</english>
   <metric id="2200026" type="quality-rule" originalName="Avoid creating exception without throwing them" section="total">
     <english>Number of Artifacts</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="description">
-    <english>This rule will check whether bitwise OR (|) is used instead of Logical OR (||) in boolean context.</english>
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="description">
+    <english>This rule will check whether bitwise OR (|) is used instead of Logical OR (||) in boolean context.
+This rule will check whether bitwise AND (&amp;) is used instead of Logical AND (&amp;&amp;) in boolean context.</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="name">
-    <english>Use Logical OR instead of Bitwise OR in boolean context</english>
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="name">
+    <english>Use Logical OR and AND instead of Bitwise OR and AND in boolean context</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="output">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="rationale">
-    <english>When Bitwise OR is used instead of Logical OR in boolean context, it is most probably a mistake or it is intended for side effect which is incorrect programming practice.</english>
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="rationale">
+    <english>When Bitwise OR or AND is used instead of Logical OR or AND in boolean context, it is most probably a mistake or it is intended for side effect which is incorrect programming practice.</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediation">
-    <english>Use Logical OR</english>
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="remediation">
+    <english>Use Logical OR or AND</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="remediationSample">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="remediationSample">
     <english>Class AClass {
       private int Return1() {
          return 1;
@@ -780,7 +781,7 @@ new Exception();</english>
      }
 }</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="sample">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="sample">
     <english>Class AClass {
       private int Return1() {
          return 1;
@@ -798,7 +799,7 @@ new Exception();</english>
      }
 }</english>
   </metric>
-  <metric id="2200028" type="quality-rule" originalName="Use Logical OR instead of Bitwise OR in boolean context" section="total">
+  <metric id="2200028" type="quality-rule" originalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" section="total">
     <english>Number of Artifacts</english>
   </metric>
   <metric id="2200030" type="quality-rule" originalName="Avoid empty finalizers" section="description">
