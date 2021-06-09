@@ -228,6 +228,28 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source
+        ///    {
+        ///
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source {
+            get {
+                return ResourceManager.GetString("AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   class AvoidLocalVariablesShadowingClassFields_Source {
         ///      class Shadow {
@@ -319,6 +341,7 @@ namespace UnitTests.Properties {
         ///    {
         ///        object foo2 = null;
         ///        object foo3;
+        ///        static object foo4 = null;
         ///        void f()
         ///        {
         ///            object foo = null;
@@ -327,9 +350,7 @@ namespace UnitTests.Properties {
         ///            {
         ///                foo.ToString(); // VIOLATION IT IS NULL
         ///            }
-        ///            else
-        ///            {
-        ///         [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidNullPointerDereference_Source {
             get {

@@ -103,6 +103,7 @@
     <Compile Include="TestAvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
+    <Compile Include="TestAvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="TestAvoidNullPointerDereference.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <None Include="TestSources\AvoidNullPointerDereference_Source.cs" />
+    <Compile Include="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />

@@ -887,7 +887,7 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
     <english>Number of violation occurrences</english>
   </metric>
   <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="description">
-    <english>This rule will give violation if condition in for loop is not invariant.</english>
+    <english>This rule will give violation if condition in for loop is not invariant or if the counter is modified inside the loop.</english>
   </metric>
   <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="name">
     <english>For loop stop condition should be invariant</english>
@@ -902,7 +902,10 @@ https://cwe.mitre.org/data/definitions/1069.html</english>
 
 Stop conditions that are not invariant are slightly less efficient, as well as being difficult to understand and maintain, and likely lead to the introduction of errors in the future.
 
-This gives violation when the loop counters are updated in the body of the for loop.</english>
+This gives violation:
+   - when the loop counters are updated in the body of the for loop.
+   - When the stop condition depend upon a method call
+   - When the stop condition depends on an object property, since such properties could change during the execution of the loop.</english>
   </metric>
   <metric id="2200034" type="quality-rule" originalName="For loop stop condition should be invariant" section="remediation">
     <english>Make for loop condition invariant.</english>
@@ -1436,6 +1439,62 @@ else
 M2(foo.ToString());</english>
   </metric>
   <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" section="total">
+    <english>Number of methods</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="description">
+    <english>This rule will check the if/switch structural blocks to detect if ALL the implementation are similars.</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="name">
+    <english>Avoid having the same implementation in ALL BRANCHES of a conditional structure</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="rationale">
+    <english>Having the same implementation in ALL BRANCHES of a conditional structure should not happened. It probably denotes a copy/paste error or there shouldn't have a conditional structure here.
+
+Limitations: no violation on "if" chain without "else" clause and "switch" without "default" clause.</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="reference">
+    <english>Object Management Group (OMG). "Automated Source Code Maintainability Measure (ASCMM)". ASCMM-MNT-19. 2016-01. &lt;http://www.omg.org/spec/ASCMM/1.0&gt;.</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="remediation">
+    <english>Ensure you copy/paste does not exist in your conditional structure.</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="sample">
+    <english>if (b == 0)  // VIOLATION
+{
+    foo();
+}
+else
+{
+    foo();
+}
+
+int b = a &gt; 12 ? 3 : 3;  // VIOLATION
+
+switch (i) // VIOLATION BECAUSE THERE IS A DEFAULT BLOCK
+{
+    case 1:
+        bar();
+        break;
+    case 2:
+        bar();
+        break;
+    case 3:
+        bar();
+        break;
+    default:
+        bar();
+        break;
+}</english>
+  </metric>
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="total">
     <english>Number of methods</english>
   </metric>
 </root>

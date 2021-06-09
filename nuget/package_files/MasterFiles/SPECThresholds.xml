@@ -26,4 +26,5 @@
   <metric id="2200046" type="quality-rule" originalName="Ensure Serializable Types Follow Best Practices" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200048" type="quality-rule" originalName="Members of larger scope element should not have conflicting transparency annotations" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

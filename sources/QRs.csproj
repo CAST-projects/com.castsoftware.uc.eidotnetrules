@@ -41,6 +41,7 @@
     <Compile Include="AvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="AvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="AvoidEmptyFinalizers.cs" />
+    <Compile Include="AvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="AvoidNullPointerDereference.cs" />
