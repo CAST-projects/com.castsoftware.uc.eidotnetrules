@@ -73,4 +73,25 @@ namespace UnitTests.UnitTest.Sources {
 
       }
    }
+
+    public class Klass
+    {
+        public Klass()
+        {
+            int value = 0;
+            string name = "toto";
+            foreach (var itr in listInt)
+            {
+                Console.WriteLine(itr);
+            }
+
+        }
+
+        public int value { get; set; }
+        public string name { get; set; }
+
+        public int itr;
+        public List<int> listInt = new List<int>() { 1, 2, 3, 4 }; 
+
+    }
 }
