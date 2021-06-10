@@ -115,5 +115,44 @@ namespace UnitTests.UnitTest.Sources
             Console.WriteLine(limit);
          }
       }
+
+      int getVal()
+      {
+          return 10;
+      }
+
+      int stopValue { get; set; }
+
+      public class Klass
+      {
+          public int stopValue { get; set; }
+      }
+      void ForLoopConditionVariantKO()
+      {
+          for (int i = 0; i < getVal(); ++i) 
+          {
+            Console.WriteLine(i);
+          }
+
+          int j = 0;
+          for (; j < getVal(); ++j)
+          {
+              Console.WriteLine(i);
+          }
+
+          stopValue = 10;
+          for (int i = 0; i < stopValue; ++i)
+          {
+              Console.WriteLine(i);
+          }
+
+          var klass = new Klass();
+          klass.stopValue = 10;
+          for (int i = 0; i < klass.stopValue; ++i)
+          {
+              Console.WriteLine(i);
+          }
+
+      }
    }
 }
