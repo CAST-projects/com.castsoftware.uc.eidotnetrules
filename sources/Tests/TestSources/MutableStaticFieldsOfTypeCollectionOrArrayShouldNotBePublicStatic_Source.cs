@@ -30,6 +30,11 @@ namespace UnitTests.UnitTest.Sources {
          public static IImmutableStack<int> immutable6OK = ImmutableStack.Create<int>(ints3OK);
          public static IImmutableQueue<int> immutable7OK = ImmutableQueue.Create<int>(ints3OK);
 
+         public static readonly Dictionary<int, String> dict3KO = new Dictionary<int, String> { { 1, "A" }, { 2, "B" } }; // Noncompliant
+         public static readonly Dictionary<int, String> dict8OK = new ReadOnlyDictionary<int, String> { { 1, "A" }, { 2, "B" } };
+         public static readonly List<int> ints9OK = (List<int>)immutable3OK;
+         public static readonly List<int> ints4KO = ints4OK; // Noncompliant
+         
       }
 
       public struct AStruct {

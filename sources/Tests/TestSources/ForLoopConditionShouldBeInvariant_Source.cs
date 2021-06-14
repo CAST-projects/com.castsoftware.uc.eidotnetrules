@@ -137,7 +137,7 @@ namespace UnitTests.UnitTest.Sources
           int j = 0;
           for (; j < getVal(); ++j)
           {
-              Console.WriteLine(i);
+              Console.WriteLine(j);
           }
 
           stopValue = 10;

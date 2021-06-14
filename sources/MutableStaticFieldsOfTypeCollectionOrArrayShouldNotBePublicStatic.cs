@@ -36,7 +36,8 @@ namespace CastDotNetExtension {
                   var systemArray = context.Compilation.GetTypeByMetadataName("System.Array");
                   var systemGenericICollection = context.Compilation.GetTypeByMetadataName("System.Collections.Generic.ICollection`1");
                   var systemCollectionsICollection = context.Compilation.GetTypeByMetadataName("System.Collections.ICollection");
-                  if (TypeKind.Class == type.TypeKind || TypeKind.Struct == type.TypeKind) {
+                  if (TypeKind.Class == type.TypeKind || TypeKind.Struct == type.TypeKind) 
+                  {
                      var targetFields = type.GetMembers().
                         OfType<IFieldSymbol>().
                         Where(field => !field.IsReadOnly &&
@@ -53,10 +54,91 @@ namespace CastDotNetExtension {
                            )
                            );
 
-                     foreach (IFieldSymbol field in targetFields) {
+                     foreach (IFieldSymbol field in targetFields) 
+                     {
                         var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
                         AddViolation(context.Symbol, new[] { pos });
                      }
+
+                     // exception case : fields read-only with inline initialization with an immutable type
+                     var targetFieldsExceptions = type.GetMembers().
+                     OfType<IFieldSymbol>().
+                     Where(field => field.IsReadOnly &&
+                        Accessibility.Public == field.DeclaredAccessibility &&
+                        field.IsStatic &&
+                        (
+                           field.Type.BaseType == systemArray ||
+                           (
+                              null != systemGenericICollection && field.Type.AllInterfaces.Contains(systemGenericICollection) ||
+                              null != systemCollectionsICollection && field.Type.AllInterfaces.Contains(systemCollectionsICollection)
+                           )
+                           &&
+                           !field.Type.OriginalDefinition.ToString().StartsWith("System.Collections.ObjectModel.ReadOnly")
+                        )
+                        );
+                      var model = context.Compilation.GetSemanticModel(context.Compilation.SyntaxTrees.ToList()[0]);
+                      foreach(IFieldSymbol field in targetFieldsExceptions)
+                      {
+                          foreach(var syntRef in field.DeclaringSyntaxReferences)
+                          {
+                              var node = syntRef.GetSyntax() as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
+                              if(node!=null)
+                              {
+                                  var objCreationNode = node.Initializer.Value as Microsoft.CodeAnalysis.CSharp.Syntax.ObjectCreationExpressionSyntax;
+                                  if(objCreationNode!=null)
+                                  {
+                                      var strObjCreatType = objCreationNode.Type.ToString();
+                                      if (!strObjCreatType.Contains("ReadOnly") &&
+                                         !strObjCreatType.Contains("Immutable"))
+                                      {
+                                          var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+                                          AddViolation(context.Symbol, new[] { pos });
+                                      }
+                                  }
+                                  else
+                                  {
+                                      
+                                      var castNode = node.Initializer.Value as Microsoft.CodeAnalysis.CSharp.Syntax.CastExpressionSyntax;
+                                      if(castNode!=null)
+                                      {
+                                          var identifierNode = castNode.Expression as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
+                                          if(identifierNode!=null)
+                                          {                                             
+                                              var typeInfo = model.GetTypeInfo(identifierNode);
+                                              var convertedType = typeInfo.ConvertedType;
+                                              if (convertedType != null)
+                                              {
+                                                  var stringType = convertedType.ToString();
+                                                  if (!stringType.Contains("ReadOnly") && !stringType.Contains("Immutable"))
+                                                  {
+                                                      var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+                                                      AddViolation(context.Symbol, new[] { pos });
+                                                  }
+                                              }
+                                          }
+                                      }
+                                      else
+                                      {
+                                          var identifierNode = node.Initializer.Value as Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax;
+                                          if (identifierNode != null)
+                                          {
+                                              var typeInfo = model.GetTypeInfo(identifierNode);
+                                              var convertedType = typeInfo.ConvertedType;
+                                              if (convertedType != null)
+                                              {
+                                                  var stringType = convertedType.ToString();
+                                                  if (!stringType.Contains("ReadOnly") && !stringType.Contains("Immutable"))
+                                                  {
+                                                      var pos = field.Locations.FirstOrDefault().GetMappedLineSpan();
+                                                      AddViolation(context.Symbol, new[] { pos });
+                                                  }
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
                   }
                }
             }
