@@ -154,5 +154,15 @@ namespace UnitTests.UnitTest.Sources
           }
 
       }
+
+       void ForLoopConditionAuthorizedPropertyOK()
+      {
+          List<int> iter = new List<int>() { 1, 2, 3, 4 };
+          for (int i = 0; i < iter.Count; ++i)
+          {
+              Console.WriteLine(iter[i]);
+          }
+      }
+
    }
 }

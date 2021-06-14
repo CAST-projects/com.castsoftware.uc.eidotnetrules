@@ -130,15 +130,18 @@ namespace CastDotNetExtension
                 {
                     foreach (var identifier in identifierNames)
                     {
-                        var symbInfo = context.SemanticModel.GetSymbolInfo(identifier);
-                        if (symbInfo.Symbol!= null)
+                        if (identifier.ToString() != "Count") // Count is authorized as property
                         {
-                            var kind = symbInfo.Symbol.Kind;
-                            if(kind.Equals(SymbolKind.Property))
+                            var symbInfo = context.SemanticModel.GetSymbolInfo(identifier);
+                            if (symbInfo.Symbol != null)
                             {
-                                var pos = forLoopCondition.GetLocation().GetMappedLineSpan();
-                                AddViolation(context.ContainingSymbol, new[] { pos });
-                                break;
+                                var kind = symbInfo.Symbol.Kind;
+                                if (kind.Equals(SymbolKind.Property))
+                                {
+                                    var pos = forLoopCondition.GetLocation().GetMappedLineSpan();
+                                    AddViolation(context.ContainingSymbol, new[] { pos });
+                                    break;
+                                }
                             }
                         }
                     }
