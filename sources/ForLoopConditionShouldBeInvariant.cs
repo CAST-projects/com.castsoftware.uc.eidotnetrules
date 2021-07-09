@@ -23,7 +23,11 @@ namespace CastDotNetExtension
     public class ForLoopConditionShouldBeInvariant : AbstractRuleChecker
     {
 
-
+        private string[] _authorizedProperties = new string[] {
+            "Count",
+            "Length",
+            "ColumnCount"
+        };
         /// <summary>
         /// Initialize the QR with the given context and register all the syntax nodes
         /// to listen during the visit and provide a specific callback for each one
@@ -130,7 +134,9 @@ namespace CastDotNetExtension
                 {
                     foreach (var identifier in identifierNames)
                     {
-                        if (identifier.ToString() != "Count") // Count is authorized as property
+                        if (identifier.Parent.IsKind(SyntaxKind.SimpleMemberAccessExpression) && identifier.Parent.Parent.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+                            continue;
+                        if (!_authorizedProperties.Contains( identifier.ToString())) // filter authorized properties (such as Count, Length, ...)
                         {
                             var symbInfo = context.SemanticModel.GetSymbolInfo(identifier);
                             if (symbInfo.Symbol != null)

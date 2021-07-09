@@ -123,7 +123,7 @@ namespace UnitTests.UnitTest.Sources
 
       int stopValue { get; set; }
 
-      public class Klass
+      public partial class Klass
       {
           public int stopValue { get; set; }
       }
@@ -155,6 +155,11 @@ namespace UnitTests.UnitTest.Sources
 
       }
 
+      public partial class Klass
+      {
+          public List<int> Items { get; set; }
+      }
+
        void ForLoopConditionAuthorizedPropertyOK()
       {
           List<int> iter = new List<int>() { 1, 2, 3, 4 };
@@ -162,6 +167,17 @@ namespace UnitTests.UnitTest.Sources
           {
               Console.WriteLine(iter[i]);
           }
+          int[] array1 = new int[] { 1, 3, 4, 7, 8 };
+          for (int i = 0; i < array1.Length; ++i)
+          {
+              Console.WriteLine(array1[i]);
+          }
+          var klass = new Klass();
+          for (int i = 0; i < klass.Items.Count; ++i)
+          {
+              Console.WriteLine(klass.Items[i]);
+          }
+
       }
 
    }
