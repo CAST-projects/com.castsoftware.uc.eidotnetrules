@@ -203,5 +203,26 @@ namespace UnitTests.UnitTest.Sources
          }
       }
 
+
+      void TryIdenticalEmptyCatchKO()
+      {
+          try
+          {
+              DoFirstThing();
+          }
+          catch { }
+
+          try  // Noncompliant; catch is identical to previous
+          {
+              DoSecondThing();
+          }
+          catch { }
+
+          try  // NonCompliant
+          {
+              DoThirdThing();
+          }
+          catch { }
+      }
    }
 }
