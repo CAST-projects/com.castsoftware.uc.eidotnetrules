@@ -39,7 +39,8 @@ namespace CastDotNetExtension
          if (hasAssignment) {
             hasAssignment = expr is AssignmentExpressionSyntax;
             if (!hasAssignment) {
-               var assignments = expr.DescendantNodes().Where(e => SyntaxKind.SimpleAssignmentExpression == e.Kind());
+               var assignments = expr.DescendantNodes().Where(e => SyntaxKind.SimpleAssignmentExpression == e.Kind() &&
+                                                                   SyntaxKind.ObjectInitializerExpression != e.Parent.Kind());
                expressions = expressions.Union(assignments);
             } else {
                expressions = expressions.Append(expr);

@@ -86,5 +86,32 @@ namespace UnitTests.UnitTest.Sources
       }
 
 
+      public class Cat
+      {
+          // Auto-implemented properties.
+          public int Age { get; set; }
+          public string Name { get; set; }
+
+          public Cat()
+          {
+          }
+
+          public Cat(string name)
+          {
+              this.Name = name;
+          }
+      }
+
+    public void TestCat(Cat cat) { }
+
+    public void AssignmentInInitializerOK()
+      {
+          Cat cat = new Cat { Age = 10, Name = "Fluffy" };
+          Cat sameCat = new Cat("Fluffy") { Age = 10 };
+          TestCat(new Cat { Age = 10, Name = "Fluffy" });
+          List<Cat> lCat = new List<Cat>();
+          lCat.Add(new Cat("Fluffy") { Age = 10 });
+      }
+
    }
 }
