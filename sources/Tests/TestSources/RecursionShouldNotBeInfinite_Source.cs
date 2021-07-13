@@ -560,6 +560,47 @@ namespace UnitTests.UnitTest.Sources
       {
          CallAnAbstractMethod(new Derived());
       }
- 
+
+      #region RecurseiveReturn2
+
+      public List<int> RecurseiveReturnKO3(List<int> li)
+      {
+          return RecurseiveReturnKO3(li).Where(c=>c>0).ToList();
+      }
+
+      #endregion
+
+
+      #region RecursiveProperty
+      private bool _prop;
+      public bool recProp
+      {
+          get
+          {
+              return _prop;
+          }
+          set
+          {
+              this.recProp = value;
+          }
+      }
+
+      public bool recProp2
+      {
+          get
+          {
+              return this.recProp2;
+          }
+          set
+          {
+              _prop = value;
+          }
+      }
+     
+
+      #endregion
+
+     
+
    }
 }
