@@ -480,171 +480,171 @@ namespace UnitTests.UnitTest.Sources
             
         }
 
-        //public string formatedAccount;
-        //public string maskedFormatedAccount;
-        //public bool SetAccount(string country, string account)
-        //{
+        public string formatedAccount;
+        public string maskedFormatedAccount;
+        public bool SetAccount(string country, string account)
+        {
 
-        //    string bankCode = null;
-        //    string branchCode = null;
-        //    string accountNumber = null;
-        //    string checkDigit = null;
-        //    string format;
+            string bankCode = null;
+            string branchCode = null;
+            string accountNumber = null;
+            string checkDigit = null;
+            string format;
 
-        //    if (account == null || account.Length == 0)
-        //    {
-        //        this.formatedAccount = string.Empty;
-        //        this.maskedFormatedAccount = string.Empty;
-        //        return false;
-        //    }
+            if (account == null || account.Length == 0)
+            {
+                this.formatedAccount = string.Empty;
+                this.maskedFormatedAccount = string.Empty;
+                return false;
+            }
 
-        //    this.formatedAccount = account;
+            this.formatedAccount = account;
 
-        //    switch (country)
-        //    {
-        //        case "DE":
+            switch (country)
+            {
+                case "DE":
 
-        //            format = "{0} {1}";
+                    format = "{0} {1}";
 
-        //            if (account.Length >= 18)
-        //            {
-        //                bankCode = account.Substring(0, 8);
-        //                accountNumber = account.Substring(8, 10);
+                    if (account.Length >= 18)
+                    {
+                        bankCode = account.Substring(0, 8);
+                        accountNumber = account.Substring(8, 10);
 
-        //                formatedAccount = string.Format(format, bankCode, accountNumber);
+                        formatedAccount = string.Format(format, bankCode, accountNumber);
 
-        //                maskedFormatedAccount = string.Format(format,
-        //                    "".PadLeft(bankCode.Length, 'X'),
-        //                    accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
-        //            }
-        //            break;
+                        maskedFormatedAccount = string.Format(format,
+                            "".PadLeft(bankCode.Length, 'X'),
+                            accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
+                    }
+                    break;
 
-        //        case "ES":
+                case "ES":
 
-        //            format = "{0} {1} {2} {3}";
+                    format = "{0} {1} {2} {3}";
 
-        //            if (account.Length >= 8)
-        //            {
-        //                bankCode = account.Substring(0, 4);
-        //                branchCode = account.Substring(4, 4);
-        //            }
+                    if (account.Length >= 8)
+                    {
+                        bankCode = account.Substring(0, 4);
+                        branchCode = account.Substring(4, 4);
+                    }
 
-        //            if (account.Length == 20)
-        //            {
-        //                checkDigit = account.Substring(8, 2);
-        //                accountNumber = account.Substring(10, 10);
+                    if (account.Length == 20)
+                    {
+                        checkDigit = account.Substring(8, 2);
+                        accountNumber = account.Substring(10, 10);
 
-        //                formatedAccount = string.Format(format, bankCode, branchCode, checkDigit, accountNumber);
+                        formatedAccount = string.Format(format, bankCode, branchCode, checkDigit, accountNumber);
 
-        //                maskedFormatedAccount = string.Format(format,
-        //                    "".PadLeft(bankCode.Length, 'X'),
-        //                    "".PadLeft(branchCode.Length, 'X'),
-        //                    "".PadLeft(checkDigit.Length, 'X'),
-        //                    accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
-        //            }
-        //            break;
+                        maskedFormatedAccount = string.Format(format,
+                            "".PadLeft(bankCode.Length, 'X'),
+                            "".PadLeft(branchCode.Length, 'X'),
+                            "".PadLeft(checkDigit.Length, 'X'),
+                            accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
+                    }
+                    break;
 
-        //        case "IT":
+                case "IT":
 
-        //            format = "{0} {1} {2} {3}";
+                    format = "{0} {1} {2} {3}";
 
-        //            if (account.Length == 23)
-        //            {
-        //                bankCode = account.Substring(1, 5);
-        //                branchCode = account.Substring(6, 5);
-        //                checkDigit = account.Substring(0, 1);
-        //                accountNumber = account.Substring(11, 12);
+                    if (account.Length == 23)
+                    {
+                        bankCode = account.Substring(1, 5);
+                        branchCode = account.Substring(6, 5);
+                        checkDigit = account.Substring(0, 1);
+                        accountNumber = account.Substring(11, 12);
 
-        //                formatedAccount = string.Format(format,
-        //                    account.Substring(0, 1),
-        //                    account.Substring(1, 5),
-        //                    account.Substring(6, 5),
-        //                    account.Substring(11, 12));
-        //            }
-        //            break;
+                        formatedAccount = string.Format(format,
+                            account.Substring(0, 1),
+                            account.Substring(1, 5),
+                            account.Substring(6, 5),
+                            account.Substring(11, 12));
+                    }
+                    break;
 
-        //        case "BE":
+                case "BE":
 
-        //            format = "{0}-{1}-{2}";
+                    format = "{0}-{1}-{2}";
 
-        //            if (account.Length >= 3)
-        //            {
-        //                bankCode = account.Substring(0, 3);
-        //            }
+                    if (account.Length >= 3)
+                    {
+                        bankCode = account.Substring(0, 3);
+                    }
 
-        //            if (account.Length == 12)
-        //            {
-        //                accountNumber = account.Substring(3, 7);
-        //                checkDigit = account.Substring(10, 2);
+                    if (account.Length == 12)
+                    {
+                        accountNumber = account.Substring(3, 7);
+                        checkDigit = account.Substring(10, 2);
 
-        //                formatedAccount = string.Format(format, bankCode, accountNumber, checkDigit);
+                        formatedAccount = string.Format(format, bankCode, accountNumber, checkDigit);
 
-        //                maskedFormatedAccount = string.Format(format,
-        //                    "".PadLeft(bankCode.Length, 'X'),
-        //                    accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'),
-        //                    "".PadLeft(checkDigit.Length, 'X'));
-        //            }
-        //            break;
+                        maskedFormatedAccount = string.Format(format,
+                            "".PadLeft(bankCode.Length, 'X'),
+                            accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'),
+                            "".PadLeft(checkDigit.Length, 'X'));
+                    }
+                    break;
 
-        //        case "PT":
+                case "PT":
 
-        //            if (account.Length == 21)
-        //            {
-        //                bankCode = account.Substring(0, 4);
-        //                branchCode = account.Substring(4, 4);
-        //                accountNumber = account.Substring(8, 11);
-        //                checkDigit = account.Substring(19, 2);
+                    if (account.Length == 21)
+                    {
+                        bankCode = account.Substring(0, 4);
+                        branchCode = account.Substring(4, 4);
+                        accountNumber = account.Substring(8, 11);
+                        checkDigit = account.Substring(19, 2);
 
-        //                formatedAccount = bankCode + "." + branchCode + "." + accountNumber + "." + checkDigit;
+                        formatedAccount = bankCode + "." + branchCode + "." + accountNumber + "." + checkDigit;
 
-        //                maskedFormatedAccount = string.Format("{0}.{1}.{2}.{3}",
-        //                   "".PadLeft(bankCode.Length, 'X'),
-        //                   "".PadLeft(branchCode.Length, 'X'),
-        //                   accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'),
-        //                   "".PadLeft(checkDigit.Length, 'X'));
-        //            }
-        //            break;
+                        maskedFormatedAccount = string.Format("{0}.{1}.{2}.{3}",
+                           "".PadLeft(bankCode.Length, 'X'),
+                           "".PadLeft(branchCode.Length, 'X'),
+                           accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'),
+                           "".PadLeft(checkDigit.Length, 'X'));
+                    }
+                    break;
 
-        //        default:
-        //            // Format FR par défaut
-        //            format = "{0} {1} {2}";
+                default:
+                    // Format FR par défaut
+                    format = "{0} {1} {2}";
 
-        //            if (account.Length >= 21)
-        //            {
-        //                bankCode = account.Substring(0, 5);
-        //                branchCode = account.Substring(5, 5);
-        //                accountNumber = account.Substring(10, 11);
+                    if (account.Length >= 21)
+                    {
+                        bankCode = account.Substring(0, 5);
+                        branchCode = account.Substring(5, 5);
+                        accountNumber = account.Substring(10, 11);
 
-        //                formatedAccount = string.Format(format, bankCode, branchCode, accountNumber);
+                        formatedAccount = string.Format(format, bankCode, branchCode, accountNumber);
 
-        //                maskedFormatedAccount = string.Format(format,
-        //                   "".PadLeft(bankCode.Length, 'X'),
-        //                   "".PadLeft(branchCode.Length, 'X'),
-        //                   accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
-        //            }
+                        maskedFormatedAccount = string.Format(format,
+                           "".PadLeft(bankCode.Length, 'X'),
+                           "".PadLeft(branchCode.Length, 'X'),
+                           accountNumber.Substring(accountNumber.Length - 3).PadLeft(accountNumber.Length, 'X'));
+                    }
 
-        //            if (account.Length == 23)
-        //            {
-        //                checkDigit = account.Substring(21, 2);
-        //                formatedAccount += " " + checkDigit;
-        //                maskedFormatedAccount += " XX";
-        //            }
+                    if (account.Length == 23)
+                    {
+                        checkDigit = account.Substring(21, 2);
+                        formatedAccount += " " + checkDigit;
+                        maskedFormatedAccount += " XX";
+                    }
 
-        //            break;
-        //    }
+                    break;
+            }
 
-        //    BankCode = bankCode ?? string.Empty;
-        //    BranchCode = branchCode ?? string.Empty;
-        //    AccountNumber = accountNumber ?? string.Empty;
-        //    CheckDigit = checkDigit ?? string.Empty;
+            BankCode = bankCode ?? string.Empty;
+            BranchCode = branchCode ?? string.Empty;
+            AccountNumber = accountNumber ?? string.Empty;
+            CheckDigit = checkDigit ?? string.Empty;
 
-        //    if (AccountNumber.Length > 3)
-        //    {
-        //        maskedAccountNumber = AccountNumber.Substring(AccountNumber.Length - 3).PadLeft(AccountNumber.Length, 'X');
-        //    }
+            if (AccountNumber.Length > 3)
+            {
+                maskedAccountNumber = AccountNumber.Substring(AccountNumber.Length - 3).PadLeft(AccountNumber.Length, 'X');
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
     }
 }

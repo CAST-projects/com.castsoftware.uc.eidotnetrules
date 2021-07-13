@@ -622,7 +622,7 @@ namespace CastDotNetExtension
                             if (!_conditionalState[elementAccessSymbol])
                             {
                                 var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                         else if (_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
@@ -630,7 +630,7 @@ namespace CastDotNetExtension
                             if (!_varSetAtNullInScope[elementAccessSymbol])
                             {
                                 var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                         else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
@@ -638,7 +638,7 @@ namespace CastDotNetExtension
                             if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
                             {
                                 var pos = memberAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                     }
@@ -660,7 +660,7 @@ namespace CastDotNetExtension
                             if (!_conditionalState[elementAccessSymbol])
                             {
                                 var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                         else if (_varSetAtNullInScope.ContainsKey(elementAccessSymbol))
@@ -668,7 +668,7 @@ namespace CastDotNetExtension
                             if (!_varSetAtNullInScope[elementAccessSymbol])
                             {
                                 var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                         else if (_varSetAtNullInAncestorScopes.ContainsKey(elementAccessSymbol))
@@ -676,7 +676,7 @@ namespace CastDotNetExtension
                             if (!_varSetAtNullInAncestorScopes[elementAccessSymbol])
                             {
                                 var pos = elementAccessNode.GetLocation().GetMappedLineSpan();
-                                _checker.AddViolation(elementAccessSymbol.symbols[0], new[] { pos });
+                                _checker.AddViolation(elementAccessSymbol.symbols[0].ContainingSymbol, new[] { pos });
                             }
                         }
                     }
