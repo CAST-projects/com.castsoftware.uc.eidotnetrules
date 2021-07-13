@@ -102,6 +102,15 @@ namespace CastDotNetExtension
                     bool is_last_else = false;
                     var former_if_statement = if_statement;
                     if_statement = if_else_statement as IfStatementSyntax;
+
+                    if (if_statement == null && if_else_statement!=null) // case simple if(){} else{}
+                    {
+                        if (!IsEquivalent(former_if_statement.Statement, if_else_statement))
+                        {
+                            is_found_equivalent = false;
+                        }
+                    }
+
                     while (if_statement != null && !is_last_else)
                     {
                         if (!IsEquivalent(former_if_statement.Statement, if_statement.Statement))
@@ -116,7 +125,16 @@ namespace CastDotNetExtension
                             if_else_statement = if_else.Statement;
                         former_if_statement = if_statement;
                         if_statement = if_else_statement as IfStatementSyntax;
+                        if (if_statement == null && if_else_statement != null) 
+                        {
+                            if (!IsEquivalent(former_if_statement.Statement, if_else_statement))
+                            {
+                                is_found_equivalent = false;
+                            }
+                        }
                     }
+
+
 
                     if (is_found_equivalent && !is_last_else)
                     {

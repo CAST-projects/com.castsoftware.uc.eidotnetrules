@@ -163,6 +163,98 @@ namespace UnitTests.TestSources
             }
         }
 
+        public void Run10()
+        {
+            int val = -1;
+            if (val == 1)
+            {
+                func1();
+            }
+            else
+            {
+                func2();
+            }
+
+            if (val == 1)
+            {
+                func1();
+            }
+            else if (val == 1)
+            {
+                func1();
+            }
+            else
+            {
+                func2();
+            }
+
+            if (val == 1)
+            {
+                func1();
+            }
+            else if (val == 1)
+            {
+                func2();
+            }
+            else
+            {
+                func1();
+            }
+
+            if (val == 1)
+            {
+                func1();
+            }
+            else if (val == 1)
+            {
+                func2();
+            }
+            else if (val == 1)
+            {
+                func1();
+            }
+            else
+            {
+                func1();
+            }
+        }
+
+        public void Run11()
+        {
+            int i = -1;
+            switch (i + 1)
+            {
+                case 1:
+                    bar();
+                    break;
+                case 2:
+                    bar();
+                    break;
+                case 3:
+                    bar();
+                    break;
+                default:
+                    bar2();
+                    break;
+            }
+
+            switch (i + 1)
+            {
+                case 1:
+                    bar();
+                    break;
+                case 2:
+                    bar();
+                    break;
+                case 3:
+                    bar2();
+                    break;
+                default:
+                    bar();
+                    break;
+            }
+        }
+
     }
  
 }
