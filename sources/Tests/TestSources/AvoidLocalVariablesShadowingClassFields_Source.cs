@@ -31,7 +31,7 @@ namespace UnitTests.UnitTest.Sources {
 
 
       class AnotherShadow : Shadow {
-         protected int aProtectedMemberOK = 0;
+         //protected int aProtectedMemberOK = 0;
 
          public AnotherShadow() {
             int aProtectedMemberKO = 0;
@@ -93,5 +93,29 @@ namespace UnitTests.UnitTest.Sources {
         public int itr;
         public List<int> listInt = new List<int>() { 1, 2, 3, 4 }; 
 
+    }
+
+    public class SonKlass : Klass
+    {
+        public int value;
+        public void func()
+        {
+            int val = 0;
+        }
+    }
+
+    public class Fruit
+    {
+        protected Season ripe;
+        protected Color flesh;
+        private int valint;
+        // ...
+    }
+
+    public class Raspberry : Fruit
+    {
+        private bool ripe; // Noncompliant
+        private static Color FLESH; // Noncompliant
+        private int valint; // Compliant
     }
 }

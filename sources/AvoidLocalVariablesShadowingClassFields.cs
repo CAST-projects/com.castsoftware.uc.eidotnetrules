@@ -23,6 +23,9 @@ namespace CastDotNetExtension
         private readonly Dictionary<string, Dictionary<string, ISymbol>> _klazzToMembers
            = new Dictionary<string, Dictionary<string, ISymbol>>();
 
+        private readonly Dictionary<string, Dictionary<string, ISymbol>> _parentKlazzToMembers
+           = new Dictionary<string, Dictionary<string, ISymbol>>();
+
         public AvoidLocalVariablesShadowingClassFields()
             : base(ViolationCreationMode.ViolationWithAdditionalBookmarks)
         {
@@ -55,14 +58,14 @@ namespace CastDotNetExtension
                         string name = null;
                         if(csharpNode != null)
                         {
-                            name = csharpNode.Identifier.ValueText;
+                            name = csharpNode.Identifier.ValueText.ToLower();
                         }
                         else
                         {
                             var foreachNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.ForEachStatementSyntax;
                             if (foreachNode != null)
                             {
-                                name = foreachNode.Identifier.ValueText;
+                                name = foreachNode.Identifier.ValueText.ToLower();
                             }
                         }
 
@@ -89,7 +92,7 @@ namespace CastDotNetExtension
                                                 {
                                                     if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility)
                                                     {
-                                                        fields[field.Name] = field;
+                                                        fields[field.Name.ToLower()] = field;
                                                     }
                                                 }
                                             }
@@ -102,7 +105,7 @@ namespace CastDotNetExtension
                                                     {
                                                         if (considerPrivateMembers || Accessibility.Private != property.DeclaredAccessibility)
                                                         {
-                                                            fields[property.Name] = property;
+                                                            fields[property.Name.ToLower()] = property;
                                                         }
                                                     }
                                                 }
@@ -130,6 +133,82 @@ namespace CastDotNetExtension
                                 }
                             }
                         }
+                    }
+                    else if (SymbolKind.Field == context.ContainingSymbol.Kind)
+                    {
+                        var csharpNode = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.VariableDeclaratorSyntax;
+                        string name = null;
+                        if (csharpNode != null)
+                        {
+                            name = csharpNode.Identifier.ValueText.ToLower();
+                        }
+
+                        if (null != name)
+                        {
+                            var type = context.ContainingSymbol.ContainingType;
+                            if (null != type)
+                            {
+                                string fullname = type.OriginalDefinition.ToString();
+                                Dictionary<string, ISymbol> fields = null;
+                                if (!_parentKlazzToMembers.TryGetValue(fullname, out fields))
+                                {
+                                    fields = new Dictionary<string, ISymbol>();
+                                    _parentKlazzToMembers[fullname] = fields;
+                                    bool considerPrivateMembers = false;
+                                    type = type.BaseType;
+                                    while (null != type && !type.ToString().Equals("System.Object"))
+                                    {
+                                        foreach (var member in type.GetMembers())
+                                        {
+                                            var field = member as IFieldSymbol;
+                                            if (null != field)
+                                            {
+                                                if (SymbolKind.Field == field.Kind)
+                                                {
+                                                    if (considerPrivateMembers || Accessibility.Private != field.DeclaredAccessibility)
+                                                    {
+                                                        fields[field.Name.ToLower()] = field;
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var property = member as IPropertySymbol;
+                                                if (null != property)
+                                                {
+                                                    if (SymbolKind.Property == property.Kind)
+                                                    {
+                                                        if (considerPrivateMembers || Accessibility.Private != property.DeclaredAccessibility)
+                                                        {
+                                                            fields[property.Name.ToLower()] = property;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        considerPrivateMembers = false;
+                                        type = type.BaseType;
+                                    } 
+                                }
+
+                                if (fields.ContainsKey(name))
+                                {
+                                    FileLinePositionSpan pos = context.Node.GetLocation().GetMappedLineSpan();
+                                    var node = context.Node as Microsoft.CodeAnalysis.CSharp.Syntax.ForEachStatementSyntax;
+                                    if (node != null)
+                                    {
+                                        pos = node.Identifier.GetLocation().GetMappedLineSpan();
+                                    }
+                                    var poses = new List<FileLinePositionSpan> { pos };
+                                    if (!fields[name].Locations.IsDefaultOrEmpty)
+                                    {
+                                        poses.Add(fields[name].Locations[0].GetMappedLineSpan());
+                                    }
+                                    AddViolation(context, poses);
+                                }
+                            }
+                        }
+
                     }
                 }
                 catch (Exception e)
