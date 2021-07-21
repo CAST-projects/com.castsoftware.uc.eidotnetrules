@@ -153,6 +153,16 @@ namespace UnitTests.UnitTest.Sources
          }
 
          private string m_name = null;
-      }   
+      }
+   
+       public class KlassExceptionKO : Exception
+       {
+           public KlassExceptionKO(string pMessage) 
+               : base(pMessage) { }
+
+           public KlassExceptionKO(string pMessage, Exception pInnerException)
+               : base(pMessage, pInnerException) { }
+
+       }
    }
 }

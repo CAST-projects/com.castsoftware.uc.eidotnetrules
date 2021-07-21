@@ -108,9 +108,16 @@ namespace UnitTests.UnitTest.Sources
       {
           Cat cat = new Cat { Age = 10, Name = "Fluffy" };
           Cat sameCat = new Cat("Fluffy") { Age = 10 };
-          TestCat(new Cat { Age = 10, Name = "Fluffy" });
+          this.TestCat(new Cat() 
+            { 
+                Age = 10, 
+                Name = "Fluffy" 
+            });
           List<Cat> lCat = new List<Cat>();
-          lCat.Add(new Cat("Fluffy") { Age = 10 });
+          lCat.Add(new Cat("Fluffy") 
+          { 
+              Age = 10 
+          });
       }
 
    }

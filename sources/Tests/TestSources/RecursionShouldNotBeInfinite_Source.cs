@@ -570,7 +570,7 @@ namespace UnitTests.UnitTest.Sources
           public Klass ParentId;
       }
 
-      internal List<Category> RecurseiveReturnKO3(List<string> keywords)
+      internal List<Category> RecurseiveReturnKO3(IEnumerable<string> keywords)
       {
           return RecurseiveReturnKO3(keywords).Where(c => c.ParentId != null).ToList();
       }
