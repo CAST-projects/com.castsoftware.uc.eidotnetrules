@@ -563,9 +563,16 @@ namespace UnitTests.UnitTest.Sources
 
       #region RecurseiveReturn2
 
-      public List<int> RecurseiveReturnKO3(List<int> li)
+      public class Klass {}
+
+      public class Category
       {
-          return RecurseiveReturnKO3(li).Where(c=>c>0).ToList();
+          public Klass ParentId;
+      }
+
+      internal List<Category> RecurseiveReturnKO3(List<string> keywords)
+      {
+          return RecurseiveReturnKO3(keywords).Where(c => c.ParentId != null).ToList();
       }
 
       #endregion
