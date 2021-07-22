@@ -39,11 +39,6 @@ namespace UnitTests.UnitTest {
             .AddExpected(89, 19)
             .AddExpected(90, 22)
             .AddExpected(92, 19)
-            .AddExpected(99, 19)
-            .AddExpected(108, 25)
-            .AddExpected(116, 21)
-            .AddExpected(109, 24)
-            .AddExpected(117, 29)
             .Validate();
 
          Assert.IsTrue(checker.IsValid(), checker.getStatus());
