@@ -160,7 +160,7 @@ namespace UnitTests.UnitTest.Sources
           public List<int> Items { get; set; }
       }
 
-       void ForLoopConditionAuthorizedPropertyOK()
+      public void ForLoopConditionAuthorizedPropertyOK1()
       {
           List<int> iter = new List<int>() { 1, 2, 3, 4 };
           for (int i = 0; i < iter.Count; ++i)
@@ -179,6 +179,19 @@ namespace UnitTests.UnitTest.Sources
           }
 
       }
+
+       public void ForLoopConditionAuthorizedPropertyOK1(string[] ressources)
+      {
+           object[] Temp;
+           int i;
+           Temp = new object[ressources.Length];
+           for(i=0; i < ressources.Length; i++)
+           {
+               Temp[i] = ressources[i];
+           }
+
+      }
+
 
    }
 }

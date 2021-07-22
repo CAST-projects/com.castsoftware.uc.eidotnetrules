@@ -26,7 +26,7 @@ namespace CastDotNetExtension
    {
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
-         return new[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
+          return new[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
       }
 
       private class DefiniteCallDetector
@@ -130,6 +130,8 @@ namespace CastDotNetExtension
                   case OperationKind.Invocation:
                      returnedOp = (_targetMethod == (op as IInvocationOperation).TargetMethod) ?
                         op : null;
+                     if(returnedOp==null)
+                         returnedOp = Detect(op, targetMethod, systemException);
                      break;
                   case OperationKind.Conditional: {
                         var count = op.Children.Count();

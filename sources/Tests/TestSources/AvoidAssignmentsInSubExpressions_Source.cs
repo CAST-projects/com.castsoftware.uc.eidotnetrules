@@ -100,11 +100,16 @@ namespace UnitTests.UnitTest.Sources
           {
               this.Name = name;
           }
+
+          public static List<Cat> CreateCatList(Cat cat)
+          {
+              return new List<Cat>() { cat };
+          }
       }
 
-    public void TestCat(Cat cat) { }
+    public void TestCat(Cat cat) {}
 
-    public void AssignmentInInitializerOK()
+    public void AssignmentInInitializerOK1()
       {
           Cat cat = new Cat { Age = 10, Name = "Fluffy" };
           Cat sameCat = new Cat("Fluffy") { Age = 10 };
@@ -119,6 +124,15 @@ namespace UnitTests.UnitTest.Sources
               Age = 10 
           });
       }
+
+    public static IEnumerable<Cat> AssignmentInInitializerOK2(int id)
+    {
+        return Cat.CreateCatList(new Cat()
+            {
+                Age = 10,
+                Name = "Fluffy"
+            });
+    }
 
    }
 }
