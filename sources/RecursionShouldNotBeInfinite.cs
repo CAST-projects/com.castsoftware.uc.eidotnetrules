@@ -24,6 +24,19 @@ namespace CastDotNetExtension
    )]
    public class RecursionShouldNotBeInfinite : AbstractOperationsAnalyzer
    {
+       public override void Init(AnalysisContext context)
+       {
+           try
+           {
+               SubscriberSink.Instance.RegisterCompilationStartAction(context);
+               context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.PropertyDeclaration);
+           }
+           catch (Exception e)
+           {
+               Log.Warn("Exception while Initing", e);
+           }
+       }
+
       public override SyntaxKind[] Kinds(CompilationStartAnalysisContext context)
       {
           return new[] { SyntaxKind.InvocationExpression, SyntaxKind.MethodDeclaration };
@@ -375,6 +388,99 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("Exception while analyzing all projects!", e);
          }
+      }
+
+      private readonly object _lock = new object();
+      private void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
+      {
+          //lock (_lock)
+          {
+              try
+              {
+                  var node = context.Node as PropertyDeclarationSyntax;
+                  if(node != null)
+                  {
+                      string propertyName = node.Identifier.ValueText;
+                      var propertySymbol = context.ContainingSymbol;
+                      if (propertySymbol != null)
+                      {
+                          var model = context.SemanticModel;
+                          foreach (var accessor in node.AccessorList.Accessors)
+                          {
+                              if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration))
+                              {
+                                  var assignmentsList = accessor.Body.DescendantNodes().OfType<AssignmentExpressionSyntax>();
+                                  foreach (var assignment in assignmentsList)
+                                  {
+                                      var left = assignment.Left;
+                                      IdentifierNameSyntax identifierName = left as IdentifierNameSyntax;
+                                      if (identifierName == null)
+                                      {
+                                          var access = left as MemberAccessExpressionSyntax;
+                                          if(access!=null)
+                                          {
+                                              identifierName = access.Name as IdentifierNameSyntax;
+                                          }
+                                      }
+
+                                      if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
+                                      {
+                                          var symbInf = model.GetSymbolInfo(identifierName);
+                                          var accessorSymbol = model.GetDeclaredSymbol(accessor);
+
+                                          if (symbInf.Symbol != null && accessorSymbol != null)
+                                          {
+                                              if(propertySymbol.Equals(symbInf.Symbol))
+                                              {
+                                                  var pos = assignment.GetLocation().GetMappedLineSpan();
+                                                  AddViolation(accessorSymbol, new[] { pos });
+                                              }
+                                          }
+                                      }
+
+                                  }
+                              }
+                              else if (accessor.IsKind(SyntaxKind.GetAccessorDeclaration))
+                              {
+                                  var returnsList = accessor.Body.DescendantNodes().OfType<ReturnStatementSyntax>();
+                                  foreach (var returrn in returnsList)
+                                  {
+                                      var expression = returrn.Expression;
+                                      IdentifierNameSyntax identifierName = expression as IdentifierNameSyntax;
+                                      if (identifierName == null)
+                                      {
+                                          var access = expression as MemberAccessExpressionSyntax;
+                                          if (access != null)
+                                          {
+                                              identifierName = access.Name as IdentifierNameSyntax;
+                                          }
+                                      }
+
+                                      if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
+                                      {
+                                          var symbInf = model.GetSymbolInfo(identifierName);
+                                          var accessorSymbol = model.GetDeclaredSymbol(accessor);
+
+                                          if (symbInf.Symbol != null && accessorSymbol != null)
+                                          {
+                                              if (propertySymbol.Equals(symbInf.Symbol))
+                                              {
+                                                  var pos = returrn.GetLocation().GetMappedLineSpan();
+                                                  AddViolation(accessorSymbol, new[] { pos });
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+              catch (Exception e)
+              {
+                  Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
+              }
+          }
       }
    }
 }

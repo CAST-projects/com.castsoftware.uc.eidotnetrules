@@ -51,6 +51,10 @@ namespace UnitTests.UnitTest
              .AddExpected(529, 6)
              .AddExpected(502, 9)
              .AddExpected(572, 6)
+             .AddExpected(590, 14)
+             .AddExpected(598, 14)
+             .AddExpected(614, 14)
+             .AddExpected(622, 14)
              .Validate();
 
          try {

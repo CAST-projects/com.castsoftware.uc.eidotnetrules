@@ -603,6 +603,30 @@ namespace UnitTests.UnitTest.Sources
               _prop = value;
           }
       }
+
+      public bool recProp3
+      {
+          get
+          {
+              return _prop;
+          }
+          set
+          {
+              recProp3 = value;
+          }
+      }
+
+      public bool recProp4
+      {
+          get
+          {
+              return recProp4;
+          }
+          set
+          {
+              _prop = value;
+          }
+      }
      
 
       #endregion

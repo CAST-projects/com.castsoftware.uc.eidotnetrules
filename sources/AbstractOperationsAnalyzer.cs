@@ -56,7 +56,7 @@ namespace CastDotNetExtension
 
       }
 
-      private class OpsProcessor
+      protected class OpsProcessor
       {
          public bool IsActive { get; set; }
          public IOpProcessor OpProcessor { get; private set; }
@@ -74,7 +74,7 @@ namespace CastDotNetExtension
          SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
-      private class SubscriberSink
+      protected class SubscriberSink
       {
          public ILog Log { get; set; }
 
@@ -87,11 +87,11 @@ namespace CastDotNetExtension
 
          internal static object Lock = new object();
 
-         public HashSet<OpsProcessor> OpsProcessors { get; private set; }
+         public HashSet<OpsProcessor> OpsProcessors { get; protected set; }
 
          public Task AllViolationTasks { get; private set; }
 
-         private SubscriberSink()
+         protected SubscriberSink()
          {
             OpsProcessors = new HashSet<OpsProcessor>();
          }
