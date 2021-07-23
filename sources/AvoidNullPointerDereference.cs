@@ -45,7 +45,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f33")
+                    //if (node.Identifier.ValueText == "f34")
                     {
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
@@ -387,25 +387,40 @@ namespace CastDotNetExtension
                             var ifNode = descendantNode as IfStatementSyntax;
                             if (ifNode != null)
                             {
+                                Scope condition, thenBlock, elseBlock;
                                 // check condition
-                                child = AddChildScope(ifNode.Condition);
-                                child.CheckCondition(ifNode.Condition);
+                                condition = AddChildScope(ifNode.Condition);
+                                condition.CheckCondition(ifNode.Condition);
                                 //child.AnalyzeScope();
-                                child.AnalyseCondition(ifNode.Condition);
-                                child._conditionalState.Clear();
+                                condition.AnalyseCondition(ifNode.Condition);
+                                condition._conditionalState.Clear();
                                 // check then block
-                                child = AddChildScope(ifNode.Statement);
-                                child.CheckCondition(ifNode.Condition);
-                                child.AnalyzeScope();
-                                setConditionVar(child);
+                                thenBlock = AddChildScope(ifNode.Statement);
+                                thenBlock.CheckCondition(ifNode.Condition);
+                                foreach (var newConditionVar in thenBlock._conditionVar)
+                                {
+                                    if (newConditionVar.Value)
+                                    {
+                                        thenBlock._varSetAtNullInAncestorScopes[newConditionVar.Key] = !newConditionVar.Value;
+                                    }
+                                }
+                                thenBlock.AnalyzeScope();
+                                setConditionVar(thenBlock);
                                 // check else block
                                 if(ifNode.Else!=null)
                                 {
-                                    child = AddChildScope(ifNode.Else);
-                                    child.CheckCondition(ifNode.Condition, true);
-                                    child.AnalyzeScope();
-                                    setConditionVar(child);
-                                }
+                                    elseBlock = AddChildScope(ifNode.Else);
+                                    elseBlock.CheckCondition(ifNode.Condition, true);
+                                    foreach (var newConditionVar in elseBlock._conditionVar)
+                                    {
+                                        if (newConditionVar.Value)
+                                        {
+                                            elseBlock._varSetAtNullInAncestorScopes[newConditionVar.Key] = !newConditionVar.Value;
+                                        }
+                                    }
+                                    elseBlock.AnalyzeScope();
+                                    setConditionVar(elseBlock);
+                                }                                
 
                             }
                             break;

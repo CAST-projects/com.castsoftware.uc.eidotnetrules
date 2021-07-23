@@ -646,5 +646,72 @@ namespace UnitTests.UnitTest.Sources
             return true;
         }
 
+        void f34()
+        {
+            if (this.toto != null)
+            {
+                this.toto = createStateObj();
+            }
+            else
+            {
+                this.toto.Value = "toto";//Violation
+            }
+
+            if (toto != null)
+            {
+                toto = createStateObj();
+            }
+            else
+            {
+                toto.Value = "toto";//Violation
+            }
+
+            if (this.toto != null)
+            {
+                this.toto = createStateObj();
+            }
+            else if (this.toto == null)
+            {
+                this.toto.Value = "toto";//Violation
+            }
+
+            if (toto != null)
+            {
+                toto = createStateObj();
+            }
+            else if (toto != null)
+            {
+                toto.Value = "toto";//No Violation
+            }
+
+            if (this.toto != null && strvar!= null)
+            {
+                this.toto = createStateObj();
+            }
+            else
+            {
+                this.toto.Value = "toto";//Violation
+            }
+
+            if (strvar != null && this.toto != null)
+            {
+                this.toto = createStateObj();
+            }
+            else
+            {
+                this.toto.Value = "toto";//Violation
+            }
+
+            if (toto != null || strvar != null)
+            {
+                toto = createStateObj();
+            }
+            else
+            {
+                toto.Value = "toto";//Violation
+            }
+
+        }
+
     }
 }
