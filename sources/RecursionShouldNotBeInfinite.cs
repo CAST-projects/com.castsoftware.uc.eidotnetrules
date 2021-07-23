@@ -407,7 +407,7 @@ namespace CastDotNetExtension
                           var model = context.SemanticModel;
                           foreach (var accessor in node.AccessorList.Accessors)
                           {
-                              if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration))
+                              if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration) && accessor.Body!=null)
                               {
                                   var assignmentsList = accessor.Body.DescendantNodes().OfType<AssignmentExpressionSyntax>();
                                   foreach (var assignment in assignmentsList)
@@ -440,7 +440,7 @@ namespace CastDotNetExtension
 
                                   }
                               }
-                              else if (accessor.IsKind(SyntaxKind.GetAccessorDeclaration))
+                              else if (accessor.IsKind(SyntaxKind.GetAccessorDeclaration) && accessor.Body != null)
                               {
                                   var returnsList = accessor.Body.DescendantNodes().OfType<ReturnStatementSyntax>();
                                   foreach (var returrn in returnsList)

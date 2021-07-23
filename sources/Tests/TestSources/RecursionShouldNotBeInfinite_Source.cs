@@ -569,7 +569,7 @@ namespace UnitTests.UnitTest.Sources
       {
           public Klass ParentId;
       }
-
+      int Authorization { get; set; }
       internal List<Category> RecurseiveReturnKO3(IEnumerable<string> keywords)
       {
           return RecurseiveReturnKO3(keywords).Where(c => c.ParentId != null).ToList();
@@ -627,8 +627,8 @@ namespace UnitTests.UnitTest.Sources
               _prop = value;
           }
       }
-     
 
+      
       #endregion
 
      

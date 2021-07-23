@@ -711,6 +711,25 @@ namespace UnitTests.UnitTest.Sources
                 toto.Value = "toto";//Violation
             }
 
+            if (this.strvar != null)
+            {
+                if (this.toto != null && this.toto.Value != null)
+                {
+                    this.toto = createStateObj();
+                    if (this.strvar != null)
+                    {
+                        if (this.toto != null)
+                        {
+                            this.toto = createStateObj();
+                        }
+                    }
+                }
+                else
+                {
+                    this.toto.Value = "toto";//Violation
+                }
+            }
+
         }
 
     }
