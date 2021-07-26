@@ -405,68 +405,71 @@ namespace CastDotNetExtension
                       if (propertySymbol != null)
                       {
                           var model = context.SemanticModel;
-                          foreach (var accessor in node.AccessorList.Accessors)
+                          if(model!=null)
                           {
-                              if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration) && accessor.Body!=null)
+                              foreach (var accessor in node.AccessorList.Accessors)
                               {
-                                  var assignmentsList = accessor.Body.DescendantNodes().OfType<AssignmentExpressionSyntax>();
-                                  foreach (var assignment in assignmentsList)
+                                  if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration) && accessor.Body != null)
                                   {
-                                      var left = assignment.Left;
-                                      IdentifierNameSyntax identifierName = left as IdentifierNameSyntax;
-                                      if (identifierName == null)
+                                      var assignmentsList = accessor.Body.DescendantNodes().OfType<AssignmentExpressionSyntax>();
+                                      foreach (var assignment in assignmentsList)
                                       {
-                                          var access = left as MemberAccessExpressionSyntax;
-                                          if(access!=null)
+                                          var left = assignment.Left;
+                                          IdentifierNameSyntax identifierName = left as IdentifierNameSyntax;
+                                          if (identifierName == null)
                                           {
-                                              identifierName = access.Name as IdentifierNameSyntax;
-                                          }
-                                      }
-
-                                      if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
-                                      {
-                                          var symbInf = model.GetSymbolInfo(identifierName);
-                                          var accessorSymbol = model.GetDeclaredSymbol(accessor);
-
-                                          if (symbInf.Symbol != null && accessorSymbol != null)
-                                          {
-                                              if(propertySymbol.Equals(symbInf.Symbol))
+                                              var access = left as MemberAccessExpressionSyntax;
+                                              if (access != null)
                                               {
-                                                  var pos = assignment.GetLocation().GetMappedLineSpan();
-                                                  AddViolation(accessorSymbol, new[] { pos });
+                                                  identifierName = access.Name as IdentifierNameSyntax;
                                               }
                                           }
-                                      }
 
-                                  }
-                              }
-                              else if (accessor.IsKind(SyntaxKind.GetAccessorDeclaration) && accessor.Body != null)
-                              {
-                                  var returnsList = accessor.Body.DescendantNodes().OfType<ReturnStatementSyntax>();
-                                  foreach (var returrn in returnsList)
-                                  {
-                                      var expression = returrn.Expression;
-                                      IdentifierNameSyntax identifierName = expression as IdentifierNameSyntax;
-                                      if (identifierName == null)
-                                      {
-                                          var access = expression as MemberAccessExpressionSyntax;
-                                          if (access != null)
+                                          if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
                                           {
-                                              identifierName = access.Name as IdentifierNameSyntax;
-                                          }
-                                      }
+                                              var symbInf = model.GetSymbolInfo(identifierName);
+                                              var accessorSymbol = model.GetDeclaredSymbol(accessor);
 
-                                      if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
-                                      {
-                                          var symbInf = model.GetSymbolInfo(identifierName);
-                                          var accessorSymbol = model.GetDeclaredSymbol(accessor);
-
-                                          if (symbInf.Symbol != null && accessorSymbol != null)
-                                          {
-                                              if (propertySymbol.Equals(symbInf.Symbol))
+                                              if (symbInf.Symbol != null && accessorSymbol != null)
                                               {
-                                                  var pos = returrn.GetLocation().GetMappedLineSpan();
-                                                  AddViolation(accessorSymbol, new[] { pos });
+                                                  if (propertySymbol.Equals(symbInf.Symbol))
+                                                  {
+                                                      var pos = assignment.GetLocation().GetMappedLineSpan();
+                                                      AddViolation(accessorSymbol, new[] { pos });
+                                                  }
+                                              }
+                                          }
+
+                                      }
+                                  }
+                                  else if (accessor.IsKind(SyntaxKind.GetAccessorDeclaration) && accessor.Body != null)
+                                  {
+                                      var returnsList = accessor.Body.DescendantNodes().OfType<ReturnStatementSyntax>();
+                                      foreach (var returrn in returnsList)
+                                      {
+                                          var expression = returrn.Expression;
+                                          IdentifierNameSyntax identifierName = expression as IdentifierNameSyntax;
+                                          if (identifierName == null)
+                                          {
+                                              var access = expression as MemberAccessExpressionSyntax;
+                                              if (access != null)
+                                              {
+                                                  identifierName = access.Name as IdentifierNameSyntax;
+                                              }
+                                          }
+
+                                          if (identifierName != null && propertyName.Equals(identifierName.Identifier.ValueText))
+                                          {
+                                              var symbInf = model.GetSymbolInfo(identifierName);
+                                              var accessorSymbol = model.GetDeclaredSymbol(accessor);
+
+                                              if (symbInf.Symbol != null && accessorSymbol != null)
+                                              {
+                                                  if (propertySymbol.Equals(symbInf.Symbol))
+                                                  {
+                                                      var pos = returrn.GetLocation().GetMappedLineSpan();
+                                                      AddViolation(accessorSymbol, new[] { pos });
+                                                  }
                                               }
                                           }
                                       }

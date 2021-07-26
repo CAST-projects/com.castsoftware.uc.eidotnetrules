@@ -32,11 +32,11 @@ namespace UnitTests.UnitTest
                 .AddExpected(187, 12)
                 .AddExpected(198, 12)
                 .AddExpected(209, 12)
-                .AddExpected(221, 15)
+                .AddExpected(221, 16)
                 .AddExpected(260, 16)
                 .AddExpected(274, 16)
                 .AddExpected(295, 12)
-                .AddExpected(307, 15)
+                .AddExpected(307, 16)
                 .AddExpected(309, 16)
                 .AddExpected(310, 16)
                 .AddExpected(314, 16)
@@ -51,7 +51,8 @@ namespace UnitTests.UnitTest
                 .AddExpected(692, 16)
                 .AddExpected(701, 16)
                 .AddExpected(710, 16)
-                .AddExpected(728, 20)
+                .AddExpected(775, 28)
+                .AddExpected(833, 24)
                 .Validate();
 
             Assert.IsTrue(checker.IsValid(), checker.getStatus());

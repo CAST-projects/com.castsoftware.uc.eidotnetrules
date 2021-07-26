@@ -67,7 +67,7 @@ namespace UnitTests.UnitTest.Sources
             {
                 foo.ToString(); // VIOLATION 
             }
-            
+
         }
 
         void f5()
@@ -103,7 +103,7 @@ namespace UnitTests.UnitTest.Sources
                 foo.ToString(); //VIOLATION 
                 foo = new object();
             }
-            
+
         }
 
         void f8()
@@ -114,7 +114,7 @@ namespace UnitTests.UnitTest.Sources
             {
                 foo.ToString(); //NO VIOLATION 
             }
-            
+
         }
 
         void f9()
@@ -129,7 +129,7 @@ namespace UnitTests.UnitTest.Sources
         void f10()
         {
             object foo = null;
-            if(foo==null)
+            if (foo == null)
                 foo = new object();
 
             foo.ToString(); //NO VIOLATION 
@@ -141,7 +141,7 @@ namespace UnitTests.UnitTest.Sources
             if (foo == null)
                 foo = new object();
             int i = 0;
-            if(i >=0)
+            if (i >= 0)
                 foo.ToString(); //NO VIOLATION 
         }
 
@@ -152,7 +152,7 @@ namespace UnitTests.UnitTest.Sources
             while (i > 0)
             {
                 foo = new object();
-            }         
+            }
             foo.ToString(); // VIOLATION 
         }
 
@@ -163,7 +163,7 @@ namespace UnitTests.UnitTest.Sources
             do
             {
                 foo = new object();
-            } while (i > 0) ;
+            } while (i > 0);
             foo.ToString(); //NO VIOLATION 
         }
 
@@ -202,7 +202,7 @@ namespace UnitTests.UnitTest.Sources
         void f16()
         {
             object foo = null;
-            List<int>  list = new List<int>();
+            List<int> list = new List<int>();
             foreach (var j in list)
             {
                 foo = new object();
@@ -219,7 +219,7 @@ namespace UnitTests.UnitTest.Sources
                 foo = new object();
             }
 
-            if(list[0]==0)
+            if (list[0] == 0)
             {
                 foo = new object();
             }
@@ -231,7 +231,7 @@ namespace UnitTests.UnitTest.Sources
         }
 
         void f18()
-        {           
+        {
             foo4.ToString(); //NO VIOLATION cause we don't know 
             AvoidNullPointerDereference_Source.func();
         }
@@ -252,11 +252,11 @@ namespace UnitTests.UnitTest.Sources
         void f20()
         {
             foo2 = null;
-            if(foo2!=null)
+            if (foo2 != null)
             {
                 foo2.ToString(); //NO VIOLATION
             }
-            else if(foo2==null)
+            else if (foo2 == null)
             {
                 foo2.ToString(); //VIOLATION
             }
@@ -275,7 +275,7 @@ namespace UnitTests.UnitTest.Sources
                 foo.ToString(); // VIOLATION
             }
 
-            if(foo==null)
+            if (foo == null)
             {
                 foo = new object();
             }
@@ -291,8 +291,8 @@ namespace UnitTests.UnitTest.Sources
             object foo = null;
             if (foo == null)
             {
-                int i = 0;  
-            }           
+                int i = 0;
+            }
             foo.ToString(); //VIOLATION
         }
 
@@ -300,12 +300,12 @@ namespace UnitTests.UnitTest.Sources
         {
             int[] tab = null;
             int i = 0;
-            if(i>0)
+            if (i > 0)
             {
                 tab = new int[5];
             }
 
-            if(tab[0] == 0) // VIOLATION
+            if (tab[0] == 0) // VIOLATION
             {
                 tab[1] = -1; // VIOLATION
                 tab[2] = 10; // VIOLATION
@@ -318,15 +318,15 @@ namespace UnitTests.UnitTest.Sources
 
         int func3(int val)
         {
-            val = val*2;
+            val = val * 2;
             return val;
         }
         // test for unresolved symbol Klass
         void f24(Klass klass)
         {
-            if(klass.dict != null)
+            if (klass.dict != null)
             {
-                if(klass.dict.ContainsKey("toto"))
+                if (klass.dict.ContainsKey("toto"))
                 {
                     func3(klass.dict["toto"]);
                 }
@@ -337,7 +337,7 @@ namespace UnitTests.UnitTest.Sources
         {
             object foo = null;
             int i = 0;
-            List<int> list = new List<int>() {1,2,3,4};
+            List<int> list = new List<int>() { 1, 2, 3, 4 };
             foreach (var j in list)
             {
                 if (i == 0)
@@ -463,7 +463,7 @@ namespace UnitTests.UnitTest.Sources
         void f33()
         {
             this.toto = null;
-            if (this.toto == null || this.toto.Value==null)
+            if (this.toto == null || this.toto.Value == null)
             {
                 this.toto = createStateObj();
             }
@@ -473,11 +473,11 @@ namespace UnitTests.UnitTest.Sources
                 foo3 = new object();
             }
 
-            if(foo3!=null)
+            if (foo3 != null)
             {
                 string name = toto.Value.ToString(); //NO VIOLATION 
             }
-            
+
         }
 
         public string formatedAccount;
@@ -633,19 +633,19 @@ namespace UnitTests.UnitTest.Sources
                     break;
             }
 
-            BankCode = bankCode ?? string.Empty;
-            BranchCode = branchCode ?? string.Empty;
-            AccountNumber = accountNumber ?? string.Empty;
-            CheckDigit = checkDigit ?? string.Empty;
+            string BankCode = bankCode ?? string.Empty;
+            string BranchCode = branchCode ?? string.Empty;
+            string AccountNumber = accountNumber ?? string.Empty;
+            string CheckDigit = checkDigit ?? string.Empty;
 
             if (AccountNumber.Length > 3)
             {
-                maskedAccountNumber = AccountNumber.Substring(AccountNumber.Length - 3).PadLeft(AccountNumber.Length, 'X');
+                string maskedAccountNumber = AccountNumber.Substring(AccountNumber.Length - 3).PadLeft(AccountNumber.Length, 'X');
             }
 
             return true;
         }
-
+        public bool funcBool() { return true; }
         void f34()
         {
             if (this.toto != null)
@@ -684,7 +684,7 @@ namespace UnitTests.UnitTest.Sources
                 toto.Value = "toto";//No Violation
             }
 
-            if (this.toto != null && strvar!= null)
+            if (this.toto != null && strvar != null)
             {
                 this.toto = createStateObj();
             }
@@ -710,24 +710,134 @@ namespace UnitTests.UnitTest.Sources
             {
                 toto.Value = "toto";//Violation
             }
+        }
 
-            if (this.strvar != null)
+        void f35()
+        {
+            bool ind = true;
+            StateObject<string> obj1 = createStateObj();
+            StateObject<string> obj2 = createStateObj();
+            StateObject<string> obj3 = createStateObj();
+            this.toto.ToString();
+            try
             {
-                if (this.toto != null && this.toto.Value != null)
+                func();
+                if (obj1 != null && this.strvar.att.Length != 0 || ind)
                 {
-                    this.toto = createStateObj();
-                    if (this.strvar != null)
+                    if(strvar.att.ToLower() == "att")
                     {
-                        if (this.toto != null)
+                        func();
+                        if(this.toto!=null && this.toto.Value!=null)
                         {
-                            this.toto = createStateObj();
+                            if(!((string)this.toto.Value).IsNormalized() && obj2.ToString().Contains("lv"))
+                            {
+                                if (ind && ((string)this.toto.Value).IsNormalized())
+                                {
+                                    func();
+                                    if (funcBool()) func();
+                                }
+                                else
+                                {
+                                    func();
+                                    if(funcBool())
+                                    {
+                                        func();
+                                    }
+
+                                    if (ind && obj3.att != null && obj3.att.Length != 0)
+                                    {
+                                        try
+                                        {
+                                            if(obj3.att != null)
+                                            {
+                                                func();
+                                                if (ind)
+                                                    func();
+                                            }
+                                            func();
+                                        }
+                                        catch(Exception err)
+                                        {
+                                            func();
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                this.toto.att = "att";
+                                func();
+                            }
                         }
+                        else
+                        {
+                            func();
+                            this.toto.Value = "titi"; // violation
+                        }
+                    }
+                    else
+                    {
+                        func();
                     }
                 }
                 else
                 {
-                    this.toto.Value = "toto";//Violation
+                    if (this.toto != null && this.toto.Value != null)
+                    {
+                        
+                        if (!((string)this.toto.Value).IsNormalized())
+                        {
+                            if (ind && ((string)this.toto.Value).Length == 0)
+                            {
+                                if (funcBool()) func();
+                            }
+                            else
+                            {
+                                if (funcBool())
+                                {
+                                    func();
+                                }
+
+                                if (ind && strvar.att != null && strvar.att.Length != 0)
+                                {
+                                    try
+                                    {
+                                        if (strvar.att != null)
+                                        {
+                                            if (strvar.att.Length!=0)
+                                                func();
+                                        }
+                                    }
+                                    catch (Exception err)
+                                    {
+                                        func();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.toto.att = "att";
+                            try
+                            {
+                                if (strvar != null) strvar.Value = "value";
+                                else func();
+                            }
+                            catch { func(); }
+                            func();
+                        }
+                        
+                    }
+                    else
+                    {
+                        this.toto.Value = "toto";//Violation
+                    }
                 }
+            }
+            catch (Exception err)
+            {
+                func();
             }
 
         }
