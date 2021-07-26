@@ -3,8 +3,8 @@
 	<metadata>
 		<id>com.castsoftware.uc.eidotnetrules</id>
         <!-- !!! NEVER remove the _BUILDNO_ in the version !!! -->
-    <version>1.0.0-alpha4</version>
-    <!--<version>1.0.0-alpha4_BUILDNO_</version>-->
+    <!--<version>1.0.0-alpha5</version>-->
+    <version>1.0.0-alpha_BUILDNO_</version>
 		<title>.NET Quality Rules</title>
 		<projectUrl>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+_THE_SHORT_VERSION_</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/CAST-Extend/resources/master/com.castsoftware.aip.eidotnetrules.png</iconUrl>
