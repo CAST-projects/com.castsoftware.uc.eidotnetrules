@@ -841,6 +841,51 @@ namespace UnitTests.UnitTest.Sources
             }
 
         }
-
+	
+	void f36(Data A)
+        {    
+            object foo = null;
+            var isNotNullFoo = foo != null || foo.ToString(); // VIOLATION
+            if (isNotNullFoo)
+            {
+                foo.ToString(); // NOT VIOLATION
+            }
+            else
+            {
+                foo = new object();
+            }
+        }
+	
+	void f37(Data A)
+        {    
+            object foo = null;
+            var isNotNullFoo = foo != null;
+            if (isNotNullFoo)
+            {
+                foo.ToString(); // NOT VIOLATION
+            }
+            else
+            {
+                foo.ToString(); //VIOLATION
+            }
+        }
+	
+        private IData f38(IData processedData, string keyName)
+        {
+            object foo = null;
+            var isNotNullFoo = foo != null && foo.ToString();
+            if (foo != null)
+            {
+                foo.ToString(); // NOT VIOLATION
+            }
+            else if(isNotNullFoo)
+            {
+                foo.ToString(); // NOT VIOLATION
+            }
+	    else
+            {
+                foo.ToString(); // VIOLATION
+            }
+        }
     }
 }

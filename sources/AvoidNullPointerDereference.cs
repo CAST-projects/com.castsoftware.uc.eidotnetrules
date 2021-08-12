@@ -45,7 +45,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f34")
+                    //if (node.Identifier.ValueText == "f38")
                     {
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
@@ -154,7 +154,7 @@ namespace CastDotNetExtension
         }
 
         public class KeyValuePairOfScopeComparer : IEqualityComparer<KeyValuePair<ISymbol, bool>>
-       {
+        {
             public bool Equals(KeyValuePair<ISymbol, bool> x, KeyValuePair<ISymbol, bool> y)
             {
                 return x.Key.Equals(y.Key);
@@ -164,7 +164,13 @@ namespace CastDotNetExtension
             {
                 return x.GetHashCode();
             }
-       }
+        }
+
+        public struct CheckNullInfos
+        {
+            public SymbolList varCheck;
+            public bool equalOpr;
+        }
 
         public class Scope
         {
@@ -173,6 +179,7 @@ namespace CastDotNetExtension
             public AvoidNullPointerDereference _checker;
             public List<Scope> _childrenScope = new List<Scope>();
             public Dictionary<SymbolList, bool> _varSetAtNullInScope = new Dictionary<SymbolList, bool>();
+            public Dictionary<SymbolList, CheckNullInfos> _varBoolCheckNullInVarDeclaration = new Dictionary<SymbolList, CheckNullInfos>();
             public Dictionary<SymbolList, bool> _varSetAtNullInAncestorScopes;
             public Dictionary<SymbolList, bool> _conditionVar = new Dictionary<SymbolList, bool>();
             public Dictionary<SymbolList, bool> _conditionalState = new Dictionary<SymbolList, bool>();
@@ -251,8 +258,24 @@ namespace CastDotNetExtension
                 }
             }
 
+            public void HandleWithNullLiteralVar(SymbolList symb, ISymbol varDeclaration, bool elseBlock)
+            {
+                if (symb != null)
+                {
+                    if (varDeclaration != null)
+                    {
+                        CheckNullInfos nullInfos;
+                        nullInfos.varCheck = symb;
+                        nullInfos.equalOpr = !elseBlock;
+                        _varBoolCheckNullInVarDeclaration[new SymbolList(varDeclaration)] = nullInfos;
+                    }
+                    else
+                        _conditionVar[symb] = !elseBlock;
+                }
+            }
+
             // Check conditions variables tested against "null"
-            public void CheckCondition(SyntaxNode node, bool elseBlock=false)
+            public void CheckCondition(SyntaxNode node, bool elseBlock = false, ISymbol varDeclaration = null)
             {
                 switch (node.Kind())
                 {
@@ -260,16 +283,16 @@ namespace CastDotNetExtension
                         var andNode = node as BinaryExpressionSyntax;
                         if(andNode != null)
                         {
-                            CheckCondition(andNode.Left, elseBlock);
-                            CheckCondition(andNode.Right, elseBlock);
+                            CheckCondition(andNode.Left, elseBlock, varDeclaration);
+                            CheckCondition(andNode.Right, elseBlock, varDeclaration);
                         }
                         break;
                     case SyntaxKind.LogicalOrExpression:
                         var orNode = node as BinaryExpressionSyntax;
                         if (orNode != null)
                         {
-                            CheckCondition(orNode.Left, elseBlock);
-                            CheckCondition(orNode.Right, elseBlock);
+                            CheckCondition(orNode.Left, elseBlock, varDeclaration);
+                            CheckCondition(orNode.Right, elseBlock, varDeclaration);
                         }
                         break;
                     case SyntaxKind.EqualsExpression:
@@ -279,14 +302,12 @@ namespace CastDotNetExtension
                             if(equalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var == null
                             {
                                 var equalSymb = getSymbolList(equalNode.Left);
-                                if (equalSymb != null)
-                                    _conditionVar[equalSymb] = !elseBlock;
+                                HandleWithNullLiteralVar(equalSymb, varDeclaration, elseBlock);
                             }
                             else if (equalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null == var
                             {                                
                                 var equalSymb = getSymbolList(equalNode.Right);
-                                if(equalSymb!=null)
-                                    _conditionVar[equalSymb] = !elseBlock;
+                                HandleWithNullLiteralVar(equalSymb, varDeclaration, elseBlock);
                             }
                         }
                         break;
@@ -297,16 +318,36 @@ namespace CastDotNetExtension
                             if (inequalNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // case: var != null
                             {                                
                                 var inequalSymb = getSymbolList(inequalNode.Left);
-                                if (inequalSymb != null)
-                                    _conditionVar[inequalSymb] = elseBlock;
+                                HandleWithNullLiteralVar(inequalSymb, varDeclaration, !elseBlock);
                             }
                             else if (inequalNode.Left.IsKind(SyntaxKind.NullLiteralExpression)) // case: null != var
                             {                                
                                 var inequalSymb = getSymbolList(inequalNode.Right);
-                                if (inequalSymb != null)
-                                    _conditionVar[inequalSymb] = elseBlock;
+                                HandleWithNullLiteralVar(inequalSymb, varDeclaration, !elseBlock);
                             }
                         }
+                        break;
+                    case SyntaxKind.IdentifierName:
+
+                        var parent = this._parentScope;
+                        bool found = false;
+                        while (parent != null && !found)
+                        {
+                            var childrenScopes = parent._childrenScope;
+                            var identSymb = getSymbolList(node);
+
+                            foreach (var child in childrenScopes)
+                            {
+                                if (child._varBoolCheckNullInVarDeclaration.ContainsKey(identSymb))
+                                {
+                                    var infos = child._varBoolCheckNullInVarDeclaration[identSymb];
+                                    _conditionVar[infos.varCheck] = infos.equalOpr ? !elseBlock : elseBlock;
+                                    found = true;
+                                }
+                            }
+                            parent = parent._parentScope;
+                        }
+
                         break;
                     default:
                         break;
@@ -554,18 +595,45 @@ namespace CastDotNetExtension
 
             }
 
+            public bool IsKindBoolCondition(ExpressionSyntax expSyntax)
+            {
+                return expSyntax.IsKind(SyntaxKind.LogicalAndExpression) ||
+                       expSyntax.IsKind(SyntaxKind.LogicalOrExpression) ||
+                       expSyntax.IsKind(SyntaxKind.LogicalNotExpression) ||
+                       expSyntax.IsKind(SyntaxKind.EqualsExpression) ||
+                       expSyntax.IsKind(SyntaxKind.NotEqualsExpression);
+            }
+
             public void AnalyseVariableDeclarator(SyntaxNode node)
             {
                 var declaratorNode = node as VariableDeclaratorSyntax;
                 if (declaratorNode != null && declaratorNode.Initializer != null)
                 {
-                    if (declaratorNode.Initializer.IsKind(SyntaxKind.EqualsValueClause)
-                        && declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)) // null initialization
+                    if (declaratorNode.Initializer.IsKind(SyntaxKind.EqualsValueClause)) 
                     {
-                        var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
-                        if (declarSymb != null)
+                        if (declaratorNode.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)) // null initialization
                         {
-                            _varSetAtNullInScope[new SymbolList(declarSymb)] = false;
+                            var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
+                            if (declarSymb != null)
+                            {
+                                _varSetAtNullInScope[new SymbolList(declarSymb)] = false;
+                            }
+                        }
+                        else if (IsKindBoolCondition(declaratorNode.Initializer.Value))
+                        {
+
+                            var declarSymb = _checker._currentContext.SemanticModel.GetDeclaredSymbol(declaratorNode);
+                            // Check bool condition in variable declaration
+                            // stock for if and check access expression violation in bool condition
+                            Scope conditionInVarDeclaration;
+                            conditionInVarDeclaration = AddChildScope(declaratorNode.Initializer.Value);
+
+                            // check violation inside.
+                            conditionInVarDeclaration.AnalyseCondition(declaratorNode.Initializer.Value);
+                            conditionInVarDeclaration._conditionalState.Clear();
+
+                            // stock and add when check if statement
+                            conditionInVarDeclaration.CheckCondition(declaratorNode.Initializer.Value, false, declarSymb);
                         }
                     }
                 }
