@@ -82,7 +82,7 @@ namespace CastDotNetExtension
          {
 
             HasSerializableAttribute = type.IsSerializable;
-            ImplementsISerializable = type.AllInterfaces.Contains(iSerializable);
+            ImplementsISerializable = type.DelegateInvokeMethod == null ? type.AllInterfaces.Contains(iSerializable) : false;
             HasSerializableFields = false;
 
             if (ImplementsISerializable) {

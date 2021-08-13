@@ -164,5 +164,8 @@ namespace UnitTests.UnitTest.Sources
                : base(pMessage, pInnerException) { }
 
        }
+       
+       public delegate object DynamicMethodInstantiateDelegate();
+
    }
 }
