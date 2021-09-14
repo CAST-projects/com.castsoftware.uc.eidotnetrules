@@ -28,8 +28,8 @@ namespace CastDotNetExtension
        {
            try
            {
-               SubscriberSink.Instance.RegisterCompilationStartAction(context);
-               context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.PropertyDeclaration);
+               //SubscriberSink.Instance.RegisterCompilationStartAction(context);
+               //context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.PropertyDeclaration);
            }
            catch (Exception e)
            {
