@@ -54,6 +54,7 @@ namespace CastDotNetExtension {
             Log.Warn(" Exception while analyzing " + context.Operation.Syntax.SyntaxTree.FilePath + 
                " Pos: " + context.Operation.Syntax.GetLocation().GetMappedLineSpan(), e);
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
    }

@@ -61,6 +61,7 @@ namespace CastDotNetExtension
 
             context.RegisterSymbolAction(OnNamedType, SymbolKind.NamedType);
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private class Data
@@ -149,6 +150,7 @@ namespace CastDotNetExtension
 
       private void OnNamedType(SymbolAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
 
             var data =
@@ -188,6 +190,7 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("Exception while analyzing " + context.Symbol.OriginalDefinition, e);
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }

@@ -47,6 +47,7 @@ namespace CastDotNetExtension {
          if (methodSymbols.Contains(invocation.TargetMethod)) {
             AddViolation(context.ContainingSymbol, new[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }

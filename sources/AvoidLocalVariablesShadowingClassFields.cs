@@ -138,6 +138,7 @@ namespace CastDotNetExtension
                     Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
                 }
             }
+            Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
         }
 
         public override void Reset()

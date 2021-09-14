@@ -73,6 +73,7 @@ namespace CastDotNetExtension {
             catch (Exception e) {
                Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
+            Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private IAssemblySymbol _mscorlib;

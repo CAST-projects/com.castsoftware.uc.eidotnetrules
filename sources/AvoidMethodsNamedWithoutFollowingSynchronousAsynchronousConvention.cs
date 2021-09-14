@@ -53,6 +53,7 @@ namespace CastDotNetExtension {
                Log.Warn(" Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }

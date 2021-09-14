@@ -74,6 +74,7 @@ namespace CastDotNetExtension {
          } catch (Exception e) {
             Log.Warn(" Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private class Context

@@ -198,6 +198,7 @@ namespace CastDotNetExtension
                     Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
                 }
             }
+            Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
         }
 
         private void AnalyzeSwitch(SyntaxNodeAnalysisContext context)
@@ -253,6 +254,7 @@ namespace CastDotNetExtension
                     Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
                 }
             }
+            Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
         }
     }
 }

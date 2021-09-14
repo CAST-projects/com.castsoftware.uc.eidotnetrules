@@ -179,6 +179,7 @@ namespace CastDotNetExtension
                }
             });
          }
+         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       public override void Reset()
