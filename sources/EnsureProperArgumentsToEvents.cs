@@ -29,6 +29,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeEventInvoke(OperationAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             IEventReferenceOperation eventReference = context.Operation as IEventReferenceOperation;
             System.Diagnostics.Debug.Assert(null != eventReference);

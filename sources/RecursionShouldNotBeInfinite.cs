@@ -393,6 +393,7 @@ namespace CastDotNetExtension
       private readonly object _lock = new object();
       private void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
           //lock (_lock)
           {
               try

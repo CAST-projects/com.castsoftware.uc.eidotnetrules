@@ -31,6 +31,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          /*lock (_lock)*/ {
             try {
                if ("C#" == context.SemanticModel.Compilation.Language) {

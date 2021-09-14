@@ -118,6 +118,7 @@ namespace CastDotNetExtension
 
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
+            Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
             try
             {
                 var forLoop = context.Node as ForStatementSyntax;

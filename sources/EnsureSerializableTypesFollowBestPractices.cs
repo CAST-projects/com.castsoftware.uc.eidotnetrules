@@ -46,6 +46,7 @@ namespace CastDotNetExtension
 
       private void OnCompilationStart(CompilationStartAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          _SerializableAttr = context.Compilation.GetTypeByMetadataName("System.SerializableAttribute");
          if (null == _SerializableAttr) {
             Log.InfoFormat("Could not get type for System.SerializableAttribute. \"{0}\" will be disabled for \"{1}\"", GetRuleName(), context.Compilation.AssemblyName);

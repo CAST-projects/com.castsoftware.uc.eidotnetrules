@@ -94,6 +94,7 @@ namespace CastDotNetExtension {
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             var sharedObjCreationOps =
                ops[OperationKind.ObjectCreation].Where(o => IsShared((o.Operation as IObjectCreationOperation).Type)).ToHashSet();

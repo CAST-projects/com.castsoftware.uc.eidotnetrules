@@ -37,6 +37,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeCall(OperationAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          IInvocationOperation invocation = context.Operation as IInvocationOperation;
          System.Diagnostics.Debug.Assert(null != invocation && null != invocation.TargetMethod);
          HashSet<IMethodSymbol> methodSymbols =

@@ -58,6 +58,7 @@ namespace CastDotNetExtension {
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
             if (objCreationOps.Any()) {

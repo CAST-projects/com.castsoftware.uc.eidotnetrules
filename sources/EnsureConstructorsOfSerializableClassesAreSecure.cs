@@ -32,6 +32,7 @@ namespace CastDotNetExtension
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             INamedTypeSymbol namedType = context.Symbol as INamedTypeSymbol;
             if (null != namedType) {

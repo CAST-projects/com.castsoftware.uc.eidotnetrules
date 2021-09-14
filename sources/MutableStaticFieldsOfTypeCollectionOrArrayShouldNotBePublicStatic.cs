@@ -29,6 +29,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          /*lock (_lock)*/ {
             try {
                var type = context.Symbol as INamedTypeSymbol;

@@ -136,6 +136,7 @@ namespace CastDotNetExtension
 
       private void OnCompilationEnd(CompilationAnalysisContext context)
       {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          HashSet<INamedTypeSymbol> securityAttributeSymbols = new HashSet<INamedTypeSymbol>();
          foreach (var attrClassName in SECURITY_ATTRIBUTE_CLASSES) {
             INamedTypeSymbol type = context.Compilation.GetTypeByMetadataName(attrClassName);

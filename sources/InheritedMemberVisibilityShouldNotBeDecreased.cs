@@ -98,6 +98,7 @@ namespace CastDotNetExtension {
       }
 
       private void AnalyzeClass(SymbolAnalysisContext context) {
+          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          lock (_lock) {
             try {
                var klazz = context.Symbol as INamedTypeSymbol;

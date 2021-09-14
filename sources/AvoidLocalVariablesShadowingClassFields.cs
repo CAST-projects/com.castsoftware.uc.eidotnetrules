@@ -45,6 +45,7 @@ namespace CastDotNetExtension
 
         protected void AddViolationIfLocalVariableViolates(SyntaxNodeAnalysisContext context)
         {
+            Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
             lock (_lock)
             {
                 try

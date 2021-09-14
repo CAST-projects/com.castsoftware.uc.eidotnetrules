@@ -76,6 +76,7 @@ namespace CastDotNetExtension
 
         private void AnalyzeIf(SyntaxNodeAnalysisContext context)
         {
+            Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
             //lock (_lock)
             {
                 try
@@ -201,6 +202,7 @@ namespace CastDotNetExtension
 
         private void AnalyzeSwitch(SyntaxNodeAnalysisContext context)
         {
+            Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
             //lock (_lock)
             {
                 try
