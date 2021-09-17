@@ -30,7 +30,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void AnalyzeCommentsUsingSemanticModel(SemanticModelAnalysisContext context) {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          /*lock (_lock)*/ {
             try {
                if ("C#" == context.SemanticModel.Compilation.Language) {
@@ -47,7 +47,7 @@ namespace CastDotNetExtension {
                Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
    }

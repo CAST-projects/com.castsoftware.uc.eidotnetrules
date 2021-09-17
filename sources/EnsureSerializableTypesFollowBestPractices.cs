@@ -46,7 +46,7 @@ namespace CastDotNetExtension
 
       private void OnCompilationStart(CompilationStartAnalysisContext context)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          _SerializableAttr = context.Compilation.GetTypeByMetadataName("System.SerializableAttribute");
          if (null == _SerializableAttr) {
             Log.InfoFormat("Could not get type for System.SerializableAttribute. \"{0}\" will be disabled for \"{1}\"", GetRuleName(), context.Compilation.AssemblyName);
@@ -61,7 +61,7 @@ namespace CastDotNetExtension
 
             context.RegisterSymbolAction(OnNamedType, SymbolKind.NamedType);
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private class Data
@@ -150,7 +150,7 @@ namespace CastDotNetExtension
 
       private void OnNamedType(SymbolAnalysisContext context)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
 
             var data =
@@ -190,7 +190,7 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("Exception while analyzing " + context.Symbol.OriginalDefinition, e);
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }

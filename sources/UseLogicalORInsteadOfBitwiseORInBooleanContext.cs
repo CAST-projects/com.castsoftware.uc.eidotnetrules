@@ -30,7 +30,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void Analyze(SyntaxNodeAnalysisContext context) {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          /*lock (_lock)*/ {
             try {
                var expr = context.Node as BinaryExpressionSyntax;
@@ -48,7 +48,7 @@ namespace CastDotNetExtension {
                Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
    }

@@ -37,7 +37,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeCall(OperationAnalysisContext context)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          IInvocationOperation invocation = context.Operation as IInvocationOperation;
          System.Diagnostics.Debug.Assert(null != invocation && null != invocation.TargetMethod);
          HashSet<IMethodSymbol> methodSymbols =
@@ -47,7 +47,7 @@ namespace CastDotNetExtension {
          if (methodSymbols.Contains(invocation.TargetMethod)) {
             AddViolation(context.ContainingSymbol, new[] { invocation.Syntax.GetLocation().GetMappedLineSpan() });
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }

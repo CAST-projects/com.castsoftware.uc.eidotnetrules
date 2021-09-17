@@ -36,7 +36,7 @@ namespace CastDotNetExtension {
 
       private readonly object _lock = new object();
       private void Analyze(SymbolAnalysisContext context) {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          /*lock (_lock)*/ {
             try {
                var method = context.Symbol as IMethodSymbol;
@@ -76,7 +76,7 @@ namespace CastDotNetExtension {
                Log.Warn(" Exception while analyzing " + string.Join(",", filePaths), e);
             }
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       } 
    }
 }

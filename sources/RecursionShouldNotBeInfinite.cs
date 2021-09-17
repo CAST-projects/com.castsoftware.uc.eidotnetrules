@@ -329,7 +329,7 @@ namespace CastDotNetExtension
 
       public override void HandleProjectOps(Compilation compilation, Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>> recursiveOnes =
                new Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>>();
@@ -389,13 +389,13 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("Exception while analyzing all projects!", e);
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private readonly object _lock = new object();
       private void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
           //lock (_lock)
           {
               try
@@ -487,7 +487,7 @@ namespace CastDotNetExtension
                   Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
               }
           }
-          Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+          //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }
