@@ -9,7 +9,7 @@ namespace UnitTests.UnitTest {
    [TestFixture]
    class TestAvoidCreatingExceptionWithoutThrowingThem {
       [Test]
-      public void Test() {
+      public void Test_operations() {
          var testSrc = UnitTests.Properties.SourcesToTest.AvoidCreatingExceptionWithoutThrowingThem_Source;
 
          var checker = CastDotNetExtensionChecker<AvoidCreatingExceptionWithoutThrowingThem>.CreateInstance();

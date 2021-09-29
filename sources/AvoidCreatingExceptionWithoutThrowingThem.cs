@@ -183,12 +183,20 @@ namespace CastDotNetExtension {
       {
           ILog Log = new LogWrapper("CAST.Analyzer.DotNet");
           Log.InfoFormat("[TCR dbg] begin AvoidCreatingExceptionWithoutThrowingThem.Context.ProcessObjectCreationOps method");
-         foreach (var opDetail in objCreationOps) {
-            var objCreationOperation = opDetail.Operation;
-            var throwOp = null != objCreationOperation.Parent && OperationKind.Throw == objCreationOperation.Parent.Kind ?
-               objCreationOperation.Parent :
-               OperationKind.Conversion == objCreationOperation.Parent.Kind && null != objCreationOperation.Parent.Parent &&
-               OperationKind.Throw == objCreationOperation.Parent.Parent.Kind ? objCreationOperation.Parent.Parent : null;
+         foreach (var opDetail in objCreationOps) 
+         {
+             var objCreationOperation = opDetail.Operation;
+             IOperation throwOp = null;
+             if(null != objCreationOperation.Parent && OperationKind.Throw == objCreationOperation.Parent.Kind)
+             {
+                 throwOp = objCreationOperation.Parent;
+             }
+             else if(OperationKind.Conversion == objCreationOperation.Parent.Kind 
+                    && null != objCreationOperation.Parent.Parent &&
+                    OperationKind.Throw == objCreationOperation.Parent.Parent.Kind)
+             {
+                 throwOp = objCreationOperation.Parent.Parent;
+             }
             Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 8");
             if (null == throwOp) {
                //var line = objCreationOperation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;

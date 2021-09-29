@@ -10,7 +10,7 @@ namespace UnitTests.UnitTest {
    class TestAvoidCreatingNewInstanceOfSharedInstance {
 
       [Test]
-      public void Test() {
+      public void Test_operations() {
          var testSrc = UnitTests.Properties.SourcesToTest.AvoidCreatingNewInstanceOfSharedInstance_Source;
          
          var checker = CastDotNetExtensionChecker<AvoidCreatingNewInstanceOfSharedInstance>.CreateInstance()

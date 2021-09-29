@@ -187,54 +187,105 @@ namespace CastDotNetExtension
             lock (Lock) {
                try {
 
-                  if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
-                     AllViolationTasks = null;
-                     CurrentCompilation = context.Compilation;
-                     SetOpKinds(context);
-                     if (_opKinds.Any()) {
-                        _opKinds.Add(OperationKind.End);
+                  //if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly) {
+                  //   AllViolationTasks = null;
+                  //   CurrentCompilation = context.Compilation;
+                  //   SetOpKinds(context);
+                  //   if (_opKinds.Any()) {
+                  //      _opKinds.Add(OperationKind.End);
 
-                        List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>> tasks =
-                           new List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>>();
-                        foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
-                           var tree = syntaxTree;
-                           var task = Task.Run(() => SetViolationsAsync(context.Compilation.GetSemanticModel(tree)));
-                           tasks.Add(task);
-                        }
+                  //      List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>> tasks =
+                  //         new List<Task<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>>();
+                  //      foreach (var syntaxTree in context.Compilation.SyntaxTrees) {
+                  //         var tree = syntaxTree;
+                  //         var task = Task.Run(() => SetViolationsAsync(context.Compilation.GetSemanticModel(tree)));
+                  //         tasks.Add(task);
+                  //      }
 
-                        if (tasks.Any()) {
+                  //      if (tasks.Any()) {
 
-                           AllViolationTasks = Task.Run(() => {
+                  //         AllViolationTasks = Task.Run(() => {
                               
-                              var tasksArray = tasks.ToArray();
-                              Task.WaitAll(tasksArray);
-                              //Log.Info("All Tasks Finished");
+                  //            var tasksArray = tasks.ToArray();
+                  //            Task.WaitAll(tasksArray);
+                  //            //Log.Info("All Tasks Finished");
 
-                              Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps =
-                                 new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>(tasksArray.Length);
-                              foreach (var task in tasksArray) {
-                                 var result = task.Result;
-                                 if (result.Any()) {
-                                    var kv = result.ElementAt(0);
-                                    if (allProjectOps.ContainsKey(kv.Key)) {
-                                       Log.WarnFormat("Semantic model for {0} already exists!", kv.Key.SyntaxTree.FilePath);
-                                    } else {
-                                       allProjectOps[kv.Key] = kv.Value;
-                                    }
-                                 }
-                              }
+                  //            Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps =
+                  //               new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>(tasksArray.Length);
+                  //            foreach (var task in tasksArray) {
+                  //               var result = task.Result;
+                  //               if (result.Any()) {
+                  //                  var kv = result.ElementAt(0);
+                  //                  if (allProjectOps.ContainsKey(kv.Key)) {
+                  //                     Log.WarnFormat("Semantic model for {0} already exists!", kv.Key.SyntaxTree.FilePath);
+                  //                  } else {
+                  //                     allProjectOps[kv.Key] = kv.Value;
+                  //                  }
+                  //               }
+                  //            }
 
-                              foreach (var opProcessor in OpsProcessors) {
-                                 if (opProcessor.IsActive) {
-                                    opProcessor.OpProcessor.HandleProjectOps(context.Compilation, allProjectOps);
-                                 }
-                              }
+                  //            foreach (var opProcessor in OpsProcessors) {
+                  //               if (opProcessor.IsActive) {
+                  //                  opProcessor.OpProcessor.HandleProjectOps(context.Compilation, allProjectOps);
+                  //               }
+                  //            }
 
+                  //         }
+                  //            );
+                  //      }
+                  //   }
+                  //}
+
+
+                   if (null == CurrentCompilation || CurrentCompilation.Assembly != context.Compilation.Assembly)
+                   {
+                       AllViolationTasks = null;
+                       CurrentCompilation = context.Compilation;
+                       SetOpKinds(context);
+                       if (_opKinds.Any())
+                       {
+                           _opKinds.Add(OperationKind.End);
+
+                           List<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>> listResult =
+                              new List<Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>>();
+                           foreach (var syntaxTree in context.Compilation.SyntaxTrees)
+                           {
+                               var tree = syntaxTree;
+                               listResult.Add(SetViolations(context.Compilation.GetSemanticModel(tree)));
                            }
-                              );
-                        }
-                     }
-                  }
+
+                           if (listResult.Any())
+                           {
+
+                               Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps =
+                                      new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>(listResult.Count);
+                               foreach (var result in listResult)
+                               {                      
+                                   if (result.Any())
+                                   {
+                                       var kv = result.ElementAt(0);
+                                       if (allProjectOps.ContainsKey(kv.Key))
+                                       {
+                                           Log.WarnFormat("Semantic model for {0} already exists!", kv.Key.SyntaxTree.FilePath);
+                                       }
+                                       else
+                                       {
+                                           allProjectOps[kv.Key] = kv.Value;
+                                       }
+                                   }
+                               }
+
+                               foreach (var opProcessor in OpsProcessors)
+                               {
+                                   if (opProcessor.IsActive)
+                                   {
+                                       opProcessor.OpProcessor.HandleProjectOps(context.Compilation, allProjectOps);
+                                   }
+                               }
+                           }
+                       }
+                   }
+
                } catch (Exception e) {
                   Log.Warn("Exception while initializing Op Retriever for " + context.Compilation.Assembly.Name, e);
                }
@@ -254,11 +305,13 @@ namespace CastDotNetExtension
                   new ConcurrentDictionary<OperationKind, ConcurrentQueue<OperationDetails>>();
                List<Task> opTasks = new List<Task>();
 
-               foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) {
+               foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf()) 
+               {
 
                   if (_kinds.Contains(node.Kind()))
                   {
                      var node1 = node;
+
                      opTasks.Add(Task.Run(() => {
                         IOperation operation = semanticModel.GetOperation(node1);
                         //actually, following condition should be:
@@ -312,7 +365,79 @@ namespace CastDotNetExtension
             }
             return Task.FromResult(allOps);
          }
+         
+
+         private Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>
+           SetViolations(SemanticModel semanticModel)
+         {
+             Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allOps =
+                new Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>>();
+
+             try
+             {
+
+                 //Log.Info("Start: SetViolations: " + semanticModel.SyntaxTree.FilePath);
+                 Dictionary<OperationKind, List<OperationDetails>> opMap =
+                    new Dictionary<OperationKind, List<OperationDetails>>();
+
+                 foreach (var node in semanticModel.SyntaxTree.GetRoot().DescendantNodesAndSelf())
+                 {
+
+                     if (_kinds.Contains(node.Kind()))
+                     {
+                         var node1 = node;
+                         IOperation operation = semanticModel.GetOperation(node1);
+                         //actually, following condition should be:
+                         //if(null != operation && (OperationKind.Invalid != operation.Kind || _opKinds.Contains(OperationKind.Invalid)))
+                         //But, we don't need Invalid nodes right now. And it would cost _some time_..
+                         if (null != operation && OperationKind.Invalid != operation.Kind)
+                         {
+                             if (!opMap.ContainsKey(operation.Kind))
+                                 opMap.Add(operation.Kind, new List<OperationDetails>());
+                             opMap[operation.Kind].Add(new OperationDetails(operation, null, null));
+                         }
+                     }
+                 }
+
+                if (opMap.Any())
+                {
+                    Dictionary<OperationKind, IReadOnlyList<OperationDetails>> ops =
+                    new Dictionary<OperationKind, IReadOnlyList<OperationDetails>>();
+                    foreach (var opKind in _opKinds)
+                    {
+                        if (opMap.ContainsKey(opKind))
+                        {
+                            ops[opKind] = opMap[opKind];
+                        }
+                        else
+                        {
+                            ops[opKind] = new List<OperationDetails>();
+                        }
+                    }
+
+                    foreach (var opsProcessor in OpsProcessors)
+                    {
+                        if (opsProcessor.IsActive)
+                        {
+                            var processor = opsProcessor;
+                            processor.OpProcessor.HandleSemanticModelOps(semanticModel, ops, true);                            
+                        }
+                    }
+                    //Log.Info("End: SetViolations: " + semanticModel.SyntaxTree.FilePath);
+                    allOps[semanticModel] = ops;
+                }
+            }
+             
+            catch (Exception e)
+            {
+                 Log.Warn("Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
+            }
+             return allOps;
+         }
+
       }
+
+       
 
       public override void Init(AnalysisContext context)
       {

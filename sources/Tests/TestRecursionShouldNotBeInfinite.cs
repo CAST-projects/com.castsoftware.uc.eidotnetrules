@@ -13,7 +13,7 @@ namespace UnitTests.UnitTest
    {
 
       [Test]
-      public void Test() {
+      public void Test_operations() {
 
          var testSrc = UnitTests.Properties.SourcesToTest.RecursionShouldNotBeInfinite_Source;
 
