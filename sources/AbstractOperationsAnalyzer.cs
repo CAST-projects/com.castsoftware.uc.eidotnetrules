@@ -44,6 +44,7 @@ namespace CastDotNetExtension
 
    public abstract class AbstractOperationsAnalyzer : AbstractRuleChecker, IOpProcessor
    {
+      protected SubscriberSink sink;
       public abstract SyntaxKind[] Kinds(CompilationStartAnalysisContext context);
       public virtual void HandleSemanticModelOps(SemanticModel semanticModel,
          IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
@@ -69,16 +70,20 @@ namespace CastDotNetExtension
 
       public AbstractOperationsAnalyzer()
       {
-         SubscriberSink.Instance.Log = Log;
+          sink = new SubscriberSink();
+          sink.Log = Log;
+          //SubscriberSink.Instance.Log = Log;
          Log.DebugFormat("Registering {0}", GetRuleName());
-         SubscriberSink.Instance.AddOpsProcessor(this);
+         sink.AddOpsProcessor(this);
+         //SubscriberSink.Instance.AddOpsProcessor(this);
       }
 
       protected class SubscriberSink
       {
          public ILog Log { get; set; }
 
-         private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
+         //private static SubscriberSink ObjSubscriberSink = new SubscriberSink();
+         //public static SubscriberSink Instance { get { return ObjSubscriberSink; } }
 
          private HashSet<SyntaxKind> _kinds = new HashSet<SyntaxKind>();
 
@@ -91,7 +96,7 @@ namespace CastDotNetExtension
 
          public Task AllViolationTasks { get; private set; }
 
-         protected SubscriberSink()
+         public SubscriberSink()
          {
             OpsProcessors = new HashSet<OpsProcessor>();
          }
@@ -106,13 +111,23 @@ namespace CastDotNetExtension
                   Log.Debug("WaitForAllViolationTasksToFinish: caller: " + caller + " AllViolationTasks null");
                }
             }
-            if (null != AllViolationTasks && null != CurrentCompilation) {
-               if (TaskStatus.Running == SubscriberSink.Instance.AllViolationTasks.Status) {
-                  Log.DebugFormat("{0} : Task all for \"{1}\" is still running. Going to wait!",
-                     caller, CurrentCompilation.Assembly.Name);
-                  SubscriberSink.Instance.AllViolationTasks.Wait();
-               }
-               SubscriberSink.Instance.AllViolationTasks = null;
+            //if (null != AllViolationTasks && null != CurrentCompilation) {
+            //   if (TaskStatus.Running == SubscriberSink.Instance.AllViolationTasks.Status) {
+            //      Log.DebugFormat("{0} : Task all for \"{1}\" is still running. Going to wait!",
+            //         caller, CurrentCompilation.Assembly.Name);
+            //      SubscriberSink.Instance.AllViolationTasks.Wait();
+            //   }
+            //   SubscriberSink.Instance.AllViolationTasks = null;
+            //}
+            if (null != AllViolationTasks && null != CurrentCompilation)
+            {
+                if (TaskStatus.Running == AllViolationTasks.Status)
+                {
+                    Log.DebugFormat("{0} : Task all for \"{1}\" is still running. Going to wait!",
+                       caller, CurrentCompilation.Assembly.Name);
+                    AllViolationTasks.Wait();
+                }
+                AllViolationTasks = null;
             }
          }
 
@@ -121,7 +136,7 @@ namespace CastDotNetExtension
             WaitForAllViolationTasksToFinish("~SubscriberSink()");
          }
 
-         public static SubscriberSink Instance { get { return ObjSubscriberSink; } }
+         
 
          public void AddOpsProcessor(IOpProcessor iOpProcessor)
          {
@@ -138,7 +153,9 @@ namespace CastDotNetExtension
          private void SetSyntaxKinds(CompilationStartAnalysisContext context)
          {
             SyntaxKind[] kinds = null;
-            foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors) {
+            //foreach (var opProcessor in SubscriberSink.Instance.OpsProcessors)
+            foreach (var opProcessor in OpsProcessors) 
+            {
                kinds = opProcessor.OpProcessor.Kinds(context);
                if (!kinds.Any()) {
                   opProcessor.IsActive = false;
@@ -442,7 +459,8 @@ namespace CastDotNetExtension
       public override void Init(AnalysisContext context)
       {
          try {
-            SubscriberSink.Instance.RegisterCompilationStartAction(context);
+             //SubscriberSink.Instance.RegisterCompilationStartAction(context);
+             sink.RegisterCompilationStartAction(context);
          } catch (Exception e) {
             Log.Warn("Exception while Initing", e);
          }
@@ -450,12 +468,14 @@ namespace CastDotNetExtension
 
       ~AbstractOperationsAnalyzer()
       {
-         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~AbstractOperationsAnalyzer: " + GetRuleName());
+          //SubscriberSink.Instance.WaitForAllViolationTasksToFinish("~AbstractOperationsAnalyzer: " + GetRuleName());
+          sink.WaitForAllViolationTasksToFinish("~AbstractOperationsAnalyzer: " + GetRuleName());
       }
 
       public override void Reset()
       {
-         SubscriberSink.Instance.WaitForAllViolationTasksToFinish("AbstractOperationsAnalyzer.Reset: " + GetRuleName());
+          //SubscriberSink.Instance.WaitForAllViolationTasksToFinish("AbstractOperationsAnalyzer.Reset: " + GetRuleName());
+          sink.WaitForAllViolationTasksToFinish("AbstractOperationsAnalyzer.Reset: " + GetRuleName());
          base.Reset();
       }
 
