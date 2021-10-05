@@ -53,6 +53,7 @@ namespace CastDotNetExtension
          private readonly INamedTypeSymbol _systemException;
          private readonly Stack<OperationKind> _breakables = new Stack<OperationKind>();
          private readonly ILog _log;
+         private int _maxRecursionNumber = 100;
 
          private class DoneException : Exception
          {
@@ -67,7 +68,7 @@ namespace CastDotNetExtension
             _log = log;
          }
 
-         private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException)
+         private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException, int recursionCounter = 0)
          {
             bool added = false;
             try {
@@ -175,7 +176,9 @@ namespace CastDotNetExtension
                            int lastCounterFoundCall = -1;
                            for (int i = 0; i < count; ++i) {
                               var child = op.Children.ElementAt(i);
-                              IOperation returnedOpLocal = RouteAndDetect(child, targetMethod, systemException);
+                              IOperation returnedOpLocal = null;
+                              if(recursionCounter<_maxRecursionNumber)
+                                returnedOpLocal = RouteAndDetect(child, targetMethod, systemException, recursionCounter+1);
 
                               if (null != returnedOpLocal) {
                                  if (OperationKind.Invocation == returnedOpLocal.Kind /*&& hasElse && 0 != i*/) {
@@ -197,9 +200,14 @@ namespace CastDotNetExtension
                   case OperationKind.Switch:
                      _breakables.Push(op.Kind);
                      var iSwitch = op as ISwitchOperation;
-                     if (null == (returnedOp = RouteAndDetect(iSwitch.Value, targetMethod, systemException))) {
+                     if(recursionCounter<_maxRecursionNumber)
+                         returnedOp = RouteAndDetect(iSwitch.Value, targetMethod, systemException, recursionCounter + 1);
+                     if (null == returnedOp)
+                     {
                         if (iSwitch.Cases.Any(c => c.Clauses.Any(clause => CaseKind.Default == clause.CaseKind))) {
-                           foreach (var acase in iSwitch.Cases) {
+                           foreach (var acase in iSwitch.Cases) 
+                           {
+                              
                               if (null == (returnedOp = Detect(acase, targetMethod, systemException))) {
                                  break;
                               }
