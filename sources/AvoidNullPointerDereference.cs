@@ -39,15 +39,19 @@ namespace CastDotNetExtension
         private readonly object _lock = new object();
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
-            //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
             lock (_lock)
             {
                 try
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f38")
+                    //if (node.Identifier.ValueText == "f39")
                     {
+                        /*
+                         *  This rule is based on finding the "null status" of variables in each scope of a method.
+                         *  Therefore we use the Scope class as basis for this analysis.
+                         *  This rule is limited to variables declared, assigned or tested "null" in the method.
+                         */
                         Scope methodScope = new Scope(node, this);
                         methodScope.AnalyzeScope();
                     }
@@ -58,10 +62,12 @@ namespace CastDotNetExtension
                     Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
                 }
             }
-            //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
         }
 
-
+        /*
+         * This class is a container of a list of ISymbols. This list of symbols aims to represent variables of expressions such as "a.b.c" (multi access member).
+         * Another aims is to verify the equality of 2 such lists.
+         */
         public class SymbolList : IEquatable<SymbolList>
         {
             public List<ISymbol> symbols;
@@ -129,6 +135,7 @@ namespace CastDotNetExtension
            
         }
 
+        // Comparer for equality of pair <SymbolList, bool>
         public class KeyValuePairOfSymbolListComparer : IEqualityComparer<KeyValuePair<SymbolList, bool>>
         {
             public bool Equals(KeyValuePair<SymbolList, bool> x, KeyValuePair<SymbolList, bool> y)
@@ -141,7 +148,7 @@ namespace CastDotNetExtension
                 return x.GetHashCode();
             }
         }
-
+        // Comparer for equality of SymbolList
         public class SymbolListComparer : IEqualityComparer<SymbolList>
         {
             public bool Equals(SymbolList x, SymbolList y)
@@ -154,7 +161,7 @@ namespace CastDotNetExtension
                 return x.GetHashCode();
             }
         }
-
+        // Comparer for equality of pair <ISymbol, bool>
         public class KeyValuePairOfScopeComparer : IEqualityComparer<KeyValuePair<ISymbol, bool>>
         {
             public bool Equals(KeyValuePair<ISymbol, bool> x, KeyValuePair<ISymbol, bool> y)
@@ -174,20 +181,32 @@ namespace CastDotNetExtension
             public bool equalOpr;
         }
 
+        /*
+         * Class representing a scope 
+         */
         public class Scope
         {
             public SyntaxNode _scopeNode;
             public Scope _parentScope;
+            // reference to the instance of AvoidNullPointerDereference to access AbstractRuleChecker methods.
             public AvoidNullPointerDereference _checker;
+            // list of children scopes of this instance scope 
             public List<Scope> _childrenScope = new List<Scope>();
+            // Dictionary containing the null status of variables in a scope, "false" is null and "true" is not null.
+            // The symbol list is used to represent variables because of variable are frequently contains in another like a field in a class (In this example the list will contain the symbols of both the field and the instance of the class). 
             public Dictionary<SymbolList, bool> _varSetAtNullInScope = new Dictionary<SymbolList, bool>();
+            //
             public Dictionary<SymbolList, CheckNullInfos> _varBoolCheckNullInVarDeclaration = new Dictionary<SymbolList, CheckNullInfos>();
+            // Dictionary containing the null status of variables in the ancestors scopes, "false" is null and "true" is not null.
             public Dictionary<SymbolList, bool> _varSetAtNullInAncestorScopes;
+            // Dictionary containing the null status of variables in the conditional scopes, "false" is null and "true" is not null.
             public Dictionary<SymbolList, bool> _conditionVar = new Dictionary<SymbolList, bool>();
+            // Dictionary containing the null status of variables in the conditional scopes during its evaluations "expression by expression", "false" is null and "true" is not null.
             public Dictionary<SymbolList, bool> _conditionalState = new Dictionary<SymbolList, bool>();
+            // Boolean indicating whether the scope contains a return statement.
             public bool ScopeContainsReturn = false;
             
-            // this constructor MUST only be invoked one time for the scope of the method
+            // this constructor MUST only be invoked one time for the scope of the METHOD
             public Scope(SyntaxNode node, AvoidNullPointerDereference checker) 
             {
                 _scopeNode = node;
@@ -205,7 +224,8 @@ namespace CastDotNetExtension
                                                     .Concat(parentScope._varSetAtNullInScope)
                                                     .Distinct(new KeyValuePairOfSymbolListComparer())
                                                     .ToDictionary(x => x.Key, x => x.Value);
-
+                _varBoolCheckNullInVarDeclaration = _parentScope._varBoolCheckNullInVarDeclaration.ToDictionary(x => x.Key, x => x.Value);
+                _conditionVar = _parentScope._conditionVar.ToDictionary(x => x.Key, x => x.Value);
             }
 
             private Scope AddChildScope(SyntaxNode childNode)
@@ -215,6 +235,9 @@ namespace CastDotNetExtension
                 return child;
             }
 
+            /*
+             * Get the symbols list of symbol from member access expression (ex: a.b.c.d).
+             */
             private SymbolList getSymbolList(SyntaxNode node)
             {
                 var accessNode = node as MemberAccessExpressionSyntax;
@@ -233,6 +256,7 @@ namespace CastDotNetExtension
                         }
                         else
                         {
+                            // check if the list of symbols "res" contains only one element and in that case if it's "this" (which is never null)
                             if (res.symbols.Count == 1 && res.symbols[0] is IParameterSymbol)
                             {
                                 var paramSymb = res.symbols[0] as IParameterSymbol;
@@ -329,7 +353,7 @@ namespace CastDotNetExtension
                             }
                         }
                         break;
-                    case SyntaxKind.IdentifierName:
+                    case SyntaxKind.IdentifierName: // check condition on a boolean variable (case: if(valIsNotNull) where valIsNotNull = val!=null)
 
                         var parent = this._parentScope;
                         bool found = false;
@@ -652,6 +676,24 @@ namespace CastDotNetExtension
                         if (assignmentNode.Right.IsKind(SyntaxKind.NullLiteralExpression)) // null assignment
                         {
                             _varSetAtNullInScope[assignSymb] = false;
+                        }
+                        else if (IsKindBoolCondition(assignmentNode.Right)) // check for case "val = var!=null;"
+                        {
+                            SymbolInfo symbInf = _checker._currentContext.SemanticModel.GetSymbolInfo(assignmentNode.Left);
+                            ISymbol leftSymb = symbInf.Symbol;
+                            if (leftSymb != null)
+                            { // Check bool condition in variable assignment
+                                // stock for if and check access expression violation in bool condition
+                                Scope conditionInVarAssignment;
+                                conditionInVarAssignment = AddChildScope(assignmentNode.Right);
+
+                                // check violation inside.
+                                conditionInVarAssignment.AnalyseCondition(assignmentNode.Right);
+                                conditionInVarAssignment._conditionalState.Clear();
+
+                                // stock and add when check if statement
+                                conditionInVarAssignment.CheckCondition(assignmentNode.Right, false, leftSymb);
+                            }
                         }
                         else
                         {

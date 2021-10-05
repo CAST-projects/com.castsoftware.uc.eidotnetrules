@@ -887,5 +887,37 @@ namespace UnitTests.UnitTest.Sources
                 foo.ToString(); // VIOLATION
             }
         }
+
+        void f39(Data A)
+        {
+            object foo = null;
+            var isNotNullFoo = foo != null;
+            if (isNotNullFoo)
+            {
+                string msg;
+                if (string.IsNullOrWhiteSpace(foo.ToString())) // NO VIOLATION
+                {
+                    msg = foo.ToString(); // NO VIOLATION
+                }
+            }
+
+            bool isNotNullFoo2;
+            isNotNullFoo2 = foo != null;
+            if (isNotNullFoo2)
+            {
+                foo.ToString(); // NO VIOLATION
+                string msg = "";
+                if (msg.Length == 0)
+                {
+                    msg = foo.ToString(); // NO VIOLATION
+                }
+            }
+            else
+            {
+                foo.ToString(); // VIOLATION
+            }
+
+
+        }
     }
 }
