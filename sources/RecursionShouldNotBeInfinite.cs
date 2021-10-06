@@ -70,8 +70,7 @@ namespace CastDotNetExtension
 
          private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException,
              int callToDetectCounter = 0, int callToRouteAndDetectCounter = 0)
-         {
-             _log.Info("[TCR debug] flag 12");
+         {       
             bool added = false;
             try {
                if (!_ops.Any() || op != _ops.Last()) {
@@ -287,7 +286,6 @@ namespace CastDotNetExtension
          private IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException, 
              int callToDetectCounter=0, int callToRouteAndDetectCounter=0)
          {
-             _log.Info("[TCR debug] flag 9");
             bool added = false;
             try {
                IOperation returnedOp = null;
@@ -297,7 +295,6 @@ namespace CastDotNetExtension
                }
                foreach (var op in targetBlockOp.Children) 
                {
-                   _log.Info("[TCR debug] flag 10");
                   if (null != returnedOp) {
                      if (OperationKind.Branch == returnedOp.Kind && returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
                         if (OperationKind.Labeled != op.Kind || (op as ILabeledOperation).Label.Name != (((GotoStatementSyntax)returnedOp.Syntax).Expression as IdentifierNameSyntax).Identifier.Value.ToString()) {
@@ -307,7 +304,6 @@ namespace CastDotNetExtension
                         continue;
                      }
                   }
-                  _log.Info("[TCR debug] flag 11");
                   if (callToRouteAndDetectCounter < _maxRecursionNumber)
                       returnedOp = RouteAndDetect(op, targetMethod, systemException, callToDetectCounter, callToRouteAndDetectCounter + 1);
 
@@ -367,7 +363,6 @@ namespace CastDotNetExtension
 
       public override void HandleProjectOps(Compilation compilation, Dictionary<SemanticModel, Dictionary<OperationKind, IReadOnlyList<OperationDetails>>> allProjectOps)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
          try {
             Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>> recursiveOnes =
                new Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>>();
@@ -375,13 +370,11 @@ namespace CastDotNetExtension
             HashSet<IMethodSymbol> noImplementationMethods = new HashSet<IMethodSymbol>();
             foreach (var semanticModelDetails in allProjectOps) 
             {
-                Log.Info("[TCR debug] flag 1");
                if (semanticModelDetails.Value.Any()) 
                {
                   var invocationOps = semanticModelDetails.Value[OperationKind.Invocation];
                   foreach (var op in invocationOps) 
                   {
-                      Log.Info("[TCR debug] flag 2");
                      var invocationOp = op.Operation as IInvocationOperation;
                      if (!recursiveOnes.ContainsKey(invocationOp.TargetMethod)) 
                      {
@@ -400,7 +393,6 @@ namespace CastDotNetExtension
                                  {
                                     if (SyntaxKind.MethodDeclaration == syntax.Kind()) 
                                     {
-                                        Log.Info("[TCR debug] flag 3");
                                        recursiveOnes.Add(invocationOp.TargetMethod,
                                           new Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>(invocationOp, syntax as MethodDeclarationSyntax, compilation.GetSemanticModel(syntax.SyntaxTree)));
                                     }
@@ -415,7 +407,6 @@ namespace CastDotNetExtension
                   }
                }
             }
-            Log.Info("[TCR debug] flag 4");
 
             if (recursiveOnes.Any()) 
             {
@@ -423,7 +414,6 @@ namespace CastDotNetExtension
 
                foreach (var recursiveOne in recursiveOnes) 
                {
-                   Log.Info("[TCR debug] flag 5");
                   var iMethodBodyOp = recursiveOne.Value.Item1.Parent;
                   while (null != iMethodBodyOp && OperationKind.MethodBody != iMethodBodyOp.Kind) 
                   {
@@ -431,12 +421,10 @@ namespace CastDotNetExtension
                   }
                   if (null != iMethodBodyOp) 
                   {
-                      Log.Info("[TCR debug] flag 7");
                      Log.DebugFormat("Detecting definite recursive call for ", recursiveOne.Value.Item1.TargetMethod.OriginalDefinition.ToString());
                      bool hasDefiniteCall = new DefiniteCallDetector(iMethodBodyOp, recursiveOne.Value.Item1.TargetMethod, systemException, Log).Detect();
                      if (hasDefiniteCall) 
                      {
-                         Log.Info("[TCR debug] flag 8");
                         var syntax = recursiveOne.Value.Item1.TargetMethod.GetImplemenationSyntax();
                         if (null != syntax) 
                         {
@@ -450,18 +438,15 @@ namespace CastDotNetExtension
          } catch (Exception e) {
             Log.Warn("Exception while analyzing all projects!", e);
          }
-         Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private readonly object _lock = new object();
       private void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
       {
-          Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
           //lock (_lock)
           {
               try
               {
-                  Log.Info("[TCR debug] flag 13");
                   var node = context.Node as PropertyDeclarationSyntax;
                   if(node != null)
                   {
@@ -549,7 +534,6 @@ namespace CastDotNetExtension
                   Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
               }
           }
-          Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
    }
 }
