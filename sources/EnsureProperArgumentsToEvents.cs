@@ -29,7 +29,7 @@ namespace CastDotNetExtension {
 
       private void AnalyzeEventInvoke(OperationAnalysisContext context)
       {
-          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+
          try {
             IEventReferenceOperation eventReference = context.Operation as IEventReferenceOperation;
             System.Diagnostics.Debug.Assert(null != eventReference);
@@ -54,7 +54,6 @@ namespace CastDotNetExtension {
             Log.Warn(" Exception while analyzing " + context.Operation.Syntax.SyntaxTree.FilePath + 
                " Pos: " + context.Operation.Syntax.GetLocation().GetMappedLineSpan(), e);
          }
-         //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
       }
 
    }

@@ -58,7 +58,7 @@ namespace CastDotNetExtension {
       private readonly object _lock = new object();
 
       protected void Analyze(SyntaxNodeAnalysisContext context) {
-          //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+
             try {
                Init(context.Compilation);
                if (_methodSymbols.Any()) {
@@ -73,7 +73,7 @@ namespace CastDotNetExtension {
             catch (Exception e) {
                Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
-            //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+
       }
 
       private IAssemblySymbol _mscorlib;

@@ -118,7 +118,7 @@ namespace CastDotNetExtension
 
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
-            //Log.InfoFormat("Run registered callback for rule: {0}", GetRuleName());
+
             try
             {
                 var forLoop = context.Node as ForStatementSyntax;
@@ -183,7 +183,7 @@ namespace CastDotNetExtension
             {
                 Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath + ": " + context.Node.GetLocation().GetMappedLineSpan(), e);
             }
-            //Log.InfoFormat("END Run registered callback for rule: {0}", GetRuleName());
+
         }
     }
 }
