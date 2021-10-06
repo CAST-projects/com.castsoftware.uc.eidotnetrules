@@ -45,7 +45,7 @@ namespace CastDotNetExtension
                 {
                     _currentContext = context;
                     var node = context.Node as MethodDeclarationSyntax;
-                    //if (node.Identifier.ValueText == "f39")
+                    //if (node.Identifier.ValueText == "f40")
                     {
                         /*
                          *  This rule is based on finding the "null status" of variables in each scope of a method.
@@ -351,6 +351,14 @@ namespace CastDotNetExtension
                                 var inequalSymb = getSymbolList(inequalNode.Right);
                                 HandleWithNullLiteralVar(inequalSymb, varDeclaration, !elseBlock);
                             }
+                        }
+                        break;
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                        var accessExpression = node as Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax;
+                        if(accessExpression!=null)
+                        {
+                            node = accessExpression.Name;
+                            goto case SyntaxKind.IdentifierName;
                         }
                         break;
                     case SyntaxKind.IdentifierName: // check condition on a boolean variable (case: if(valIsNotNull) where valIsNotNull = val!=null)

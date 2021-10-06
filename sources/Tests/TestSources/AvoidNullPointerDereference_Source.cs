@@ -895,7 +895,7 @@ namespace UnitTests.UnitTest.Sources
             if (isNotNullFoo)
             {
                 string msg;
-                if (string.IsNullOrWhiteSpace(foo.ToString())) // NO VIOLATION
+                if(string.IsNullOrWhiteSpace(foo.ToString())) // NO VIOLATION
                 {
                     msg = foo.ToString(); // NO VIOLATION
                 }
@@ -917,7 +917,31 @@ namespace UnitTests.UnitTest.Sources
                 foo.ToString(); // VIOLATION
             }
 
+        }
 
+        public class PersistentData
+        {
+            public bool HasData;
+            public PersistentData()
+            {
+                HasData = false;
+            }
+        }
+
+        void f40()
+        {
+            object foo = null;
+            PersistentData dta = new PersistentData();
+            dta.HasData = foo != null;
+            if (dta.HasData)
+            {
+                string msg;
+                if (string.IsNullOrWhiteSpace(foo.ToString())) // NO VIOLATION
+                {
+                    msg = foo.ToString(); // NO VIOLATION
+                }
+            }
+  
         }
     }
 }
