@@ -71,6 +71,7 @@ namespace CastDotNetExtension
          private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException,
              int callToDetectCounter = 0, int callToRouteAndDetectCounter = 0)
          {
+             _log.Info("[TCR debug] flag 12");
             bool added = false;
             try {
                if (!_ops.Any() || op != _ops.Last()) {
@@ -286,6 +287,7 @@ namespace CastDotNetExtension
          private IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException, 
              int callToDetectCounter=0, int callToRouteAndDetectCounter=0)
          {
+             _log.Info("[TCR debug] flag 9");
             bool added = false;
             try {
                IOperation returnedOp = null;
@@ -293,7 +295,9 @@ namespace CastDotNetExtension
                   _ops.Add(targetBlockOp);
                   added = true;
                }
-               foreach (var op in targetBlockOp.Children) {
+               foreach (var op in targetBlockOp.Children) 
+               {
+                   _log.Info("[TCR debug] flag 10");
                   if (null != returnedOp) {
                      if (OperationKind.Branch == returnedOp.Kind && returnedOp.Syntax.IsKind(SyntaxKind.GotoStatement)) {
                         if (OperationKind.Labeled != op.Kind || (op as ILabeledOperation).Label.Name != (((GotoStatementSyntax)returnedOp.Syntax).Expression as IdentifierNameSyntax).Identifier.Value.ToString()) {
@@ -303,6 +307,7 @@ namespace CastDotNetExtension
                         continue;
                      }
                   }
+                  _log.Info("[TCR debug] flag 11");
                   if (callToRouteAndDetectCounter < _maxRecursionNumber)
                       returnedOp = RouteAndDetect(op, targetMethod, systemException, callToDetectCounter, callToRouteAndDetectCounter + 1);
 
@@ -336,7 +341,8 @@ namespace CastDotNetExtension
                   }
                }
                return returnedOp;
-            } finally {
+            } finally 
+            {
                if (added) {
                   _ops.Remove(_ops.Last());
                }
@@ -367,27 +373,41 @@ namespace CastDotNetExtension
                new Dictionary<IMethodSymbol, Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>>();
             Dictionary<IMethodSymbol, SyntaxNode> methodToSyntax = new Dictionary<IMethodSymbol, SyntaxNode>();
             HashSet<IMethodSymbol> noImplementationMethods = new HashSet<IMethodSymbol>();
-            foreach (var semanticModelDetails in allProjectOps) {
-               if (semanticModelDetails.Value.Any()) {
+            foreach (var semanticModelDetails in allProjectOps) 
+            {
+                Log.Info("[TCR debug] flag 1");
+               if (semanticModelDetails.Value.Any()) 
+               {
                   var invocationOps = semanticModelDetails.Value[OperationKind.Invocation];
-                  foreach (var op in invocationOps) {
+                  foreach (var op in invocationOps) 
+                  {
+                      Log.Info("[TCR debug] flag 2");
                      var invocationOp = op.Operation as IInvocationOperation;
-                     if (!recursiveOnes.ContainsKey(invocationOp.TargetMethod)) {
-                        if (!noImplementationMethods.Contains(invocationOp.TargetMethod)) {
+                     if (!recursiveOnes.ContainsKey(invocationOp.TargetMethod)) 
+                     {
+                        if (!noImplementationMethods.Contains(invocationOp.TargetMethod))
+                        {
                            SyntaxNode syntax = null;
-                           if (!methodToSyntax.TryGetValue(invocationOp.TargetMethod, out syntax)) {
+                           if (!methodToSyntax.TryGetValue(invocationOp.TargetMethod, out syntax)) 
+                           {
                               methodToSyntax[invocationOp.TargetMethod] = syntax = invocationOp.TargetMethod.GetImplemenationSyntax();
                            }
-                           if (null != syntax) {
-                              if (syntax.SyntaxTree == op.Operation.Syntax.SyntaxTree) {
-                                 if (syntax.FullSpan.Contains(op.Operation.Syntax.FullSpan)) {
-                                    if (SyntaxKind.MethodDeclaration == syntax.Kind()) {
+                           if (null != syntax) 
+                           {
+                              if (syntax.SyntaxTree == op.Operation.Syntax.SyntaxTree) 
+                              {
+                                 if (syntax.FullSpan.Contains(op.Operation.Syntax.FullSpan)) 
+                                 {
+                                    if (SyntaxKind.MethodDeclaration == syntax.Kind()) 
+                                    {
+                                        Log.Info("[TCR debug] flag 3");
                                        recursiveOnes.Add(invocationOp.TargetMethod,
                                           new Tuple<IInvocationOperation, MethodDeclarationSyntax, SemanticModel>(invocationOp, syntax as MethodDeclarationSyntax, compilation.GetSemanticModel(syntax.SyntaxTree)));
                                     }
                                  }
                               }
-                           } else {
+                           } else 
+                           {
                               noImplementationMethods.Add(invocationOp.TargetMethod);
                            }
                         }
@@ -395,22 +415,31 @@ namespace CastDotNetExtension
                   }
                }
             }
+            Log.Info("[TCR debug] flag 4");
 
-
-            if (recursiveOnes.Any()) {
+            if (recursiveOnes.Any()) 
+            {
                var systemException = compilation.GetTypeByMetadataName("System.Exception");
 
-               foreach (var recursiveOne in recursiveOnes) {
+               foreach (var recursiveOne in recursiveOnes) 
+               {
+                   Log.Info("[TCR debug] flag 5");
                   var iMethodBodyOp = recursiveOne.Value.Item1.Parent;
-                  while (null != iMethodBodyOp && OperationKind.MethodBody != iMethodBodyOp.Kind) {
+                  while (null != iMethodBodyOp && OperationKind.MethodBody != iMethodBodyOp.Kind) 
+                  {
                      iMethodBodyOp = iMethodBodyOp.Parent;
                   }
-                  if (null != iMethodBodyOp) {
+                  if (null != iMethodBodyOp) 
+                  {
+                      Log.Info("[TCR debug] flag 7");
                      Log.DebugFormat("Detecting definite recursive call for ", recursiveOne.Value.Item1.TargetMethod.OriginalDefinition.ToString());
                      bool hasDefiniteCall = new DefiniteCallDetector(iMethodBodyOp, recursiveOne.Value.Item1.TargetMethod, systemException, Log).Detect();
-                     if (hasDefiniteCall) {
+                     if (hasDefiniteCall) 
+                     {
+                         Log.Info("[TCR debug] flag 8");
                         var syntax = recursiveOne.Value.Item1.TargetMethod.GetImplemenationSyntax();
-                        if (null != syntax) {
+                        if (null != syntax) 
+                        {
                            //Console.WriteLine("Adding Violation: " + recursiveOne.Value.Item1.TargetMethod.Name);
                            AddViolation(recursiveOne.Value.Item1.TargetMethod, new[] { syntax.GetLocation().GetMappedLineSpan()});
                         }
@@ -432,6 +461,7 @@ namespace CastDotNetExtension
           {
               try
               {
+                  Log.Info("[TCR debug] flag 13");
                   var node = context.Node as PropertyDeclarationSyntax;
                   if(node != null)
                   {
