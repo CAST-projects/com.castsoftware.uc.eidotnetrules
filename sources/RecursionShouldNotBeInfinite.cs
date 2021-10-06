@@ -68,7 +68,8 @@ namespace CastDotNetExtension
             _log = log;
          }
 
-         private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException, int recursionCounter = 0)
+         private IOperation RouteAndDetect(IOperation op, IMethodSymbol targetMethod, INamedTypeSymbol systemException,
+             int callToDetectCounter = 0, int callToRouteAndDetectCounter = 0)
          {
             bool added = false;
             try {
@@ -85,27 +86,35 @@ namespace CastDotNetExtension
                         if (null != systemException) {
                            if (null != _systemException) {
                               foreach (var catchOp in opTry.Catches) {
-                                 if (systemException == catchOp.ExceptionType) {
-                                    returnedOp = Detect(catchOp, targetMethod, systemException);
+                                 if (systemException == catchOp.ExceptionType) 
+                                 {
+                                    if(callToDetectCounter<_maxRecursionNumber)
+                                        returnedOp = Detect(catchOp, targetMethod, systemException, callToDetectCounter+1, callToRouteAndDetectCounter);
                                     break;
                                  }
                               }
                            }
-                           if (null == returnedOp && null != opTry.Finally) {
-                              returnedOp = Detect(opTry.Finally, targetMethod, systemException);
+                           if (null == returnedOp && null != opTry.Finally) 
+                           {
+                                if (callToDetectCounter < _maxRecursionNumber)
+                                    returnedOp = Detect(opTry.Finally, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
                            }
 
-                           if (null == returnedOp ) {
-                              _ops.Add(opTry);
-                              returnedOp = Detect(opTry, targetMethod, systemException);
+                           if (null == returnedOp ) 
+                           {
+                                _ops.Add(opTry);
+                                if (callToDetectCounter < _maxRecursionNumber)
+                                    returnedOp = Detect(opTry, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
                            }
                         }
                         _tries.Remove(_tries.Last());
                         break;
                      }
-                  case OperationKind.Return: {
-                        returnedOp = Detect(op, targetMethod, systemException) ?? op;
-                        break;
+                  case OperationKind.Return: 
+                      {
+                           if (callToDetectCounter < _maxRecursionNumber)
+                               returnedOp = Detect(op, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter) ?? op;
+                           break;
                      }
                   case OperationKind.Throw: {
                         var opThrow = (IThrowOperation)op;
@@ -129,8 +138,10 @@ namespace CastDotNetExtension
                                        parent = parent.BaseType;
                                     } while (null != parent);
 
-                                    if (null != parent) {
-                                       returnedOp = Detect(opCatch, targetMethod, systemException);
+                                    if (null != parent) 
+                                    {
+                                        if (callToDetectCounter < _maxRecursionNumber)
+                                            returnedOp = Detect(opCatch, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
                                        break;
                                     }
                                  }
@@ -145,8 +156,11 @@ namespace CastDotNetExtension
                   case OperationKind.Invocation:
                      returnedOp = (_targetMethod == (op as IInvocationOperation).TargetMethod) ?
                         op : null;
-                     if(returnedOp==null)
-                         returnedOp = Detect(op, targetMethod, systemException);
+                     if (returnedOp == null)
+                     {
+                         if (callToDetectCounter < _maxRecursionNumber)
+                             returnedOp = Detect(op, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
+                     }
                      break;
                   case OperationKind.Conditional: {
                         var count = op.Children.Count();
@@ -177,8 +191,8 @@ namespace CastDotNetExtension
                            for (int i = 0; i < count; ++i) {
                               var child = op.Children.ElementAt(i);
                               IOperation returnedOpLocal = null;
-                              if(recursionCounter<_maxRecursionNumber)
-                                returnedOpLocal = RouteAndDetect(child, targetMethod, systemException, recursionCounter+1);
+                              if(callToRouteAndDetectCounter<_maxRecursionNumber)
+                                  returnedOpLocal = RouteAndDetect(child, targetMethod, systemException, callToDetectCounter, callToRouteAndDetectCounter+1);
 
                               if (null != returnedOpLocal) {
                                  if (OperationKind.Invocation == returnedOpLocal.Kind /*&& hasElse && 0 != i*/) {
@@ -200,15 +214,17 @@ namespace CastDotNetExtension
                   case OperationKind.Switch:
                      _breakables.Push(op.Kind);
                      var iSwitch = op as ISwitchOperation;
-                     if(recursionCounter<_maxRecursionNumber)
-                         returnedOp = RouteAndDetect(iSwitch.Value, targetMethod, systemException, recursionCounter + 1);
+                     if(callToRouteAndDetectCounter < _maxRecursionNumber)
+                         returnedOp = RouteAndDetect(iSwitch.Value, targetMethod, systemException, callToDetectCounter, callToRouteAndDetectCounter + 1);
                      if (null == returnedOp)
                      {
                         if (iSwitch.Cases.Any(c => c.Clauses.Any(clause => CaseKind.Default == clause.CaseKind))) {
                            foreach (var acase in iSwitch.Cases) 
                            {
-                              
-                              if (null == (returnedOp = Detect(acase, targetMethod, systemException))) {
+                              if (callToDetectCounter < _maxRecursionNumber)
+                                  returnedOp = Detect(acase, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
+                              if (null == returnedOp) 
+                              {
                                  break;
                               }
                            }
@@ -223,14 +239,19 @@ namespace CastDotNetExtension
                      if (LoopKind.While == iLoop.LoopKind) {
                         var iWhile = iLoop as IWhileLoopOperation;
                         var literalCondition = iWhile.Condition.GetBooleanLiteralCondition();
-                        if (!iWhile.ConditionIsTop || Utils.OperationExtensions.BooleanLiteralCondition.AlwaysFalse != literalCondition) {
-                           if (Utils.OperationExtensions.BooleanLiteralCondition.AlwaysTrue == literalCondition || null == (returnedOp = Detect(iWhile.Condition, targetMethod, systemException))) {
-                              returnedOp = Detect(iWhile.Body, targetMethod, systemException);
-                              if (op == returnedOp) {
-                                 returnedOp = null;
-                                 break;
-                              }
-                           }
+                        if (!iWhile.ConditionIsTop || Utils.OperationExtensions.BooleanLiteralCondition.AlwaysFalse != literalCondition) 
+                        {
+                            if (callToDetectCounter < _maxRecursionNumber)
+                                returnedOp = Detect(iWhile.Condition, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
+                            if (Utils.OperationExtensions.BooleanLiteralCondition.AlwaysTrue == literalCondition || null == (returnedOp)) 
+                            {
+                                if (callToDetectCounter < _maxRecursionNumber)
+                                    returnedOp = Detect(iWhile.Body, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
+                                if (op == returnedOp) {
+                                   returnedOp = null;
+                                   break;
+                               }
+                            }
                         }
                      }
                      _loops.Remove(_loops.Last());
@@ -249,7 +270,8 @@ namespace CastDotNetExtension
                      }
                      break;
                   default:
-                     returnedOp = Detect(op, targetMethod, systemException);
+                     if (callToDetectCounter < _maxRecursionNumber)
+                         returnedOp = Detect(op, targetMethod, systemException, callToDetectCounter + 1, callToRouteAndDetectCounter);
                      break;
                }
 
@@ -261,7 +283,8 @@ namespace CastDotNetExtension
             }
          }
 
-         private IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException)
+         private IOperation Detect(IOperation targetBlockOp, IMethodSymbol targetMethod, INamedTypeSymbol systemException, 
+             int callToDetectCounter=0, int callToRouteAndDetectCounter=0)
          {
             bool added = false;
             try {
@@ -280,8 +303,8 @@ namespace CastDotNetExtension
                         continue;
                      }
                   }
-
-                  returnedOp = RouteAndDetect(op, targetMethod, systemException);
+                  if (callToRouteAndDetectCounter < _maxRecursionNumber)
+                      returnedOp = RouteAndDetect(op, targetMethod, systemException, callToDetectCounter, callToRouteAndDetectCounter + 1);
 
                   if (null != returnedOp) {
                      if (OperationKind.Invocation == op.Kind || returnedOp != targetBlockOp)
