@@ -43,7 +43,7 @@ namespace CastDotNetExtension {
          "string.ToUpper()",                                                     
       };
 
-      private HashSet<IMethodSymbol> _methodSymbols;
+      private HashSet<IMethodSymbol> _methodSymbols = new HashSet<IMethodSymbol>();
       private HashSet<INamedTypeSymbol> _cultureArgTypes = new HashSet<INamedTypeSymbol>();
 
       /// <summary>
@@ -51,26 +51,32 @@ namespace CastDotNetExtension {
       /// to listen during the visit and provide a specific callback for each one
       /// </summary>
       /// <param name="context"></param>
-      public override void Init(AnalysisContext context) {
+      public override void Init(AnalysisContext context) 
+      {
          context.RegisterSyntaxNodeAction(Analyze, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
       }
 
       private readonly object _lock = new object();
 
-      protected void Analyze(SyntaxNodeAnalysisContext context) {
+      protected void Analyze(SyntaxNodeAnalysisContext context) 
+      {
 
-            try {
+            try 
+            {
                Init(context.Compilation);
-               if (_methodSymbols.Any()) {
+               if (_methodSymbols.Any()) 
+               {
                   var method = context.IsOneOfMethods(_methodSymbols);
-                  if (null != method) {
+                  if (null != method) 
+                  {
                      var span = context.Node.Span;
                      var pos = context.Node.SyntaxTree.GetMappedLineSpan(span);
                      AddViolation(context.ContainingSymbol, new[] { pos });
                   }
                }
             }
-            catch (Exception e) {
+            catch (Exception e) 
+            {
                Log.Warn(" Exception while analyzing " + context.SemanticModel.SyntaxTree.FilePath, e);
             }
 
@@ -78,8 +84,10 @@ namespace CastDotNetExtension {
 
       private IAssemblySymbol _mscorlib;
 
-      private void Init(Compilation compilation) {
-         lock (_lock) {
+      private void Init(Compilation compilation) 
+      {
+         lock (_lock) 
+         {
             compilation.GetMethodSymbolsForSystemClass("System.String", MethodNames, ref _mscorlib, ref _methodSymbols, true, MethodNames.Count);
          }
       }
