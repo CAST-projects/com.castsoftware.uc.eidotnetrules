@@ -455,7 +455,7 @@ namespace CastDotNetExtension
                       if (propertySymbol != null)
                       {
                           var model = context.SemanticModel;
-                          if(model!=null)
+                          if (model != null && node.AccessorList != null)
                           {
                               foreach (var accessor in node.AccessorList.Accessors)
                               {
