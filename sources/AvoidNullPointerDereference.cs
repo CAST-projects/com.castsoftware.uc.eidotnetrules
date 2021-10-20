@@ -369,17 +369,16 @@ namespace CastDotNetExtension
                         {
                             var childrenScopes = parent._childrenScope;
                             var identSymb = getSymbolList(node);
-
-                            foreach (var child in childrenScopes)
+                            if (identSymb != null)
                             {
-                                if (child._varBoolCheckNullInVarDeclaration.ContainsKey(identSymb))
+                                foreach (var child in childrenScopes)
                                 {
-                                    var infos = child._varBoolCheckNullInVarDeclaration[identSymb];
-                                    if (infos.varCheck != null)
+                                    if (child._varBoolCheckNullInVarDeclaration.ContainsKey(identSymb))
                                     {
-                                        _conditionVar[infos.varCheck] = infos.equalOpr ? !elseBlock : elseBlock;  
+                                        var infos = child._varBoolCheckNullInVarDeclaration[identSymb];
+                                        _conditionVar[infos.varCheck] = infos.equalOpr ? !elseBlock : elseBlock;
+                                        found = true;
                                     }
-                                    found = true;
                                 }
                             }
                             parent = parent._parentScope;

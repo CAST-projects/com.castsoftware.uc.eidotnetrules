@@ -943,5 +943,26 @@ namespace UnitTests.UnitTest.Sources
             }
   
         }
+
+        public PersistentData _dta = new PersistentData();
+        void f41()
+        {
+            object foo = null;
+            _dta.HasData = foo != null;
+            if (_dta.HasData)
+            {
+                string msg;
+                if (string.IsNullOrWhiteSpace(foo.ToString())) // NO VIOLATION
+                {
+                    msg = foo.ToString(); // NO VIOLATION
+                }
+            }
+            else
+            {
+                foo.ToString(); // VIOLATION
+            }
+        }
+
+
     }
 }
