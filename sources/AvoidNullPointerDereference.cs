@@ -375,7 +375,10 @@ namespace CastDotNetExtension
                                 if (child._varBoolCheckNullInVarDeclaration.ContainsKey(identSymb))
                                 {
                                     var infos = child._varBoolCheckNullInVarDeclaration[identSymb];
-                                    _conditionVar[infos.varCheck] = infos.equalOpr ? !elseBlock : elseBlock;
+                                    if (infos.varCheck != null)
+                                    {
+                                        _conditionVar[infos.varCheck] = infos.equalOpr ? !elseBlock : elseBlock;  
+                                    }
                                     found = true;
                                 }
                             }
