@@ -51,4 +51,63 @@ namespace UnitTests.UnitTest.Sources {
     }
 
    }
+
+   public class TestBase
+   {
+       private int _m1;
+       protected int _m2;
+       protected int _m3;
+       public int _m4;
+       public int _m5;
+       public int _m6;
+
+       private int Prop1 { get; set; }
+       protected int Prop2 { get; set; }
+       protected int Prop3 { get; set; }
+       public int Prop4 { get; set; }
+       public int Prop5 { get; set; }
+       public int Prop6 { get; set; }
+
+       //private virtual int VProp1 { get; set; }
+       protected virtual int VProp2 { get; set; }
+       public virtual int VProp3 { get; set; }
+
+       private void Method1() { }
+       protected void Method2() { }
+       public void Method3() { }
+
+       //private virtual void VMethod1() { }
+       protected virtual void VMethod2() { }
+       public virtual void VMethod3() { }
+   }
+
+   public class A : TestBase
+   {
+       private int _m1;
+       protected int /*@*/_m2;
+       protected new int _m3;
+       public int /*@*/_m4;
+       public new int _m5;
+       private int /*@*/_m6;
+
+       private int Prop1 { get; set; }
+       protected int /*@*/Prop2 { get; set; }
+       protected new int Prop3 { get; set; }
+       public int /*@*/Prop4 { get; set; }
+       public new int Prop5 { get; set; }
+       private int /*@*/Prop6 { get; set; }
+
+       //private virtual int VProp1 { get; set; }
+       protected override int VProp2 { get; set; }
+       public override int VProp3 { get; set; }
+
+       private void Method1() { }
+       protected void Method2() { }
+       public void Method3() { }
+
+       //private override void VMethod1() { }
+       protected override void VMethod2() { }
+       public override void VMethod3() { }
+
+   }
 }
