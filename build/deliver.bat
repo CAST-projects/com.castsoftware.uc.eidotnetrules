@@ -77,7 +77,7 @@ xcopy /y /s %SRC_DIR%\MasterFiles\*.* %PACK_DIR%\MasterFiles\
 if errorlevel 1 goto endclean
 
 echo generation of adg
-call \\PRODUCTFS01\EngBuild\Releases\AssessmentModel\MetricsCompiler.bat -encodeUA -inputdir %PACK_DIR%\MasterFiles\ -outputdir %PACK_DIR% -pck com.castsoftware.securityanalyzer
+call \\PRODUCTFS01\EngBuild\Releases\AssessmentModel\MetricsCompiler.bat -encodeUA -inputdir %PACK_DIR%\MasterFiles\ -outputdir %PACK_DIR% -pck com.castsoftware.uc.eidotnetrules
 if errorlevel 1 (
 	echo.
 	echo ERROR during MetricCompiler
@@ -86,7 +86,7 @@ if errorlevel 1 (
 
 echo.
 echo Extract Security Analyzer binaries
-call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\securityanalyzer_main_pack.7z -o%PACK_DIR%\SecurityAnalyzer
+call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\eidotnetrules_main_pack.7z -o%PACK_DIR%
 if errorlevel 1 exit /b 1
 
 set CMD=%TOOLS_DIR%\nuget_package_basics.bat outdir=%THEDELIVDIR% pkgdir=%PACK_DIR% buildno=%BUILDNO%
