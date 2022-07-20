@@ -1,3 +1,4 @@
-/sources/Tests/obj
-/sources/obj
-/sources/Build
+/Sources/bin
+/Sources/obj
+/UnitTests/bin
+/UnitTests/obj
