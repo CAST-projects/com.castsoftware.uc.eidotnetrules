@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
+    <Compile Remove="TestSources\AvoidClassesWithTooManyConstructors_QualUatExample.cs" />
+    <Compile Remove="TestSources\AvoidCreatingExceptionWithoutThrowingThem_Source.cs" />
+    <Compile Remove="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <Compile Remove="TestSources\AvoidEmptyFinalizers_Source.cs" />
+    <Compile Remove="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
+    <Compile Remove="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
+    <Compile Remove="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />
+    <Compile Remove="TestSources\AvoidNullPointerDereference_Source.cs" />
+    <Compile Remove="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
+    <Compile Remove="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
+    <Compile Remove="TestSources\ChildClassFieldsShouldNotShadowParentClassFields_Source.cs" />
+    <Compile Remove="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
+    <Compile Remove="TestSources\CultureDependentStringOperationsShouldSpecifyCulture_Source.cs" />
+    <Compile Remove="TestSources\EmptyArraysAndCollectionsShouldBeReturnedInsteadOfNull_Source.cs" />
+    <Compile Remove="TestSources\EnsureConstructorsOfSerializableClassesAreSecure_Source.cs" />
+    <Compile Remove="TestSources\EnsureProperArgumentsToEvents_Source.cs" />
+    <Compile Remove="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
+    <Compile Remove="TestSources\ForLoopConditionShouldBeInvariant_Source.cs" />
+    <Compile Remove="TestSources\InheritedMemberVisibilityShouldNotBeDecreased_Source.cs" />
+    <Compile Remove="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
+    <Compile Remove="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
+    <Compile Remove="TestSources\MergeAdjacentTryBlocksWithIdenticalCatchFinallyStatements_Source.cs" />
+    <Compile Remove="TestSources\MutableStaticFieldsOfTypeCollectionOrArrayShouldNotBePublicStatic_Source.cs" />
+    <Compile Remove="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
+    <Compile Remove="TestSources\TrackFIXMETags_Source.cs" />
+    <Compile Remove="TestSources\TrackTODOTags_Source.cs" />
+    <Compile Remove="TestSources\UseLogicalORInsteadOfBitwiseORInBooleanContext_Source.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="NunitXml.TestLogger" Version="3.0.117" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestSources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sources\EICastQualityRules.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CastDotNetExtension">
+      <HintPath>..\sources\Packages\CastDotNetExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="CastDotNetExtensionTestTools">
+      <HintPath>..\sources\Packages\CastDotNetExtensionTestTools.dll</HintPath>
+    </Reference>
+    <Reference Include="RoslynToolBox">
+      <HintPath>..\sources\Packages\RoslynToolBox.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
