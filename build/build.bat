@@ -15,7 +15,7 @@ for %%a in (%0) do set TOOLNAME=%%~na
 set CMDPATH=%0
 set RETCODE=1
 
-for %%a in (WKSP SRCDIR) do set %%a=
+for %%a in (WKSP SRCDIR RUNTIME) do set %%a=
 :LOOP_ARG
     set option=%1
     if not defined option goto CHECK_ARGS
@@ -27,7 +27,7 @@ for %%a in (WKSP SRCDIR) do set %%a=
 goto LOOP_ARG
 
 :CHECK_ARGS
-for %%a in (WKSP SRCDIR) do (
+for %%a in (WKSP SRCDIR RUNTIME) do (
     if not defined %%a (
         @echo.
         @echo ERROR: parameter "%%a" has not been defined.
