@@ -49,7 +49,7 @@ set PATH=%PATH%;%CASTCACHES%\Win64
 set TEMP=%WORKSPACE%\temp
 set TARGET=Release
 
-set BINDIR=%SRCDIR%\bin\x64\Release\net6.0\win-x64\publish\
+set BINDIR=%WKSP%\Release
 touch.exe %WKSP%\WorkspaceRootMarker
 if errorlevel 1 goto endclean
 
