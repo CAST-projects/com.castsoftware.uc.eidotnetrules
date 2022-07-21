@@ -129,7 +129,7 @@ for %%a in (%DLLNUNIT%) do (
     @echo ================================================================
     @echo === XSLT transformation
     @echo ================================================================
-    call msxsl.exe %WORK_DIR%\nunit.unit.%%a.nunit %SRC_DIR%\nunit3-to-junit.xsl -o %WKSP%\results_%MODE%_%%~na_junit.xml
+    call msxsl.exe %WORK_DIR%\nunit.unit.%%a.nunit %SRC_DIR%\_build\nunit3-to-junit.xsl -o %WKSP%\results_%MODE%_%%~na_junit.xml
     if errorlevel 1 goto endclean
     @echo %MODE% logs for %%~na are in %WKSP%\test_%MODE%_%%~na.log
 )
