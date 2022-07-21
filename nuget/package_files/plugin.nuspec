@@ -4,7 +4,7 @@
 		<id>com.castsoftware.uc.eidotnetrules</id>
         <!-- !!! NEVER remove the _BUILDNO_ in the version !!! -->
      <!--<version>1.0.0-alpha7</version>--> 
-    <version>_THE_VERSION_-build_BUILDNO_</version>
+    <version>2.0.0-build_BUILDNO_</version>
     <!--<version>1.0.0-alpha4_BUILDNO_</version>-->
 		<title>.NET Quality Rules</title>
 		<projectUrl>https://doc.castsoftware.com/display/TECHNOS/.NET+Analyzer+-+_THE_SHORT_VERSION_</projectUrl>
