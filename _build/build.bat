@@ -49,8 +49,7 @@ set PATH=%PATH%;%CASTCACHES%\Win64
 set TEMP=%WORKSPACE%\temp
 set TARGET=Release
 
-set BINDIR=%SRCDIR%\Build\x64\Release
-set OUTDIR=%WORKSPACE%\Build
+set BINDIR=%WORKSPACE%\Build
 touch.exe %WKSP%\WorkspaceRootMarker
 if errorlevel 1 goto endclean
 
@@ -71,7 +70,7 @@ if errorlevel 1 goto endclean
 :: For Linux, we wait for 9 seconds in order to avoid nuget concurrence on the same file
 if not %RUNTIME%==win-x64 (TIMEOUT 9)
 
-set CMD=dotnet.exe publish %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %OUTDIR%  /p:PublishReadyToRun=true /p:Platform=x64
+set CMD=dotnet.exe publish %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR%  /p:PublishReadyToRun=true /p:Platform=x64
 @echo Executing %CMD%
 call %CMD%
 if errorlevel 1 goto endclean
@@ -161,7 +160,7 @@ goto endclean
 :: ===================================================
 :: Build Tests packages
 :: ===================================================
-set CMD=dotnet.exe build %SRCDIR%\UnitTests\UnitTests.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME%  /p:PublishReadyToRun=true /p:Platform=x64
+set CMD=dotnet.exe publish %SRCDIR%\UnitTests\UnitTests.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR% /p:PublishReadyToRun=true /p:Platform=x64
 @echo Executing %CMD%
 call %CMD%
 if errorlevel 1 goto endclean
