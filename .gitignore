@@ -2,3 +2,5 @@
 /Sources/obj
 /UnitTests/bin
 /UnitTests/obj
+.vs/
+Build/

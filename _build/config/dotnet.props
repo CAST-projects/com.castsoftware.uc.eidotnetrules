@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    
+	<PropertyGroup>
+        <WORK_ROOT_DIR>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), SourcesRootMarker))</WORK_ROOT_DIR>
+    </PropertyGroup>
+
+    <!-- Out of source build -->
+    <PropertyGroup>
+        <PlatformShortName Condition="$(PlatformShortName)==''">$(Platform)</PlatformShortName>
+        <OutputPath>$(WORK_ROOT_DIR)\Build\$(PlatformShortName)\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+
+</Project>

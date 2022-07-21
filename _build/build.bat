@@ -49,7 +49,7 @@ set PATH=%PATH%;%CASTCACHES%\Win64
 set TEMP=%WORKSPACE%\temp
 set TARGET=Release
 
-set BINDIR=%WKSP%\Release
+set BINDIR=%WKSP%\Build\x64\Release
 touch.exe %WKSP%\WorkspaceRootMarker
 if errorlevel 1 goto endclean
 
@@ -166,7 +166,7 @@ call %CMD%
 if errorlevel 1 goto endclean
 
 @echo Add XSLT translator tool
-XCOPY "%SRCDIR%\build\nunit3-to-junit.xsl" "%BINDIR%\" /Y
+XCOPY "%SRCDIR%\_build\nunit3-to-junit.xsl" "%BINDIR%\" /Y
 
 :: ===================================================
 :: Tests packages
