@@ -71,9 +71,11 @@ if errorlevel 8 goto endclean
 
 echo.
 echo Get additional files
-xcopy /y /s %SRC_DIR%\InstallScripts\*.* %PACK_DIR%\InstallScripts\
+xcopy /y /s %SRC_DIR%\nuget\package_files\InstallScripts\*.* %PACK_DIR%\InstallScripts\
 if errorlevel 1 goto endclean
-xcopy /y /s %SRC_DIR%\MasterFiles\*.* %PACK_DIR%\MasterFiles\
+xcopy /y /s %SRC_DIR%\nuget\package_files\MasterFiles\*.* %PACK_DIR%\MasterFiles\
+if errorlevel 1 goto endclean
+xcopy /y /s %SRC_DIR%\nuget\package_files\Configuration\*.* %PACK_DIR%\Configuration\
 if errorlevel 1 goto endclean
 
 echo generation of adg
