@@ -156,7 +156,7 @@ if not %RUNTIME%==win-x64 (
     if errorlevel 1 goto endclean
 )
 popd
-goto endclean
+
 :: ===================================================
 :: Build Tests packages
 :: ===================================================
