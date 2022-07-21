@@ -70,7 +70,7 @@ if errorlevel 1 goto endclean
 :: For Linux, we wait for 9 seconds in order to avoid nuget concurrence on the same file
 if not %RUNTIME%==win-x64 (TIMEOUT 9)
 
-set CMD=dotnet.exe build %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% /p:PublishReadyToRun=true /p:Platform=x64
+set CMD=dotnet.exe publish %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% /p:PublishReadyToRun=true /p:Platform=x64
 @echo Executing %CMD%
 call %CMD%
 if errorlevel 1 goto endclean
