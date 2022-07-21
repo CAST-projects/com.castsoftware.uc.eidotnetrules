@@ -79,7 +79,7 @@ xcopy /y /s %SRC_DIR%\nuget\package_files\Configuration\*.* %PACK_DIR%\Configura
 if errorlevel 1 goto endclean
 
 echo generation of adg
-call \\PRODUCTFS01\EngBuild\Releases\AssessmentModel\MetricsCompiler.bat -encodeUA -inputdir %PACK_DIR%\MasterFiles\ -outputdir %PACK_DIR% -pck com.castsoftware.securityanalyzer
+call \\PRODUCTFS01\EngBuild\Releases\AssessmentModel\MetricsCompiler.bat -encodeUA -inputdir %PACK_DIR%\MasterFiles\ -outputdir %PACK_DIR% -pck com.castsoftware.uc.eidotnetrules
 if errorlevel 1 (
 	echo.
 	echo ERROR during MetricCompiler
@@ -87,22 +87,22 @@ if errorlevel 1 (
 )
 
 echo.
-echo Extract Security Analyzer binaries
-call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\securityanalyzer_main_pack.zip -o%PACK_DIR%\SecurityAnalyzer
+echo Extract extension binaries
+call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\eidotnetrules_main_pack.zip -o%PACK_DIR%
 if errorlevel 1 exit /b 1
 
 pushd %PACK_DIR%
-tar.exe cvfz %WORKSPACE%\upload\com.castsoftware.securityanalyzer.taz *
+tar.exe cvfz %WORKSPACE%\upload\com.castsoftware.uc.eidotnetrules.taz *
 popd
 
 echo.
-echo Extract Security Analyzer binaries for tests
-rmdir /s /q %PACK_DIR%\SecurityAnalyzer
-call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\securityanalyzer_test_pack.zip -o%PACK_DIR%\SecurityAnalyzer
+echo Extract extension binaries for tests
+rmdir /s /q %PACK_DIR%
+call \\productfs01\EngTools\external_tools\win64\7z.exe x upload\eidotnetrules_test_pack.zip -o%PACK_DIR%
 if errorlevel 1 exit /b 1
 
 pushd %PACK_DIR%
-tar.exe cvfz %WORKSPACE%\upload\com.castsoftware.securityanalyzer-tests.taz *
+tar.exe cvfz %WORKSPACE%\upload\com.castsoftware.uc.eidotnetrules-tests.taz *
 popd
 
 echo.
