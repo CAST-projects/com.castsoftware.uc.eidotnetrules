@@ -85,10 +85,6 @@ if %BUILDTYPE%.==noc. (
 	)
 )
 
-if not defined BUILDNO (set SUFFIX=) else (SET SUFFIX=_%BUILDNO%)
-
-@echo SUFFIX=%SUFFIX%
-
 :: ===================================================
 :: Main packages
 :: ===================================================
@@ -169,7 +165,7 @@ if errorlevel 1 goto endclean
 XCOPY "%SRCDIR%\_build\nunit3-to-junit.xsl" "%BINDIR%\" /Y
 
 @echo Add PackagesUnitTests folder
-XCOPY "%SRCDIR%\Build\x64\Release\*.dll" "%BINDIR%\"" /S /Y
+XCOPY "%SRCDIR%\Build\x64\Release\PackagesUnitTests\*.dll" "%BINDIR%\PackagesUnitTests\" /S /Y
 
 :: ===================================================
 :: Tests packages
