@@ -119,7 +119,8 @@ if not %RUNTIME%==win-x64 (
         -xr^^!nunit*.dll ^
         -xr^^!testcentric.*.dll ^
         -xr^^!testhost*.dll ^
-        -xr^^!testhost*.exe
+        -xr^^!testhost*.exe ^
+        -xr^^!UnitTests*.*
     @echo %LOGDEBUG%
     if errorlevel 1 goto endclean
 ) else (
@@ -147,7 +148,8 @@ if not %RUNTIME%==win-x64 (
         -xr^^!nunit*.dll ^
 		-xr^^!testcentric.*.dll ^
         -xr^^!testhost*.dll ^
-        -xr^^!testhost*.exe
+        -xr^^!testhost*.exe ^
+        -xr^^!UnitTests*.*
     @echo %LOGDEBUG%
     if errorlevel 1 goto endclean
 )
