@@ -182,6 +182,7 @@ if not %RUNTIME%==win-x64 (
     IF EXIST !ARCHIVE! del !ARCHIVE!
     @echo on
     call 7z.exe -tzip a !ARCHIVE! ^
+		PackagesUnitTests\ ^
 		ref\ ^
 		runtimes\ ^
         *.dll ^
@@ -204,7 +205,8 @@ if not %RUNTIME%==win-x64 (
     IF EXIST !ARCHIVE! del !ARCHIVE!
     @echo on
     call 7z.exe a !ARCHIVE! ^
-		ref\ ^
+		PackagesUnitTests\ ^
+        ref\ ^
 		runtimes\ ^
         *.dll ^
         *.exe ^
