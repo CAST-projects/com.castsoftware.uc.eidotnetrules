@@ -168,6 +168,9 @@ if errorlevel 1 goto endclean
 @echo Add XSLT translator tool
 XCOPY "%SRCDIR%\_build\nunit3-to-junit.xsl" "%BINDIR%\" /Y
 
+@echo Add PackagesUnitTests folder
+
+
 :: ===================================================
 :: Tests packages
 :: ===================================================
