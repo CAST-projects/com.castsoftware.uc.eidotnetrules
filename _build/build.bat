@@ -169,7 +169,7 @@ if errorlevel 1 goto endclean
 XCOPY "%SRCDIR%\_build\nunit3-to-junit.xsl" "%BINDIR%\" /Y
 
 @echo Add PackagesUnitTests folder
-
+XCOPY "%SRCDIR%\Build\x64\Release\*.dll" "%BINDIR%\"" /S /Y
 
 :: ===================================================
 :: Tests packages
