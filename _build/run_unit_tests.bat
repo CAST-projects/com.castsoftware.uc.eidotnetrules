@@ -13,7 +13,7 @@ set CMDPATH=%0
 set RETCODE=1
 
 :: Checking arguments
-for %%a in (SRC_DIR WKSP) do set %%a=
+for %%a in (WKSP) do set %%a=
 :LOOP_ARG
     set option=%1
     echo option %1
@@ -26,7 +26,7 @@ for %%a in (SRC_DIR WKSP) do set %%a=
 goto LOOP_ARG
 
 :CHECK_ARGS
-for %%a in (SRC_DIR WKSP) do (
+for %%a in (WKSP) do (
     if not defined %%a (
         @echo.
         @echo No "%%a" defined !
@@ -45,7 +45,7 @@ if exist %CACHEWIN64%     set PATH=%CACHEWIN64%;%PATH%
 
 set WORK_DIR=%WKSP%\work
 
-for %%a in (%SRC_DIR% %WKSP%) do (
+for %%a in (%WKSP%) do (
     if not exist %%a (
         @echo.
         @echo ERROR: Folder %%a does not exist
@@ -129,7 +129,7 @@ for %%a in (%DLLNUNIT%) do (
     @echo ================================================================
     @echo === XSLT transformation
     @echo ================================================================
-    call msxsl.exe %WORK_DIR%\nunit.unit.%%a.nunit %SRC_DIR%\_build\nunit3-to-junit.xsl -o %WKSP%\results_%MODE%_%%~na_junit.xml
+    call msxsl.exe %WORK_DIR%\nunit.unit.%%a.nunit %WORK_DIR%\nunit3-to-junit.xsl -o %WKSP%\results_%MODE%_%%~na_junit.xml
     if errorlevel 1 goto endclean
     @echo %MODE% logs for %%~na are in %WKSP%\test_%MODE%_%%~na.log
 )
@@ -145,10 +145,9 @@ exit /b %RETCODE%
 
 :Usage
     @echo Usage:
-    @echo %CMDPATH% wksp=... src_dir=...
+    @echo %CMDPATH% wksp=...
     @echo.
     @echo wksp: full path to workspace
-    @echo src_dir: path for dotnet sources folder.
     @echo.
     goto endclean
 goto:eof
