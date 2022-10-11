@@ -84,6 +84,7 @@
     <Reference Include="System.Reflection.Metadata">
       <HintPath>..\Packages\System.Reflection.Metadata.1.6.0\lib\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -104,6 +105,7 @@
     <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
     <Compile Include="TestAvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
+    <Compile Include="TestAvoidHiddenFormField.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="TestAvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="TestAvoidNullPointerDereference.cs" />
@@ -134,6 +136,7 @@
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <None Include="TestSources\AvoidNullPointerDereference_Source.cs" />
     <Compile Include="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
+    <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />

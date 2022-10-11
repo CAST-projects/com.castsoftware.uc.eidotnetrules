@@ -257,6 +257,33 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Web.UI.HtmlControls;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    class AvoidHiddenFormField_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            HtmlInputHidden hidden = new HtmlInputHidden();
+        ///        }
+        ///    }
+        ///}
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidHiddenFormField_Source {
+            get {
+                return ResourceManager.GetString("AvoidHiddenFormField_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   class AvoidLocalVariablesShadowingClassFields_Source {
@@ -373,6 +400,7 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using System.Data.SqlClient;
+        ///using System.Data.Common;
         ///using System.Data;
         ///
         ///namespace UnitTests.UnitTest.Sources
@@ -384,7 +412,7 @@ namespace UnitTests.Properties {
         ///
         ///            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
         ///            builder[&quot;Data Source&quot;] = &quot;(local)&quot;;
-        ///            builder[&quot;Persist Security Info&quot;] = true;     [le reste de la chaîne a été tronqué]&quot;;.
+        ///            builder[&quot;Persist  [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidPersistSecurityInfoInConnectionString_Source {
             get {

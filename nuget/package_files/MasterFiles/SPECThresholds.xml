@@ -28,4 +28,5 @@
   <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
 </root>

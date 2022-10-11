@@ -1573,4 +1573,55 @@ builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</english>
   <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="description">
+    <english>This rule raise a violation for the usage of System.Web.UI.HtmlControls.HtmlInputHidden constructor.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="name">
+    <english>Avoid hidden form field</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="rationale">
+    <english>Since they are not rendered visible, hidden inputs are sometimes erroneously perceived as safe. But similar to session cookies, hidden form inputs store the software’s state information client-side, instead of server-side. This makes it vulnerable.
+
+If a web product does not properly protect assumed-immutable values from modification in hidden form fields, parameters, cookies, or URLs, this can lead to modification of critical data. Web applications often mistakenly make the assumption that data passed to the client in hidden fields or cookies is not susceptible to tampering. Improper validation of data that are user-controllable can lead to the application processing incorrect, and often malicious, input.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="reference">
+    <english>CWE-472: External Control of Assumed-Immutable Web Parameter
+https://cwe.mitre.org/data/definitions/472.html
+
+CWE-642: External Control of Critical State Data
+https://cwe.mitre.org/data/definitions/642.html
+
+OWASP Attacks - Web Parameter Tampering
+https://owasp.org/www-community/attacks/Web_Parameter_Tampering
+
+CGISecurity - OWASP - A Guide to Building Secure Web Applications (2002, but still interesting)
+https://www.cgisecurity.com/owasp/html/ch11s04.html
+
+HtmlInputHidden Class
+https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.htmlcontrols.htmlinputhidden?view=netframework-4.8</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="remediation">
+    <english>Instead of using hidden form fields, the application designer can simply use one session token to reference properties stored in a server-side cache. When an application needs to check a user property, it checks the session cookie with its session table and points to the user's data variables in the cache / database. This is by far the correct way to architect this problem.
+
+If the above technique of using a session variable instead of a hidden field cannot be implemented, a second approach is as follows.
+
+The name/value pairs of the hidden fields in a form can be concatenated together into a single string. A secret key that never appears in the form is also appended to the string. This string is called the Outgoing Form Message. An MD5 digest or other one-way hash is generated for the Outgoing Form Message. This is called the Outgoing Form Digest and it is added to the form as an additional hidden field.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="remediationSample">
+    <english>Avoid using HtmlInputHidden constructor.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="sample">
+    <english>HtmlInputHidden hidden = new HtmlInputHidden();</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="total">
+    <english>Number of .Net artifacts</english>
+  </metric>
 </root>

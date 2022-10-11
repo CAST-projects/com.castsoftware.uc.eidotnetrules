@@ -10,6 +10,7 @@
   <metric id="61024" type="technical-criterion" originalName="Programming Practices - Structuredness" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61026" type="technical-criterion" originalName="Complexity - Technical Complexity" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="61027" type="technical-criterion" originalName="Dead code (static)" active="N/A" detached="N/A" ignored="N/A" />
+  <metric id="66062" type="technical-criterion" originalName="Secure Coding - Input Validation" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66063" type="technical-criterion" originalName="Secure Coding - API Abuse" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" active="N/A" detached="N/A" ignored="N/A" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" active="N/A" detached="N/A" ignored="N/A" />
@@ -41,4 +42,5 @@
   <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" active="true" detached="false" ignored="false" />
   <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" active="true" detached="false" ignored="false" />
   <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" active="true" detached="false" ignored="false" />
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" active="true" detached="false" ignored="false" />
 </root>

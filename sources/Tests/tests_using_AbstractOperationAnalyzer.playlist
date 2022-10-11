@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="UnitTests.UnitTest.TestRecursionShouldNotBeInfinite.Test_operations" /><Add Test="UnitTests.UnitTest.TestAvoidCreatingNewInstanceOfSharedInstance.Test_operations" /><Add Test="UnitTests.UnitTest.TestAvoidCreatingExceptionWithoutThrowingThem.Test_operations" /></Playlist>

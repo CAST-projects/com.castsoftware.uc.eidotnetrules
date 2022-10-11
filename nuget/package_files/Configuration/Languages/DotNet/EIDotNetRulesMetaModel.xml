@@ -267,8 +267,15 @@
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
 
-     
-
+    <property name="AvoidHiddenFormField" type="integer"  merge="sum" rid="30">
+      <description>Avoid hidden form field</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="30"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+    
   </category>
 
 
