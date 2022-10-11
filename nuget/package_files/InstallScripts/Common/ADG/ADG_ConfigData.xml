@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<DATA model='Central Model' version='1.0.0.20' scope='METRICS' export='OK'><!-- File generated with CAST Metrics Compiler - 8.3.6 -->
+<DATA model='Central Model' version='1.0.0.20' scope='METRICS' export='OK'><!-- File generated with CAST Metrics Compiler -->
   <DSS_METRIC_TYPES>
     <METRIC_ID>2200000</METRIC_ID>
     <METRIC_NAME>Avoid local variables shadowing class fields</METRIC_NAME>
@@ -594,6 +594,28 @@
     <SCOPE_ID>0</SCOPE_ID>
     <PROPERTY_ID>0</PROPERTY_ID>
   </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2200054</METRIC_ID>
+    <METRIC_NAME>Avoid Persist Security Info in connection string</METRIC_NAME>
+    <METRIC_DESCRIPTION>See Metric Documentation</METRIC_DESCRIPTION>
+    <METRIC_TYPE>3</METRIC_TYPE>
+    <METRIC_GROUP>1</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>610</SCOPE_ID>
+    <PROPERTY_ID>2200028</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2200055</METRIC_ID>
+    <METRIC_NAME>Avoid Persist Security Info in connection string</METRIC_NAME>
+    <METRIC_DESCRIPTION>description details</METRIC_DESCRIPTION>
+    <METRIC_TYPE>2</METRIC_TYPE>
+    <METRIC_GROUP>2</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>0</SCOPE_ID>
+    <PROPERTY_ID>0</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>61003</METRIC_PARENT_ID>
     <METRIC_ID>2200002</METRIC_ID>
@@ -752,6 +774,15 @@
     <METRIC_ID>2200036</METRIC_ID>
     <METRIC_INDEX>2</METRIC_INDEX>
     <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>66064</METRIC_PARENT_ID>
+    <METRIC_ID>2200054</METRIC_ID>
+    <METRIC_INDEX>3</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>7</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
     <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
     <METRIC_CRITICAL>0</METRIC_CRITICAL>
@@ -1074,6 +1105,15 @@
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>2200052</METRIC_PARENT_ID>
     <METRIC_ID>2200053</METRIC_ID>
+    <METRIC_INDEX>1</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>2200054</METRIC_PARENT_ID>
+    <METRIC_ID>2200055</METRIC_ID>
     <METRIC_INDEX>1</METRIC_INDEX>
     <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
@@ -2268,6 +2308,50 @@
     <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
     <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
   </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200054</METRIC_ID>
+    <METRIC_VALUE_INDEX>0</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Grade and status distribution</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>Generic grade and status distribution calculation for diagnostics</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>ADG_RESULT_DIAG_STATUS</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>ADG_CENTRAL_RESULT_DIAG</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>0</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200054</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Avoid Persist Security Info in connection string</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>See Metric documentation</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>1</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200054</METRIC_ID>
+    <METRIC_VALUE_INDEX>2</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>total</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>total</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_DIAG_TOTAL_GENERIC</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200055</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>detail</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>detail</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_METRIC_VALUE_SCOPE</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
   <DSS_METRIC_PARAM_TYPES>
     <METRIC_ID>2200000</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
@@ -2699,6 +2783,14 @@
     <THRESHOLD_2>90.0</THRESHOLD_2>
     <THRESHOLD_3>95.0</THRESHOLD_3>
     <THRESHOLD_4>99.0</THRESHOLD_4>
+  </DSS_METRIC_STATUS_THRESHOLDS>
+  <DSS_METRIC_STATUS_THRESHOLDS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <STATUS>0</STATUS>
+    <THRESHOLD_1>98.0</THRESHOLD_1>
+    <THRESHOLD_2>99.0</THRESHOLD_2>
+    <THRESHOLD_3>99.5</THRESHOLD_3>
+    <THRESHOLD_4>99.99</THRESHOLD_4>
   </DSS_METRIC_STATUS_THRESHOLDS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200000</METRIC_ID>
@@ -3723,7 +3815,6 @@ var lowered = someString.ToLowerInvariant();</METRIC_DESCRIPTION>
     <DESCRIPTION_TYPE_ID>3</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>Make visibility of fields protected\private or make them of type Immutable\read-only. This can done through:
-- make fields read-only (with inline initialization)
 - is of type 
       System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt;
       System.Collections.ObjectModel.ReadOnlyDictionary&lt;TKey, TValue&gt;
@@ -3732,7 +3823,8 @@ var lowered = someString.ToLowerInvariant();</METRIC_DESCRIPTION>
       System.Collections.Immutable.IImmutableList&lt;T&gt;
       System.Collections.Immutable.IImmutableSet&lt;T&gt;
       System.Collections.Immutable.IImmutableStack&lt;T&gt;
-      System.Collections.Immutable.IImmutableQueue&lt;T&gt;</METRIC_DESCRIPTION>
+      System.Collections.Immutable.IImmutableQueue&lt;T&gt;
+- make fields read-only (with inline initialization with an immutable type )</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200024</METRIC_ID>
@@ -4907,6 +4999,112 @@ switch (i) // VIOLATION BECAUSE THERE IS A DEFAULT BLOCK
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200052</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>9</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Number of violation occurrences</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>0</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Avoid Persist Security Info in connection string</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>1</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Allowing the server to retain credentials may allow an attacker to retrieve them, and connect to the back-end using permissions associated to these credentials.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>2</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Reports all .Net methods calling ConnectionStringBuilder.PersistSecurityInfo with True as parameter value.
+The following ConnectionStringBuilder are considered:
+   
+System.Data.SqlClient.SqlConnectionStringBuilder    
+System.Data.OleDb.OleDbConnectionStringBuilder    
+System.Data.Odbc.OdbcConnectionStringBuilder    
+System.Data.OracleClient.OracleConnectionStringBuilder    
+System.Data.EntityClient.EntityConnectionStringBuilder    
+Microsoft.Data.SqlClient.SqlConnectionStringBuilder    
+Microsoft.Data.OleDb.OleDbConnectionStringBuilder    
+Microsoft.Data.Odbc.OdbcConnectionStringBuilder    
+Microsoft.Data.OracleClient.OracleConnectionStringBuilder    
+Microsoft.Data.EntityClient.EntityConnectionStringBuilder
+IBM.Data.DB2.DB2ConnectionStringBuilder
+IBM.Data.DB2.iSeries.iDB2ConnectionStringBuilder
+MySql.Data.MySqlClient.MySqlConnectionStringBuilder
+MySql.Data.MySqlClient.MySqlBaseConnectionStringBuilder
+MySqlConnector.MySqlConnectionStringBuilder
+Devart.Data.MySql.MySqlConnectionStringBuilder
+Oracle.DataAccess.Client.OracleConnectionStringBuilder
+Oracle.ManagedDataAccess.Client.OracleConnectionStringBuilder
+Devart.Data.Oracle.OracleConnectionStringBuilder
+OracleSqlBuilder.OracleSqlConnectionString
+Npgsql.NpgsqlConnectionStringBuilder
+Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+Teradata.Client.Provider.TdConnectionStringBuilder
+Sap.Data.SQLAnywhere.SAConnectionStringBuilder</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>3</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Either explicitly set Persist Security Info to False or No, or leave it on its default value.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>4</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Microsoft guide for ADO.NET: Protecting Connection Information - Use Persist Security Info=False
+https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/protecting-connection-information#use-persist-security-infofalse
+
+MS SQL Server ADO.NET provider PersistSecurityInfo property
+https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnectionstringbuilder.persistsecurityinfo?view=dotnet-plat-ext-6.0
+
+CWE-257: Storing Passwords in a Recoverable Format
+http://cwe.mitre.org/data/definitions/257.html</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>5</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";  
+builder["Persist Security Info"] = true;     // VIOLATION
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";  
+builder["Persist Security Info"] = false;     // FIXED
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";  
+
+or , by default:
+SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>7</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>8</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Number of .Net methods</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200054</METRIC_ID>
     <DESCRIPTION_TYPE_ID>9</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>Number of violation occurrences</METRIC_DESCRIPTION>

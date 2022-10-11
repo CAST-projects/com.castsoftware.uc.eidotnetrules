@@ -45,6 +45,7 @@
     <Compile Include="AvoidLocalVariablesShadowingClassFields.cs" />
     <Compile Include="AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention.cs" />
     <Compile Include="AvoidNullPointerDereference.cs" />
+    <Compile Include="AvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="AvoidRecursiveTypeInheritance.cs" />
     <Compile Include="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
