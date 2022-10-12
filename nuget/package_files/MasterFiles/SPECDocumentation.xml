@@ -1624,4 +1624,74 @@ The name/value pairs of the hidden fields in a form can be concatenated together
   <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="total">
     <english>Number of .Net artifacts</english>
   </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="description">
+    <english>This rule reports potentially unintended logging or printing to the console of data fields specifically marked with the attribute [SecurityCritical]. This rule will flag all instances of calls to the most widely used logging methods that report messages at error or critical error levels.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="name">
+    <english>Avoid security-critical information exposure</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="rationale">
+    <english>The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.
+The severity of the vulnerability can range widely, depending on the context in which the product operates, the type of sensitive information that is revealed, and the benefits it may provide to an attacker.
+The outcome is Information Disclosure / Information Leak, and these information could used in subsequent attacks.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="reference">
+    <english>CWE-200: Exposure of Sensitive Information to an Unauthorized Actor
+https://cwe.mitre.org/data/definitions/200.html
+
+CWE-359: Exposure of Private Personal Information to an Unauthorized Actor
+https://cwe.mitre.org/data/definitions/359.html
+
+OWASP Cheat Sheet Series - User Privacy Protection Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html
+
+OWASP Cheat Sheet Series - Logging Cheat Sheet - Data to exclude
+https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#data-to-exclude</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="remediation">
+    <english>Don't disclose data marked as [SecurityCritical], or encrypt them before logging.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="remediationSample">
+    <english>class Program
+{
+    [SecuritySafeCritical]
+    static int y = 10;
+    static void Main(string[] args)
+    {
+        logger.Error($"y = {y}");
+    }
+
+    public static log4net.ILog logger; // initialized elsewhere
+}</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="sample">
+    <english>class Program
+{
+    [SecurityCritical]
+    static int x = 10;
+    public string Password
+    {
+    [SecurityCritical] get { return _password; }
+    } 
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine(" Critical X " + x); // Violation
+        Console.WriteLine(" Password " + Password); // Violation
+    }
+
+   
+}</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="total">
+    <english>Number of .Net Methods</english>
+  </metric>
 </root>

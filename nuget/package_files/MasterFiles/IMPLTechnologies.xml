@@ -29,4 +29,5 @@
   <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" filter="138383" filterLabel="C#" />
   <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" filter="138383" filterLabel="C#" />
   <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" filter="138383" filterLabel="C#" />
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" filter="138383" filterLabel="C#" />
 </root>

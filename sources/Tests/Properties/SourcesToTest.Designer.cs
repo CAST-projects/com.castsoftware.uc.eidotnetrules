@@ -269,7 +269,6 @@ namespace UnitTests.Properties {
         ///        }
         ///    }
         ///}
-        ///}
         ///.
         /// </summary>
         internal static string AvoidHiddenFormField_Source {
@@ -450,6 +449,27 @@ namespace UnitTests.Properties {
         internal static string AvoidRecursiveTypeInheritance_Source {
             get {
                 return ResourceManager.GetString("AvoidRecursiveTypeInheritance_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidSecurityCriticalInformationExposure_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidSecurityCriticalInformationExposure_Source {
+            get {
+                return ResourceManager.GetString("AvoidSecurityCriticalInformationExposure_Source", resourceCulture);
             }
         }
         
