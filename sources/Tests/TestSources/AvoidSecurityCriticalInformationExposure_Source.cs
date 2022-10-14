@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security;
+using System.Diagnostics;
 
 namespace UnitTests.TestSources
 {
@@ -11,7 +12,7 @@ namespace UnitTests.TestSources
     {
         [SecurityCritical]
         static int x = 10;
-        private string _password;
+        private string _password = "pass";
         public string Password
         {
             [SecurityCritical]
@@ -29,6 +30,7 @@ namespace UnitTests.TestSources
             Console.WriteLine(" Critical X " + x); // Violation
             Console.WriteLine(" Password " + Password); // Violation 
             Console.WriteLine(" AccountInfo " + getAccountInfo()); // Violation
+            Debug.WriteLine(" Password " + Password); // Violation 
         }
     }
 }

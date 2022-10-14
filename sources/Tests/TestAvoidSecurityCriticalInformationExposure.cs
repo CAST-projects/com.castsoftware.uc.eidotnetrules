@@ -19,13 +19,14 @@ namespace UnitTests.UnitTest
             var checker = CastDotNetExtensionChecker<AvoidSecurityCriticalInformationExposure>.CreateInstance();
             Assert.IsTrue(checker != null);
 
-
             checker
                 //.AddAssemblyRef(@"C:\packages\assembly.dll")
                 .Apply(testSrc);
 
             checker
-               .AddExpected(13, 37)
+               .AddExpected(29, 12)
+               .AddExpected(30, 12)
+               .AddExpected(31, 12)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());

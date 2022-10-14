@@ -72,6 +72,40 @@ namespace CastDotNetExtension.Utils
             return methods;
         }
 
+        public static IMethodSymbol GetMethodSymbolsByMangling(this Compilation compilation, string mangling)
+        {
+            IMethodSymbol method = null;
+
+            var posMember = mangling.IndexOf("::");
+            var typeName = "";
+            if (posMember > 0)
+            {
+                typeName = mangling.Substring(0, posMember);
+            }
+            else
+            {
+                return method;
+            }
+
+            var type = compilation.GetTypeByMetadataName(typeName);
+            if (type == null)
+                return method;
+
+            var fullname = mangling.Replace("::", ".");
+            foreach (var member in type.GetMembers())
+            {
+                if (SymbolKind.Method == member.Kind)
+                {
+                    if (fullname.Contains(member.OriginalDefinition.ToString()))
+                    {
+                        method = member as IMethodSymbol;
+                        break;
+                    }
+                }
+            }
+            return method;
+        }
+
     }
 
     internal static class InvokeSyntaxExtensions

@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Roslyn.DotNet.CastDotNetExtension;
+using CastDotNetExtension.Utils;
+using Roslyn.DotNet.Common;
 
 namespace CastDotNetExtension
 {
@@ -23,13 +25,22 @@ namespace CastDotNetExtension
    )]
     public class AvoidSecurityCriticalInformationExposure : AbstractRuleChecker
     {
-        private static readonly HashSet<string> loggingNames = new HashSet<string> 
+        private string _attributeName = "System.Security.SecurityCriticalAttribute";
+        private static readonly HashSet<string> _loggingNames = new HashSet<string> 
         {
-         "System.Console::Writeline(string)",
+         "System.Console::WriteLine(string)",
          "System.Console::Write(string)",
+         "System.Diagnostics.Debug::WriteLine(string)",
+         "System.Diagnostics.Debug::Write(string)",
         };
 
         private HashSet<IMethodSymbol> _loggingSymbols = new HashSet<IMethodSymbol>();
+
+        public AvoidSecurityCriticalInformationExposure():
+            base (ViolationCreationMode.ViolationWithAdditionalBookmarks)
+        {
+
+        }
         /// <summary>
         /// Initialize the QR with the given context and register all the syntax nodes
         /// to listen during the visit and provide a specific callback for each one
@@ -37,13 +48,18 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.InvocationExpression);
+            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.InvocationExpression);  
         }
 
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
             try
             {
+                if (_loggingSymbols.Count == 0)
+                    _loggingSymbols = _loggingNames
+                        .Select(_ => context.Compilation.GetMethodSymbolsByMangling(_))
+                        .Where(_ => _ != null)
+                        .ToHashSet();
                 var invocation = context.Node as InvocationExpressionSyntax;
                 if (invocation == null)
                     return;
@@ -52,11 +68,41 @@ namespace CastDotNetExtension
                 if (expression == null)
                     return;
 
-                //if (identifierName.Identifier.ValueText == "HtmlInputHidden")
-                //{
-                //    var pos = objectCreation.GetLocation().GetMappedLineSpan();
-                //    AddViolation(context.ContainingSymbol, new[] { pos });
-                //}
+                var symb =  context.SemanticModel.GetSymbolInfo(expression).Symbol;
+                if (symb == null || !_loggingSymbols.Contains(symb))
+                    return;
+
+                // Check the invoked method arguments
+                var argumentList = invocation.ArgumentList.Arguments;
+                foreach(var arg in argumentList)
+                {
+                    var identifierList = arg.DescendantNodes().OfType<IdentifierNameSyntax>();
+                    foreach(var identifier in identifierList)
+                    {
+                        var identifierSymb = context.SemanticModel.GetSymbolInfo(identifier).Symbol;
+                        if(identifierSymb != null)
+                        {
+                            if(identifierSymb.Kind == SymbolKind.Property)
+                            {
+                                var propertySymbol = identifierSymb as IPropertySymbol;
+                                identifierSymb = propertySymbol.GetMethod;
+                                if (identifierSymb == null)
+                                    continue;
+                            }
+                            var attributes = identifierSymb.GetAttributes();
+                            foreach(var attribute in attributes)
+                            {
+                                var attributeName = attribute.ToString();
+                                if(attributeName == _attributeName)
+                                {
+                                    var pos = invocation.GetLocation().GetMappedLineSpan();
+                                    AddViolation(context.ContainingSymbol, new[] { pos });
+                                }
+                            }
+                        }
+                    }
+                }
+              
             }
             catch (Exception e)
             {
