@@ -82,7 +82,7 @@
     <Reference Include="log4net">
       <HintPath>Packages\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis">
+    <Reference Include="Microsoft.CodeAnalysis, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>Packages\Microsoft.CodeAnalysis.Common.3.3.1\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
