@@ -2,14 +2,17 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <StartAction>Program</StartAction>
-    <StartProgram>.\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
+    <StartProgram>.\Packages\nunit.consolerunner.3.15.2\tools\nunit3-console.exe</StartProgram>
     <StartArguments>/run=UnitTests.UnitTest.TestEnsureSerializableTypesFollowBestPractices.Test UnitTests.dll</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Work\DotNet\com.castsoftware.eidotnetrules\master\sources\Packages\NUnit-2.6.3\bin\nunit-console.exe</StartProgram>
+    <StartProgram>.\Packages\nunit.consolerunner.3.15.2\tools\nunit3-console.exe</StartProgram>
     <StartArguments>/run=UnitTests.UnitTest.TestMembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations.Test UnitTests.dll</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>.\Packages\4.2.0\;.\Packages\nunit.3.13.3\;.\Packages\</ReferencePath>
   </PropertyGroup>
 </Project>

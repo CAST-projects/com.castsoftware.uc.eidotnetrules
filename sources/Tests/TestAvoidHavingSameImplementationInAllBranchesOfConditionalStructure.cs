@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using CastDotNetExtension;
 
-namespace UnitTests
+namespace UnitTests.UnitTest
 {
     [TestFixture]
     class TestAvoidHavingSameImplementationInAllBranchesOfConditionalStructure
