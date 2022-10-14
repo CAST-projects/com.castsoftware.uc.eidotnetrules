@@ -66,7 +66,7 @@
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Packages\S4.2.0\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\Packages\4.2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.TypeConverter" />
@@ -80,7 +80,7 @@
       <HintPath>..\Packages\4.2.0\System.Composition.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Composition.TypedParts">
-      <HintPath>..\Packages\S4.2.0\System.Composition.TypedParts.dll</HintPath>
+      <HintPath>..\Packages\4.2.0\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Memory">
