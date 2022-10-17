@@ -26,20 +26,26 @@ namespace CastDotNetExtension
     public class AvoidSecurityCriticalInformationExposure : AbstractRuleChecker
     {
         private string _attributeName = "System.Security.SecurityCriticalAttribute";
-        private static readonly HashSet<string> _loggingNames = new HashSet<string> 
+        
+        private static readonly HashSet<string> _loggingMethodNames = new HashSet<string>
         {
-         "System.Console::WriteLine(string)",
-         "System.Console::Write(string)",
-         "System.Diagnostics.Debug::WriteLine(string)",
-         "System.Diagnostics.Debug::Write(string)",
+         "WriteLine",
+         "Write",
+         "Log",
+         "Info",
+         "InfoFormat",
+         "Warn",
+         "WarnFormat",
+         "Error",
+         "ErrorFormat",
+         "Debug",
+         "DebugFormat",
         };
-
-        private HashSet<IMethodSymbol> _loggingSymbols = new HashSet<IMethodSymbol>();
 
         public AvoidSecurityCriticalInformationExposure():
             base (ViolationCreationMode.ViolationWithAdditionalBookmarks)
         {
-
+            
         }
         /// <summary>
         /// Initialize the QR with the given context and register all the syntax nodes
@@ -55,11 +61,6 @@ namespace CastDotNetExtension
         {
             try
             {
-                if (_loggingSymbols.Count == 0)
-                    _loggingSymbols = _loggingNames
-                        .Select(_ => context.Compilation.GetMethodSymbolsByMangling(_))
-                        .Where(_ => _ != null)
-                        .ToHashSet();
                 var invocation = context.Node as InvocationExpressionSyntax;
                 if (invocation == null)
                     return;
@@ -68,8 +69,7 @@ namespace CastDotNetExtension
                 if (expression == null)
                     return;
 
-                var symb =  context.SemanticModel.GetSymbolInfo(expression).Symbol;
-                if (symb == null || !_loggingSymbols.Contains(symb))
+                if (!_loggingMethodNames.Contains(expression.Name.Identifier.ValueText))
                     return;
 
                 // Check the invoked method arguments
