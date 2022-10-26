@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Xml;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
@@ -334,6 +336,107 @@ namespace CastDotNetExtension.Utils
             return null;
         }
 
+    }
+
+    public enum NetFrameworkKind
+    {
+        NetFramework,
+        NetCore,
+        NetStandart,
+        Unknown
+    }
+    public static class FrameworkVersion
+    {
+        private static Regex _versionNumPattern = new Regex(@"\d+(\.\d+)*");
+        private static Regex _regTargetFramework = new Regex(@"net\d(^\.)");
+        private static Regex _regTargetFrameworkVersion = new Regex(@"v\d\.\d(\.\d)?");
+
+        public static NetFrameworkKind currentNetFrameworkKind = NetFrameworkKind.Unknown;
+        public static Version currentNetFrameworkVersion = null;
+        public static string currentProjectFilePath = null;
+
+
+        public static Version GetNetFrameWorkVersion(string version)
+        {
+            Version netFrameworkVersion = null;
+            Match matched = _versionNumPattern.Match(version);
+            string matchedVersion = matched.Value;
+            if (matched.Success)
+            {
+                if (!matchedVersion.Contains('.') && matchedVersion.Length > 0)
+                {
+                    string ver = string.Empty;
+                    for (int i = 0; ; i++)
+                    {
+                        ver += matchedVersion[i];
+                        if (i >= matchedVersion.Length - 1)
+                            break;
+                        ver += '.';
+                    }
+                    matchedVersion = ver;
+                }
+                if (matchedVersion.Length == 1)
+                {
+                    matchedVersion += ".0";
+                }
+                netFrameworkVersion = new Version(matchedVersion);
+            }
+
+            return netFrameworkVersion;
+        }
+
+        public static void InitializedNetFramworkVersion(SyntaxNodeAnalysisContext context)
+        {
+            if (context.Options.AdditionalFiles == null || context.Options.AdditionalFiles.Length==0)
+                return;
+
+            var projectFile = context.Options.AdditionalFiles
+                .Where(_ => _.Path != null)
+                .Where(_ => _.Path.Contains(".csproj"))
+                .FirstOrDefault();
+
+            if (projectFile != null)
+            {
+                if (projectFile.Path == currentProjectFilePath)
+                    return;
+                currentProjectFilePath = projectFile.Path;
+                using (XmlReader reader = XmlReader.Create(projectFile.Path))
+                {
+                    currentNetFrameworkVersion = null;
+                    string version = null;
+                    while (currentNetFrameworkVersion == null && reader.Read())
+                    {
+                        if (reader.IsStartElement())
+                        {
+                            switch (reader.Name.ToString())
+                            {
+                                case "TargetFramework":
+                                case "TargetFrameworks":
+                                    version = reader.ReadString();
+                                    if (_regTargetFramework.IsMatch(version))
+                                    {
+                                        currentNetFrameworkVersion = GetNetFrameWorkVersion(version);
+                                        currentNetFrameworkKind = NetFrameworkKind.NetFramework;
+                                    }
+                                    break;
+
+                                case "TargetFrameworkVersion":
+                                    version = reader.ReadString();
+                                    if (_regTargetFrameworkVersion.IsMatch(version))
+                                    {
+                                        currentNetFrameworkVersion = GetNetFrameWorkVersion(version);
+                                        currentNetFrameworkKind = NetFrameworkKind.NetFramework;
+                                    }
+                                    break;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            
+        }
     }
 
 }

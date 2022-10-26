@@ -458,14 +458,23 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Security;
+        ///using System.Diagnostics;
         ///
         ///namespace UnitTests.TestSources
         ///{
         ///    class AvoidSecurityCriticalInformationExposure_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        [SecurityCritical]
+        ///        static int x = 10;
+        ///        private string _password = &quot;pass&quot;;
+        ///        public string Password
+        ///        {
+        ///            [SecurityCritical]
+        ///            get { return _password; }
+        ///        }
+        ///
+        ///        [ [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidSecurityCriticalInformationExposure_Source {
             get {
@@ -495,6 +504,59 @@ namespace UnitTests.Properties {
             get {
                 return ResourceManager.GetString("AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Sou" +
                         "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            // .NET Framework &lt; 4.5.2
+        ///            XmlDocument parser = new XmlDocument(); // VIOLATION: XmlDocument is not safe by default
+        ///            parser.LoadXml(&quot;xxe.xml&quot;);
+        ///        }
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            // .NET Framework &lt; 4.5.2
+        ///            XmlTextReader reader = new XmlTextReader(&quot;xxe.xml&quot;); // VIOLATION: XmlTextReader is not safe by default
+        ///            while (reader.Read())
+        ///          [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        internal static string AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
             }
         }
         

@@ -284,6 +284,24 @@
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
+	
+	<property name="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference" type="integer"  merge="sum" rid="31">
+      <description>Avoid using XmlDocument without restriction of XML External Entity Reference</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="31"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference" type="integer"  merge="sum" rid="32">
+      <description>Avoid using XmlTextReader without restriction of XML External Entity Reference</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="32"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
     
   </category>
 

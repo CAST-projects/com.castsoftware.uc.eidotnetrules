@@ -1694,4 +1694,127 @@ https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#data-to-
   <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="total">
     <english>Number of .Net Methods</english>
   </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="description">
+    <english>This rule detects the usage of XmlDocument XML parser calls not preceded in same .Net method by a call to the secure mode of the parser.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="name">
+    <english>Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="rationale">
+    <english>External XML entities may allow an attacker to access confidential information as well as perform server-side request forgery (SSRF) attacks. In some cases, XXE may even enable port scanning and lead to remote code execution.
+
+System.Xml.XPath.XPathNavigator is unsafe by default in .NET Framework versions prior to 4.5.2.
+This is due to the fact that it implements IXPathNavigable objects like XmlDocument, which are also unsafe by default in versions prior to 4.5.2.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="reference">
+    <english>CWE-611: Improper Restriction of XML External Entity Reference
+https://cwe.mitre.org/data/definitions/611.html
+
+OWASP Vulnerabilities- XML External Entity (XXE) Processing
+https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+
+OWASP Cheat Sheet Series - XML External Entity Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="remediation">
+    <english>The best way to avoid XXE vulnerabilities is to completely disable document type definitions (DTDs) in your XML parser. If this is not possible, you must disable external entities and external document type declarations for your parser.
+
+You can make XPathNavigator safe by giving it a safe parser like XmlReader (which is safe by default) in the XPathDocument's constructor.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="remediationSample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlDocument parser = new XmlDocument();
+parser.XmlResolver = null; // FIXED: XmlResolver has been set to null
+parser.LoadXml("xxe.xml");
+
+or
+
+// .NET Framework 4.5.2+
+XmlDocument parser = new XmlDocument(); // FIXED: XmlDocument is safe by default in  .NET Framework 4.5.2+ because XmlResolver is set by default to null
+parser.LoadXml("xxe.xml");</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="sample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlDocument parser = new XmlDocument(); // VIOLATION: XmlDocument is not safe by default
+parser.LoadXml("xxe.xml");
+
+or
+
+// .NET Framework 4.5.2+
+XmlDocument parser = new XmlDocument();
+parser.XmlResolver = new XmlUrlResolver(); // VIOLATION: XmlDocument.XmlResolver configured with XmlUrlResolver that makes it unsafe
+parser.LoadXml("xxe.xml");</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="description">
+    <english>This rule detects the usage of XmlTextReader XML parser calls not preceded in same .Net method by a call to the secure mode of the parser.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="name">
+    <english>Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="rationale">
+    <english>External XML entities may allow an attacker to access confidential information as well as perform server-side request forgery (SSRF) attacks. In some cases, XXE may even enable port scanning and lead to remote code execution.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="reference">
+    <english>CWE-611: Improper Restriction of XML External Entity Reference
+https://cwe.mitre.org/data/definitions/611.html
+
+OWASP Vulnerabilities- XML External Entity (XXE) Processing
+https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+
+OWASP Cheat Sheet Series - XML External Entity Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="remediation">
+    <english>The best way to avoid XXE vulnerabilities is to completely disable document type definitions (DTDs) in your XML parser. If this is not possible, you must disable external entities and external document type declarations for your parser.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="remediationSample">
+    <english>// .NET 4.5.2+
+XmlTextReader reader = new XmlTextReader("xxe.xml"); // FIXED: XmlTextReader is safe by default in .NET Framework 4.5.2+ because XmlResolver is set by default to null
+while (reader.Read())
+{ ... }
+
+// .NET 4.0 to .NET 4.5.1
+XmlTextReader reader = new XmlTextReader("xxe.xml");
+reader.DtdProcessing = DtdProcessing.Prohibit; // FIXED: XmlTextReader is safe by default in .NET Framework 4.5.2+ because XmlResolver is set by default to null
+
+// &lt; .NET 4.0
+XmlTextReader reader = new XmlTextReader(stream);
+reader.ProhibitDtd = true; // FIXED: default is false</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="sample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlTextReader reader = new XmlTextReader("xxe.xml"); // VIOLATION: XmlTextReader is not safe by default
+while (reader.Read())
+{ ... }
+
+or
+
+// .NET Framework 4.5.2+
+XmlTextReader reader = new XmlTextReader("xxe.xml");
+reader.XmlResolver = new XmlUrlResolver(); // VIOLATION: XmlTextRead.XmlResolver configured with XmlUrlResolver that makes it unsafe
+while (reader.Read())
+{ ... }</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>

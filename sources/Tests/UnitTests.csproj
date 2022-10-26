@@ -117,6 +117,8 @@
     <Compile Include="TestAvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="TestAvoidRecursiveTypeInheritance.cs" />
     <Compile Include="TestAvoidSecurityCriticalInformationExposure.cs" />
+    <Compile Include="TestAvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
+    <Compile Include="TestAvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="TestAvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="TestChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="TestClassesImplementingIEquatableTShouldBeSealed.cs" />
@@ -146,6 +148,8 @@
     <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Compile Include="TestSources\AvoidSecurityCriticalInformationExposure_Source.cs" />
+    <Compile Include="TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
+    <Compile Include="TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
