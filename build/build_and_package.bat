@@ -53,7 +53,7 @@ set PATH=%PATH%;C:\CAST-Caches\Win64
 set NUNITDIR=%WKSP%\nunit
 set XSLTDIR=%WKSP%\xslt
 set RELEASE64=%WKSP%\Release
-set VERSION=1.0.0
+set VERSION=1.0.1
 
 for /f "delims=. tokens=1,2" %%a in ('echo %VERSION%') do set SHORT_VERSION=%%a.%%b
 echo.
