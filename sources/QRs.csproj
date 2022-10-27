@@ -51,6 +51,7 @@
     <Compile Include="AvoidSecurityCriticalInformationExposure.cs" />
     <Compile Include="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
+    <Compile Include="AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName.cs" />
     <Compile Include="ChildClassFieldsShouldNotShadowParentClassFields.cs" />
     <Compile Include="ClassesImplementingIEquatableTShouldBeSealed.cs" />

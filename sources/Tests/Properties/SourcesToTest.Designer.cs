@@ -517,7 +517,7 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    class AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    public class AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source
         ///    {
         ///        public void func()
         ///        {
@@ -525,9 +525,8 @@ namespace UnitTests.Properties {
         ///            XmlDocument parser = new XmlDocument(); // VIOLATION: XmlDocument is not safe by default
         ///            parser.LoadXml(&quot;xxe.xml&quot;);
         ///        }
-        ///    }
-        ///}
-        ///.
+        ///
+        ///  [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source {
             get {
@@ -545,18 +544,39 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    class AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    public class AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source
         ///    {
         ///        public void func()
         ///        {
         ///            // .NET Framework &lt; 4.5.2
         ///            XmlTextReader reader = new XmlTextReader(&quot;xxe.xml&quot;); // VIOLATION: XmlTextReader is not safe by default
         ///            while (reader.Read())
-        ///          [le reste de la chaîne a été tronqué]&quot;;.
+        ///   [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source {
             get {
                 return ResourceManager.GetString("AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
             }
         }
         

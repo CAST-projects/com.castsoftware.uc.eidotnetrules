@@ -43,32 +43,6 @@ namespace CastDotNetExtension
         }
 
 
-        private bool CheckAssociatedVariable(SyntaxNode node, out string varIdentifierName)
-        {
-            var currentNode = node;
-            varIdentifierName = null;
-            while (!currentNode.IsKind(SyntaxKind.MethodDeclaration))
-            {
-                currentNode = currentNode.Parent;
-                if (currentNode.IsKind(SyntaxKind.VariableDeclarator))
-                {
-                    var declaratorNode = currentNode as VariableDeclaratorSyntax;
-                    varIdentifierName = declaratorNode.Identifier.ValueText;
-                    return true;
-                }
-                else if (currentNode.IsKind(SyntaxKind.SimpleAssignmentExpression))
-                {
-                    var assignmentNode = currentNode as AssignmentExpressionSyntax;
-                    var identifierNode = assignmentNode.Left as IdentifierNameSyntax;
-                    if (identifierNode == null)
-                        return false;
-                    varIdentifierName = identifierNode.Identifier.ValueText;
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private static readonly object _lock = new object();
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
@@ -95,7 +69,7 @@ namespace CastDotNetExtension
                     if (identifierName.Identifier.ValueText == _XmlTextReader)
                     {
                         string varIdentifierName;
-                        if (CheckAssociatedVariable(node, out varIdentifierName))
+                        if (node.GetAssociatedVariableName(out varIdentifierName))
                         {
                             possibleViolatingNodes[varIdentifierName] = node;
                         }

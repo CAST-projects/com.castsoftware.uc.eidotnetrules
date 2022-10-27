@@ -316,6 +316,38 @@ namespace CastDotNetExtension.Utils
         {
             return (null != node && null != kinds && kinds.Contains(node.Kind()));
         }
+
+        /// <summary>
+        /// loop on parents of the SyntaxNode until findind a VariableDeclaratorSyntax or a AssignmentExpressionSyntax
+        /// then get the name of the corresponding variable.
+        /// </summary>
+        /// <param name="varIdentifierName">string containing the variable name</param>
+        /// <returns>A bool indicating if a variable name was found</returns>
+        public static bool GetAssociatedVariableName(this SyntaxNode node, out string varIdentifierName)
+        {
+            var currentNode = node;
+            varIdentifierName = null;
+            while (!currentNode.IsKind(SyntaxKind.MethodDeclaration))
+            {
+                currentNode = currentNode.Parent;
+                if (currentNode.IsKind(SyntaxKind.VariableDeclarator))
+                {
+                    var declaratorNode = currentNode as VariableDeclaratorSyntax;
+                    varIdentifierName = declaratorNode.Identifier.ValueText;
+                    return true;
+                }
+                else if (currentNode.IsKind(SyntaxKind.SimpleAssignmentExpression))
+                {
+                    var assignmentNode = currentNode as AssignmentExpressionSyntax;
+                    var identifierNode = assignmentNode.Left as IdentifierNameSyntax;
+                    if (identifierNode == null)
+                        return false;
+                    varIdentifierName = identifierNode.Identifier.ValueText;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public static class SymbolExtensions

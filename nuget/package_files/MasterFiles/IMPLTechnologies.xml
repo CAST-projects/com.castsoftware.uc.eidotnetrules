@@ -32,4 +32,5 @@
   <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" filter="138383" filterLabel="C#" />
   <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" filter="138383" filterLabel="C#" />
   <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" filter="138383" filterLabel="C#" />
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" filter="138383" filterLabel="C#" />
 </root>
