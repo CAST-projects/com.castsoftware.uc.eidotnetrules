@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <metric id="66065" type="technical-criterion" originalName="Secure Coding - Time and State" section="name">
+    <english>Secure Coding - Time and State</english>
+  </metric>
   <metric id="2200000" type="quality-rule" originalName="Avoid local variables shadowing class fields" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -1867,6 +1870,54 @@ XPathDocument xmlDoc = new XPathDocument(model.FilePath);
 XPathNavigator nav = xmlDoc.CreateNavigator();   // VIOLATION : XPathDocument loading XML content using a file URI stored in the model.FilePath variable.</english>
   </metric>
   <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="description">
+    <english>This rule reports the use of Thread in the .Net code.
+
+Following methods will be reported as a violation:
+- System.Threading.Thread.+ctor (constructor)
+- System.Threading.ThreadPool.QueueUserWorkItem</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="name">
+    <english>Avoid direct use of threads (.Net)</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="rationale">
+    <english>Thread management in a web application is always highly error prone. Managing threads is difficult and is likely to interfere in unpredictable ways with the behavior of the application container. Even without interfering with the container, thread management usually leads to bugs that are hard to detect and diagnose like deadlock, race conditions, and other synchronization errors.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="reference">
+    <english>CWE-383: J2EE Bad Practices: Direct Use of Threads    (applicable to .Net too)
+https://cwe.mitre.org/data/definitions/383.html
+
+CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')
+https://cwe.mitre.org/data/definitions/362.html
+
+CWE-366: Race Condition within a Thread
+https://cwe.mitre.org/data/definitions/366.html</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="remediation">
+    <english>Avoid using threads.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="remediationSample">
+    <english>Don't use thread API.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="sample">
+    <english>sample 1
+Thread x = new Thread(WriteY); // create a new thread: VIOLATION
+x.Start(); // execute of the method WriteY()
+
+sample 2
+ThreadPool.QueueUserWorkItem(HelloWorld);</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="total">
     <english>Number of .Net methods</english>
   </metric>
 </root>

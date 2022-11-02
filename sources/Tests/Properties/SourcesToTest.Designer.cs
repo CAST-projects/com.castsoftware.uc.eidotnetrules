@@ -197,6 +197,34 @@ namespace UnitTests.Properties {
         ///using System.Collections.Generic;
         ///using System.Linq;
         ///using System.Text;
+        ///using System.Threading;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidDirectUseOfThreads_Source
+        ///    {
+        ///        public static void ThreadProc()
+        ///        {
+        ///            for (int i = 0; i &lt; 10; i++)
+        ///            {
+        ///                Console.WriteLine(&quot;ThreadProc: {0}&quot;, i);
+        ///                // Yield the rest of the time slice.
+        ///                Thread.Sleep(0);
+        ///            }
+        ///   [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        internal static string AvoidDirectUseOfThreads_Source {
+            get {
+                return ResourceManager.GetString("AvoidDirectUseOfThreads_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
         ///using System.Threading.Tasks;
         ///using System.Diagnostics;
         ///
@@ -565,14 +593,20 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///using System.Xml.XPath;
+        ///
         ///
         ///namespace UnitTests.TestSources
         ///{
         ///    public class AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///
+        ///        public void function()
+        ///        {
+        ///            XPathDocument doc = new XPathDocument(&quot;example.xml&quot;);
+        ///            XPathNavigator nav = doc.CreateNavigator();
+        ///            string xml = nav.InnerX [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source {
             get {

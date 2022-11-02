@@ -214,6 +214,9 @@
   <data name="AvoidSecurityCriticalInformationExposure_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testsources\AvoidSecurityCriticalInformationExposure_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="AvoidDirectUseOfThreads_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\TestSources\AvoidDirectUseOfThreads_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

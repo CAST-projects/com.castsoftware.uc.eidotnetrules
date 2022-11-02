@@ -40,6 +40,7 @@
     <Compile Include="AvoidClassesWithTooManyConstructorsAnalyzer.cs" />
     <Compile Include="AvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="AvoidCreatingNewInstanceOfSharedInstance.cs" />
+    <Compile Include="AvoidDirectUseOfThreads.cs" />
     <Compile Include="AvoidEmptyFinalizers.cs" />
     <Compile Include="AvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
     <Compile Include="AvoidHiddenFormField.cs" />

@@ -108,6 +108,7 @@
     <Compile Include="TestAvoidClassesWithTooManyConstructors.cs" />
     <Compile Include="TestAvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
+    <Compile Include="TestAvoidDirectUseOfThreads.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
     <Compile Include="TestAvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
     <Compile Include="TestAvoidHiddenFormField.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <None Include="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
     <None Include="TestSources\AvoidNullPointerDereference_Source.cs" />
+    <Compile Include="TestSources\AvoidDirectUseOfThreads_Source.cs" />
     <Compile Include="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
     <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
