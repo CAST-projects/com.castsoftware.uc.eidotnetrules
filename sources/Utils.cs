@@ -40,6 +40,17 @@ namespace CastDotNetExtension.Utils
 
     internal static class CompilationExtension
     {
+        public static void GetSymbolsForClasses(this Compilation compilation, HashSet<string> klassFullNames, ref HashSet<INamedTypeSymbol> classSymbols)
+        {
+            foreach(var klassFullName in klassFullNames)
+            {
+                var klazz = compilation.GetTypeByMetadataName(klassFullName);
+                if(klazz != null)
+                {
+                    classSymbols.Add(klazz);
+                }
+            }
+        }
 
         public static void GetMethodSymbolsForSystemClass(this Compilation compilation, string classFullName, HashSet<string> methodNames, ref IAssemblySymbol assembly, ref HashSet<IMethodSymbol> methods, bool useFullName = true, int expectedCount = -1)
         {
@@ -366,6 +377,28 @@ namespace CastDotNetExtension.Utils
 
             }
             return null;
+        }
+
+        internal static bool IsOrInheritsFrom(this ITypeSymbol symbol, ITypeSymbol baseType)
+        {
+            var candidate = symbol;
+
+            if (baseType == null)
+                return false;
+
+            while (true)
+            {
+                if (candidate == null)
+                    return false;
+
+                if (SymbolEqualityComparer.Default.Equals(candidate, baseType))
+                    return true;
+
+                if (candidate.SpecialType == SpecialType.System_Object)
+                    return false;
+
+                candidate = candidate.BaseType;
+            }
         }
 
     }

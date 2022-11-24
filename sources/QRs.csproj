@@ -50,6 +50,7 @@
     <Compile Include="AvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="AvoidRecursiveTypeInheritance.cs" />
     <Compile Include="AvoidSecurityCriticalInformationExposure.cs" />
+    <Compile Include="AvoidUnsafeObjectBinding.cs" />
     <Compile Include="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference.cs" />

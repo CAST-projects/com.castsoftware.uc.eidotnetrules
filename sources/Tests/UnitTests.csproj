@@ -43,6 +43,9 @@
     <Reference Include="CastDotNetExtensionTestTools">
       <HintPath>..\Packages\CastDotNetExtension.1.0.0\CastDotNetExtensionTestTools.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>TestAssemblies\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Packages\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
@@ -90,6 +93,7 @@
       <HintPath>..\Packages\4.2.0\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -118,6 +122,7 @@
     <Compile Include="TestAvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="TestAvoidRecursiveTypeInheritance.cs" />
     <Compile Include="TestAvoidSecurityCriticalInformationExposure.cs" />
+    <Compile Include="TestAvoidUnsafeObjectBinding.cs" />
     <Compile Include="TestAvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="TestAvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="TestAvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference.cs" />
@@ -151,6 +156,7 @@
     <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Compile Include="TestSources\AvoidSecurityCriticalInformationExposure_Source.cs" />
+    <Compile Include="TestSources\AvoidUnsafeObjectBinding_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />

@@ -516,6 +516,28 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidUnsafeObjectBinding_Source
+        ///    {
+        ///
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidUnsafeObjectBinding_Source {
+            get {
+                return ResourceManager.GetString("AvoidUnsafeObjectBinding_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Reflection;
         ///
         ///
