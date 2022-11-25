@@ -241,7 +241,7 @@ namespace CastDotNetExtension
                 .Where(_ => _dbSaveMethods.Contains(_.Name.Identifier.ValueText)); // check DB save methods
             if (!dbSaveNodes.Any())
                 return false;
-
+            bool hasDataSaved = false;
             foreach (var dbSaveNode in dbSaveNodes)
             {
                 ITypeSymbol expressionTypeSymbol = context.SemanticModel.GetTypeInfo(dbSaveNode.Expression).Type;
@@ -258,14 +258,14 @@ namespace CastDotNetExtension
                             if (typeArgument != null)
                             {
                                 dataSaved.Add(typeArgument);
-                                return true;
+                                hasDataSaved = true;
                             }
                             
                         }
                     }
                 }
             }
-            return false;
+            return hasDataSaved;
         }
 
         private void ExcludeBindNeverAndReadOnlyAttribute(SyntaxNodeAnalysisContext context, ref HashSet<INamedTypeSymbol> dataModels)
