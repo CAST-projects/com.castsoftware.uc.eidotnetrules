@@ -22,18 +22,18 @@ namespace UnitTests.UnitTest
             Assert.IsTrue(checker != null);
 
             checker
-                .AddAssemblyRef(@"..\..\..\Tests\TestAssemblies\System.Web.Mvc.dll")
-                .AddAssemblyRef(@"..\..\..\Tests\TestAssemblies\Microsoft.AspNetCore.Mvc.ViewFeatures.dll")
-                .AddAssemblyRef(@"..\..\..\Tests\TestAssemblies\Microsoft.AspNetCore.Mvc.Core.dll")
-                .AddAssemblyRef(@"..\..\..\Tests\TestAssemblies\EntityFramework.dll")
-                .AddAssemblyRef(@"..\..\..\Tests\TestAssemblies\Microsoft.EntityFrameworkCore.dll")
+                .AddAssemblyRef(@"TestAssemblies\System.Web.Mvc.dll")
+                .AddAssemblyRef(@"TestAssemblies\Microsoft.AspNetCore.Mvc.ViewFeatures.dll")
+                .AddAssemblyRef(@"TestAssemblies\Microsoft.AspNetCore.Mvc.Core.dll")
+                .AddAssemblyRef(@"TestAssemblies\EntityFramework.dll")
+                .AddAssemblyRef(@"TestAssemblies\Microsoft.EntityFrameworkCore.dll")
                 .Apply(testSrc);
 
             checker
-                //.AddExpected(28, 8)
-                //.AddExpected(45, 8)
-                //.AddExpected(85, 8)
-                //.AddExpected(99, 8)
+                .AddExpected(28, 8)
+                .AddExpected(45, 8)
+                .AddExpected(85, 8)
+                .AddExpected(99, 8)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());
