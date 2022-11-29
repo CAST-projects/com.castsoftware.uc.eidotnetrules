@@ -2015,4 +2015,51 @@ public ActionResult Edit(User user) // VIOLATION : binding without retriction
   <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="description">
+    <english>This rule verify if the old session is abandoned inside the method modifying a new session, if not the method is reported as a violation.
+Application must call Session.Abandon() before modifying the current session.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="name">
+    <english>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="rationale">
+    <english>An attacker could get a user to log in using the attacker’s session. The attacker could then do anything that the other user has permissions for, such as accessing that user’s confidential information and performing transaction in that user’s name.
+The application authenticates users without terminating existing sessions. As a result, an attacker could get a victim to log in to the application during the attacker’s session (for example, by getting the victim to click on a link including a session ID), and the application would authenticate the attacker’s session as the victim’s user account.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="reference">
+    <english>CWE-384: Session Fixation
+https://cwe.mitre.org/data/definitions/384.html
+
+OWASP Cheat Sheet Series - Session Management Cheat Sheet - Renew the Session ID After Any Privilege Level Change
+https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#renew-the-session-id-after-any-privilege-level-change</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="remediation">
+    <english>The application should terminate any existing sessions upon user authentication and create a new session for that user.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="remediationSample">
+    <english>static void foo(string firstName, HttpContext old_Context)
+        {
+                old_Context.Session.Abandon();               // FIXED
+                HttpContext context = HttpContext.Current;
+                context.Session["FirstName"] = firstName;
+        }</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="sample">
+    <english>static void foo(string firstName)
+        {
+                HttpContext context = HttpContext.Current;   
+                context.Session["FirstName"] = firstName; // VIOLATION
+        }</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>

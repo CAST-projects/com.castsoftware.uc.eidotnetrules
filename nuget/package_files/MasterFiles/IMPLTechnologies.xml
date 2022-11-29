@@ -35,4 +35,5 @@
   <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" filter="138383" filterLabel="C#" />
   <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" filter="138383" filterLabel="C#" />
   <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" filter="138383" filterLabel="C#" />
+  <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" filter="138383" filterLabel="C#" />
 </root>

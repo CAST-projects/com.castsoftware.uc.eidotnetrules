@@ -134,6 +134,7 @@
     <Compile Include="TestEnsureConstructorsOfSerializableClassesAreSecure.cs" />
     <Compile Include="TestEnsureProperArgumentsToEvents.cs" />
     <Compile Include="TestEnsureSerializableTypesFollowBestPractices.cs" />
+    <Compile Include="TestEnsureToAbandonSessionPreviousBeforeModifyingCurrentSession.cs" />
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
+    <Compile Include="TestSources\EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />

@@ -62,6 +62,7 @@
     <Compile Include="EnsureConstructorsOfSerializableClassesAreSecure.cs" />
     <Compile Include="EnsureProperArgumentsToEvents.cs" />
     <Compile Include="EnsureSerializableTypesFollowBestPractices.cs" />
+    <Compile Include="EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession.cs" />
     <Compile Include="ForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="InterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />

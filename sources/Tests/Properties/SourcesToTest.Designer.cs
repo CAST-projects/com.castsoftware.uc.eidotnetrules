@@ -516,6 +516,10 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Web.Mvc;
+        ///using System.Data.Entity;
+        ///using System.Web.ModelBinding;
+        ///using System.ComponentModel;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
@@ -523,8 +527,16 @@ namespace UnitTests.Properties {
         ///    {
         ///
         ///    }
-        ///}
-        ///.
+        ///
+        ///    public class UserDbcontext : DbContext
+        ///    {
+        ///
+        ///        public DbSet&lt;User&gt; Users { get; set; }
+        ///        public DbSet&lt;string&gt; Names { get; set; }
+        ///
+        ///    }
+        ///
+        ///    pu [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string AvoidUnsafeObjectBinding_Source {
             get {
@@ -816,6 +828,27 @@ namespace UnitTests.Properties {
         internal static string EnsureSerializableTypesFollowBestPractices_Source {
             get {
                 return ResourceManager.GetString("EnsureSerializableTypesFollowBestPractices_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source {
+            get {
+                return ResourceManager.GetString("EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source", resourceCulture);
             }
         }
         
