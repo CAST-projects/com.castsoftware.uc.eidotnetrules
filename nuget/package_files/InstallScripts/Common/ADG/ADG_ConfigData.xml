@@ -772,7 +772,7 @@
   </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPES>
     <METRIC_ID>2200070</METRIC_ID>
-    <METRIC_NAME>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</METRIC_NAME>
+    <METRIC_NAME>Ensure to abandon previous session before modifying current session</METRIC_NAME>
     <METRIC_DESCRIPTION>See Metric Documentation</METRIC_DESCRIPTION>
     <METRIC_TYPE>3</METRIC_TYPE>
     <METRIC_GROUP>1</METRIC_GROUP>
@@ -783,7 +783,7 @@
   </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPES>
     <METRIC_ID>2200071</METRIC_ID>
-    <METRIC_NAME>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</METRIC_NAME>
+    <METRIC_NAME>Ensure to abandon previous session before modifying current session</METRIC_NAME>
     <METRIC_DESCRIPTION>description details</METRIC_DESCRIPTION>
     <METRIC_TYPE>2</METRIC_TYPE>
     <METRIC_GROUP>2</METRIC_GROUP>
@@ -2994,7 +2994,7 @@
   <DSS_METRIC_VALUE_TYPES>
     <METRIC_ID>2200070</METRIC_ID>
     <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
-    <METRIC_VALUE_NAME>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</METRIC_VALUE_NAME>
+    <METRIC_VALUE_NAME>Ensure to abandon previous session before modifying current session</METRIC_VALUE_NAME>
     <METRIC_VALUE_DESCRIPTION>See Metric documentation</METRIC_VALUE_DESCRIPTION>
     <METRIC_VALUE_PROCEDURE_NAME>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME>
     <METRIC_AGGREGATE_OPERATOR>1</METRIC_AGGREGATE_OPERATOR>
