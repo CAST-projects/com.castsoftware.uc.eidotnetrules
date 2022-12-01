@@ -85,19 +85,6 @@ namespace CastDotNetExtension
                     AddViolation(context.ContainingSymbol, new[] { pos });
                 }
 
-                //var objectCreation = context.Node as ObjectCreationExpressionSyntax;
-                //if (objectCreation == null)
-                //    return;
-
-                //var identifierName = objectCreation.Type as IdentifierNameSyntax;
-                //if (identifierName == null)
-                //    return;
-
-                //if (identifierName.Identifier.ValueText == "HtmlInputHidden")
-                //{
-                //    var pos = objectCreation.GetLocation().GetMappedLineSpan();
-                //    AddViolation(context.ContainingSymbol, new[] { pos });
-                //}
             }
             catch (Exception e)
             {

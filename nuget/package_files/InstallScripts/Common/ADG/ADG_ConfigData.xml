@@ -6573,7 +6573,7 @@ public ActionResult Edit([Bind(Exclude="Password,UserId")]User user)
     <METRIC_ID>2200070</METRIC_ID>
     <DESCRIPTION_TYPE_ID>0</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
-    <METRIC_DESCRIPTION>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</METRIC_DESCRIPTION>
+    <METRIC_DESCRIPTION>Ensure to abandon previous session before modifying current session</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200070</METRIC_ID>

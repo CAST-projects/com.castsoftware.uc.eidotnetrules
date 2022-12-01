@@ -2023,7 +2023,7 @@ public ActionResult Edit(User user) // VIOLATION : binding without retriction
 Application must call Session.Abandon() before modifying the current session.</english>
   </metric>
   <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="name">
-    <english>EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession</english>
+    <english>Ensure to abandon previous session before modifying current session</english>
   </metric>
   <metric id="2200070" type="quality-rule" originalName="EnsureToAbandonPreviousSessionBeforeModifyingCurrentSession" section="output">
     <english>Associated to each violation, the following information is provided:
