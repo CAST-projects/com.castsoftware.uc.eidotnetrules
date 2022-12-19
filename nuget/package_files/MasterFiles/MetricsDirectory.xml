@@ -51,4 +51,5 @@
   <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" active="true" detached="false" ignored="false" />
   <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" active="true" detached="false" ignored="false" />
   <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" active="true" detached="false" ignored="false" />
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" active="true" detached="false" ignored="false" />
 </root>

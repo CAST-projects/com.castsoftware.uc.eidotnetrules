@@ -342,7 +342,19 @@
   </category>
 
 
+  <category name="EIDotNetQualityRules_ForSourceFiles" rid="1">
+    <description>Custom Quality Rules for DotNet source files</description>
 
+    <property name="EnsureCookielessAreSetToUseCookies" type="integer"  merge="sum" rid="28">
+      <description>Ensure cookieless attributes are set to UseCookies</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="28"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+  </category>
 
    
    
@@ -354,5 +366,8 @@
     <inheritedCategory name="EIDotNetQualityRules"/>
   </partialCategory>
 
+  <partialType name="CAST_DotNet_SourceFile">
+    <inheritedCategory name="EIDotNetQualityRules_ForSourceFiles" />
+  </partialType>
 
 </metaModel>
