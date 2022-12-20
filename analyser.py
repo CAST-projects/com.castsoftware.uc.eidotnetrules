@@ -93,4 +93,4 @@ def save_file_violation(file, token, rule_name):
         token.get_end_column(),
     )
     log.info("----- Violation of {} at {}".format(rule_name, bookmark))
-    file.save_violation("EIDotNetQualityRules_ForSourceFiles.{}".format(rule_name), bookmark)
+    file.save_violation("CAST_EIDotNetRules_Rules_ForSourceFiles.{}".format(rule_name), bookmark)
