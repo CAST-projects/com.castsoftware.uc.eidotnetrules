@@ -18,7 +18,6 @@
 		<dependencies>
 			<dependency id="CAIP" version="8.3.5" />
 			<dependency id="com.castsoftware.dotnet" version="1.4.12-funcrel" />
-			<dependency id="com.castsoftware.dotnetweb" version="1.4.8-funcrel" />
 		</dependencies>
 		<tags>eidotnetrules</tags>
 	</metadata>
