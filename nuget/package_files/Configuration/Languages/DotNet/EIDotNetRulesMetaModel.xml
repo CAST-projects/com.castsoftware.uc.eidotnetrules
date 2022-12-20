@@ -261,7 +261,7 @@
   </category>
 
 
-  <category name="EIDotNetQualityRules_ForSourceFiles" rid="1">
+  <category name="CAST_EIDotNetRules_Rules_ForSourceFiles" rid="1">
     <description>Custom Quality Rules for DotNet source files</description>
 
     <property name="EnsureCookielessAreSetToUseCookies" type="integer"  merge="sum" rid="28">
@@ -286,7 +286,7 @@
   </partialCategory>
 
   <partialType name="CAST_DotNet_SourceFile">
-    <inheritedCategory name="EIDotNetQualityRules_ForSourceFiles" />
+    <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
   </partialType>
 
 </metaModel>
