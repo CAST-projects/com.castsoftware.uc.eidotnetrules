@@ -16,7 +16,11 @@ class EIDotNetRules(dotnet.Extension):
     def set_parser(self, create_config_parser):
         log.info("Received XML parser from com.castsoftware.dotnetweb")
 
-        self.parser = create_config_parser("sessionState", "FormsTagInConfig", "XmlAttributeStatement")
+        self.parser = create_config_parser(
+            "XmlAttributeStatement",
+            "sessionState", "FormsTagInConfig",  # http://rulesmanager/#:1c:2ou
+            "security", "AllowElement"           # http://rulesmanager/#:1c:2ov
+        )
 
         log.info("Done setting parser")
 
@@ -32,6 +36,9 @@ class EIDotNetRules(dotnet.Extension):
             log.warning("XML parser not set. Skipping analysis for file {}".format(file.get_path()))
             return
 
+        security_token = None      # Set to <security/> element if attribute allowRemoteAccess is set to "true"
+        allow_roles_admin = False  # Set to True if <allow/> element has attribute role set to "admin"
+
         with open_source_file(file.get_path()) as f:
 
             try:
@@ -40,6 +47,7 @@ class EIDotNetRules(dotnet.Extension):
 
                     typename = type(token).__name__
 
+                    # http://rulesmanager/#:1c:2ou
                     if typename == "sessionState":
                         # In sessionState element, cookieless value by default is "UseCookies":
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
@@ -51,6 +59,7 @@ class EIDotNetRules(dotnet.Extension):
                                     save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
                                 break
 
+                    # http://rulesmanager/#:1c:2ou
                     elif typename == "FormsTagInConfig":
                         # In forms Element for authentication, cookieless value by default is "UseDeviceProfile":
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
@@ -65,7 +74,27 @@ class EIDotNetRules(dotnet.Extension):
                             save_file_violation(file, token, "EnsureCookielessAreSetToUseCookies")
 
                     # http://rulesmanager/#:1c:2ov
-                    # @TODO
+                    elif typename == "security":
+                        for child in token.children:
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("allowRemoteAccess"):
+                                attribute_value = child.children[1]
+                                if attribute_value.get_text()[1:-1].strip().lower() in ["true", "1"]:
+                                    security_token = token
+                                break
+
+                    # http://rulesmanager/#:1c:2ov
+                    elif typename == "AllowElement":
+                        for child in token.children:
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("roles"):
+                                attribute_value = child.children[1]
+                                if attribute_value.get_text()[1:-1].strip().lower() == "admin":
+                                    allow_roles_admin = True
+                                break
+
+                if security_token and not allow_roles_admin:
+                    save_file_violation(file, security_token, "AvoidElmahEnabledInProduction")
+
+
 
             except Exception as e:
                 log.warning("Error during parsing of web.config file: {}".format(e))
@@ -92,5 +121,5 @@ def save_file_violation(file, token, rule_name):
         token.get_end_line(),
         token.get_end_column(),
     )
-    log.info("----- Violation of {} at {}".format(rule_name, bookmark))
+    log.info("Violation of {} at {}".format(rule_name, bookmark))
     file.save_violation("CAST_EIDotNetRules_Rules_ForSourceFiles.{}".format(rule_name), bookmark)

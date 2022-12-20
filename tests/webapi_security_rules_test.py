@@ -24,3 +24,16 @@ class WebApiSecurityRuleTests(unittest.TestCase):
         self.assertTrue(file_object)
         violations = analysis.get_violations(file_object, 'CAST_EIDotNetRules_Rules_ForSourceFiles.EnsureCookielessAreSetToUseCookies')
         self.assertEqual(0, len(violations))
+
+    def test_allow_remote_access_true(self):
+        analysis = Runner.fetch_analysis_result('AllowRemoteAccessTrue/AllowRemoteAccessTrue.csproj')
+        file_object = analysis.get_object_by_name('Web.config', 'CAST_DotNet_SourceFile')
+        violations = analysis.get_violations(file_object, 'CAST_EIDotNetRules_Rules_ForSourceFiles.AvoidElmahEnabledInProduction')
+        self.assertEqual(1, len(violations))
+
+    def test__allow_remote_access_remediation(self):
+        analysis = Runner.fetch_analysis_result('AllowRemoteAccessRemediation/AllowRemoteAccessRemediation.csproj')
+        file_object = analysis.get_object_by_name('Web.config', 'CAST_DotNet_SourceFile')
+        self.assertTrue(file_object)
+        violations = analysis.get_violations(file_object, 'CAST_EIDotNetRules_Rules_ForSourceFiles.AvoidElmahEnabledInProduction')
+        self.assertEqual(0, len(violations))

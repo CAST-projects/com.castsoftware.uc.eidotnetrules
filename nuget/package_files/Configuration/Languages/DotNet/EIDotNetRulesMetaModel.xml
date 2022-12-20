@@ -264,10 +264,19 @@
   <category name="CAST_EIDotNetRules_Rules_ForSourceFiles" rid="1">
     <description>Custom Quality Rules for DotNet source files</description>
 
-    <property name="EnsureCookielessAreSetToUseCookies" type="integer"  merge="sum" rid="28">
+    <property name="EnsureCookielessAreSetToUseCookies" type="integer" merge="sum" rid="28">
       <description>Ensure cookieless attributes are set to UseCookies</description>
       <attribute name="INF_TYPE"       intValue="2200000"/>
       <attribute name="INF_SUB_TYPE"   intValue="28"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidElmahEnabledInProduction" type="integer" merge="sum" rid="29">
+      <description>Avoid ELMAH enabled in production</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="29"  />
       <attribute name="ACCESS_APPVIEW" intValue="1"   />
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />

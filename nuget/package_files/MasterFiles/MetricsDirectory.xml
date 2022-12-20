@@ -41,4 +41,5 @@
   <metric id="2200050" type="quality-rule" originalName="Avoid NULL Pointer Dereference" active="true" detached="false" ignored="false" />
   <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" active="true" detached="false" ignored="false" />
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" active="true" detached="false" ignored="false" />
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" active="true" detached="false" ignored="false" />
 </root>
