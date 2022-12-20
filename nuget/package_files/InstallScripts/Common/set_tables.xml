@@ -28,7 +28,7 @@
     </scope>
 
     <scope name="OBJSETINIT">
-        <scopetable name="SET_Definitions" filter="(SetId between 2200000 and 1034999)" />
+        <scopetable name="SET_Definitions" filter="(SetId between 2200000 and 2200999)" />
     </scope>
 
 </config>

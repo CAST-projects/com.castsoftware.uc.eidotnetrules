@@ -37,4 +37,5 @@
   <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
   <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" thresholdToGet1="98" thresholdToGet2="99" thresholdToGet3="99.5" thresholdToGet4="99.99" />
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" thresholdToGet1="98" thresholdToGet2="99" thresholdToGet3="99.5" thresholdToGet4="99.99" />
 </root>
