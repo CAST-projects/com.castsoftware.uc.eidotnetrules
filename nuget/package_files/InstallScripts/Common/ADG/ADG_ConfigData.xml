@@ -6655,7 +6655,7 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
     <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
     <METRIC_OPTIONS>0</METRIC_OPTIONS>
     <SCOPE_ID>1043050</SCOPE_ID>
-    <PROPERTY_ID>2200028</PROPERTY_ID>
+    <PROPERTY_ID>2200037</PROPERTY_ID>
   </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPES>
     <METRIC_ID>2200073</METRIC_ID>
@@ -6733,7 +6733,7 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
   <DSS_METRIC_PARAM_TYPES>
     <METRIC_ID>2200072</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
-    <OBJECT_TYPE_ID>138636</OBJECT_TYPE_ID>
+    <OBJECT_TYPE_ID>138383</OBJECT_TYPE_ID>
     <PARAM_TYPE>0</PARAM_TYPE>
     <PARAM_NAME>Techno filter</PARAM_NAME>
     <PARAM_DESCRIPTION>$n$u$l$l$</PARAM_DESCRIPTION>
@@ -6756,13 +6756,13 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
     <METRIC_ID>2200072</METRIC_ID>
     <DESCRIPTION_TYPE_ID>1</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
-    <METRIC_DESCRIPTION>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak:
+    <METRIC_DESCRIPTION>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak: 
 •    Server and proxy logs
 •    Referer HTTP header (especially to external systems)
 •    User sharing of internal URLs
 •    User screenshots
 
-In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session.
+In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session. 
 Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
@@ -6869,9 +6869,7 @@ Information contained in ELMAH pages is very likely to include request headers, 
     <DESCRIPTION_TYPE_ID>2</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>This rule checks ELMAH enablement in web.config files.
-It reports a violation in case of failure to restrict URL Access.
-
-</METRIC_DESCRIPTION>
+It reports a violation in case of failure to restrict URL Access.</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200074</METRIC_ID>

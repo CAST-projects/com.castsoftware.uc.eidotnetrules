@@ -1704,14 +1704,6 @@ https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#data-to-
     <english>Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)</english>
   </metric>
   <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="output">
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="name">
-    <english>Ensure cookieless attributes are set to UseCookies</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="description">
-    <english>This rule checks the tags authentication.forms and sessionState of all web.config files.
-It reports a violation when their attribute cookieless is not "UseCookies".</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="output">
     <english>Associated to each violation, the following information is provided:
 - The number of violation occurrences
 - Bookmarks for violation occurrences found in the source code</english>
@@ -2069,67 +2061,6 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
   </metric>
   <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="total">
     <english>Number of .Net methods</english>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="rationale">
-    <english>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak:
-•    Server and proxy logs
-•    Referer HTTP header (especially to external systems)
-•    User sharing of internal URLs
-•    User screenshots
-
-In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session.
-Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediation">
-    <english>&lt;configuration&gt;
-    &lt;system.web&gt;
-        &lt;sessionState cookieless ="UseCookies" &gt;&lt;/sessionState&gt;
-
-        &lt;authentication mode="Forms"&gt;
-            &lt;forms cookieless="UseCookies"/&gt;
-        &lt;/authentication&gt;
-
-    &lt;/system.web&gt;
-&lt;/configuration&gt;</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="sample">
-    <english>&lt;configuration&gt;
-    &lt;system.web&gt;
-        &lt;sessionState cookieless =&quot;UseUri&quot; &gt;&lt;/sessionState&gt;
-
-        &lt;authentication mode=&quot;Forms&quot;&gt;
-            &lt;forms cookieless=&quot;UseUri&quot;/&gt;
-        &lt;/authentication&gt;
-
-    &lt;/system.web&gt;
-&lt;/configuration&gt;</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediationSample">
-    <english>&lt;configuration&gt;
-    &lt;system.web&gt;
-        &lt;sessionState cookieless ="UseCookies" &gt;&lt;/sessionState&gt;
-
-        &lt;authentication mode="Forms"&gt;
-            &lt;forms cookieless="UseCookies"/&gt;
-        &lt;/authentication&gt;
-
-    &lt;/system.web&gt;
-&lt;/configuration&gt;</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="total">
-    <english>Number of web.config files</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="reference">
-    <english>CWE-642: External Control of Critical State Data
-https://cwe.mitre.org/data/definitions/642.html
-
-CWE-384: Session Fixation
-https://cwe.mitre.org/data/definitions/384.html
-
-MS documentation for configuring an ASP.NET application for custom forms–based authentication
-https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/1d3t3c61(v=vs.100)</english>
-  </metric>
-  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="associatedValueName">
-    <english>Number of violation occurrences</english>
   </metric>
 
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="name">

@@ -345,35 +345,39 @@
   <category name="CAST_EIDotNetRules_Rules_ForSourceFiles" rid="1">
     <description>Custom Quality Rules for DotNet source files</description>
 
-    <property name="EnsureCookielessAreSetToUseCookies" type="integer" merge="sum" rid="28">
+    <property name="EnsureCookielessAreSetToUseCookies" type="integer"  merge="sum" rid="37">
       <description>Ensure cookieless attributes are set to UseCookies</description>
       <attribute name="INF_TYPE"       intValue="2200000"/>
-      <attribute name="INF_SUB_TYPE"   intValue="28"  />
+      <attribute name="INF_SUB_TYPE"   intValue="37"  />
       <attribute name="ACCESS_APPVIEW" intValue="1"   />
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
 
-    <property name="AvoidElmahEnabledInProduction" type="integer" merge="sum" rid="29">
-      <description>Avoid ELMAH enabled in production</description>
+    <property name="AvoidElmahEnabledInProduction" type="integer"  merge="sum" rid="38">
+      <description>Ensure cookieless attributes are set to UseCookies</description>
       <attribute name="INF_TYPE"       intValue="2200000"/>
-      <attribute name="INF_SUB_TYPE"   intValue="29"  />
+      <attribute name="INF_SUB_TYPE"   intValue="38"  />
       <attribute name="ACCESS_APPVIEW" intValue="1"   />
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
 
-  </category>
+ </category>
 
-   
-   
-
-
-   <!--  [TODO#2] Add the category to the list of metrics -->
   
-  <partialCategory name="CAST_DotNet_Metricable">
-    <inheritedCategory name="EIDotNetQualityRules"/>
-  </partialCategory>
+  
+
+
+  <!--  [TODO#2] Add the category to the list of metrics -->
+ 
+ <partialCategory name="CAST_DotNet_Metricable">
+   <inheritedCategory name="EIDotNetQualityRules"/>
+ </partialCategory>
+
+ <partialType name="CAST_DotNet_SourceFile">
+   <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
+ </partialType>
 
   <partialType name="CAST_DotNet_SourceFile">
     <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
