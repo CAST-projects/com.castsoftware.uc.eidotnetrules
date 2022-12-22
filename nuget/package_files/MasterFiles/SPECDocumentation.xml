@@ -2063,14 +2063,81 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
     <english>Number of .Net methods</english>
   </metric>
 
-  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="name">
-    <english>Avoid ELMAH enabled in production</english>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="description">
+    <english>This rule checks the tags authentication.forms and sessionState of all web.config files.
+It reports a violation when their attribute cookieless is not "UseCookies".</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="name">
+    <english>Ensure cookieless attributes are set to UseCookies</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="rationale">
+    <english>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak:
+•    Server and proxy logs
+•    Referer HTTP header (especially to external systems)
+•    User sharing of internal URLs
+•    User screenshots
+
+In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session.
+Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="reference">
+    <english>CWE-642: External Control of Critical State Data
+https://cwe.mitre.org/data/definitions/642.html
+
+CWE-384: Session Fixation
+https://cwe.mitre.org/data/definitions/384.html
+
+MS documentation for configuring an ASP.NET application for custom forms–based authentication
+https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/1d3t3c61(v=vs.100)</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediation">
+    <english>Explicitly require the application to enforce cookie-based authentication and sessions only, using the "UseCookies" value to the cookieless attribute.</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediationSample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState cookieless ="UseCookies" &gt;&lt;/sessionState&gt;
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms cookieless="UseCookies"/&gt;
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="sample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState cookieless ="UseUri" &gt;&lt;/sessionState&gt;
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms cookieless="UseUri"/&gt;
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="total">
+    <english>Number of web.config files</english>
+  </metric>
+
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="associatedValueName">
+    <english>Number of violation occurrences</english>
   </metric>
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="description">
     <english>This rule checks ELMAH enablement in web.config files.
-It reports a violation in case of failure to restrict URL Access.
-
-</english>
+It reports a violation in case of failure to restrict URL Access.</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="name">
+    <english>Avoid ELMAH enabled in production</english>
   </metric>
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="output">
     <english>Associated to each violation, the following information is provided:
@@ -2082,51 +2149,20 @@ It reports a violation in case of failure to restrict URL Access.
 
 Information contained in ELMAH pages is very likely to include request headers, including session cookies, as well as parameters provided by users. Session cookies could enable attackers to hijack user sessions, thus performing actions on a user's behalf. Other parameters provided by users may contain sensitive, personal or financial information which would be trivially available to attackers.</english>
   </metric>
-  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="remediation">
-    <english>&lt;elmah&gt;
-    &lt;security allowRemoteAccess="true" /&gt;
-&lt;/elmah&gt;
-&lt;location path="elmah.axd" inheritInChildApplications="false"&gt;
-    &lt;system.web&gt;
-        &lt;httpHandlers&gt;
-            &lt;add verb="POST,GET,HEAD" path="elmah.axd" type="Elmah.ErrorLogPageFactory, Elmah" /&gt;
-        &lt;/httpHandlers&gt;
-        &lt;authorization&gt;
-            &lt;allow roles="admin" /&gt;
-            &lt;deny users="*" /&gt;
-        &lt;/authorization&gt;
-    &lt;/system.web&gt;
-    &lt;system.webServer&gt;
-        &lt;handlers&gt;
-            &lt;add name="ELMAH"
-                verb="POST,GET,HEAD"
-                path="elmah.axd"
-                type="Elmah.ErrorLogPageFactory, Elmah"
-                preCondition="integratedMode" /&gt;
-        &lt;/handlers&gt;
-    &lt;/system.webServer&gt;
-&lt;/location&gt;</english>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="reference">
+    <english>CWE-213: Exposure of Sensitive Information Due to Incompatible Policies
+https://cwe.mitre.org/data/definitions/213.html
+
+Configure elmah.io - official documentation
+https://docs.elmah.io/configure-elmah-io-manually/
+
+Microsoft documentation - Logging Error Details with ELMAH
+https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/deploying-web-site-projects/logging-error-details-with-elmah-cs</english>
   </metric>
-  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="sample">
-    <english>&lt;elmah&gt;
-    &lt;security allowRemoteAccess=&quot;true&quot; /&gt;
-&lt;/elmah&gt;
-&lt;location path=&quot;elmah.axd&quot; inheritInChildApplications=&quot;false&quot;&gt;
-    &lt;system.web&gt;
-        &lt;httpHandlers&gt;
-            &lt;add verb=&quot;POST,GET,HEAD&quot; path=&quot;elmah.axd&quot; type=&quot;Elmah.ErrorLogPageFactory, Elmah&quot; /&gt;
-        &lt;/httpHandlers&gt;
-    &lt;/system.web&gt;
-    &lt;system.webServer&gt;
-        &lt;handlers&gt;
-            &lt;add name=&quot;ELMAH&quot;
-                verb=&quot;POST,GET,HEAD&quot;
-                path=&quot;elmah.axd&quot;
-                type=&quot;Elmah.ErrorLogPageFactory, Elmah&quot;
-                preCondition=&quot;integratedMode&quot; /&gt;
-        &lt;/handlers&gt;
-    &lt;/system.webServer&gt;
-&lt;/location&gt;</english>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="remediation">
+    <english>Disable any and all web-accessible logging facilities when deploying an application to a production environment.
+Always ensure access to such facilities, even during staging, is as limited as possible to avoid information leaks.
+If having ELMAH in a production environment is required, either block remote access to ELMAH, or enforce strict authentication and authorization requirements to prevent anonymous or unprivileged access.</english>
   </metric>
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="remediationSample">
     <english>&lt;elmah&gt;
@@ -2153,21 +2189,28 @@ Information contained in ELMAH pages is very likely to include request headers, 
     &lt;/system.webServer&gt;
 &lt;/location&gt;</english>
   </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="sample">
+    <english>&lt;elmah&gt;
+    &lt;security allowRemoteAccess="true" /&gt;
+&lt;/elmah&gt;
+&lt;location path="elmah.axd" inheritInChildApplications="false"&gt;
+    &lt;system.web&gt;
+        &lt;httpHandlers&gt;
+            &lt;add verb="POST,GET,HEAD" path="elmah.axd" type="Elmah.ErrorLogPageFactory, Elmah" /&gt;
+        &lt;/httpHandlers&gt;
+    &lt;/system.web&gt;
+    &lt;system.webServer&gt;
+        &lt;handlers&gt;
+            &lt;add name="ELMAH"
+                verb="POST,GET,HEAD"
+                path="elmah.axd"
+                type="Elmah.ErrorLogPageFactory, Elmah"
+                preCondition="integratedMode" /&gt;
+        &lt;/handlers&gt;
+    &lt;/system.webServer&gt;
+&lt;/location&gt;</english>
+  </metric>
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="total">
     <english>Number of web.config files</english>
   </metric>
-  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="reference">
-    <english>CWE-213: Exposure of Sensitive Information Due to Incompatible Policies
-https://cwe.mitre.org/data/definitions/213.html
-
-Configure elmah.io - official documentation
-https://docs.elmah.io/configure-elmah-io-manually/
-
-Microsoft documentation - Logging Error Details with ELMAH
-https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/deploying-web-site-projects/logging-error-details-with-elmah-cs</english>
-  </metric>
-  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="associatedValueName">
-    <english>Number of violation occurrences</english>
-  </metric>
-
 </root>

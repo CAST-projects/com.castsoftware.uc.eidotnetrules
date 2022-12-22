@@ -17,8 +17,9 @@ class Runner:
             analysis.add_selection(projectPath)
         # dotnet extension version should be the last LTS
         analysis.add_dependency(r'C:\ProgramData\CAST\CAST\Extensions\com.castsoftware.dotnet.1.2.9-funcrel')
-        analysis.add_dependency('com.castsoftware.dotnetweb')
-        analysis.add_dependency('com.castsoftware.wbslinker')
+        analysis.add_dependency(r'com.castsoftware.dotnetweb')
+        analysis.add_dependency(r'com.castsoftware.uc.eidotnetrules\nuget\package_files')
+        analysis.add_dependency(r'com.castsoftware.wbslinker')
         analysis.set_verbose(True)
         try:
             analysis.run()

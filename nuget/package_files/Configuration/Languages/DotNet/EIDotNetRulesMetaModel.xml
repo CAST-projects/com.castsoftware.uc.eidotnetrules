@@ -355,7 +355,7 @@
     </property>
 
     <property name="AvoidElmahEnabledInProduction" type="integer"  merge="sum" rid="38">
-      <description>Ensure cookieless attributes are set to UseCookies</description>
+      <description>Avoid ELMAH enabled in production</description>
       <attribute name="INF_TYPE"       intValue="2200000"/>
       <attribute name="INF_SUB_TYPE"   intValue="38"  />
       <attribute name="ACCESS_APPVIEW" intValue="1"   />
@@ -378,9 +378,5 @@
  <partialType name="CAST_DotNet_SourceFile">
    <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
  </partialType>
-
-  <partialType name="CAST_DotNet_SourceFile">
-    <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
-  </partialType>
 
 </metaModel>

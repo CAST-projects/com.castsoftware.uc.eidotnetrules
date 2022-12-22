@@ -1,5 +1,4 @@
 import unittest
-import xml.parsers.expat
 
 from tests.base import Runner
 

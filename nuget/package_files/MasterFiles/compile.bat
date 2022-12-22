@@ -1,0 +1,1 @@
+call \\productfs01\EngBuild\Releases\AssessmentModel\MetricsCompiler.bat -encodeUA -inputdir . -outputdir ..\InstallScripts\Common\ADG

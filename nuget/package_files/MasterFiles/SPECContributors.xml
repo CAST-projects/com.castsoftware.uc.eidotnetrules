@@ -38,6 +38,4 @@
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200028" contributorType="quality-rule" contributorOriginalName="Use Logical OR and AND instead of Bitwise OR and AND in boolean context" critical="false" weight="1" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200034" contributorType="quality-rule" contributorOriginalName="For loop stop condition should be invariant" critical="false" weight="5" />
   <metric id="66069" type="technical-criterion" originalName="Programming Practices - Unexpected Behavior" contributorId="2200046" contributorType="quality-rule" contributorOriginalName="Ensure Serializable Types Follow Best Practices" critical="false" weight="5" />
-  <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" contributorId="2200072" contributorType="quality-rule" contributorOriginalName="Ensure cookieless attributes are set to UseCookies" critical="True" weight="8" />
-  <metric id="66064" type="technical-criterion" originalName="Secure Coding - Weak Security Features" contributorId="2200074" contributorType="quality-rule" contributorOriginalName="Avoid ELMAH enabled in production" critical="True" weight="8" />
 </root>
