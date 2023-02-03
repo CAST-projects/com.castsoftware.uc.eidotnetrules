@@ -2062,7 +2062,6 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
   <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="total">
     <english>Number of .Net methods</english>
   </metric>
-
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -2079,13 +2078,13 @@ It reports a violation when their attribute cookieless is not "UseCookies".</eng
 - Bookmarks for violation occurrences found in the source code</english>
   </metric>
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="rationale">
-    <english>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak:
+    <english>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak: 
 •    Server and proxy logs
 •    Referer HTTP header (especially to external systems)
 •    User sharing of internal URLs
 •    User screenshots
 
-In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session.
+In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session. 
 Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</english>
   </metric>
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="reference">
@@ -2128,7 +2127,6 @@ https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/1d3t
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="total">
     <english>Number of web.config files</english>
   </metric>
-
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="associatedValueName">
     <english>Number of violation occurrences</english>
   </metric>
@@ -2212,5 +2210,67 @@ If having ELMAH in a production environment is required, either block remote acc
   </metric>
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="total">
     <english>Number of web.config files</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="description">
+    <english>This rule reports sensitive data members declared as String.
+Sensitive is based on the variable names: 
+(english) password, pswd, passwd, passwrd, psswrd, watchword, passphrase, credentials, auth, passString, secret, loginPass, passKey, secretKey
+(spanish) contrasena, 
+(chinese) mima
+(french) mdp, motdepasse, mot_de_passe</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="name">
+    <english>Avoid storing password in String</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="rationale">
+    <english>String variables are immutable - in other words, once a string variable is assigned, its value cannot be changed or removed. Thus, these strings may remain around in memory, possibly in multiple locations, for an indefinite period of time until the garbage collector happens to remove it. Sensitive data, such as passwords, will remain exposed in memory as plaintext with no control over their lifetime.
+
+All variables stored by the application in unencrypted memory can potentially be retrieved by an unauthorized user, with privileged access to the machine.
+For example, a privileged attacker could attach a debugger to the running process, or retrieve the process's memory from the swapfile or crash dump file. Once the attacker finds the user passwords in memory, these can be reused to easily impersonate the user to the system.</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="reference">
+    <english>CWE-244: Improper Clearing of Heap Memory Before Release ('Heap Inspection')
+https://cwe.mitre.org/data/definitions/244.html</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="remediation">
+    <english>The only way to handle Heap Inspection issues is to minimize and reduce data exposure, and obscure it in memory wherever possible.
+•    Do not store sensitive data, such as passwords or encryption keys, in memory in plain-text, even for a short period of time. 
+•    Prefer to use specialized classes that store encrypted data in memory to ensure it cannot be trivially retrieved from memory.
+•    When required to use sensitive data in its raw form, temporarily store it in mutable data types, such as byte arrays, to reduce readability from memory, and then promptly zeroize the memory locations, to reduce exposure duration of this data while in memory.</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="remediationSample">
+    <english>class Klass
+{
+   private byte[] Password {get; set;} // fixed
+
+   public void SetPassword(byte[] newPassword) // fixed
+   { Password = newPassword; }
+
+   public byte[] GetPassword()
+   { return Password;}
+}</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="sample">
+    <english>class Klass
+{
+   private string Password {get; set;} // violation
+
+   public void SetPassword(string newPassword) // violation
+   { Password = newPassword; }
+
+   public string GetPassword()
+   { return Password;}
+}</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="total">
+    <english>Number of .Net artifacts</english>
   </metric>
 </root>

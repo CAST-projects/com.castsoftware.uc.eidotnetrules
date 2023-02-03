@@ -40,4 +40,5 @@
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" filter="138636" filterLabel="ASP .Net" />
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" filter="138383" filterLabel="C#" />
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" filter="138636" filterLabel="ASP .Net" />
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" filter="138383" filterLabel="C#" />
 </root>

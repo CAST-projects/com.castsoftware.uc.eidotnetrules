@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<DATA model='Central Model' version='1.0.0.20' scope='METRICS' export='OK'><!-- File generated with CAST Metrics Compiler - 8.3.35 -->
+<DATA model='Central Model' version='1.0.0.20' scope='DotNetScope' export='OK'><!-- File generated with CAST Metrics Compiler -->
   <DSS_METRIC_TYPES>
     <METRIC_ID>2200000</METRIC_ID>
     <METRIC_NAME>Avoid local variables shadowing class fields</METRIC_NAME>
@@ -836,6 +836,28 @@
     <SCOPE_ID>0</SCOPE_ID>
     <PROPERTY_ID>0</PROPERTY_ID>
   </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2200076</METRIC_ID>
+    <METRIC_NAME>Avoid storing password in String</METRIC_NAME>
+    <METRIC_DESCRIPTION>See Metric Documentation</METRIC_DESCRIPTION>
+    <METRIC_TYPE>3</METRIC_TYPE>
+    <METRIC_GROUP>1</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>610</SCOPE_ID>
+    <PROPERTY_ID>2200039</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
+  <DSS_METRIC_TYPES>
+    <METRIC_ID>2200077</METRIC_ID>
+    <METRIC_NAME>Avoid storing password in String</METRIC_NAME>
+    <METRIC_DESCRIPTION>description details</METRIC_DESCRIPTION>
+    <METRIC_TYPE>2</METRIC_TYPE>
+    <METRIC_GROUP>2</METRIC_GROUP>
+    <METRIC_DEPENDS_ON>$n$u$l$l$</METRIC_DEPENDS_ON>
+    <METRIC_OPTIONS>0</METRIC_OPTIONS>
+    <SCOPE_ID>0</SCOPE_ID>
+    <PROPERTY_ID>0</PROPERTY_ID>
+  </DSS_METRIC_TYPES>
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>61003</METRIC_PARENT_ID>
     <METRIC_ID>2200002</METRIC_ID>
@@ -1044,6 +1066,15 @@
     <METRIC_CRITICAL>0</METRIC_CRITICAL>
   </DSS_METRIC_TYPE_TREES>
   <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>66063</METRIC_PARENT_ID>
+    <METRIC_ID>2200076</METRIC_ID>
+    <METRIC_INDEX>3</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>7</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>66064</METRIC_PARENT_ID>
     <METRIC_ID>2200036</METRIC_ID>
     <METRIC_INDEX>2</METRIC_INDEX>
@@ -1077,7 +1108,7 @@
     <AGGREGATE_WEIGHT>8</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
     <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
-    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+    <METRIC_CRITICAL>1</METRIC_CRITICAL>
   </DSS_METRIC_TYPE_TREES>
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>66064</METRIC_PARENT_ID>
@@ -1086,7 +1117,7 @@
     <AGGREGATE_WEIGHT>8</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_FILTER_SCOPE</METRIC_SCOPE_PROCEDURE_NAME>
     <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
-    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+    <METRIC_CRITICAL>1</METRIC_CRITICAL>
   </DSS_METRIC_TYPE_TREES>
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>66065</METRIC_PARENT_ID>
@@ -1514,6 +1545,15 @@
   <DSS_METRIC_TYPE_TREES>
     <METRIC_PARENT_ID>2200074</METRIC_PARENT_ID>
     <METRIC_ID>2200075</METRIC_ID>
+    <METRIC_INDEX>1</METRIC_INDEX>
+    <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
+    <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
+    <METRIC_SCOPE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_SCOPE_PROCEDURE_NAME_2>
+    <METRIC_CRITICAL>0</METRIC_CRITICAL>
+  </DSS_METRIC_TYPE_TREES>
+  <DSS_METRIC_TYPE_TREES>
+    <METRIC_PARENT_ID>2200076</METRIC_PARENT_ID>
+    <METRIC_ID>2200077</METRIC_ID>
     <METRIC_INDEX>1</METRIC_INDEX>
     <AGGREGATE_WEIGHT>1</AGGREGATE_WEIGHT>
     <METRIC_SCOPE_PROCEDURE_NAME>DSS_DIAG_SCOPE_GENERIC_NUM</METRIC_SCOPE_PROCEDURE_NAME>
@@ -3192,6 +3232,50 @@
     <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
     <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
   </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200076</METRIC_ID>
+    <METRIC_VALUE_INDEX>0</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Grade and status distribution</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>Generic grade and status distribution calculation for diagnostics</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>ADG_RESULT_DIAG_STATUS</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>ADG_CENTRAL_RESULT_DIAG</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>0</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200076</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>Avoid storing password in String</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>See Metric documentation</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>1</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200076</METRIC_ID>
+    <METRIC_VALUE_INDEX>2</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>total</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>total</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_DIAG_TOTAL_GENERIC</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
+  <DSS_METRIC_VALUE_TYPES>
+    <METRIC_ID>2200077</METRIC_ID>
+    <METRIC_VALUE_INDEX>1</METRIC_VALUE_INDEX>
+    <METRIC_VALUE_NAME>detail</METRIC_VALUE_NAME>
+    <METRIC_VALUE_DESCRIPTION>detail</METRIC_VALUE_DESCRIPTION>
+    <METRIC_VALUE_PROCEDURE_NAME>DSS_METRIC_VALUE_SCOPE</METRIC_VALUE_PROCEDURE_NAME>
+    <METRIC_AGGREGATE_OPERATOR>0</METRIC_AGGREGATE_OPERATOR>
+    <METRIC_VALUE_PROCEDURE_NAME_2>$n$u$l$l$</METRIC_VALUE_PROCEDURE_NAME_2>
+    <METRIC_AGGREGATE_OPERATOR_2>0</METRIC_AGGREGATE_OPERATOR_2>
+    <METRIC_VALUE_TYPE>5</METRIC_VALUE_TYPE>
+  </DSS_METRIC_VALUE_TYPES>
   <DSS_METRIC_PARAM_TYPES>
     <METRIC_ID>2200000</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
@@ -3508,6 +3592,14 @@
     <METRIC_ID>2200074</METRIC_ID>
     <PARAM_INDEX>1</PARAM_INDEX>
     <OBJECT_TYPE_ID>138636</OBJECT_TYPE_ID>
+    <PARAM_TYPE>0</PARAM_TYPE>
+    <PARAM_NAME>Techno filter</PARAM_NAME>
+    <PARAM_DESCRIPTION>$n$u$l$l$</PARAM_DESCRIPTION>
+  </DSS_METRIC_PARAM_TYPES>
+  <DSS_METRIC_PARAM_TYPES>
+    <METRIC_ID>2200076</METRIC_ID>
+    <PARAM_INDEX>1</PARAM_INDEX>
+    <OBJECT_TYPE_ID>138383</OBJECT_TYPE_ID>
     <PARAM_TYPE>0</PARAM_TYPE>
     <PARAM_NAME>Techno filter</PARAM_NAME>
     <PARAM_DESCRIPTION>$n$u$l$l$</PARAM_DESCRIPTION>
@@ -3810,6 +3902,14 @@
   </DSS_METRIC_STATUS_THRESHOLDS>
   <DSS_METRIC_STATUS_THRESHOLDS>
     <METRIC_ID>2200074</METRIC_ID>
+    <STATUS>0</STATUS>
+    <THRESHOLD_1>98.0</THRESHOLD_1>
+    <THRESHOLD_2>99.0</THRESHOLD_2>
+    <THRESHOLD_3>99.5</THRESHOLD_3>
+    <THRESHOLD_4>99.99</THRESHOLD_4>
+  </DSS_METRIC_STATUS_THRESHOLDS>
+  <DSS_METRIC_STATUS_THRESHOLDS>
+    <METRIC_ID>2200076</METRIC_ID>
     <STATUS>0</STATUS>
     <THRESHOLD_1>98.0</THRESHOLD_1>
     <THRESHOLD_2>99.0</THRESHOLD_2>
@@ -6872,13 +6972,13 @@ https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.ht
     <METRIC_ID>2200072</METRIC_ID>
     <DESCRIPTION_TYPE_ID>1</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
-    <METRIC_DESCRIPTION>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak:
+    <METRIC_DESCRIPTION>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak: 
 •    Server and proxy logs
 •    Referer HTTP header (especially to external systems)
 •    User sharing of internal URLs
 •    User screenshots
 
-In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session.
+In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session. 
 Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
@@ -7067,6 +7167,98 @@ https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getti
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200074</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>9</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Number of violation occurrences</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>0</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Avoid storing password in String</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>1</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>String variables are immutable - in other words, once a string variable is assigned, its value cannot be changed or removed. Thus, these strings may remain around in memory, possibly in multiple locations, for an indefinite period of time until the garbage collector happens to remove it. Sensitive data, such as passwords, will remain exposed in memory as plaintext with no control over their lifetime.
+
+All variables stored by the application in unencrypted memory can potentially be retrieved by an unauthorized user, with privileged access to the machine.
+For example, a privileged attacker could attach a debugger to the running process, or retrieve the process's memory from the swapfile or crash dump file. Once the attacker finds the user passwords in memory, these can be reused to easily impersonate the user to the system.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>2</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>This rule reports sensitive data members declared as String.
+Sensitive is based on the variable names: 
+(english) password, pswd, passwd, passwrd, psswrd, watchword, passphrase, credentials, auth, passString, secret, loginPass, passKey, secretKey
+(spanish) contrasena, 
+(chinese) mima
+(french) mdp, motdepasse, mot_de_passe</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>3</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>The only way to handle Heap Inspection issues is to minimize and reduce data exposure, and obscure it in memory wherever possible.
+•    Do not store sensitive data, such as passwords or encryption keys, in memory in plain-text, even for a short period of time. 
+•    Prefer to use specialized classes that store encrypted data in memory to ensure it cannot be trivially retrieved from memory.
+•    When required to use sensitive data in its raw form, temporarily store it in mutable data types, such as byte arrays, to reduce readability from memory, and then promptly zeroize the memory locations, to reduce exposure duration of this data while in memory.</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>4</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>CWE-244: Improper Clearing of Heap Memory Before Release ('Heap Inspection')
+https://cwe.mitre.org/data/definitions/244.html</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>5</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>class Klass
+{
+   private string Password {get; set;} // violation
+
+   public void SetPassword(string newPassword) // violation
+   { Password = newPassword; }
+
+   public string GetPassword()
+   { return Password;}
+}</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>class Klass
+{
+   private byte[] Password {get; set;} // fixed
+
+   public void SetPassword(byte[] newPassword) // fixed
+   { Password = newPassword; }
+
+   public byte[] GetPassword()
+   { return Password;}
+}</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>7</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>8</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>Number of .Net artifacts</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200076</METRIC_ID>
     <DESCRIPTION_TYPE_ID>9</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>Number of violation occurrences</METRIC_DESCRIPTION>
