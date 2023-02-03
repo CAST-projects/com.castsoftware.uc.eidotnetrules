@@ -66,6 +66,7 @@ namespace CastDotNetExtension
 
         private SyntaxNodeAnalysisContext _context;
         private INamedTypeSymbol _stringTypeSymbol = null;
+        private IAssemblySymbol _currentAssembly = null;
 
         private void InitializeSymbols(SyntaxNodeAnalysisContext context)
         {
@@ -73,6 +74,13 @@ namespace CastDotNetExtension
             {
                 _stringTypeSymbol = context.Compilation.GetTypeByMetadataName("System.String") as INamedTypeSymbol;
             }
+
+            if (!SymbolEqualityComparer.Default.Equals(_currentAssembly, context.Compilation.Assembly))
+            {
+                _currentAssembly = context.Compilation.Assembly;
+                _stringTypeSymbol = context.Compilation.GetTypeByMetadataName("System.String") as INamedTypeSymbol;
+            }
+            
             
         }
 
