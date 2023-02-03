@@ -32,10 +32,13 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
+            context.RegisterCompilationStartAction(OnCompilationStart);
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.PropertyDeclaration);
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.VariableDeclarator);
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.Parameter);
         }
+
+       
 
         // Small string should be full variable name not part of it to limit false positives
         private static readonly HashSet<string> _fullVariablePasswordName = new HashSet<string>
@@ -68,20 +71,9 @@ namespace CastDotNetExtension
         private INamedTypeSymbol _stringTypeSymbol = null;
         private IAssemblySymbol _currentAssembly = null;
 
-        private void InitializeSymbols(SyntaxNodeAnalysisContext context)
+        private void OnCompilationStart(CompilationStartAnalysisContext context)
         {
-            if (_stringTypeSymbol == null)
-            {
-                _stringTypeSymbol = context.Compilation.GetTypeByMetadataName("System.String") as INamedTypeSymbol;
-            }
-
-            if (!SymbolEqualityComparer.Default.Equals(_currentAssembly, context.Compilation.Assembly))
-            {
-                _currentAssembly = context.Compilation.Assembly;
-                _stringTypeSymbol = context.Compilation.GetTypeByMetadataName("System.String") as INamedTypeSymbol;
-            }
-            
-            
+            _stringTypeSymbol = context.Compilation.GetTypeByMetadataName("System.String") as INamedTypeSymbol;
         }
 
         private void Analyze(SyntaxNodeAnalysisContext context)
@@ -90,7 +82,6 @@ namespace CastDotNetExtension
             {
                 try
                 {
-                    InitializeSymbols(context);
                     _context = context;
                     var node = context.Node;
 

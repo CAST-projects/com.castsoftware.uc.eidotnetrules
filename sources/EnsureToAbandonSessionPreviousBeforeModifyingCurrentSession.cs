@@ -31,13 +31,24 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
+            context.RegisterCompilationStartAction(OnCompilationStart);
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.SimpleAssignmentExpression);
+        }
+
+        private INamedTypeSymbol _sessionStateSymbol = null;
+
+        private void OnCompilationStart(CompilationStartAnalysisContext context)
+        {
+            _sessionStateSymbol = context.Compilation.GetTypeByMetadataName("System.Web.SessionState.HttpSessionState") as INamedTypeSymbol;
         }
 
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
             try
             {
+                if (_sessionStateSymbol == null)
+                    return;
+
                 var node = context.Node as AssignmentExpressionSyntax;
                 if (node == null)
                     return;
@@ -46,12 +57,10 @@ namespace CastDotNetExtension
                 if (leftNode == null)
                     return;
 
-                var sessionStateSymbol = context.Compilation.GetTypeByMetadataName("System.Web.SessionState.HttpSessionState") as INamedTypeSymbol;
-                if (sessionStateSymbol == null)
-                    return;
+                
 
                 HashSet<IMethodSymbol> methods =
-                context.Compilation.GetMethodSymbolsForSystemClass(sessionStateSymbol, 
+                context.Compilation.GetMethodSymbolsForSystemClass(_sessionStateSymbol, 
                     new HashSet<string>() { "Abandon" }, false, 1);
                 IMethodSymbol abandonSymbol = methods.FirstOrDefault();
 
@@ -59,7 +68,7 @@ namespace CastDotNetExtension
                 if (expressionSymbolType == null)
                     return;
 
-                if (!SymbolEqualityComparer.Default.Equals(sessionStateSymbol, expressionSymbolType))
+                if (!SymbolEqualityComparer.Default.Equals(_sessionStateSymbol, expressionSymbolType))
                     return;
 
                 var containingSymbol = context.ContainingSymbol;
