@@ -59,23 +59,17 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
+            context.RegisterCompilationStartAction(OnCompilationStart);
             context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration);
         }
 
-        private void InitializeSymbols(SyntaxNodeAnalysisContext context)
-        {
-            if (!_controllerSymbols.Any())
-            {
-                context.Compilation.GetSymbolsForClasses(_baseControllers, ref _controllerSymbols);
-            }
-            if (!_dbContextSymbols.Any())
-            {
-                context.Compilation.GetSymbolsForClasses(_dbContexts, ref _dbContextSymbols);
-            }
-            if (!_dbSetSymbols.Any())
-            {
-                context.Compilation.GetSymbolsForClasses(_dbSets, ref _dbSetSymbols);
-            }
+
+
+        private void OnCompilationStart(CompilationStartAnalysisContext context)
+        {           
+            context.Compilation.GetSymbolsForClasses(_baseControllers, ref _controllerSymbols);
+            context.Compilation.GetSymbolsForClasses(_dbContexts, ref _dbContextSymbols);
+            context.Compilation.GetSymbolsForClasses(_dbSets, ref _dbSetSymbols);
         }
 
         private bool HasBindAttribute(ParameterSyntax parameter)
@@ -302,7 +296,7 @@ namespace CastDotNetExtension
         {
             try
             {
-                InitializeSymbols(context);
+                //InitializeSymbols(context);
                 var classNode = context.Node;
                 // Get Class symbol
                 var classSymbol = context.SemanticModel.GetDeclaredSymbol(classNode) as INamedTypeSymbol;

@@ -69,7 +69,6 @@ namespace CastDotNetExtension
 
         private SyntaxNodeAnalysisContext _context;
         private INamedTypeSymbol _stringTypeSymbol = null;
-        private IAssemblySymbol _currentAssembly = null;
 
         private void OnCompilationStart(CompilationStartAnalysisContext context)
         {
