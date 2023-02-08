@@ -223,7 +223,7 @@ namespace CastDotNetExtension
         }
 
         private bool GetDatabaseSavingModel(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax declationMethodNode,
-            ref HashSet<INamedTypeSymbol> dataSaved)
+            ref Dictionary<INamedTypeSymbol, SyntaxNode> dataSaved)
         {
             // check for saving model values in DB
             var invocationExpressionNodes = declationMethodNode
@@ -251,7 +251,7 @@ namespace CastDotNetExtension
                             var typeArgument = propertyType.TypeArguments.First() as INamedTypeSymbol;
                             if (typeArgument != null)
                             {
-                                dataSaved.Add(typeArgument);
+                                dataSaved[typeArgument]= dbSaveNode;
                                 hasDataSaved = true;
                             }
                             
@@ -323,14 +323,15 @@ namespace CastDotNetExtension
                         continue;
 
                     HashSet<INamedTypeSymbol> modelsBinded = new HashSet<INamedTypeSymbol>();
-                    HashSet<INamedTypeSymbol> dataSaved = new HashSet<INamedTypeSymbol>();
+                    Dictionary<INamedTypeSymbol, SyntaxNode> dataSaved = new Dictionary<INamedTypeSymbol, SyntaxNode>();
                     GetModelBindedForAction(context, declationMethodNode, ref modelsBinded);
                     GetDatabaseSavingModel(context, declationMethodNode, ref dataSaved);
-                    var intersectDataModels = modelsBinded.Intersect(dataSaved).ToHashSet();
+                    var intersectDataModels = modelsBinded.Intersect(dataSaved.Keys).ToHashSet();
                     ExcludeBindNeverAndReadOnlyAttribute(context, ref intersectDataModels);
                     foreach (var dataModel in intersectDataModels)
                     {
-                        var pos = declationMethodNode.GetLocation().GetMappedLineSpan();
+                        var dataSaveNode = dataSaved[dataModel];
+                        var pos = dataSaveNode.GetLocation().GetMappedLineSpan();
                         AddViolation(methodSymbol, new[] { pos });
                     }
                    

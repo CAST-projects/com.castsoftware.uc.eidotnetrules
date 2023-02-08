@@ -14,7 +14,7 @@ namespace UnitTests.UnitTest
     public class TestAvoidUnsafeObjectBinding
     {
         [Test]
-        public void Test()
+        public void TestAvoidUnsafeObjectBinding1()
         {
             var testSrc = UnitTests.Properties.SourcesToTest.AvoidUnsafeObjectBinding_Source;
 
@@ -30,10 +30,10 @@ namespace UnitTests.UnitTest
                 .Apply(testSrc);
 
             checker
-                .AddExpected(28, 8)
-                .AddExpected(45, 8)
-                .AddExpected(85, 8)
-                .AddExpected(99, 8)
+                .AddExpected(34, 16)
+                .AddExpected(59, 26)
+                .AddExpected(93, 16)
+                .AddExpected(107, 16)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());
