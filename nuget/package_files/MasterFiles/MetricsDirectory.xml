@@ -54,4 +54,5 @@
   <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" active="true" detached="false" ignored="false" />
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" active="true" detached="false" ignored="false" />
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" active="true" detached="false" ignored="false" />
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" active="true" detached="false" ignored="false" />
 </root>

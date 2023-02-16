@@ -41,4 +41,5 @@
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" filter="138383" filterLabel="C#" />
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" filter="138636" filterLabel="ASP .Net" />
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" filter="138383" filterLabel="C#" />
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" filter="138383" filterLabel="C#" />
 </root>

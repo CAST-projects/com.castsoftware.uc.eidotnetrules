@@ -38,6 +38,7 @@
     <Compile Include="AbstractOperationsAnalyzer.cs" />
     <Compile Include="AvoidAssignmentsInSubExpressions.cs" />
     <Compile Include="AvoidClassesWithTooManyConstructorsAnalyzer.cs" />
+    <Compile Include="AvoidCopyingBufferWithoutCheckingTheSizeOfInput.cs" />
     <Compile Include="AvoidCreatingExceptionWithoutThrowingThem.cs" />
     <Compile Include="AvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="AvoidDirectUseOfThreads.cs" />

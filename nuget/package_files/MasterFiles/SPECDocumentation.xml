@@ -2151,8 +2151,11 @@ Information contained in ELMAH pages is very likely to include request headers, 
     <english>CWE-213: Exposure of Sensitive Information Due to Incompatible Policies
 https://cwe.mitre.org/data/definitions/213.html
 
-Configure elmah.io - official documentation
+ELMAH official documentation - Configure elmah.io manually
 https://docs.elmah.io/configure-elmah-io-manually/
+
+ELMAH official documentation - ELMAH security and allowRemoteAccess explained
+https://blog.elmah.io/elmah-security-and-allowremoteaccess-explained/
 
 Microsoft documentation - Logging Error Details with ELMAH
 https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/deploying-web-site-projects/logging-error-details-with-elmah-cs</english>
@@ -2171,10 +2174,10 @@ If having ELMAH in a production environment is required, either block remote acc
         &lt;httpHandlers&gt;
             &lt;add verb="POST,GET,HEAD" path="elmah.axd" type="Elmah.ErrorLogPageFactory, Elmah" /&gt;
         &lt;/httpHandlers&gt;
-        &lt;authorization&gt;
-            &lt;allow roles="admin" /&gt;
-            &lt;deny users="*" /&gt;
-        &lt;/authorization&gt;
+        &lt;authorization&gt;                    &lt;!-- Fixed by restricting access --&gt;
+            &lt;allow roles="admin" /&gt;        &lt;!-- Fixed by restricting access --&gt;
+            &lt;deny users="*" /&gt;             &lt;!-- Fixed by restricting access --&gt;
+        &lt;/authorization&gt;                   &lt;!-- Fixed by restricting access --&gt;
     &lt;/system.web&gt;
     &lt;system.webServer&gt;
         &lt;handlers&gt;
@@ -2272,5 +2275,57 @@ https://cwe.mitre.org/data/definitions/244.html</english>
   </metric>
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="total">
     <english>Number of .Net artifacts</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="description">
+    <english>This rule checks if the application copies an input buffer to an output buffer without verifying that the size of the input buffer is less or equal than the size of the output buffer.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="name">
+    <english>Avoid copying buffer without checking the size of input</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="rationale">
+    <english>When the input buffer is larger than the output buffer, then we can have either an exception raised or a partial copy of the data.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="reference">
+    <english>CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')
+https://cwe.mitre.org/data/definitions/120.html</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="remediation">
+    <english>The application must verify that the size of the input buffer is less than the size of the output buffer.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="remediationSample">
+    <english>public int GetString(ref byte[] buffer, int buflen)
+        {
+            string mystring = "hello world";
+
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            buffer = encoding.GetBytes(mystring);
+
+            if(mystring.Length &lt;= buflen)
+                System.Buffer.BlockCopy(mystring.ToCharArray(), 0, buffer, 0, buflen);
+            return (buflen);
+        }</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="sample">
+    <english>public int GetString(ref byte[] buffer, int buflen)
+        {
+            string mystring = "hello world";
+
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            buffer = encoding.GetBytes(mystring);
+
+            System.Buffer.BlockCopy(mystring.ToCharArray(), 0, buffer, 0, buflen); // Violation
+            return (buflen);
+        }</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="total">
+    <english>Number of .Net methods</english>
   </metric>
 </root>

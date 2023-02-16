@@ -125,6 +125,27 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source {
+            get {
+                return ResourceManager.GetString("AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Dynamic;
         ///
         ///
@@ -521,9 +542,15 @@ namespace UnitTests.Properties {
         ///{
         ///    public class AvoidStoringPasswordInString_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        private string Password { get; set; } // violation
+        ///
+        ///        private string _passwd; // violation
+        ///
+        ///        public void SetPassword(string newPassword) // violation
+        ///        {
+        ///            var passwd = newPassword;
+        ///            var authorization = newPassword;
+        ///            Password [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidStoringPasswordInString_Source {
             get {
