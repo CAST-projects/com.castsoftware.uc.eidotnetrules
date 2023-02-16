@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace UnitTests.UnitTest.Sources
 {
@@ -167,5 +170,19 @@ namespace UnitTests.UnitTest.Sources
        
        public delegate object DynamicMethodInstantiateDelegate();
 
-   }
+        // Dictionary<TKey, TValue> implement ISerializable 
+       private class XmlSerializableKO<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable 
+       {
+            protected XmlSerializableKO() : base() { }
+
+            public XmlSchema GetSchema()
+            {
+                return null;
+            }
+
+            public void ReadXml(XmlReader reader) { }
+            public void WriteXml(XmlWriter writer) { }
+       }
+
+    }
 }
