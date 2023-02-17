@@ -24,5 +24,6 @@ namespace UnitTests.TestSources
             var auth = Password;
             return auth;
         }
+        public DateTime DateOfBirth { get; set; }
     }
 }

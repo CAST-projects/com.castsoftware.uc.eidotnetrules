@@ -67,7 +67,6 @@ namespace CastDotNetExtension
          "mot_de_passe",
         };
 
-        private SyntaxNodeAnalysisContext _context;
         private INamedTypeSymbol _stringTypeSymbol = null;
 
         private void OnCompilationStart(CompilationStartAnalysisContext context)
@@ -81,10 +80,9 @@ namespace CastDotNetExtension
             {
                 try
                 {
-                    _context = context;
                     var node = context.Node;
 
-                    if (_stringTypeSymbol == null || !IsVariableAString(node))
+                    if (_stringTypeSymbol == null || !IsVariableAString(context))
                         return;
 
                     var variableName = GetVariableName(node).ToLower();
@@ -123,9 +121,9 @@ namespace CastDotNetExtension
             return isPasswordName;
         }
 
-        private bool IsVariableAString(SyntaxNode node)
+        private bool IsVariableAString(SyntaxNodeAnalysisContext context)
         {
-            var nodeSymbol = _context.SemanticModel.GetDeclaredSymbol(node);
+            var nodeSymbol = context.SemanticModel.GetDeclaredSymbol(context.Node);
             IFieldSymbol fieldSymbol = nodeSymbol as IFieldSymbol;
             if (fieldSymbol != null && fieldSymbol.Type.IsOrInheritsFrom(_stringTypeSymbol))
             {
