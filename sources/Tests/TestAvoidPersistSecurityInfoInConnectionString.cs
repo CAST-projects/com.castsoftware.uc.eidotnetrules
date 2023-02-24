@@ -12,7 +12,7 @@ namespace UnitTests.UnitTest
     class TestAvoidPersistSecurityInfoInConnectionString
     {
         [Test]
-        public void Test()
+        public void TestAvoidPersistSecurityInfoInConnectionString1()
         {
             var testSrc = UnitTests.Properties.SourcesToTest.AvoidPersistSecurityInfoInConnectionString_Source;
 
@@ -29,6 +29,12 @@ namespace UnitTests.UnitTest
                .AddExpected(20, 12)
                .AddExpected(24, 12)
                .AddExpected(25, 12)
+               .AddExpected(32, 12)
+               .AddExpected(37, 12)
+               .AddExpected(38, 12)
+               .AddExpected(45, 12)
+               .AddExpected(50, 12)
+               .AddExpected(51, 12)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());

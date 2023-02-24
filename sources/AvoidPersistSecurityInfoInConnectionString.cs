@@ -35,6 +35,18 @@ namespace CastDotNetExtension
             context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
         }
 
+        private bool IsTrueStringLiteralExpression(SyntaxNode expressionNode)
+        {
+            bool isTrueStringLiteralExpression = false;
+            if (expressionNode.Kind() == SyntaxKind.StringLiteralExpression)
+            {
+                var stringLiteralSyntax = expressionNode as LiteralExpressionSyntax;
+                if (stringLiteralSyntax.Token.ValueText.ToLower() == "true")
+                    isTrueStringLiteralExpression = true;
+            }
+            return isTrueStringLiteralExpression;
+        }
+
         private void AnalyzeAssignment(SyntaxNodeAnalysisContext context)
         {
             try
@@ -44,8 +56,11 @@ namespace CastDotNetExtension
                 {
                     // Check if the right part of the assignment is "true"
                     var right = assignment.Right;
-                    if (right.Kind() != SyntaxKind.TrueLiteralExpression)
+                    bool isTrueLiteralExpression = right.Kind() == SyntaxKind.TrueLiteralExpression;
+                    bool isTrueStringLiteralExpression = IsTrueStringLiteralExpression(right);
+                    if (!isTrueLiteralExpression && !isTrueStringLiteralExpression)
                         return;
+
                     // Check the left part of the assignment
                     var left = assignment.Left;
                     if (left is ElementAccessExpressionSyntax)
@@ -107,8 +122,12 @@ namespace CastDotNetExtension
                     var argumentList = invocation.ArgumentList.Arguments;
                     if (argumentList.Count != 2) // exactly 2 arguments
                         return;
-                    if (argumentList[1].Expression.Kind() != SyntaxKind.TrueLiteralExpression) // second argument must be "true"
+                    // Check is the second argument is "true"
+                    bool isTrueLiteralExpression = argumentList[1].Expression.Kind() == SyntaxKind.TrueLiteralExpression;
+                    bool isTrueStringLiteralExpression = IsTrueStringLiteralExpression(argumentList[1].Expression);
+                    if (!isTrueLiteralExpression && !isTrueStringLiteralExpression)
                         return;
+                    // Check first argument is Persist security info values
                     var firstArgument = argumentList[0].Expression as LiteralExpressionSyntax;
                     if (firstArgument.Token.ValueText == "PersistSecurityInfo" || firstArgument.Token.ValueText == "Persist Security Info")
                     {
