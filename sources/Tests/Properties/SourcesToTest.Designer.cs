@@ -130,9 +130,15 @@ namespace UnitTests.Properties {
         ///{
         ///    public class AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        /*
+        ///         CWE 120 : Buffer_Overflow
+        ///         */
+        ///        public int GetString(ref byte[] buffer, int buflen)
+        ///        {
+        ///            string mystring = &quot;hello world&quot;;
+        ///
+        ///            // I have tried this:
+        ///            System.Text.UTF8Encoding encoding = new Syste [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source {
             get {
@@ -538,6 +544,28 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source {
+            get {
+                return ResourceManager.GetString("AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Sou" +
+                        "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
         ///namespace UnitTests.TestSources
         ///{
         ///    public class AvoidStoringPasswordInString_Source
@@ -614,6 +642,28 @@ namespace UnitTests.Properties {
             get {
                 return ResourceManager.GetString("AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Sou" +
                         "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web.Mvc;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source", resourceCulture);
             }
         }
         
@@ -863,6 +913,9 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using System.Runtime.Serialization;
+        ///using System.Xml;
+        ///using System.Xml.Schema;
+        ///using System.Xml.Serialization;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
@@ -870,8 +923,7 @@ namespace UnitTests.Properties {
         ///   {
         ///      private class SerializableAttributeKO : ISerializable // Violation: No Serializable attribute
         ///      {
-        ///         protected SerializableAttributeKO(SerializationInfo info, StreamingContext context) { }
-        ///         public virtual void G [rest of string was truncated]&quot;;.
+        ///         protected SerializableAttributeKO(Seriali [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureSerializableTypesFollowBestPractices_Source {
             get {
@@ -902,6 +954,27 @@ namespace UnitTests.Properties {
         internal static string EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source {
             get {
                 return ResourceManager.GetString("EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class EnsureToEnableColumnEncryptionInConnectionString_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string EnsureToEnableColumnEncryptionInConnectionString_Source {
+            get {
+                return ResourceManager.GetString("EnsureToEnableColumnEncryptionInConnectionString_Source", resourceCulture);
             }
         }
         

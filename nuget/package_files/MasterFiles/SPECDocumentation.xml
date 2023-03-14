@@ -2328,4 +2328,151 @@ https://cwe.mitre.org/data/definitions/120.html</english>
   <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="description">
+    <english>This rule detects action where a parameter of the Thread.Sleep method comes from an argument of a controller action.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="name">
+    <english>Avoid using Thread.Sleep with dynamic parameter in a controller action</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="rationale">
+    <english>There is no reason to have an externally-controlled value of the sleep duration. Thread are critical resources.
+If the iteration can be influenced by an attacker, this weakness could allow attackers to consume excessive Thread resources.
+It can lead to resource exhaution and then to denial of service.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="reference">
+    <english>CWE-834: Excessive Iteration
+https://cwe.mitre.org/data/definitions/834.html
+
+
+OWASP Cheat Sheet Series - Denial of Service Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="remediation">
+    <english>Use a static value for the parameter of Thread.Sleep.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="remediationSample">
+    <english>public class FormController : Controller
+    {
+    public void Sleep()
+    {
+        Thread.Sleep(2000); // FIXED
+    }
+}
+or
+public class FormController : Controller
+    {
+    private void Sleep(int sleep)  // FIXED
+    {
+        Thread.Sleep(sleep); 
+    }
+}</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="sample">
+    <english>public class FormController : Controller
+    {
+    public void Sleep(int sleep)
+    {
+        Thread.Sleep(sleep); // VIOLATION
+    }
+}</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="description">
+    <english>Since .NET version 4.6.0, it is possible to use this transparent mechanism to access encrypted columns in SQL Server or other Always Encrypted-enabled databases.
+Scope : SQL Server, Azure SQL Database, Azure SQL Managed Instance.
+This rule checks the presence of "Column Encryption Setting=enabled" in the connection string.</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="name">
+    <english>Ensure to enable column encryption in connection string</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="rationale">
+    <english>Introduced in Azure SQL Database in 2015 and in SQL Server 2016 (13.x), Always Encrypted protects the confidentiality of sensitive data from malware and high-privileged unauthorized users: Database Administrators (DBAs), computer admins, cloud admins, or anyone else who has legitimate access to server instances, hardware, etc., but shouldn't have access to some or all of the actual data.
+Always Encrypted enables customers to confidently store their sensitive data in the cloud, and to reduce the likelihood of data theft by malicious insiders.
+
+Without this feature, an attacker with access to the system could read sensitive information stored in cleartext.
+With Always Encrypted, only users and applications with access to valid keys can decrypt the data, so MTM attacks, insider threats, etc. are nullified.
+
+If the option is not set, the values that are retrieved from encrypted columns and returned in query results are not transparently decrypted.</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="reference">
+    <english>Using Always Encrypted with the .NET Framework Data Provider for SQL Server
+https://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider?view=sql-server-ver16
+
+CWE-311: Missing Encryption of Sensitive Data
+https://cwe.mitre.org/data/definitions/311.html</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="remediation">
+    <english>Add the option at the end of the connection string : Column Encryption Setting=enabled
+
+or with the specific property SqlConnectionStringBuilder.ColumnEncryptionSetting Property. ==&gt; Does the rule check that also ?</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="remediationSample">
+    <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true; Column Encryption Setting=enabled";   // FIXED
+SqlConnection connection = new SqlConnection(connectionString);</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="sample">
+    <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true";    // VIOLATION
+SqlConnection connection = new SqlConnection(connectionString);</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="total">
+    <english>Number of .Net Methods</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="description">
+    <english>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="name">
+    <english>Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="rationale">
+    <english>If two threads of execution use a resource simultaneously, there exists the possibility that resources may be used while invalid, in turn making the state of execution undefined.</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="reference">
+    <english>CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')
+https://cwe.mitre.org/data/definitions/362.html
+
+CWE-366: Race Condition within a Thread
+https://cwe.mitre.org/data/definitions/366.html</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="remediation">
+    <english>TBD</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="sample">
+    <english>public partial class _Default : System.Web.UI.Page
+    {
+        public static string secret = "None";
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            secret = Request.Params["secret"];// VIOLATION
+        }
+    }</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>

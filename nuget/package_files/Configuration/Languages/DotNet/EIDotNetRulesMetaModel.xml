@@ -356,6 +356,33 @@
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
+
+    <property name="AvoidUsingThreadSleepWithDynamicParameterInAControllerAction" type="integer"  merge="sum" rid="41">
+      <description>Avoid using Thread.Sleep with dynamic parameter in a controller action</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="41"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="EnsureToEnableColumnEncryptionInConnectionString" type="integer"  merge="sum" rid="42">
+      <description>Ensure to enable column encryption in connection string</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="42"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage" type="integer"  merge="sum" rid="43">
+      <description>Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="43"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
     
   </category>
 

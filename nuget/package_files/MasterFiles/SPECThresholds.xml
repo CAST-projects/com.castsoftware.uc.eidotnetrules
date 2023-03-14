@@ -40,4 +40,7 @@
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
   <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
 </root>

@@ -42,4 +42,7 @@
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" filter="138636" filterLabel="ASP .Net" />
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" filter="138383" filterLabel="C#" />
   <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" filter="138383" filterLabel="C#" />
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" filter="138383" filterLabel="C#" />
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" filter="138383" filterLabel="C#" />
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" filter="138383" filterLabel="C#" />
 </root>
