@@ -26,7 +26,9 @@ namespace UnitTests.UnitTest
                 .Apply(testSrc);
 
             checker
-                //.AddExpected(34, 16)
+                .AddExpected(20, 12)
+                .AddExpected(26, 12)
+                .AddExpected(38, 16)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());
