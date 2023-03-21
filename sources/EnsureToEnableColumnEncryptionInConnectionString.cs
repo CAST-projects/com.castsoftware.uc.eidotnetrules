@@ -53,6 +53,9 @@ namespace CastDotNetExtension
         {
             try
             {
+                if (_sqlConnectionSymbol == null)
+                    return;
+
                 var model = context.SemanticModel;
 
                 var objCreationType = model.GetTypeInfo(context.Node).Type as INamedTypeSymbol;
@@ -136,10 +139,7 @@ namespace CastDotNetExtension
                                 return;
                             }
                         }
-                    }
-
-                    
-
+                    } 
                 }
 
                 var eqValNodes = containingMethod.DescendantNodes().OfType<EqualsValueClauseSyntax>();
@@ -156,12 +156,6 @@ namespace CastDotNetExtension
 
                 var pos = context.Node.GetLocation().GetMappedLineSpan();
                 AddViolation(methodSymbol, new[] { pos });
-                //foreach (var dataModel in intersectDataModels)
-                //{
-                //    var dataSaveNode = dataSaved[dataModel];
-                //    var pos = dataSaveNode.GetLocation().GetMappedLineSpan();
-                //    AddViolation(methodSymbol, new[] { pos });
-                //}
 
             }
             catch (Exception e)

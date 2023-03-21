@@ -20,13 +20,11 @@ namespace UnitTests.UnitTest
             Assert.IsTrue(checker != null);
 
             checker
-                //.AddAssemblyRef(@"TestAssemblies\System.Web.Mvc.dll")
-                //.AddAssemblyRef(@"TestAssemblies\Microsoft.AspNetCore.Mvc.ViewFeatures.dll")
-                //.AddAssemblyRef(@"TestAssemblies\Microsoft.AspNetCore.Mvc.Core.dll")
+                .AddAssemblyRef(@"TestAssemblies\System.Web.dll")
                 .Apply(testSrc);
 
             checker
-                //.AddExpected(34, 16)
+                .AddExpected(19, 16)
                 .Validate();
             Console.WriteLine(checker.getStatus());
             Assert.IsTrue(checker.IsValid(), checker.getStatus());
