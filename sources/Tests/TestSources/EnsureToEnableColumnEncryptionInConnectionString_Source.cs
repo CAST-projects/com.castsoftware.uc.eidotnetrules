@@ -56,5 +56,16 @@ namespace UnitTests.UnitTest.Sources
             builder3["Column Encryption Setting"] = "enabled"; // Fixed
             SqlConnection connection3 = new SqlConnection(builder3.ConnectionString);
         }
+
+        public void NoConnectionString()
+        {
+            SqlConnection connection = new SqlConnection();
+        }
+
+        private string conString = "";
+        public void NonLocalConnectionString()
+        {
+            SqlConnection connection = new SqlConnection(conString);
+        }
     }
 }

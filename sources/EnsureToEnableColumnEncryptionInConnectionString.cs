@@ -58,6 +58,16 @@ namespace CastDotNetExtension
 
                 var model = context.SemanticModel;
 
+                var objectCreationNode = context.Node as ObjectCreationExpressionSyntax;
+                if (objectCreationNode.ArgumentList.Arguments.Count == 0) // no argument
+                    return;
+                var conStringSymbInfo = model.GetSymbolInfo(objectCreationNode.ArgumentList.Arguments.First().Expression);
+                if(conStringSymbInfo.Symbol!=null)
+                {
+                    if (conStringSymbInfo.Symbol.Kind == SymbolKind.Field)
+                        return;
+                }
+
                 var objCreationType = model.GetTypeInfo(context.Node).Type as INamedTypeSymbol;
                 if (objCreationType == null)
                     return;
