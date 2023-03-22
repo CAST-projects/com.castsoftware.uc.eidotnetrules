@@ -7886,14 +7886,32 @@ https://cwe.mitre.org/data/definitions/311.html</METRIC_DESCRIPTION>
     <DESCRIPTION_TYPE_ID>5</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true";    // VIOLATION
-SqlConnection connection = new SqlConnection(connectionString);</METRIC_DESCRIPTION>
+SqlConnection connection = new SqlConnection(connectionString);
+
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);// Violation</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200082</METRIC_ID>
     <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
     <METRIC_DESCRIPTION>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true; Column Encryption Setting=enabled";   // FIXED
-SqlConnection connection = new SqlConnection(connectionString);</METRIC_DESCRIPTION>
+SqlConnection connection = new SqlConnection(connectionString);
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+strbldr.ColumnEncryptionSetting = SqlConnectionColumnEncryptionSetting.Enabled; // Fixed
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200082</METRIC_ID>
@@ -7931,13 +7949,13 @@ SqlConnection connection = new SqlConnection(connectionString);</METRIC_DESCRIPT
     <METRIC_ID>2200084</METRIC_ID>
     <DESCRIPTION_TYPE_ID>2</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
-    <METRIC_DESCRIPTION>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page</METRIC_DESCRIPTION>
+    <METRIC_DESCRIPTION>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page without preventing race  condition.</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200084</METRIC_ID>
     <DESCRIPTION_TYPE_ID>3</DESCRIPTION_TYPE_ID>
     <LANGUAGE>ENGLISH</LANGUAGE>
-    <METRIC_DESCRIPTION>TBD</METRIC_DESCRIPTION>
+    <METRIC_DESCRIPTION>Do not modify static variable in method from classes inheriting from System.Web.UI.Page without preventing race condition in the same method.</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>
   <DSS_METRIC_DESCRIPTIONS>
     <METRIC_ID>2200084</METRIC_ID>
@@ -7959,6 +7977,23 @@ https://cwe.mitre.org/data/definitions/366.html</METRIC_DESCRIPTION>
         protected void Page_Load(object sender, EventArgs e)
         {
             secret = Request.Params["secret"];// VIOLATION
+        }
+    }</METRIC_DESCRIPTION>
+  </DSS_METRIC_DESCRIPTIONS>
+  <DSS_METRIC_DESCRIPTIONS>
+    <METRIC_ID>2200084</METRIC_ID>
+    <DESCRIPTION_TYPE_ID>6</DESCRIPTION_TYPE_ID>
+    <LANGUAGE>ENGLISH</LANGUAGE>
+    <METRIC_DESCRIPTION>public partial class _Default : System.Web.UI.Page
+    {
+        public static string secret = "None";
+        static object locker = new object();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            lock (locker)
+            {
+               secret = Request.Params["secret"];//NO VIOLATION
+            }
         }
     }</METRIC_DESCRIPTION>
   </DSS_METRIC_DESCRIPTIONS>

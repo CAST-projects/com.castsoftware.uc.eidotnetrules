@@ -2426,11 +2426,29 @@ or with the specific property SqlConnectionStringBuilder.ColumnEncryptionSetting
   </metric>
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="remediationSample">
     <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true; Column Encryption Setting=enabled";   // FIXED
-SqlConnection connection = new SqlConnection(connectionString);</english>
+SqlConnection connection = new SqlConnection(connectionString);
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+strbldr.ColumnEncryptionSetting = SqlConnectionColumnEncryptionSetting.Enabled; // Fixed
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);</english>
   </metric>
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="sample">
     <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true";    // VIOLATION
-SqlConnection connection = new SqlConnection(connectionString);</english>
+SqlConnection connection = new SqlConnection(connectionString);
+
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);// Violation</english>
   </metric>
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="total">
     <english>Number of .Net Methods</english>
@@ -2439,7 +2457,7 @@ SqlConnection connection = new SqlConnection(connectionString);</english>
     <english>Number of violation occurrences</english>
   </metric>
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="description">
-    <english>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page</english>
+    <english>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page without preventing race  condition.</english>
   </metric>
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="name">
     <english>Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page</english>
@@ -2460,7 +2478,21 @@ CWE-366: Race Condition within a Thread
 https://cwe.mitre.org/data/definitions/366.html</english>
   </metric>
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="remediation">
-    <english>TBD</english>
+    <english>Do not modify static variable in method from classes inheriting from System.Web.UI.Page without preventing race condition in the same method.</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="remediationSample">
+    <english>public partial class _Default : System.Web.UI.Page
+    {
+        public static string secret = "None";
+        static object locker = new object();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            lock (locker)
+            {
+               secret = Request.Params["secret"];//NO VIOLATION
+            }
+        }
+    }</english>
   </metric>
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="sample">
     <english>public partial class _Default : System.Web.UI.Page
