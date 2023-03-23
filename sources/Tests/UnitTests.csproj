@@ -127,7 +127,6 @@
     <Compile Include="TestAvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage.cs" />
     <Compile Include="TestAvoidStoringPasswordInString.cs" />
     <Compile Include="TestAvoidUnsafeObjectBinding.cs" />
-    <Compile Include="TestAvoidUsingThreadSleepWithDynamicParameterInAControllerAction.cs" />
     <Compile Include="TestAvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="TestAvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="TestAvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference.cs" />
@@ -167,7 +166,6 @@
     <Compile Include="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
     <Compile Include="TestSources\AvoidStoringPasswordInString_Source.cs" />
     <Compile Include="TestSources\AvoidUnsafeObjectBinding_Source.cs" />
-    <Compile Include="TestSources\AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Include="TestSources\AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />

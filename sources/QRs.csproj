@@ -54,7 +54,6 @@
     <Compile Include="AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage.cs" />
     <Compile Include="AvoidStoringPasswordInString.cs" />
     <Compile Include="AvoidUnsafeObjectBinding.cs" />
-    <Compile Include="AvoidUsingThreadSleepWithDynamicParameterInAControllerAction.cs" />
     <Compile Include="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference.cs" />
     <Compile Include="AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference.cs" />
