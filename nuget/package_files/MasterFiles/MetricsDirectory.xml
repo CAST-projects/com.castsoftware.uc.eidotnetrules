@@ -55,7 +55,7 @@
   <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" active="true" detached="false" ignored="false" />
   <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" active="true" detached="false" ignored="false" />
   <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" active="true" detached="false" ignored="false" />
-  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" active="true" detached="false" ignored="false" />
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" active="false" detached="true" ignored="false" />
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" active="true" detached="false" ignored="false" />
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" active="true" detached="false" ignored="false" />
 </root>

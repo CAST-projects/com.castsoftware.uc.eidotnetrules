@@ -543,14 +543,18 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Threading;
+        ///using System.Web.UI;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
-        ///    public class AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source
+        ///    public class AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source 
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        //CWE-366: Race Condition within a Thread
+        ///        public partial class _Default : System.Web.UI.Page
+        ///        {
+        ///            public static string secret = &quot;None&quot;;
+        ///            stati [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source {
             get {
@@ -642,28 +646,6 @@ namespace UnitTests.Properties {
             get {
                 return ResourceManager.GetString("AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Sou" +
                         "rce", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using System.Web.Mvc;
-        ///
-        ///namespace UnitTests.UnitTest.Sources
-        ///{
-        ///    public class AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source
-        ///    {
-        ///    }
-        ///}
-        ///.
-        /// </summary>
-        internal static string AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source {
-            get {
-                return ResourceManager.GetString("AvoidUsingThreadSleepWithDynamicParameterInAControllerAction_Source", resourceCulture);
             }
         }
         
@@ -963,14 +945,17 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Data.SqlClient;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
         ///    public class EnsureToEnableColumnEncryptionInConnectionString_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        public void Missing_column_encryption()
+        ///        {
+        ///            SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+        ///            strbldr.DataSource = &quot;server63&quot;;
+        ///            strbldr.InitialCatalog = &quot;Clinic&quot;;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureToEnableColumnEncryptionInConnectionString_Source {
             get {
