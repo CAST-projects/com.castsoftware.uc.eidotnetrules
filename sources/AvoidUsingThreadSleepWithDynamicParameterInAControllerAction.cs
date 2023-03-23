@@ -46,8 +46,8 @@ namespace CastDotNetExtension
         /// <param name="context"></param>
         public override void Init(AnalysisContext context)
         {
-            context.RegisterCompilationStartAction(OnCompilationStart);
-            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration);
+            //context.RegisterCompilationStartAction(OnCompilationStart);
+            //context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration);
         }
 
         private void OnCompilationStart(CompilationStartAnalysisContext context)
