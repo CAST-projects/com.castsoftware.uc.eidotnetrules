@@ -47,6 +47,7 @@
     <Compile Remove="TestSources\EnsureProperArgumentsToEvents_Source.cs" />
     <Compile Remove="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Remove="TestSources\EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source.cs" />
+    <Compile Remove="TestSources\EnsureToEnableColumnEncryptionInConnectionString_Source.cs" />
     <Compile Remove="TestSources\ForLoopConditionShouldBeInvariant_Source.cs" />
     <Compile Remove="TestSources\InheritedMemberVisibilityShouldNotBeDecreased_Source.cs" />
     <Compile Remove="TestSources\InterfaceInstancesShouldNotBeCastToConcreteTypes_Source.cs" />
@@ -105,6 +106,7 @@
     <Resource Include="TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Resource Include="TestSources\AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Resource Include="TestSources\EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source.cs" />
+    <Resource Include="TestSources\EnsureToEnableColumnEncryptionInConnectionString_Source.cs" />
   </ItemGroup>
 
 </Project>
