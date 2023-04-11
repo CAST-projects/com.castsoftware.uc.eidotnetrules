@@ -220,6 +220,9 @@
   <data name="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\TestSources\AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="AvoidUnsafeObjectBinding_Source" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\TestSources\AvoidUnsafeObjectBinding_Source.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
