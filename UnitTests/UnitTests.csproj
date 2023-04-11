@@ -25,6 +25,7 @@
     <Compile Remove="TestSources\AvoidDirectUseOfThreads_Source.cs" />
     <Compile Remove="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <Compile Remove="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
+    <Compile Remove="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Remove="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
     <Compile Remove="TestSources\AvoidMethodsNamedWithoutFollowingSynchronousAsynchronousConvention_Source.cs" />
     <Compile Remove="TestSources\AvoidNullPointerDereference_Source.cs" />
@@ -85,6 +86,7 @@
   <ItemGroup>
     <Resource Include="TestSources\AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source.cs" />
     <Resource Include="TestSources\AvoidDirectUseOfThreads_Source.cs" />
+    <Resource Include="TestSources\AvoidHiddenFormField_Source.cs" />
   </ItemGroup>
 
 </Project>
