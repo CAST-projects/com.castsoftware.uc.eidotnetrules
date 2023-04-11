@@ -58,7 +58,7 @@ namespace UnitTests.UnitTest
              .Validate();
 
          try {
-            Assert.IsTrue(checker.IsValid(), checker.getStatus());
+            Assert.IsTrue(checker.IsValid(), checker.GetStatus());
          } catch (Exception e) {
 #if DEBUG
             Console.Write(e.StackTrace);

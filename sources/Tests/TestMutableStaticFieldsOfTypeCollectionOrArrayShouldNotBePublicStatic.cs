@@ -29,7 +29,7 @@ namespace UnitTests.UnitTest {
                .AddExpected(41, 36)
              .Validate();
 
-         Assert.IsTrue(checker.IsValid(), checker.getStatus());
+         Assert.IsTrue(checker.IsValid(), checker.GetStatus());
 
          //Assert.IsFalse(checker.ResultsMissing.Any());
          //Assert.IsFalse(checker.ResultsUnexpected.Any());

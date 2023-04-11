@@ -21,17 +21,17 @@ namespace UnitTests.UnitTest
          checker
              .Apply(testSrc);
 
-         //checker
-         //    .AddExpected(13, 7)
-         //    .AddExpected(19, 10)
-         //    .AddExpected(25, 7)
-         //    .AddExpected(31, 10)
-         //    .AddExpected(36, 10)
-         //    .AddExpected(39, 13)
-         //    .AddExpected(45, 13)
-         //    .Validate();
+         checker
+             .AddExpected(13, 7)
+             .AddExpected(19, 10)
+             .AddExpected(25, 7)
+             .AddExpected(31, 10)
+             .AddExpected(36, 10)
+             .AddExpected(39, 13)
+             .AddExpected(45, 13)
+             .Validate();
 
-         //Assert.IsTrue(checker.IsValid(), checker.getStatus());
+         Assert.IsTrue(checker.IsValid(), checker.GetStatus());
 
          //Assert.IsFalse(checker.ResultsMissing.Any());
          //Assert.IsFalse(checker.ResultsUnexpected.Any());

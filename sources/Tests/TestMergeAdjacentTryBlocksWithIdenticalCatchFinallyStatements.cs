@@ -33,7 +33,7 @@ namespace UnitTests.UnitTest
          .AddExpected(208, 10)
          .Validate();
 
-         Assert.IsTrue(checker.IsValid(), checker.getStatus());
+         Assert.IsTrue(checker.IsValid(), checker.GetStatus());
 
          //Assert.IsFalse(checker.ResultsMissing.Any());
          //Assert.IsFalse(checker.ResultsUnexpected.Any());

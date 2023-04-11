@@ -35,8 +35,8 @@ namespace UnitTests.UnitTest
                 .AddExpected(93, 16)
                 .AddExpected(107, 16)
                 .Validate();
-            Console.WriteLine(checker.getStatus());
-            Assert.IsTrue(checker.IsValid(), checker.getStatus());
+            Console.WriteLine(checker.GetStatus());
+            Assert.IsTrue(checker.IsValid(), checker.GetStatus());
 
             //Assert.IsFalse(checker.ResultsMissing.Any());
             //Assert.IsFalse(checker.ResultsUnexpected.Any());

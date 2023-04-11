@@ -28,8 +28,8 @@ namespace UnitTests.UnitTest
                .AddExpected(34, 23)
                .AddExpected(56, 12)
                 .Validate();
-            Console.WriteLine(checker.getStatus());
-            Assert.IsTrue(checker.IsValid(), checker.getStatus());
+            Console.WriteLine(checker.GetStatus());
+            Assert.IsTrue(checker.IsValid(), checker.GetStatus());
 
             //Assert.IsFalse(checker.ResultsMissing.Any());
             //Assert.IsFalse(checker.ResultsUnexpected.Any());
