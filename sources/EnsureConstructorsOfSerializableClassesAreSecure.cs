@@ -44,8 +44,8 @@ namespace CastDotNetExtension
                      foreach (var ctor in namedType.Constructors) {
                         bool isSerializingCtor = false;
                         if (2 == ctor.Parameters.Length &&
-                           "System.Runtime.Serialization.SerializationInfo" == ctor.Parameters.ElementAt(0).OriginalDefinition.ToString() &&
-                           "System.Runtime.Serialization.StreamingContext" == ctor.Parameters.ElementAt(1).OriginalDefinition.ToString()
+                           "System.Runtime.Serialization.SerializationInfo" == ctor.Parameters.ElementAt(0).OriginalDefinition.Type.ToString() &&
+                           "System.Runtime.Serialization.StreamingContext" == ctor.Parameters.ElementAt(1).OriginalDefinition.Type.ToString()
                            ) {
                            ctorSerializing = ctor;
                            isSerializingCtor = true;
