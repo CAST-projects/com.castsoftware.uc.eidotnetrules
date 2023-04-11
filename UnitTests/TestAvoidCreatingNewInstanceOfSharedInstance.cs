@@ -13,13 +13,6 @@ namespace UnitTests.UnitTest
     class TestAvoidCreatingNewInstanceOfSharedInstance
     {
 
-        public static DirectoryInfo GetExecutingDirectory()
-        {
-            var location = new Uri(Assembly.GetCallingAssembly().GetName().CodeBase);
-            var path = Uri.UnescapeDataString(location.AbsolutePath);
-            return new FileInfo(path).Directory;
-        }
-
         [Test]
         public void Test_operations()
         {
@@ -28,7 +21,7 @@ namespace UnitTests.UnitTest
             var checker = CastDotNetExtensionChecker<AvoidCreatingNewInstanceOfSharedInstance>.CreateInstance()
                ;
 
-            var pathPackagesUnitTests = Path.Combine(GetExecutingDirectory().FullName, "PackagesUnitTests");
+            var pathPackagesUnitTests = Path.Combine(UnitTestHelper.GetExecutingDirectory().FullName, "PackagesUnitTests");
 
             // 3 assemblies copied from @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\" folder
             checker = checker

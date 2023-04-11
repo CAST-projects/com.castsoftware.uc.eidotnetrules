@@ -32,6 +32,7 @@
     <Compile Remove="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Compile Remove="TestSources\AvoidRecursiveTypeInheritance_Source.cs" />
     <Compile Remove="TestSources\AvoidSecurityCriticalInformationExposure_Source.cs" />
+    <Compile Remove="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
     <Compile Remove="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
     <Compile Remove="TestSources\ChildClassFieldsShouldNotShadowParentClassFields_Source.cs" />
     <Compile Remove="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
@@ -91,6 +92,7 @@
     <Resource Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Resource Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Resource Include="TestSources\AvoidSecurityCriticalInformationExposure_Source.cs" />
+    <Resource Include="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
   </ItemGroup>
 
 </Project>
