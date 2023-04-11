@@ -19,7 +19,7 @@ namespace UnitTests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class SourcesToTest {
@@ -125,6 +125,33 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source
+        ///    {
+        ///        /*
+        ///         CWE 120 : Buffer_Overflow
+        ///         */
+        ///        public int GetString(ref byte[] buffer, int buflen)
+        ///        {
+        ///            string mystring = &quot;hello world&quot;;
+        ///
+        ///            // I have tried this:
+        ///            System.Text.UTF8Encoding encoding = new Syste [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source {
+            get {
+                return ResourceManager.GetString("AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Dynamic;
         ///
         ///
@@ -197,6 +224,34 @@ namespace UnitTests.Properties {
         ///using System.Collections.Generic;
         ///using System.Linq;
         ///using System.Text;
+        ///using System.Threading;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidDirectUseOfThreads_Source
+        ///    {
+        ///        public static void ThreadProc()
+        ///        {
+        ///            for (int i = 0; i &lt; 10; i++)
+        ///            {
+        ///                Console.WriteLine(&quot;ThreadProc: {0}&quot;, i);
+        ///                // Yield the rest of the time slice.
+        ///                Thread.Sleep(0);
+        ///            }
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidDirectUseOfThreads_Source {
+            get {
+                return ResourceManager.GetString("AvoidDirectUseOfThreads_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
         ///using System.Threading.Tasks;
         ///using System.Diagnostics;
         ///
@@ -230,16 +285,50 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    class AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source
+        ///    public class AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source
         ///    {
         ///
-        ///    }
-        ///}
-        ///.
+        ///        public void func1() {}
+        ///        public void func2() {}
+        ///        public void Run() 
+        ///        {
+        ///            int val = -1;
+        ///            if (val == 1)
+        ///            {
+        ///                func1();
+        ///            }
+        ///             else if (val == 2)
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source {
             get {
                 return ResourceManager.GetString("AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web.UI.HtmlControls;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    class AvoidHiddenFormField_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            HtmlInputHidden hidden = new HtmlInputHidden();
+        ///        }
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidHiddenFormField_Source {
+            get {
+                return ResourceManager.GetString("AvoidHiddenFormField_Source", resourceCulture);
             }
         }
         
@@ -364,6 +453,33 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Data.SqlClient;
+        ///using System.Data.Common;
+        ///using System.Data;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    class AvoidPersistSecurityInfoInConnectionString_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///
+        ///            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+        ///            builder[&quot;Data Source&quot;] = &quot;(local)&quot;;
+        ///            builder[&quot;Persist  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidPersistSecurityInfoInConnectionString_Source {
+            get {
+                return ResourceManager.GetString("AvoidPersistSecurityInfoInConnectionString_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources {
         ///   public class AvoidRecursiveTypeInheritance_Source {
@@ -397,6 +513,123 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Security;
+        ///using System.Diagnostics;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidSecurityCriticalInformationExposure_Source
+        ///    {
+        ///        [SecurityCritical]
+        ///        static int x = 10;
+        ///        private string _password = &quot;pass&quot;;
+        ///        public string Password
+        ///        {
+        ///            [SecurityCritical]
+        ///            get { return _password; }
+        ///        }
+        ///
+        ///        [ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidSecurityCriticalInformationExposure_Source {
+            get {
+                return ResourceManager.GetString("AvoidSecurityCriticalInformationExposure_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Threading;
+        ///using System.Web.UI;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source 
+        ///    {
+        ///        //CWE-366: Race Condition within a Thread
+        ///        public partial class _Default : System.Web.UI.Page
+        ///        {
+        ///            public static string secret = &quot;None&quot;;
+        ///            stati [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source {
+            get {
+                return ResourceManager.GetString("AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Sou" +
+                        "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidStoringPasswordInString_Source
+        ///    {
+        ///        private string Password { get; set; } // violation
+        ///
+        ///        private string _passwd; // violation
+        ///
+        ///        public void SetPassword(string newPassword) // violation
+        ///        {
+        ///            var passwd = newPassword;
+        ///            var authorization = newPassword;
+        ///            Password [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidStoringPasswordInString_Source {
+            get {
+                return ResourceManager.GetString("AvoidStoringPasswordInString_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web.Mvc;
+        ///using System.Data.Entity;
+        ///using System.Web.ModelBinding;
+        ///using System.ComponentModel;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class AvoidUnsafeObjectBinding_Source
+        ///    {
+        ///
+        ///    }
+        ///
+        ///    public class UserDbcontext : DbContext
+        ///    {
+        ///
+        ///        public DbSet&lt;User&gt; Users { get; set; }
+        ///        public DbSet&lt;string&gt; Names { get; set; }
+        ///
+        ///    }
+        ///
+        ///    pu [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidUnsafeObjectBinding_Source {
+            get {
+                return ResourceManager.GetString("AvoidUnsafeObjectBinding_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Reflection;
         ///
         ///
@@ -413,6 +646,85 @@ namespace UnitTests.Properties {
             get {
                 return ResourceManager.GetString("AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Sou" +
                         "rce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            // .NET Framework &lt; 4.5.2
+        ///            XmlDocument parser = new XmlDocument(); // VIOLATION: XmlDocument is not safe by default
+        ///            parser.LoadXml(&quot;xxe.xml&quot;);
+        ///        }
+        ///
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///        public void func()
+        ///        {
+        ///            // .NET Framework &lt; 4.5.2
+        ///            XmlTextReader reader = new XmlTextReader(&quot;xxe.xml&quot;); // VIOLATION: XmlTextReader is not safe by default
+        ///            while (reader.Read())
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Xml;
+        ///using System.Xml.XPath;
+        ///
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source
+        ///    {
+        ///
+        ///        public void function()
+        ///        {
+        ///            XPathDocument doc = new XPathDocument(&quot;example.xml&quot;);
+        ///            XPathNavigator nav = doc.CreateNavigator();
+        ///            string xml = nav.InnerX [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source {
+            get {
+                return ResourceManager.GetString("AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference_Source", resourceCulture);
             }
         }
         
@@ -583,6 +895,9 @@ namespace UnitTests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using System.Runtime.Serialization;
+        ///using System.Xml;
+        ///using System.Xml.Schema;
+        ///using System.Xml.Serialization;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
@@ -590,12 +905,61 @@ namespace UnitTests.Properties {
         ///   {
         ///      private class SerializableAttributeKO : ISerializable // Violation: No Serializable attribute
         ///      {
-        ///         protected SerializableAttributeKO(SerializationInfo info, StreamingContext context) { }
-        ///         public virtual void G [rest of string was truncated]&quot;;.
+        ///         protected SerializableAttributeKO(Seriali [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureSerializableTypesFollowBestPractices_Source {
             get {
                 return ResourceManager.GetString("EnsureSerializableTypesFollowBestPractices_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source
+        ///    {
+        ///        static void foo(string firstName)
+        ///        {
+        ///            HttpContext context = HttpContext.Current;
+        ///            context.Session[&quot;FirstName&quot;] = firstName; // VIOLATION
+        ///        }
+        ///
+        ///        static void foo(string firstName, HttpConte [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source {
+            get {
+                return ResourceManager.GetString("EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Data.SqlClient;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    public class EnsureToEnableColumnEncryptionInConnectionString_Source
+        ///    {
+        ///        public void Missing_column_encryption()
+        ///        {
+        ///            SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+        ///            strbldr.DataSource = &quot;server63&quot;;
+        ///            strbldr.InitialCatalog = &quot;Clinic&quot;;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EnsureToEnableColumnEncryptionInConnectionString_Source {
+            get {
+                return ResourceManager.GetString("EnsureToEnableColumnEncryptionInConnectionString_Source", resourceCulture);
             }
         }
         
