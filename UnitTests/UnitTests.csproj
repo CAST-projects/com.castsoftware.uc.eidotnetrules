@@ -35,6 +35,7 @@
     <Compile Remove="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
     <Compile Remove="TestSources\AvoidStoringPasswordInString_Source.cs" />
     <Compile Remove="TestSources\AvoidUnsafeObjectBinding_Source.cs" />
+    <Compile Remove="TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
     <Compile Remove="TestSources\AvoidUsing_Assembly_LoadFrom_Assembly_LoadFileAndAssembly_LoadWithPartialName_Source.cs" />
     <Compile Remove="TestSources\ChildClassFieldsShouldNotShadowParentClassFields_Source.cs" />
     <Compile Remove="TestSources\ClassesImplementingIEquatableTShouldBeSealed_Source.cs" />
@@ -97,6 +98,7 @@
     <Resource Include="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
     <Resource Include="TestSources\AvoidStoringPasswordInString_Source.cs" />
     <Resource Include="TestSources\AvoidUnsafeObjectBinding_Source.cs" />
+    <Resource Include="TestSources\AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference_Source.cs" />
   </ItemGroup>
 
 </Project>
