@@ -19,8 +19,10 @@
   <ItemGroup>
     <Compile Remove="TestSources\AvoidAssignmentsInSubExpressions_Source.cs" />
     <Compile Remove="TestSources\AvoidClassesWithTooManyConstructors_QualUatExample.cs" />
+    <Compile Remove="TestSources\AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source.cs" />
     <Compile Remove="TestSources\AvoidCreatingExceptionWithoutThrowingThem_Source.cs" />
     <Compile Remove="TestSources\AvoidCreatingNewInstanceOfSharedInstance_Source.cs" />
+    <Compile Remove="TestSources\AvoidDirectUseOfThreads_Source.cs" />
     <Compile Remove="TestSources\AvoidEmptyFinalizers_Source.cs" />
     <Compile Remove="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
     <Compile Remove="TestSources\AvoidLocalVariablesShadowingClassFields_Source.cs" />
@@ -65,10 +67,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestSources\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Sources\EICastQualityRules.csproj" />
   </ItemGroup>
 
@@ -82,6 +80,11 @@
     <Reference Include="RoslynToolBox">
       <HintPath>..\sources\Packages\RoslynToolBox.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="TestSources\AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source.cs" />
+    <Resource Include="TestSources\AvoidDirectUseOfThreads_Source.cs" />
   </ItemGroup>
 
 </Project>
