@@ -121,9 +121,6 @@ namespace CastDotNetExtension
       {
       }
 
-      private Task _violationTask;
-
-
       /// <summary>
       /// Initialize the QR with the given context and register all the syntax nodes
       /// to listen during the visit and provide a specific callback for each one
@@ -154,40 +151,32 @@ namespace CastDotNetExtension
                   GetRuleName(), context.Compilation.Assembly);
             }
 
-            _violationTask = Task.Run(() =>
+            try
             {
-
-               try
-               {
-                  AllSymbolsSecurityAttrVisitor visitor = new AllSymbolsSecurityAttrVisitor(securityAttributeSymbols);
-                  visitor.Visit(context.Compilation.Assembly);
-                  foreach (var violation in visitor.Violations)
-                  {
-                     AddViolation(violation.Key,
-                        new[]
-                        {
-                           violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation()
-                              .GetMappedLineSpan(),
-                           violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation()
-                              .GetMappedLineSpan()
-                        });
-                  }
-               }
-               catch (Exception e)
-               {
-                  Log.Warn("Exception while analyzing " + context.Compilation.Assembly.Name, e);
-               }
-            });
+                var visitor = new AllSymbolsSecurityAttrVisitor(securityAttributeSymbols);
+                visitor.Visit(context.Compilation.Assembly);
+                foreach (var violation in visitor.Violations)
+                {
+                    AddViolation(violation.Key,
+                    new[]
+                    {
+                        violation.Value.Item1.ApplicationSyntaxReference.GetSyntax().GetLocation()
+                            .GetMappedLineSpan(),
+                        violation.Value.Item2.ApplicationSyntaxReference.GetSyntax().GetLocation()
+                            .GetMappedLineSpan()
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Warn("Exception while analyzing " + context.Compilation.Assembly.Name, e);
+            }
          }
 
       }
 
       public override void Reset()
       {
-         if (null != _violationTask && TaskStatus.Running == _violationTask.Status) {
-            Log.Info("Violation task is still running. Going to wait.");
-            _violationTask.Wait();
-         }
          base.Reset();
       }
 
