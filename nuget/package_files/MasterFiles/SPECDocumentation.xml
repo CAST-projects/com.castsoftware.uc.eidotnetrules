@@ -683,7 +683,6 @@ var lowered = someString.ToLowerInvariant();</english>
   </metric>
   <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediation">
     <english>Make visibility of fields protected\private or make them of type Immutable\read-only. This can done through:
-- make fields read-only (with inline initialization)
 - is of type 
       System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt;
       System.Collections.ObjectModel.ReadOnlyDictionary&lt;TKey, TValue&gt;
@@ -692,7 +691,8 @@ var lowered = someString.ToLowerInvariant();</english>
       System.Collections.Immutable.IImmutableList&lt;T&gt;
       System.Collections.Immutable.IImmutableSet&lt;T&gt;
       System.Collections.Immutable.IImmutableStack&lt;T&gt;
-      System.Collections.Immutable.IImmutableQueue&lt;T&gt;</english>
+      System.Collections.Immutable.IImmutableQueue&lt;T&gt;
+- make fields read-only (with inline initialization with an immutable type )</english>
   </metric>
   <metric id="2200024" type="quality-rule" originalName="Mutable static fields of type System.Collections.Generic.ICollection&lt;T&gt; or System.Array should not be public static" section="remediationSample">
     <english>public class A
@@ -1496,5 +1496,1015 @@ switch (i) // VIOLATION BECAUSE THERE IS A DEFAULT BLOCK
   </metric>
   <metric id="2200052" type="quality-rule" originalName="Avoid having the same implementation in ALL BRANCHES of a conditional structure" section="total">
     <english>Number of methods</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="description">
+    <english>Reports all .Net methods calling ConnectionStringBuilder.PersistSecurityInfo with True as parameter value.
+The following ConnectionStringBuilder are considered:
+   
+System.Data.SqlClient.SqlConnectionStringBuilder    
+System.Data.OleDb.OleDbConnectionStringBuilder    
+System.Data.Odbc.OdbcConnectionStringBuilder    
+System.Data.OracleClient.OracleConnectionStringBuilder    
+System.Data.EntityClient.EntityConnectionStringBuilder    
+Microsoft.Data.SqlClient.SqlConnectionStringBuilder    
+Microsoft.Data.OleDb.OleDbConnectionStringBuilder    
+Microsoft.Data.Odbc.OdbcConnectionStringBuilder    
+Microsoft.Data.OracleClient.OracleConnectionStringBuilder    
+Microsoft.Data.EntityClient.EntityConnectionStringBuilder
+IBM.Data.DB2.DB2ConnectionStringBuilder
+IBM.Data.DB2.iSeries.iDB2ConnectionStringBuilder
+MySql.Data.MySqlClient.MySqlConnectionStringBuilder
+MySql.Data.MySqlClient.MySqlBaseConnectionStringBuilder
+MySqlConnector.MySqlConnectionStringBuilder
+Devart.Data.MySql.MySqlConnectionStringBuilder
+Oracle.DataAccess.Client.OracleConnectionStringBuilder
+Oracle.ManagedDataAccess.Client.OracleConnectionStringBuilder
+Devart.Data.Oracle.OracleConnectionStringBuilder
+OracleSqlBuilder.OracleSqlConnectionString
+Npgsql.NpgsqlConnectionStringBuilder
+Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+Teradata.Client.Provider.TdConnectionStringBuilder
+Sap.Data.SQLAnywhere.SAConnectionStringBuilder</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="name">
+    <english>Avoid Persist Security Info in connection string</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="rationale">
+    <english>Allowing the server to retain credentials may allow an attacker to retrieve them, and connect to the back-end using permissions associated to these credentials.</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="reference">
+    <english>Microsoft guide for ADO.NET: Protecting Connection Information - Use Persist Security Info=False
+https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/protecting-connection-information#use-persist-security-infofalse
+
+MS SQL Server ADO.NET provider PersistSecurityInfo property
+https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnectionstringbuilder.persistsecurityinfo?view=dotnet-plat-ext-6.0
+
+CWE-257: Storing Passwords in a Recoverable Format
+http://cwe.mitre.org/data/definitions/257.html</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="remediation">
+    <english>Either explicitly set Persist Security Info to False or No, or leave it on its default value.</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="remediationSample">
+    <english>SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";  
+builder["Persist Security Info"] = false;     // FIXED
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";  
+
+or , by default:
+SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="sample">
+    <english>SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();  
+builder["Data Source"] = "(local)";  
+builder["Persist Security Info"] = true;     // VIOLATION
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</english>
+  </metric>
+  <metric id="2200054" type="quality-rule" originalName="Avoid Persist Security Info in connection string" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="description">
+    <english>This rule raise a violation for the usage of System.Web.UI.HtmlControls.HtmlInputHidden constructor.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="name">
+    <english>Avoid hidden form field</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="rationale">
+    <english>Since they are not rendered visible, hidden inputs are sometimes erroneously perceived as safe. But similar to session cookies, hidden form inputs store the software’s state information client-side, instead of server-side. This makes it vulnerable.
+
+If a web product does not properly protect assumed-immutable values from modification in hidden form fields, parameters, cookies, or URLs, this can lead to modification of critical data. Web applications often mistakenly make the assumption that data passed to the client in hidden fields or cookies is not susceptible to tampering. Improper validation of data that are user-controllable can lead to the application processing incorrect, and often malicious, input.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="reference">
+    <english>CWE-472: External Control of Assumed-Immutable Web Parameter
+https://cwe.mitre.org/data/definitions/472.html
+
+CWE-642: External Control of Critical State Data
+https://cwe.mitre.org/data/definitions/642.html
+
+OWASP Attacks - Web Parameter Tampering
+https://owasp.org/www-community/attacks/Web_Parameter_Tampering
+
+CGISecurity - OWASP - A Guide to Building Secure Web Applications (2002, but still interesting)
+https://www.cgisecurity.com/owasp/html/ch11s04.html
+
+HtmlInputHidden Class
+https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.htmlcontrols.htmlinputhidden?view=netframework-4.8</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="remediation">
+    <english>Instead of using hidden form fields, the application designer can simply use one session token to reference properties stored in a server-side cache. When an application needs to check a user property, it checks the session cookie with its session table and points to the user's data variables in the cache / database. This is by far the correct way to architect this problem.
+
+If the above technique of using a session variable instead of a hidden field cannot be implemented, a second approach is as follows.
+
+The name/value pairs of the hidden fields in a form can be concatenated together into a single string. A secret key that never appears in the form is also appended to the string. This string is called the Outgoing Form Message. An MD5 digest or other one-way hash is generated for the Outgoing Form Message. This is called the Outgoing Form Digest and it is added to the form as an additional hidden field.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="remediationSample">
+    <english>Avoid using HtmlInputHidden constructor.</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="sample">
+    <english>HtmlInputHidden hidden = new HtmlInputHidden();</english>
+  </metric>
+  <metric id="2200056" type="quality-rule" originalName="Avoid hidden form field" section="total">
+    <english>Number of .Net artifacts</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="description">
+    <english>This rule reports potentially unintended logging or printing to the console of data fields specifically marked with the attribute [SecurityCritical]. This rule will flag all instances of calls to the most widely used logging methods that report messages at error or critical error levels.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="name">
+    <english>Avoid security-critical information exposure</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="rationale">
+    <english>The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.
+The severity of the vulnerability can range widely, depending on the context in which the product operates, the type of sensitive information that is revealed, and the benefits it may provide to an attacker.
+The outcome is Information Disclosure / Information Leak, and these information could used in subsequent attacks.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="reference">
+    <english>CWE-200: Exposure of Sensitive Information to an Unauthorized Actor
+https://cwe.mitre.org/data/definitions/200.html
+
+CWE-359: Exposure of Private Personal Information to an Unauthorized Actor
+https://cwe.mitre.org/data/definitions/359.html
+
+OWASP Cheat Sheet Series - User Privacy Protection Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html
+
+OWASP Cheat Sheet Series - Logging Cheat Sheet - Data to exclude
+https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#data-to-exclude</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="remediation">
+    <english>Don't disclose data marked as [SecurityCritical], or encrypt them before logging.</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="remediationSample">
+    <english>class Program
+{
+    [SecuritySafeCritical]
+    static int y = 10;
+    static void Main(string[] args)
+    {
+        logger.Error($"y = {y}");
+    }
+
+    public static log4net.ILog logger; // initialized elsewhere
+}</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="sample">
+    <english>class Program
+{
+    [SecurityCritical]
+    static int x = 10;
+    public string Password
+    {
+    [SecurityCritical] get { return _password; }
+    } 
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine(" Critical X " + x); // Violation
+        Console.WriteLine(" Password " + Password); // Violation
+    }
+
+   
+}</english>
+  </metric>
+  <metric id="2200058" type="quality-rule" originalName="Avoid security-critical information exposure" section="total">
+    <english>Number of .Net Methods</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="description">
+    <english>This rule detects the usage of XmlDocument XML parser calls not preceded in same .Net method by a call to the secure mode of the parser.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="name">
+    <english>Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="rationale">
+    <english>External XML entities may allow an attacker to access confidential information as well as perform server-side request forgery (SSRF) attacks. In some cases, XXE may even enable port scanning and lead to remote code execution.
+
+System.Xml.XPath.XPathNavigator is unsafe by default in .NET Framework versions prior to 4.5.2.
+This is due to the fact that it implements IXPathNavigable objects like XmlDocument, which are also unsafe by default in versions prior to 4.5.2.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="reference">
+    <english>CWE-611: Improper Restriction of XML External Entity Reference
+https://cwe.mitre.org/data/definitions/611.html
+
+OWASP Vulnerabilities- XML External Entity (XXE) Processing
+https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+
+OWASP Cheat Sheet Series - XML External Entity Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="remediation">
+    <english>The best way to avoid XXE vulnerabilities is to completely disable document type definitions (DTDs) in your XML parser. If this is not possible, you must disable external entities and external document type declarations for your parser.
+
+You can make XPathNavigator safe by giving it a safe parser like XmlReader (which is safe by default) in the XPathDocument's constructor.</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="remediationSample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlDocument parser = new XmlDocument();
+parser.XmlResolver = null; // FIXED: XmlResolver has been set to null
+parser.LoadXml("xxe.xml");
+
+or
+
+// .NET Framework 4.5.2+
+XmlDocument parser = new XmlDocument(); // FIXED: XmlDocument is safe by default in  .NET Framework 4.5.2+ because XmlResolver is set by default to null
+parser.LoadXml("xxe.xml");</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="sample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlDocument parser = new XmlDocument(); // VIOLATION: XmlDocument is not safe by default
+parser.LoadXml("xxe.xml");
+
+or
+
+// .NET Framework 4.5.2+
+XmlDocument parser = new XmlDocument();
+parser.XmlResolver = new XmlUrlResolver(); // VIOLATION: XmlDocument.XmlResolver configured with XmlUrlResolver that makes it unsafe
+parser.LoadXml("xxe.xml");</english>
+  </metric>
+  <metric id="2200060" type="quality-rule" originalName="Avoid using XmlDocument without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="description">
+    <english>This rule detects the usage of XmlTextReader XML parser calls not preceded in same .Net method by a call to the secure mode of the parser.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="name">
+    <english>Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="rationale">
+    <english>External XML entities may allow an attacker to access confidential information as well as perform server-side request forgery (SSRF) attacks. In some cases, XXE may even enable port scanning and lead to remote code execution.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="reference">
+    <english>CWE-611: Improper Restriction of XML External Entity Reference
+https://cwe.mitre.org/data/definitions/611.html
+
+OWASP Vulnerabilities- XML External Entity (XXE) Processing
+https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+
+OWASP Cheat Sheet Series - XML External Entity Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="remediation">
+    <english>The best way to avoid XXE vulnerabilities is to completely disable document type definitions (DTDs) in your XML parser. If this is not possible, you must disable external entities and external document type declarations for your parser.</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="remediationSample">
+    <english>// .NET 4.5.2+
+XmlTextReader reader = new XmlTextReader("xxe.xml"); // FIXED: XmlTextReader is safe by default in .NET Framework 4.5.2+ because XmlResolver is set by default to null
+while (reader.Read())
+{ ... }
+
+// .NET 4.0 to .NET 4.5.1
+XmlTextReader reader = new XmlTextReader("xxe.xml");
+reader.DtdProcessing = DtdProcessing.Prohibit; // FIXED: XmlTextReader is safe by default in .NET Framework 4.5.2+ because XmlResolver is set by default to null
+
+// &lt; .NET 4.0
+XmlTextReader reader = new XmlTextReader(stream);
+reader.ProhibitDtd = true; // FIXED: default is false</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="sample">
+    <english>// .NET Framework &lt; 4.5.2
+XmlTextReader reader = new XmlTextReader("xxe.xml"); // VIOLATION: XmlTextReader is not safe by default
+while (reader.Read())
+{ ... }
+
+or
+
+// .NET Framework 4.5.2+
+XmlTextReader reader = new XmlTextReader("xxe.xml");
+reader.XmlResolver = new XmlUrlResolver(); // VIOLATION: XmlTextRead.XmlResolver configured with XmlUrlResolver that makes it unsafe
+while (reader.Read())
+{ ... }</english>
+  </metric>
+  <metric id="2200062" type="quality-rule" originalName="Avoid using XmlTextReader without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="description">
+    <english>This rule detects the usage of XPathNavigator XML parser calls not preceded in same .Net method by a call to the secure mode of the parser.
+
+Restriction: if the XPathNavigator object is created from an XmlDocument instance we don't raise a violation beacause the rule "Avoid using XmlDocument without restriction of XML External Entity Reference" will  already raise a violation if this instance of XmlDocument is not safe.</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="name">
+    <english>Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="rationale">
+    <english>External XML entities may allow an attacker to access confidential information as well as perform server-side request forgery (SSRF) attacks. In some cases, XXE may even enable port scanning and lead to remote code execution.
+
+System.Xml.XPath.XPathNavigator is unsafe by default in .NET Framework versions prior to 4.5.2.
+This is due to the fact that it implements IXPathNavigable objects like XmlDocument, which are also unsafe by default in versions prior to 4.5.2.</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="reference">
+    <english>CWE-611: Improper Restriction of XML External Entity Reference
+https://cwe.mitre.org/data/definitions/611.html
+
+OWASP Vulnerabilities- XML External Entity (XXE) Processing
+https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+
+OWASP Cheat Sheet Series - XML External Entity Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="remediation">
+    <english>The best way to avoid XXE vulnerabilities is to completely disable document type definitions (DTDs) in your XML parser. If this is not possible, you must disable external entities and external document type declarations for your parser.
+
+You can make XPathNavigator safe by giving it a safe parser like XmlReader (which is safe by default) in the XPathDocument's constructor.</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="remediationSample">
+    <english>// .NET &lt; 4.5.2
+XmlReader reader = XmlReader.Create("example.xml");
+XPathDocument doc = new XPathDocument(reader);
+XPathNavigator nav = doc.CreateNavigator();   // FIXED, because the XML content has been loaded in the XmlReader object first, then passed into the XPathDocument constructor.
+string xml = nav.InnerXml.ToString();</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="sample">
+    <english>// .NET &lt; 4.5.2
+XPathDocument xmlDoc = new XPathDocument(model.FilePath);
+XPathNavigator nav = xmlDoc.CreateNavigator();   // VIOLATION : XPathDocument loading XML content using a file URI stored in the model.FilePath variable.</english>
+  </metric>
+  <metric id="2200064" type="quality-rule" originalName="Avoid using XPathNavigator without restriction of XML External Entity Reference (XXE)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="description">
+    <english>This rule reports the use of Thread in the .Net code.
+
+Following methods will be reported as a violation:
+- System.Threading.Thread.+ctor (constructor)
+- System.Threading.ThreadPool.QueueUserWorkItem</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="name">
+    <english>Avoid direct use of threads (.Net)</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="rationale">
+    <english>Thread management in a web application is always highly error prone. Managing threads is difficult and is likely to interfere in unpredictable ways with the behavior of the application container. Even without interfering with the container, thread management usually leads to bugs that are hard to detect and diagnose like deadlock, race conditions, and other synchronization errors.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="reference">
+    <english>CWE-383: J2EE Bad Practices: Direct Use of Threads    (applicable to .Net too)
+https://cwe.mitre.org/data/definitions/383.html
+
+CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')
+https://cwe.mitre.org/data/definitions/362.html
+
+CWE-366: Race Condition within a Thread
+https://cwe.mitre.org/data/definitions/366.html</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="remediation">
+    <english>Avoid using threads.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="remediationSample">
+    <english>Don't use thread API.</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="sample">
+    <english>sample 1
+Thread x = new Thread(WriteY); // create a new thread: VIOLATION
+x.Start(); // execute of the method WriteY()
+
+sample 2
+ThreadPool.QueueUserWorkItem(HelloWorld);</english>
+  </metric>
+  <metric id="2200066" type="quality-rule" originalName="Avoid direct use of threads (.Net)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="description">
+    <english>This rule reports all post action methods having automatic, unrestricted object binding for object automatically save in database using an ORM.
+
+Limitation: Entity Framework is the only ORM considered at the moment.</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="name">
+    <english>Avoid unsafe object binding (.NET)</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="rationale">
+    <english>Controllers and Razor pages work with data that comes from HTTP requests. For example, route data may provide a record key, and posted form fields may provide values for the properties of the model. Writing code to retrieve each of these values and convert them from strings to .NET types would be tedious and error-prone. Model binding automates this process. The model binding system:
+    * Retrieves data from various sources such as route data, form fields, and query strings.
+    * Provides the data to controllers and Razor pages in method parameters and public properties.
+    * Converts string data to .NET types.
+    * Updates properties of complex types.
+However binding objects also permit a direct access to them that an attacker can use to tamper with them.</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="reference">
+    <english>CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes
+https://cwe.mitre.org/data/definitions/915.html
+
+OWASP Cheat Sheet Series - Mass Assignment Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="remediation">
+    <english>Ensure that access to attributes and objects of model binded objects are restricted by using:
+  * White list the bindable, non-sensitive fields
+  * Black list the non-bindable, sensitive fields
+  * Use Data Transfer Objects (DTOs)
+  * Use attributes ReadOnly or BindNever on sensitive of the data model class
+  * Use a strongly type approach with TryUpdateModel&lt;Interface&gt; or UpdateModel&lt;Interface&gt; where the interface only has the non-sensitive fields</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="remediationSample">
+    <english>White list :  [Bind(Include="UserName,Location")]
+or black list: [Bind(Exclude="Password")]
+// POST: User/Create
+[HttpPost]
+public ActionResult Create([Bind(Include="UserName,Location")]User user)
+{    
+   try{
+      _db.Users.Add(user);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+   }catch{
+      return View();
+   }
+}
+
+// POST: User/Edit
+[HttpPost]
+public ActionResult Edit([Bind(Exclude="Password,UserId")]User user) 
+{     
+   try{
+      _db.Users.Update(user);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+   }catch{
+      return View();
+   }
+}</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="sample">
+    <english>// POST: User/Create
+[HttpPost]
+public ActionResult Create(User user) // VIOLATION : binding without retriction
+{     
+   try{
+      _db.Users.Add(user);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+   }catch{
+      return View();
+   }
+}
+
+// POST: User/Edit
+[HttpPost]
+public ActionResult Edit(User user) // VIOLATION : binding without retriction
+{     
+   try{
+      _db.Users.Update(user);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+   }catch{
+      return View();
+   }
+}</english>
+  </metric>
+  <metric id="2200068" type="quality-rule" originalName="Avoid unsafe object binding (.NET)" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="description">
+    <english>This rule verify if the old session is abandoned inside the method modifying a new session, if not the method is reported as a violation.
+Application must call Session.Abandon() before modifying the current session.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="name">
+    <english>Ensure to abandon previous session before modifying current session</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="rationale">
+    <english>An attacker could get a user to log in using the attacker’s session. The attacker could then do anything that the other user has permissions for, such as accessing that user’s confidential information and performing transaction in that user’s name.
+The application authenticates users without terminating existing sessions. As a result, an attacker could get a victim to log in to the application during the attacker’s session (for example, by getting the victim to click on a link including a session ID), and the application would authenticate the attacker’s session as the victim’s user account.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="reference">
+    <english>CWE-384: Session Fixation
+https://cwe.mitre.org/data/definitions/384.html
+
+OWASP Cheat Sheet Series - Session Management Cheat Sheet - Renew the Session ID After Any Privilege Level Change
+https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#renew-the-session-id-after-any-privilege-level-change</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="remediation">
+    <english>The application should terminate any existing sessions upon user authentication and create a new session for that user.</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="remediationSample">
+    <english>static void foo(string firstName, HttpContext old_Context)
+        {
+                old_Context.Session.Abandon();               // FIXED
+                HttpContext context = HttpContext.Current;
+                context.Session["FirstName"] = firstName;
+        }</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="sample">
+    <english>static void foo(string firstName)
+        {
+                HttpContext context = HttpContext.Current;   
+                context.Session["FirstName"] = firstName; // VIOLATION
+        }</english>
+  </metric>
+  <metric id="2200070" type="quality-rule" originalName="Ensure to abandon previous session before modifying current session" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="description">
+    <english>This rule checks the tags authentication.forms and sessionState of all web.config files.
+It reports a violation when their attribute cookieless is not "UseCookies".</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="name">
+    <english>Ensure cookieless attributes are set to UseCookies</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="rationale">
+    <english>With the user's session identifier, or authentication token, being sent in all application URLs, there are several ways this secret identifier can leak: 
+•    Server and proxy logs
+•    Referer HTTP header (especially to external systems)
+•    User sharing of internal URLs
+•    User screenshots
+
+In any of these scenarios, and others, the user and browser are not treating the URL as secret, and thus could accidentally expose the secret sessionid publicly. An attacker could easily reuse this sessionid to hijack the user's session. 
+Additionally, an attacker can provide a user with a link to the attacker's pre-established session, causing the victim to login the attacker's session with the victim's credentials, essentially providing the attacker with the user's account. This is known as "Session Fixation".</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="reference">
+    <english>CWE-642: External Control of Critical State Data
+https://cwe.mitre.org/data/definitions/642.html
+
+CWE-384: Session Fixation
+https://cwe.mitre.org/data/definitions/384.html
+
+MS documentation for configuring an ASP.NET application for custom forms–based authentication
+https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/1d3t3c61(v=vs.100)</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediation">
+    <english>Explicitly require the application to enforce cookie-based authentication and sessions only, using the "UseCookies" value to the cookieless attribute.</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="remediationSample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState cookieless ="UseCookies" &gt;&lt;/sessionState&gt;
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms cookieless="UseCookies"/&gt;
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="sample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState cookieless ="UseUri" &gt;&lt;/sessionState&gt;
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms cookieless="UseUri"/&gt;
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200072" type="quality-rule" originalName="Ensure cookieless attributes are set to UseCookies" section="total">
+    <english>Number of web.config files</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="description">
+    <english>This rule checks ELMAH enablement in web.config files.
+It reports a violation in case of failure to restrict URL Access.</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="name">
+    <english>Avoid ELMAH enabled in production</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="rationale">
+    <english>ELMAH (Error Logging Modules and Handlers) is a service that logs errors and user behavior in the application. It is intended for internal logging testing use only; failure to remove or restrict remote access to ELMAH in a production environment would expose live request information.
+
+Information contained in ELMAH pages is very likely to include request headers, including session cookies, as well as parameters provided by users. Session cookies could enable attackers to hijack user sessions, thus performing actions on a user's behalf. Other parameters provided by users may contain sensitive, personal or financial information which would be trivially available to attackers.</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="reference">
+    <english>CWE-213: Exposure of Sensitive Information Due to Incompatible Policies
+https://cwe.mitre.org/data/definitions/213.html
+
+ELMAH official documentation - Configure elmah.io manually
+https://docs.elmah.io/configure-elmah-io-manually/
+
+ELMAH official documentation - ELMAH security and allowRemoteAccess explained
+https://blog.elmah.io/elmah-security-and-allowremoteaccess-explained/
+
+Microsoft documentation - Logging Error Details with ELMAH
+https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/deploying-web-site-projects/logging-error-details-with-elmah-cs</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="remediation">
+    <english>Disable any and all web-accessible logging facilities when deploying an application to a production environment.
+Always ensure access to such facilities, even during staging, is as limited as possible to avoid information leaks.
+If having ELMAH in a production environment is required, either block remote access to ELMAH, or enforce strict authentication and authorization requirements to prevent anonymous or unprivileged access.</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="remediationSample">
+    <english>&lt;elmah&gt;
+    &lt;security allowRemoteAccess="true" /&gt;
+&lt;/elmah&gt;
+&lt;location path="elmah.axd" inheritInChildApplications="false"&gt;
+    &lt;system.web&gt;
+        &lt;httpHandlers&gt;
+            &lt;add verb="POST,GET,HEAD" path="elmah.axd" type="Elmah.ErrorLogPageFactory, Elmah" /&gt;
+        &lt;/httpHandlers&gt;
+        &lt;authorization&gt;                    &lt;!-- Fixed by restricting access --&gt;
+            &lt;allow roles="admin" /&gt;        &lt;!-- Fixed by restricting access --&gt;
+            &lt;deny users="*" /&gt;             &lt;!-- Fixed by restricting access --&gt;
+        &lt;/authorization&gt;                   &lt;!-- Fixed by restricting access --&gt;
+    &lt;/system.web&gt;
+    &lt;system.webServer&gt;
+        &lt;handlers&gt;
+            &lt;add name="ELMAH"
+                verb="POST,GET,HEAD"
+                path="elmah.axd"
+                type="Elmah.ErrorLogPageFactory, Elmah"
+                preCondition="integratedMode" /&gt;
+        &lt;/handlers&gt;
+    &lt;/system.webServer&gt;
+&lt;/location&gt;</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="sample">
+    <english>&lt;elmah&gt;
+    &lt;security allowRemoteAccess="true" /&gt;
+&lt;/elmah&gt;
+&lt;location path="elmah.axd" inheritInChildApplications="false"&gt;
+    &lt;system.web&gt;
+        &lt;httpHandlers&gt;
+            &lt;add verb="POST,GET,HEAD" path="elmah.axd" type="Elmah.ErrorLogPageFactory, Elmah" /&gt;
+        &lt;/httpHandlers&gt;
+    &lt;/system.web&gt;
+    &lt;system.webServer&gt;
+        &lt;handlers&gt;
+            &lt;add name="ELMAH"
+                verb="POST,GET,HEAD"
+                path="elmah.axd"
+                type="Elmah.ErrorLogPageFactory, Elmah"
+                preCondition="integratedMode" /&gt;
+        &lt;/handlers&gt;
+    &lt;/system.webServer&gt;
+&lt;/location&gt;</english>
+  </metric>
+  <metric id="2200074" type="quality-rule" originalName="Avoid ELMAH enabled in production" section="total">
+    <english>Number of web.config files</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="description">
+    <english>This rule reports sensitive data members declared as String.
+Sensitive is based on the variable names: 
+(english) password, pswd, passwd, passwrd, psswrd, watchword, passphrase, credentials, auth, passString, secret, loginPass, passKey, secretKey
+(spanish) contrasena, 
+(chinese) mima
+(french) mdp, motdepasse, mot_de_passe</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="name">
+    <english>Avoid storing password in String</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="rationale">
+    <english>String variables are immutable - in other words, once a string variable is assigned, its value cannot be changed or removed. Thus, these strings may remain around in memory, possibly in multiple locations, for an indefinite period of time until the garbage collector happens to remove it. Sensitive data, such as passwords, will remain exposed in memory as plaintext with no control over their lifetime.
+
+All variables stored by the application in unencrypted memory can potentially be retrieved by an unauthorized user, with privileged access to the machine.
+For example, a privileged attacker could attach a debugger to the running process, or retrieve the process's memory from the swapfile or crash dump file. Once the attacker finds the user passwords in memory, these can be reused to easily impersonate the user to the system.</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="reference">
+    <english>CWE-244: Improper Clearing of Heap Memory Before Release ('Heap Inspection')
+https://cwe.mitre.org/data/definitions/244.html</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="remediation">
+    <english>The only way to handle Heap Inspection issues is to minimize and reduce data exposure, and obscure it in memory wherever possible.
+•    Do not store sensitive data, such as passwords or encryption keys, in memory in plain-text, even for a short period of time. 
+•    Prefer to use specialized classes that store encrypted data in memory to ensure it cannot be trivially retrieved from memory.
+•    When required to use sensitive data in its raw form, temporarily store it in mutable data types, such as byte arrays, to reduce readability from memory, and then promptly zeroize the memory locations, to reduce exposure duration of this data while in memory.</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="remediationSample">
+    <english>class Klass
+{
+   private byte[] Password {get; set;} // fixed
+
+   public void SetPassword(byte[] newPassword) // fixed
+   { Password = newPassword; }
+
+   public byte[] GetPassword()
+   { return Password;}
+}</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="sample">
+    <english>class Klass
+{
+   private string Password {get; set;} // violation
+
+   public void SetPassword(string newPassword) // violation
+   { Password = newPassword; }
+
+   public string GetPassword()
+   { return Password;}
+}</english>
+  </metric>
+  <metric id="2200076" type="quality-rule" originalName="Avoid storing password in String" section="total">
+    <english>Number of .Net artifacts</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="description">
+    <english>This rule checks if the application copies an input buffer to an output buffer without verifying that the size of the input buffer is less or equal than the size of the output buffer.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="name">
+    <english>Avoid copying buffer without checking the size of input</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="rationale">
+    <english>When the input buffer is larger than the output buffer, then we can have either an exception raised or a partial copy of the data.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="reference">
+    <english>CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')
+https://cwe.mitre.org/data/definitions/120.html</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="remediation">
+    <english>The application must verify that the size of the input buffer is less than the size of the output buffer.</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="remediationSample">
+    <english>public int GetString(ref byte[] buffer, int buflen)
+        {
+            string mystring = "hello world";
+
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            buffer = encoding.GetBytes(mystring);
+
+            if(mystring.Length &lt;= buflen)
+                System.Buffer.BlockCopy(mystring.ToCharArray(), 0, buffer, 0, buflen);
+            return (buflen);
+        }</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="sample">
+    <english>public int GetString(ref byte[] buffer, int buflen)
+        {
+            string mystring = "hello world";
+
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            buffer = encoding.GetBytes(mystring);
+
+            System.Buffer.BlockCopy(mystring.ToCharArray(), 0, buffer, 0, buflen); // Violation
+            return (buflen);
+        }</english>
+  </metric>
+  <metric id="2200078" type="quality-rule" originalName="Avoid copying buffer without checking the size of input" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="description">
+    <english>This rule detects action where a parameter of the Thread.Sleep method comes from an argument of a controller action.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="name">
+    <english>Avoid using Thread.Sleep with dynamic parameter in a controller action</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="rationale">
+    <english>There is no reason to have an externally-controlled value of the sleep duration. Thread are critical resources.
+If the iteration can be influenced by an attacker, this weakness could allow attackers to consume excessive Thread resources.
+It can lead to resource exhaution and then to denial of service.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="reference">
+    <english>CWE-834: Excessive Iteration
+https://cwe.mitre.org/data/definitions/834.html
+
+
+OWASP Cheat Sheet Series - Denial of Service Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="remediation">
+    <english>Use a static value for the parameter of Thread.Sleep.</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="remediationSample">
+    <english>public class FormController : Controller
+    {
+    public void Sleep()
+    {
+        Thread.Sleep(2000); // FIXED
+    }
+}
+or
+public class FormController : Controller
+    {
+    private void Sleep(int sleep)  // FIXED
+    {
+        Thread.Sleep(sleep); 
+    }
+}</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="sample">
+    <english>public class FormController : Controller
+    {
+    public void Sleep(int sleep)
+    {
+        Thread.Sleep(sleep); // VIOLATION
+    }
+}</english>
+  </metric>
+  <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="description">
+    <english>Since .NET version 4.6.0, it is possible to use this transparent mechanism to access encrypted columns in SQL Server or other Always Encrypted-enabled databases.
+Scope : SQL Server, Azure SQL Database, Azure SQL Managed Instance.
+This rule checks the presence of "Column Encryption Setting=enabled" in the connection string.</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="name">
+    <english>Ensure to enable column encryption in connection string</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="rationale">
+    <english>Introduced in Azure SQL Database in 2015 and in SQL Server 2016 (13.x), Always Encrypted protects the confidentiality of sensitive data from malware and high-privileged unauthorized users: Database Administrators (DBAs), computer admins, cloud admins, or anyone else who has legitimate access to server instances, hardware, etc., but shouldn't have access to some or all of the actual data.
+Always Encrypted enables customers to confidently store their sensitive data in the cloud, and to reduce the likelihood of data theft by malicious insiders.
+
+Without this feature, an attacker with access to the system could read sensitive information stored in cleartext.
+With Always Encrypted, only users and applications with access to valid keys can decrypt the data, so MTM attacks, insider threats, etc. are nullified.
+
+If the option is not set, the values that are retrieved from encrypted columns and returned in query results are not transparently decrypted.</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="reference">
+    <english>Using Always Encrypted with the .NET Framework Data Provider for SQL Server
+https://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider?view=sql-server-ver16
+
+CWE-311: Missing Encryption of Sensitive Data
+https://cwe.mitre.org/data/definitions/311.html</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="remediation">
+    <english>Add the option at the end of the connection string : Column Encryption Setting=enabled
+
+or with the specific property SqlConnectionStringBuilder.ColumnEncryptionSetting Property. ==&gt; Does the rule check that also ?</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="remediationSample">
+    <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true; Column Encryption Setting=enabled";   // FIXED
+SqlConnection connection = new SqlConnection(connectionString);
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+strbldr.ColumnEncryptionSetting = SqlConnectionColumnEncryptionSetting.Enabled; // Fixed
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="sample">
+    <english>string connectionString = "Data Source=server63; Initial Catalog=Clinic; Integrated Security=true";    // VIOLATION
+SqlConnection connection = new SqlConnection(connectionString);
+
+
+=================================================================
+
+SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+strbldr.DataSource = "server63";
+strbldr.InitialCatalog = "Clinic";
+strbldr.IntegratedSecurity = true;
+SqlConnection connection = new SqlConnection(strbldr.ConnectionString);// Violation</english>
+  </metric>
+  <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" section="total">
+    <english>Number of .Net Methods</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="description">
+    <english>This rule reports methods modifying static variables in classes inheriting from System.Web.UI.Page without preventing race  condition.</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="name">
+    <english>Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="rationale">
+    <english>If two threads of execution use a resource simultaneously, there exists the possibility that resources may be used while invalid, in turn making the state of execution undefined.</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="reference">
+    <english>CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')
+https://cwe.mitre.org/data/definitions/362.html
+
+CWE-366: Race Condition within a Thread
+https://cwe.mitre.org/data/definitions/366.html</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="remediation">
+    <english>Do not modify static variable in method from classes inheriting from System.Web.UI.Page without preventing race condition in the same method.</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="remediationSample">
+    <english>public partial class _Default : System.Web.UI.Page
+    {
+        public static string secret = "None";
+        static object locker = new object();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            lock (locker)
+            {
+               secret = Request.Params["secret"];//NO VIOLATION
+            }
+        }
+    }</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="sample">
+    <english>public partial class _Default : System.Web.UI.Page
+    {
+        public static string secret = "None";
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            secret = Request.Params["secret"];// VIOLATION
+        }
+    }</english>
+  </metric>
+  <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" section="total">
+    <english>Number of .Net methods</english>
   </metric>
 </root>

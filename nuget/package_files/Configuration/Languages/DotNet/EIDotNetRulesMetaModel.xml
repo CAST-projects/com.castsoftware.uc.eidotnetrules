@@ -258,22 +258,170 @@
         <attribute name="ACCESS_CVS"     intValue="1"   />
      </property>
 
-     
+    <property name="AvoidPersistSecurityInfoInConnectionString" type="integer"  merge="sum" rid="28">
+      <description>Avoid Persist Security Info in connection string</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="28"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
 
+    <property name="AvoidSecurityCriticalInformationExposure" type="integer"  merge="sum" rid="29">
+      <description>Avoid security-critical information exposure</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="29"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidHiddenFormField" type="integer"  merge="sum" rid="30">
+      <description>Avoid hidden form field</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="30"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+	
+	<property name="AvoidUsingXmlDocumentWithoutRestrictionOfXMLExternalEntityReference" type="integer"  merge="sum" rid="31">
+      <description>Avoid using XmlDocument without restriction of XML External Entity Reference</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="31"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidUsingXmlTextReaderWithoutRestrictionOfXMLExternalEntityReference" type="integer"  merge="sum" rid="32">
+      <description>Avoid using XmlTextReader without restriction of XML External Entity Reference</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="32"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidUsingXPathNavigatorWithoutRestrictionOfXMLExternalEntityReference" type="integer"  merge="sum" rid="33">
+      <description>Avoid using XPathNavigator without restriction of XML External Entity Reference</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="33"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidDirectUseOfThreads" type="integer"  merge="sum" rid="34">
+      <description>Avoid direct use of threads</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="34"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+    
+   <property name="AvoidUnsafeObjectBinding" type="integer"  merge="sum" rid="35">
+      <description>Avoid unsafe object binding</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="35"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+    
+  <property name="EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession" type="integer"  merge="sum" rid="36">
+      <description>Ensure to abandon previous session before modifying current session</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="36"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidStoringPasswordInString" type="integer"  merge="sum" rid="39">
+      <description>Avoid storing password in String</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="39"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidCopyingBufferWithoutCheckingTheSizeOfInput" type="integer"  merge="sum" rid="40">
+      <description>Avoid copying buffer without checking the size of input</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="40"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidUsingThreadSleepWithDynamicParameterInAControllerAction" type="integer"  merge="sum" rid="41">
+      <description>Avoid using Thread.Sleep with dynamic parameter in a controller action</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="41"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="EnsureToEnableColumnEncryptionInConnectionString" type="integer"  merge="sum" rid="42">
+      <description>Ensure to enable column encryption in connection string</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="42"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+
+    <property name="AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage" type="integer"  merge="sum" rid="43">
+      <description>Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="43"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
+    
   </category>
 
 
+  <category name="CAST_EIDotNetRules_Rules_ForSourceFiles" rid="1">
+    <description>Custom Quality Rules for DotNet source files</description>
 
+    <property name="EnsureCookielessAreSetToUseCookies" type="integer"  merge="sum" rid="37">
+      <description>Ensure cookieless attributes are set to UseCookies</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="37"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
 
-   
-   
+    <property name="AvoidElmahEnabledInProduction" type="integer"  merge="sum" rid="38">
+      <description>Avoid ELMAH enabled in production</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="38"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
 
+ </category>
 
-   <!--  [TODO#2] Add the category to the list of metrics -->
   
-  <partialCategory name="CAST_DotNet_Metricable">
-    <inheritedCategory name="EIDotNetQualityRules"/>
-  </partialCategory>
+  
 
+
+  <!--  [TODO#2] Add the category to the list of metrics -->
+ 
+ <partialCategory name="CAST_DotNet_Metricable">
+   <inheritedCategory name="EIDotNetQualityRules"/>
+ </partialCategory>
+
+ <partialType name="CAST_DotNet_SourceFile">
+   <inheritedCategory name="CAST_EIDotNetRules_Rules_ForSourceFiles" />
+ </partialType>
 
 </metaModel>

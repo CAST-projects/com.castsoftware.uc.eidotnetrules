@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config name='Central Model' version='1.0.0.20'>
-<!--File generated with CAST Metrics Compiler - 8.3.6-->
+<!--File generated with CAST Metrics Compiler-->
 <table name='DSS_METRIC_TYPES' description='Definition of metrics'>
   <column name='METRIC_ID' type='int' nullable='false' description=' ' />
   <column name='METRIC_NAME' type='string' nullable='true' length='255' description=' ' />
@@ -63,12 +63,12 @@
   <column name='THRESHOLD_4' type='num' nullable='false' precision='126' description='Percentage threshold after grade 4' />
 </table>
 <scope name="FULL_CONTENT">
-   <scopetable name="DSS_METRIC_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_VALUE_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_TYPE_TREES" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_PARAM_VALUES" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_PARAM_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_DESCRIPTIONS" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
-   <scopetable name="DSS_METRIC_STATUS_THRESHOLDS" filter="(METRIC_ID BETWEEN 2200000 AND 2200053)"></scopetable>
+   <scopetable name="DSS_METRIC_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_VALUE_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_TYPE_TREES" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_PARAM_VALUES" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_PARAM_TYPES" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_DESCRIPTIONS" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
+   <scopetable name="DSS_METRIC_STATUS_THRESHOLDS" filter="(METRIC_ID BETWEEN 2200000 AND 2200085)"></scopetable>
 </scope>
 </config>
