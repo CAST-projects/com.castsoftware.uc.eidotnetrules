@@ -53,7 +53,7 @@ class EIDotNetRules(dotnet.Extension):
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
                         # Therefore, it is NOT a violation when the cookieless attribute is absent
                         for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("cookieless"):
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
                                 attribute_value = child.children[1]
                                 if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
                                     save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
@@ -65,7 +65,7 @@ class EIDotNetRules(dotnet.Extension):
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
                         # Therefore, it IS a violation when the cookieless attribute is absent
                         for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("cookieless"):
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
                                 attribute_value = child.children[1]
                                 if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
                                     save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
@@ -76,7 +76,7 @@ class EIDotNetRules(dotnet.Extension):
                     # http://rulesmanager/#:1c:2ov
                     elif typename == "security":
                         for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("allowRemoteAccess"):
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("allowremoteaccess"):
                                 attribute_value = child.children[1]
                                 if attribute_value.get_text()[1:-1].strip().lower() in ["true", "1"]:
                                     security_token = token
@@ -85,7 +85,7 @@ class EIDotNetRules(dotnet.Extension):
                     # http://rulesmanager/#:1c:2ov
                     elif typename == "AllowElement":
                         for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().startswith("roles"):
+                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("roles"):
                                 attribute_value = child.children[1]
                                 if attribute_value.get_text()[1:-1].strip().lower() == "admin":
                                     allow_roles_admin = True
