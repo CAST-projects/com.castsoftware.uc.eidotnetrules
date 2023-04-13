@@ -969,6 +969,31 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Data.SqlClient;
+        ///
+        ///namespace UnitTests.UnitTest.Sources
+        ///{
+        ///    class EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source
+        ///    {
+        ///        public void Missing_column_encryption()
+        ///        {
+        ///            SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
+        ///            strbldr.DataSource = &quot;server63&quot;;
+        ///            strbldr.Init [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source {
+            get {
+                return ResourceManager.GetString("EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_So" +
+                        "urce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{

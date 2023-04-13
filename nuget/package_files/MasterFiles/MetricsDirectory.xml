@@ -58,4 +58,5 @@
   <metric id="2200080" type="quality-rule" originalName="Avoid using Thread.Sleep with dynamic parameter in a controller action" active="false" detached="true" ignored="false" />
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" active="true" detached="false" ignored="false" />
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" active="true" detached="false" ignored="false" />
+  <metric id="2200086" type="quality-rule" originalName="Ensure to set both 'Encrypt' and 'TrustServerCertificate' to true when connecting to a SQL Server" active="true" detached="false" ignored="false" />
 </root>

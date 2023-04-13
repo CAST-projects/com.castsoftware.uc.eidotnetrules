@@ -140,6 +140,7 @@
     <Compile Include="TestEnsureSerializableTypesFollowBestPractices.cs" />
     <Compile Include="TestEnsureToAbandonSessionPreviousBeforeModifyingCurrentSession.cs" />
     <Compile Include="TestEnsureToEnableColumnEncryptionInConnectionString.cs" />
+    <Compile Include="TestEnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer.cs" />
     <Compile Include="TestForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="TestInheritedMemberVisibilityShouldNotBeDecreased.cs" />
     <Compile Include="TestInterfaceInstancesShouldNotBeCastToConcreteTypes.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="TestSources\EnsureSerializableTypesFollowBestPractices_Source.cs" />
     <Compile Include="TestSources\EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession_Source.cs" />
     <Compile Include="TestSources\EnsureToEnableColumnEncryptionInConnectionString_Source.cs" />
+    <Compile Include="TestSources\EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source.cs" />
     <Compile Include="TestSources\MembersOfLargerScopeElementShouldNotHaveConflictingTransparencyAnnotations_Source.cs" />
     <Compile Include="TestSources\RecursionShouldNotBeInfinite_Source.cs" />
     <Compile Include="TestUseLogicalORInsteadOfBitwiseORInBooleanContext.cs" />
