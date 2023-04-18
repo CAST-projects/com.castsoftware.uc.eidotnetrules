@@ -2556,4 +2556,77 @@ using (SqlConnection connexion = new SqlConnection(stringConnection))
   <metric id="2200086" type="quality-rule" originalName="Ensure to set both 'Encrypt' and 'TrustServerCertificate' to true when connecting to a SQL Server" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="description">
+    <english>This rule checks the values of SessionState.Timeout AND forms.Timeout properties in the ASP.Net Web.config file.
+If the timeout attributes are not specified, the HttpSessionState and authentication timeouts default to 20 and 30 minutes respectively.
+This rule will report a violation for any value above 15 minutes.</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="name">
+    <english>Avoid Insufficient Session Expiration in config file(.NET)</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="rationale">
+    <english>An overly long session timeout gives attackers more time to potentially compromise user account.
+While a session remains active, an attacker may be able to brute-force a user's password, or requisition session from an open browser.</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="reference">
+    <english>CWE-613: Insufficient Session Expiration
+https://cwe.mitre.org/data/definitions/613.html
+
+OWASP Top 10 2021  - A07:2021 – Identification and Authentication Failures
+https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/
+
+OWASP Top 10 2017 - A2:2017-Broken Authentication
+https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication
+
+OWASP Cheat Sheet Series - Session Management Cheat Sheet - Automatic Session Expiration
+https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#automatic-session-expiration
+
+Microsoft documentation on timeout attribute of the sessionState configuration element AND on forms Element for authentication
+https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
+https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/1d3t3c61(v=vs.100)</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="remediation">
+    <english>Set an authentication timeout that is 15 minutes or less, which both allows users to interact with the application over a period of time and provides a reasonable bound for the window of attack.
+
+OTOH, use the following guidance:
+App              Timeout
+High Security    15 minutes
+Medium Security  30 minutes
+Low Security     60 minutes</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="remediationSample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState timeout="15" cookieless="UseUri"&gt;&lt;/sessionState&gt;   // FIXED
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms timeout="15" cookieless="UseCookies"/&gt;      // FIXED
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="sample">
+    <english>&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;sessionState timeout="-1" cookieless="UseUri"&gt;&lt;/sessionState&gt;   // VIOLATION
+
+        &lt;authentication mode="Forms"&gt;
+            &lt;forms timeout="60" cookieless="UseCookies" /&gt;           // VIOLATION
+        &lt;/authentication&gt;
+
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</english>
+  </metric>
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="total">
+    <english>Number of web.config files</english>
+  </metric>
 </root>

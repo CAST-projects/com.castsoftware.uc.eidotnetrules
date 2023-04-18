@@ -392,6 +392,7 @@
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
+
     
   </category>
 
@@ -417,6 +418,14 @@
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
 
+    <property name="AvoidInsufficientSessionExpirationInConfigFile" type="integer"  merge="sum" rid="45">
+      <description>Avoid Insufficient Session Expiration in config file</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="45"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
  </category>
 
   

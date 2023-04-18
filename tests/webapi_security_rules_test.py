@@ -36,3 +36,24 @@ class WebApiSecurityRuleTests(unittest.TestCase):
         self.assertTrue(file_object)
         violations = analysis.get_violations(file_object, 'CAST_EIDotNetRules_Rules_ForSourceFiles.AvoidElmahEnabledInProduction')
         self.assertEqual(0, len(violations))
+
+    def test_avoid_insufficient_session_expiration_KO(self):
+        analysis = Runner.fetch_analysis_result('CookielessUseUri/CookielessUseUri.csproj')
+        file_object = analysis.get_object_by_name('Web.config', 'CAST_DotNet_SourceFile')
+        violations = analysis.get_violations(
+            file_object,
+            'CAST_EIDotNetRules_Rules_ForSourceFiles.AvoidInsufficientSessionExpirationInConfigFile'
+        )
+        self.assertEqual(2, len(violations))
+
+    def test_avoid_insufficient_session_expiration_OK(self):
+        analysis = Runner.fetch_analysis_result('CookielessRemediation/CookielessRemediation.csproj')
+        file_object = analysis.get_object_by_name('Web.config', 'CAST_DotNet_SourceFile')
+        violations = analysis.get_violations(
+            file_object,
+            'CAST_EIDotNetRules_Rules_ForSourceFiles.AvoidInsufficientSessionExpirationInConfigFile'
+        )
+        self.assertEqual(0, len(violations))
+
+if __name__ == '__main__':
+    unittest.main()

@@ -44,4 +44,5 @@
   <metric id="2200082" type="quality-rule" originalName="Ensure to enable column encryption in connection string" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
   <metric id="2200084" type="quality-rule" originalName="Avoid static variable modification in methods for class inheriting from  System.Web.UI.Page" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
   <metric id="2200086" type="quality-rule" originalName="Ensure to set both 'Encrypt' and 'TrustServerCertificate' to true when connecting to a SQL Server" thresholdToGet1="98.0" thresholdToGet2="99.0" thresholdToGet3="99.5" thresholdToGet4="99.99" />
+  <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" thresholdToGet1="50.0" thresholdToGet2="90.0" thresholdToGet3="95.0" thresholdToGet4="99.0" />
 </root>

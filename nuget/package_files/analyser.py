@@ -4,8 +4,11 @@ import os
 from cast.analysers import dotnet, log, Bookmark
 from cast.application import open_source_file
 from cast import Event
+from web_config_quality_rules import AvoidInsufficientSessionExpirationInConfigFile,\
+                                     EnsureCookielessAreSetToUseCookies
 
-
+avoid_insufficient_session_expiration = AvoidInsufficientSessionExpirationInConfigFile()
+ensure_cookieless_are_set_to_use_cookies = EnsureCookielessAreSetToUseCookies()
 class EIDotNetRules(dotnet.Extension):
 
     def __init__(self):
@@ -44,37 +47,39 @@ class EIDotNetRules(dotnet.Extension):
             try:
                 tree = self.parser.parse(f)
                 for token in tree:
+                    avoid_insufficient_session_expiration.check_simple_tag_attribute_values(file, token)
+                    ensure_cookieless_are_set_to_use_cookies.check_simple_tag_attribute_values(file, token)
 
                     typename = type(token).__name__
 
                     # http://rulesmanager/#:1c:2ou
-                    if typename == "sessionState":
+                    # if typename == "sessionState":
                         # In sessionState element, cookieless value by default is "UseCookies":
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
                         # Therefore, it is NOT a violation when the cookieless attribute is absent
-                        for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
-                                attribute_value = child.children[1]
-                                if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
-                                    save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
-                                break
+                        # for child in token.children:
+                        #     if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
+                        #         attribute_value = child.children[1]
+                        #         if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
+                        #             save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
+                        #         break
 
                     # http://rulesmanager/#:1c:2ou
-                    elif typename == "FormsTagInConfig":
+                    # elif typename == "FormsTagInConfig":
                         # In forms Element for authentication, cookieless value by default is "UseDeviceProfile":
                         # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
                         # Therefore, it IS a violation when the cookieless attribute is absent
-                        for child in token.children:
-                            if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
-                                attribute_value = child.children[1]
-                                if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
-                                    save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
-                                break
-                        else:
-                            save_file_violation(file, token, "EnsureCookielessAreSetToUseCookies")
+                        # for child in token.children:
+                        #     if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
+                        #         attribute_value = child.children[1]
+                        #         if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
+                        #             save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
+                        #         break
+                        # else:
+                        #     save_file_violation(file, token, "EnsureCookielessAreSetToUseCookies")
 
                     # http://rulesmanager/#:1c:2ov
-                    elif typename == "security":
+                    if typename == "security":
                         for child in token.children:
                             if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("allowremoteaccess"):
                                 attribute_value = child.children[1]
