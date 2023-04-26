@@ -135,10 +135,16 @@ class WebConfigQualityRule:
         pass
 
     def save_file_violation(self, file, token):
+        begin_line = token.get_begin_line()
+        begin_column = token.get_begin_column()
+        for child in token.children:
+            if str(child.type) == "Token.Name.Tag":
+                begin_line = child.get_begin_line()
+                begin_column = child.get_begin_column()
         bookmark = Bookmark(
             file,
-            token.get_begin_line(),
-            token.get_begin_column(),
+            begin_line,
+            begin_column,
             token.get_end_line(),
             token.get_end_column(),
         )

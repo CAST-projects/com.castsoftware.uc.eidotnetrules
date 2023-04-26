@@ -52,32 +52,6 @@ class EIDotNetRules(dotnet.Extension):
 
                     typename = type(token).__name__
 
-                    # http://rulesmanager/#:1c:2ou
-                    # if typename == "sessionState":
-                        # In sessionState element, cookieless value by default is "UseCookies":
-                        # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
-                        # Therefore, it is NOT a violation when the cookieless attribute is absent
-                        # for child in token.children:
-                        #     if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
-                        #         attribute_value = child.children[1]
-                        #         if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
-                        #             save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
-                        #         break
-
-                    # http://rulesmanager/#:1c:2ou
-                    # elif typename == "FormsTagInConfig":
-                        # In forms Element for authentication, cookieless value by default is "UseDeviceProfile":
-                        # https://learn.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/h6bb9cz9(v=vs.100)
-                        # Therefore, it IS a violation when the cookieless attribute is absent
-                        # for child in token.children:
-                        #     if type(child).__name__ == "XmlAttributeStatement" and child.children[0].get_text().lower().startswith("cookieless"):
-                        #         attribute_value = child.children[1]
-                        #         if attribute_value.get_text()[1:-1].strip().lower() != "usecookies":
-                        #             save_file_violation(file, attribute_value, "EnsureCookielessAreSetToUseCookies")
-                        #         break
-                        # else:
-                        #     save_file_violation(file, token, "EnsureCookielessAreSetToUseCookies")
-
                     # http://rulesmanager/#:1c:2ov
                     if typename == "security":
                         for child in token.children:
