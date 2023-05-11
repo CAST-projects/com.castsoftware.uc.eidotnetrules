@@ -2629,4 +2629,76 @@ Low Security     60 minutes</english>
   <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" section="total">
     <english>Number of web.config files</english>
   </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="description">
+    <english>This rule will raise a violation when a dangerous method is made public, i.e., exposed to all objects.
+
+Currently the dangerous methods considered are:
+ - method that drop a database
+ - method that drop a table
+ - method that drop a column of a table
+ - method that drop a view
+ - method that delete existing records in a table.</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="name">
+    <english>Avoid exposed dangerous method</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="rationale">
+    <english>The product provides an Applications Programming Interface (API) or similar interface for interaction with external actors, but the interface includes a dangerous method or function that is not properly restricted.
+
+Exposing critical functionality essentially provides an attacker with the privilege level of the exposed functionality. This could result in the modification or exposure of sensitive data or possibly even execution of arbitrary code.</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="reference">
+    <english>CWE-749: Exposed Dangerous Method or Function
+https://cwe.mitre.org/data/definitions/749.html</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="remediation">
+    <english>Set all dangerous method private or protected.</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="remediationSample">
+    <english>private void RemoveDatabase(string databaseName)
+        {
+            string userNameFromDB;
+            int ownerId;
+            using (SqlConnection connexion = new SqlConnection(connectionString))
+            {
+                string sql = "DROP DATABASE " + databaseName;
+                using (SqlCommand readDetailsCommand = new SqlCommand(sql, connexion))
+                {   
+                    using (SqlDataReader reader = readDetailsCommand.ExecuteReader())// No Violation
+                    {
+                        reader.Read();
+                    }
+                }
+            }
+        }</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="sample">
+    <english>public void RemoveDatabase(string databaseName)
+        {
+            string userNameFromDB;
+            int ownerId;
+            using (SqlConnection connexion = new SqlConnection(connectionString))
+            {
+                string sql = "DROP DATABASE " + databaseName;
+                using (SqlCommand readDetailsCommand = new SqlCommand(sql, connexion))
+                {   
+                    using (SqlDataReader reader = readDetailsCommand.ExecuteReader())// Violation
+                    {
+                        reader.Read();
+                    }
+                }
+            }
+        }</english>
+  </metric>
+  <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>

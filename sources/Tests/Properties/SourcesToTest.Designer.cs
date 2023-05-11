@@ -285,6 +285,27 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.TestSources
         ///{
+        ///    class AvoidExposedDangerousMethod_Source
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string AvoidExposedDangerousMethod_Source {
+            get {
+                return ResourceManager.GetString("AvoidExposedDangerousMethod_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
         ///    public class AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source
         ///    {
         ///
@@ -973,13 +994,13 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.UnitTest.Sources
         ///{
-        ///    class EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source
+        ///    public class EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source
         ///    {
-        ///        public void Missing_column_encryption()
+        ///        public void Missing_encrypt_or_certificate()
         ///        {
         ///            SqlConnectionStringBuilder strbldr = new SqlConnectionStringBuilder();
         ///            strbldr.DataSource = &quot;server63&quot;;
-        ///            strbldr.Init [rest of string was truncated]&quot;;.
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer_Source {
             get {

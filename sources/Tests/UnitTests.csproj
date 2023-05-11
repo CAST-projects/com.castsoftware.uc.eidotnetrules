@@ -116,6 +116,7 @@
     <Compile Include="TestAvoidCreatingNewInstanceOfSharedInstance.cs" />
     <Compile Include="TestAvoidDirectUseOfThreads.cs" />
     <Compile Include="TestAvoidEmptyFinalizers.cs" />
+    <Compile Include="TestAvoidExposedDangerousMethod.cs" />
     <Compile Include="TestAvoidHavingSameImplementationInAllBranchesOfConditionalStructure.cs" />
     <Compile Include="TestAvoidHiddenFormField.cs" />
     <Compile Include="TestAvoidLocalVariablesShadowingClassFields.cs" />
@@ -160,6 +161,7 @@
     <None Include="TestSources\AvoidNullPointerDereference_Source.cs" />
     <Compile Include="TestSources\AvoidCopyingBufferWithoutCheckingTheSizeOfInput_Source.cs" />
     <Compile Include="TestSources\AvoidDirectUseOfThreads_Source.cs" />
+    <Compile Include="TestSources\AvoidExposedDangerousMethod_Source.cs" />
     <Compile Include="TestSources\AvoidHavingSameImplementationInAllBranchesOfConditionalStructure_Source.cs" />
     <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
