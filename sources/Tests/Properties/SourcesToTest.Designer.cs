@@ -282,14 +282,20 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Data.SqlClient;
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    class AvoidExposedDangerousMethod_Source
+        ///    public class AvoidExposedDangerousMethod_Source
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        public void RemoveKO()
+        ///        {
+        ///            string databaseName = &quot;&quot;;
+        ///            string tableName = &quot;&quot;;
+        ///            string viewName = &quot;&quot;;
+        ///            string columnName = &quot;&quot;;
+        ///            string connectionString = &quot;&quot;;
+        ///            using (SqlConnecti [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidExposedDangerousMethod_Source {
             get {
@@ -981,6 +987,34 @@ namespace UnitTests.Properties {
         internal static string EnsureToEnableColumnEncryptionInConnectionString_Source {
             get {
                 return ResourceManager.GetString("EnsureToEnableColumnEncryptionInConnectionString_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web;
+        ///using System.Web.Mvc;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    public class EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_SourceController
+        ///    {
+        ///        // GET: XSRF
+        ///        public ActionResult Index()
+        ///        {
+        ///            return View();
+        ///        }
+        ///
+        ///        /* CWE 352 : XSRF */
+        ///        public void foo(SqlConnection connection, HttpRequest Req [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_Source {
+            get {
+                return ResourceManager.GetString("EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_Source", resourceCulture);
             }
         }
         

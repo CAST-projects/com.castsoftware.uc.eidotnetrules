@@ -7,7 +7,7 @@ using CastDotNetExtension;
 
 namespace UnitTests.UnitTest {
    [TestFixture]
-   class TestAvoidCreatingNewInstanceOfSharedInstance {
+   public class TestAvoidCreatingNewInstanceOfSharedInstance {
 
       [Test]
       public void Test_operations() {

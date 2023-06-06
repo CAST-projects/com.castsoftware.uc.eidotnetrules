@@ -7,7 +7,7 @@ using CastDotNetExtension;
 
 namespace UnitTests.UnitTest {
    [TestFixture]
-   class TestAvoidCreatingExceptionWithoutThrowingThem {
+   public class TestAvoidCreatingExceptionWithoutThrowingThem {
       [Test]
       public void Test_operations() {
          var testSrc = UnitTests.Properties.SourcesToTest.AvoidCreatingExceptionWithoutThrowingThem_Source;

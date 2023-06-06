@@ -401,6 +401,15 @@
       <attribute name="ACCESS_HTML"    intValue="1"   />
       <attribute name="ACCESS_CVS"     intValue="1"   />
     </property>
+
+    <property name="EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods" type="integer"  merge="sum" rid="47">
+      <description>Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods</description>
+      <attribute name="INF_TYPE"       intValue="2200000"/>
+      <attribute name="INF_SUB_TYPE"   intValue="47"  />
+      <attribute name="ACCESS_APPVIEW" intValue="1"   />
+      <attribute name="ACCESS_HTML"    intValue="1"   />
+      <attribute name="ACCESS_CVS"     intValue="1"   />
+    </property>
     
   </category>
 

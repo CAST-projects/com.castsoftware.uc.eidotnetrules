@@ -68,6 +68,7 @@
     <Compile Include="EnsureSerializableTypesFollowBestPractices.cs" />
     <Compile Include="EnsureToAbandonSessionPreviousBeforeModifyingCurrentSession.cs" />
     <Compile Include="EnsureToEnableColumnEncryptionInConnectionString.cs" />
+    <Compile Include="EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods.cs" />
     <Compile Include="EnsureToSetBothEncryptAndTrustServerCertificateToTrueWhenConnectingToSqlServer.cs" />
     <Compile Include="ForLoopConditionShouldBeInvariant.cs" />
     <Compile Include="InheritedMemberVisibilityShouldNotBeDecreased.cs" />

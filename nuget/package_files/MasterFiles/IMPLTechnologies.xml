@@ -49,4 +49,5 @@
   <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" filter="138383" filterLabel="C#" />
   <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" filter="138636" filterLabel="ASP .Net" />
   <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" filter="138383" filterLabel="C#" />
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" filter="138383" filterLabel="C#" />
 </root>

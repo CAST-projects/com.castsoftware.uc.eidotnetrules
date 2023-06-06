@@ -61,4 +61,5 @@
   <metric id="2200086" type="quality-rule" originalName="Ensure to set both 'Encrypt' and 'TrustServerCertificate' to true when connecting to a SQL Server" active="true" detached="false" ignored="false" />
   <metric id="2200088" type="quality-rule" originalName="Avoid Insufficient Session Expiration in config file(.NET)" active="true" detached="false" ignored="false" />
   <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" active="true" detached="false" ignored="false" />
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" active="true" detached="false" ignored="false" />
 </root>

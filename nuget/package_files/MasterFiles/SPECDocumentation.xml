@@ -2701,4 +2701,93 @@ https://cwe.mitre.org/data/definitions/749.html</english>
   <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="description">
+    <english>This rule will raise a violation for each POST, PUT, PATCH and DELETE methods which fail to require anti-forgery token.
+
+Limitation : In scenarios, where we might need to disable Antiforgerytoken requirements, we decorate those actions or controllers with IgnoreAntiforgeryToken attribute and in this case there will be no violation.</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="name">
+    <english>Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="rationale">
+    <english>Cross-Site Request Forgery (CSRF) is an attack where a malicious site sends a request to a vulnerable site where the user is currently logged in.
+
+To prevent CSRF attacks, use anti-forgery tokens with any authentication protocol where the browser silently sends credentials after the user logs in. This includes cookie-based authentication protocols, such as forms authentication, as well as protocols such as Basic and Digest authentication.
+
+You should require anti-forgery tokens for any nonsafe methods (POST, PUT, PATCH, DELETE).</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="reference">
+    <english>Preventing Cross-Site Request Forgery (CSRF) Attacks in ASP.NET MVC Application
+https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/preventing-cross-site-request-forgery-csrf-attacks
+
+Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core
+https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?source=recommendations&amp;view=aspnetcore-7.0
+
+CA5391: Use antiforgery tokens in ASP.NET Core MVC controllers
+https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5391
+
+CWE-352: Cross-Site Request Forgery (CSRF)
+http://cwe.mitre.org/data/definitions/352.html
+
+OWASP Cheat Sheet Series - Cross-Site Request Forgery Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="remediation">
+    <english>Use ValidateAntiForgeryToken and AutoValidateAntiforgeryToken (Asp.net Core) attributes to require anti-forgery tokens for any POST, PUT, PATCH and DELETE methods.
+For Ajax request call the AntiForgery.Validate method to validate the tokens.</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="remediationSample">
+    <english>public class XSRFController : Controller
+    {
+        // GET: XSRF
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        /* CWE 352 : XSRF */
+        [ValidateAntiForgeryToken]
+        public void foo(MySqlConnection connection, HttpRequest Request)
+        {
+            string input = Request.QueryString["user"];// No Violation
+            string sql = "insert into Comments(comment) values (@user)";
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue(input, User);
+            connection.Open();
+            MySqlDataReader reader = cmd.ExecuteReader();
+        }
+    }</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="sample">
+    <english>public class XSRFController : Controller
+    {
+        // GET: XSRF
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        /* CWE 352 : XSRF */
+        public void foo(MySqlConnection connection, HttpRequest Request)
+        {
+            string input = Request.QueryString["user"];// Violation
+            string sql = "insert into Comments(comment) values (@user)";
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue(input, User);
+            connection.Open();
+            MySqlDataReader reader = cmd.ExecuteReader();
+        }
+    }</english>
+  </metric>
+  <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>
