@@ -74,7 +74,7 @@ namespace CastDotNetExtension
         }
 
         private void OnCompilationStart(CompilationStartAnalysisContext context)
-        {
+        { 
             context.Compilation.GetSymbolsForClasses(_baseControllers, ref _controllerSymbols);
             //_DbCommandSymbol = context.Compilation.GetTypeByMetadataName(_DbCommandName);
         }
@@ -199,7 +199,10 @@ namespace CastDotNetExtension
         public override void FinalizeViolations()
         {
             if (_isAntiforgeryTokenGloballyRequested)
+            {
                 Violations.Clear();
+            }
+            _isAntiforgeryTokenGloballyRequested = false;
         }
     }
 }
