@@ -14,18 +14,12 @@ class EIDotNetRules(dotnet.Extension):
     def __init__(self):
         self.parser = None
         self.func = None
+        self.create_config_parser = None
 
     @Event('com.castsoftware.dotnetweb', 'dotnetweb.create_config_parser')
     def set_parser(self, create_config_parser):
-        log.info("Received XML parser from com.castsoftware.dotnetweb")
-
-        self.parser = create_config_parser(
-            "XmlAttributeStatement",
-            "sessionState", "FormsTagInConfig",  # http://rulesmanager/#:1c:2ou
-            "security", "AllowElement"           # http://rulesmanager/#:1c:2ov
-        )
-
-        log.info("Done setting parser")
+        log.info("Received XML parser creator from com.castsoftware.dotnetweb")
+        self.create_config_parser = create_config_parser
 
     def introducing_file(self, file):
         """
@@ -34,6 +28,14 @@ class EIDotNetRules(dotnet.Extension):
 
         if not is_project_config(file):
             return
+
+        if self.create_config_parser is not None:
+            self.parser = self.create_config_parser(
+                "XmlAttributeStatement",
+                "sessionState", "FormsTagInConfig",  # http://rulesmanager/#:1c:2ou
+                "security", "AllowElement"  # http://rulesmanager/#:1c:2ov
+            )
+            log.info("Done setting parser")
 
         if self.parser is None:
             log.warning("XML parser not set. Skipping analysis for file {}".format(file.get_path()))
