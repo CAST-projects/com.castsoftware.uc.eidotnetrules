@@ -125,6 +125,7 @@
     <Compile Include="TestAvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="TestAvoidRecursiveTypeInheritance.cs" />
     <Compile Include="TestAvoidSecurityCriticalInformationExposure.cs" />
+    <Compile Include="TestAvoidSettingEncodingToUtf7InHttpResponse.cs" />
     <Compile Include="TestAvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage.cs" />
     <Compile Include="TestAvoidStoringPasswordInString.cs" />
     <Compile Include="TestAvoidUnsafeObjectBinding.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="TestSources\AvoidHiddenFormField_Source.cs" />
     <Compile Include="TestSources\AvoidPersistSecurityInfoInConnectionString_Source.cs" />
     <Compile Include="TestSources\AvoidSecurityCriticalInformationExposure_Source.cs" />
+    <Compile Include="TestSources\AvoidSettingEncodingToUtf7InHttpResponse_Source.cs" />
     <Compile Include="TestSources\AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage_Source.cs" />
     <Compile Include="TestSources\AvoidStoringPasswordInString_Source.cs" />
     <Compile Include="TestSources\AvoidUnsafeObjectBinding_Source.cs" />

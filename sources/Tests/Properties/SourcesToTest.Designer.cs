@@ -570,6 +570,32 @@ namespace UnitTests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using System.Web;
+        ///using System.Web.Mvc;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class AvoidSettingEncodingToUtf7InHttpResponse_Source : Controller
+        ///    {
+        ///        //CWE-79: Improper Neutralization of Input During Web Page Generation(&apos;Cross-site Scripting&apos;)
+        ///        //Chmx name : UTF7_XSS
+        ///        [HttpPost]
+        ///        public ActionResult UTF7_XSS()
+        ///        {
+        ///            Response.Chars [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AvoidSettingEncodingToUtf7InHttpResponse_Source {
+            get {
+                return ResourceManager.GetString("AvoidSettingEncodingToUtf7InHttpResponse_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using System.Threading;
         ///using System.Web.UI;
         ///
@@ -998,10 +1024,11 @@ namespace UnitTests.Properties {
         ///using System.Threading.Tasks;
         ///using System.Web;
         ///using System.Web.Mvc;
+        ///using System.Data.SqlClient;
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    public class EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_SourceController
+        ///    public class EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_SourceController: Controller
         ///    {
         ///        // GET: XSRF
         ///        public ActionResult Index()
@@ -1010,7 +1037,7 @@ namespace UnitTests.Properties {
         ///        }
         ///
         ///        /* CWE 352 : XSRF */
-        ///        public void foo(SqlConnection connection, HttpRequest Req [rest of string was truncated]&quot;;.
+        ///        public void fun [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnsureToRequireAntiforgeryTokenForPostPutPatchAndDeleteMethods_Source {
             get {

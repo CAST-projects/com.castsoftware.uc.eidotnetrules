@@ -2790,4 +2790,68 @@ For Ajax request call the AntiForgery.Validate method to validate the tokens.</e
   <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" section="total">
     <english>Number of .Net methods</english>
   </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="associatedValueName">
+    <english>Associated to each violation, the following information is provided: - The number of violation occurrences - Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="description">
+    <english>This rule raise a violation when the encoding is set to UTF-7 in HTTP Response.</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="name">
+    <english>Avoid setting encoding to UTF-7 in HTTP Response</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="rationale">
+    <english>A malicious user can include script content, which then executes in the browser.
+In a real exploit, the script would steal cookies or post requests.</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="reference">
+    <english>CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+https://cwe.mitre.org/data/definitions/79.html
+
+Xss with utf-7
+https://nedbatchelder.com/blog/200704/xss_with_utf7.html
+
+OWASP Cheat Sheet Series - XSS Filter Evasion Cheat Sheet - UTF-7 Encoding
+https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html#utf-7-encoding</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="remediation">
+    <english>Do not use UTF-7 encoding</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="remediationSample">
+    <english>public partial class XSSInjection : Controller
+    {
+
+        [HttpPost]
+        public ActionResult UTF7_XSS()
+        {
+            
+            ViewBag.name = Request.Params["name"];
+
+            return View();
+        }
+    }</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="sample">
+    <english>public partial class XSSInjection : Controller
+    {
+
+        //CWE-79: Improper Neutralization of Input During Web Page Generation('Cross-site Scripting')
+        //Chmx name : UTF7_XSS
+        [HttpPost]
+        public ActionResult UTF7_XSS()
+        {
+            Response.Charset = "UTF-7";// ANOMALY RULE : {79, Improper Neutralization of Input During Web Page Generation('Cross-site Scripting')}
+            ViewBag.name = Request.Params["name"];
+
+            return View();
+        }
+    }</english>
+  </metric>
+  <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
 </root>

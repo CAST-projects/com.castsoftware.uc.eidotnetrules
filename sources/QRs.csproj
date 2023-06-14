@@ -52,6 +52,7 @@
     <Compile Include="AvoidPersistSecurityInfoInConnectionString.cs" />
     <Compile Include="AvoidRecursiveTypeInheritance.cs" />
     <Compile Include="AvoidSecurityCriticalInformationExposure.cs" />
+    <Compile Include="AvoidSettingEncodingToUtf7InHttpResponse.cs" />
     <Compile Include="AvoidStaticVariableModificationInMethodsForClassInheritingFromSystemWebUIPage.cs" />
     <Compile Include="AvoidStoringPasswordInString.cs" />
     <Compile Include="AvoidUnsafeObjectBinding.cs" />
