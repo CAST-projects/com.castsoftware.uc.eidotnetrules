@@ -2791,7 +2791,7 @@ For Ajax request call the AntiForgery.Validate method to validate the tokens.</e
     <english>Number of .Net methods</english>
   </metric>
   <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="associatedValueName">
-    <english>Associated to each violation, the following information is provided: - The number of violation occurrences - Bookmarks for violation occurrences found in the source code</english>
+    <english>Number of violation occurrences</english>
   </metric>
   <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="description">
     <english>This rule raise a violation when the encoding is set to UTF-7 in HTTP Response.</english>
@@ -2852,6 +2852,91 @@ https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.ht
     }</english>
   </metric>
   <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" section="total">
+    <english>Number of .Net methods</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="associatedValueName">
+    <english>Number of violation occurrences</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="description">
+    <english>This rule raised a violation if a value coming from a query is stored in a ViewBag without being explicitly encoded.</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="name">
+    <english>Ensure to encode value in ViewBag coming from a query</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="output">
+    <english>Associated to each violation, the following information is provided:
+- The number of violation occurrences
+- Bookmarks for violation occurrences found in the source code</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="rationale">
+    <english>At a basic level, XSS works by tricking your application into inserting a &lt;script&gt; tag into your rendered page. 
+Data coming from a query can potentially come from an user input and be untrusted/tainted. The ViewBag is accessible from your rendered page and is used to get data from the server. So it is safer to encode all data before storing them in the ViewBag.</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="reference">
+    <english>https://learn.microsoft.com/en-us/aspnet/core/security/cross-site-scripting?view=aspnetcore-7.0
+
+https://cwe.mitre.org/data/definitions/79.html</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="remediation">
+    <english>Before putting untrusted data inside an HTML element, ensure it's HTML encoded. HTML encoding takes characters such as &lt; and changes them into a safe form like &amp;lt;
+
+Before putting untrusted data into an HTML attribute, ensure it's HTML encoded. HTML attribute encoding is a superset of HTML encoding and encodes additional characters such as " and ".</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="remediationSample">
+    <english>public partial class XSSInjection : Controller
+    {
+        HtmlEncoder _htmlEncoder;
+        JavaScriptEncoder _javaScriptEncoder;
+        UrlEncoder _urlEncoder;
+
+    public HomeController(HtmlEncoder htmlEncoder,
+                          JavaScriptEncoder javascriptEncoder,
+                          UrlEncoder urlEncoder)
+    {
+        _htmlEncoder = htmlEncoder;
+        _javaScriptEncoder = javascriptEncoder;
+        _urlEncoder = urlEncoder;
+    }
+        //CWE-79 : Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+        //Chmx name : Stored_XSS
+        public void XssInjection(string currentUsername)
+        {
+            DbAccess conn = new DbAccess();
+            SqlCommand command = new SqlCommand("Select address from Users where User_Name=@user_name", conn.getConnection());
+            command.Parameters.AddWithValue("@user_name", currentUsername);
+
+            using (SqlDataReader reader = command.ExecuteReader())// ANOMALY RULE : {79, Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')}
+            {
+                if (reader.Read())
+                {
+                    ViewBag.Address = _htmlEncoder.Encode(reader["address"]);
+                }
+            }
+        }
+    }</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="sample">
+    <english>public partial class XSSInjection : Controller
+    {
+        //CWE-79 : Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+        //Chmx name : Stored_XSS
+        public void XssInjection(string currentUsername)
+        {
+            DbAccess conn = new DbAccess();
+            SqlCommand command = new SqlCommand("Select address from Users where User_Name=@user_name", conn.getConnection());
+            command.Parameters.AddWithValue("@user_name", currentUsername);
+
+            using (SqlDataReader reader = command.ExecuteReader())// ANOMALY RULE : {79, Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')}
+            {
+                if (reader.Read())
+                {
+                    ViewBag.Address = reader["address"];
+                }
+            }
+        }
+    }</english>
+  </metric>
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" section="total">
     <english>Number of .Net methods</english>
   </metric>
 </root>

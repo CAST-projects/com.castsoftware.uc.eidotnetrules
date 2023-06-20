@@ -63,4 +63,5 @@
   <metric id="2200090" type="quality-rule" originalName="Avoid exposed dangerous method" active="true" detached="false" ignored="false" />
   <metric id="2200092" type="quality-rule" originalName="Ensure to require anti-forgery token for POST, PUT, PATCH and DELETE methods" active="true" detached="false" ignored="false" />
   <metric id="2200094" type="quality-rule" originalName="Avoid setting encoding to UTF-7 in HTTP Response" active="true" detached="false" ignored="false" />
+  <metric id="2200096" type="quality-rule" originalName="Ensure to encode value in ViewBag coming from a query" active="true" detached="false" ignored="false" />
 </root>

@@ -575,14 +575,14 @@ namespace UnitTests.Properties {
         ///
         ///namespace UnitTests.TestSources
         ///{
-        ///    class AvoidSettingEncodingToUtf7InHttpResponse_Source : Controller
+        ///    public class AvoidSettingEncodingToUtf7InHttpResponse_Source : Controller
         ///    {
         ///        //CWE-79: Improper Neutralization of Input During Web Page Generation(&apos;Cross-site Scripting&apos;)
         ///        //Chmx name : UTF7_XSS
         ///        [HttpPost]
         ///        public ActionResult UTF7_XSS()
         ///        {
-        ///            Response.Chars [rest of string was truncated]&quot;;.
+        ///            Respons [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AvoidSettingEncodingToUtf7InHttpResponse_Source {
             get {
@@ -1013,6 +1013,31 @@ namespace UnitTests.Properties {
         internal static string EnsureToEnableColumnEncryptionInConnectionString_Source {
             get {
                 return ResourceManager.GetString("EnsureToEnableColumnEncryptionInConnectionString_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Web.Mvc;
+        ///using System.Data.SqlClient;
+        ///
+        ///namespace UnitTests.TestSources
+        ///{
+        ///    class EnsureToEncodeValueInViewBagComingFromAQuery_Source : Controller
+        ///    {
+        ///        //CWE-79 : Improper Neutralization of Input During Web Page Generation (&apos;Cross-site Scripting&apos;)
+        ///        //Chmx name : Stored_XSS
+        ///        public void XssInjection(string currentUsername)
+        ///        {
+        ///          [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EnsureToEncodeValueInViewBagComingFromAQuery_Source {
+            get {
+                return ResourceManager.GetString("EnsureToEncodeValueInViewBagComingFromAQuery_Source", resourceCulture);
             }
         }
         
