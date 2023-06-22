@@ -32,7 +32,6 @@ namespace CastDotNetExtension
         };
         private static HashSet<INamedTypeSymbol> _controllerSymbols = new HashSet<INamedTypeSymbol>();
         private static INamedTypeSymbol _dbDataReader = null;
-        private SyntaxNodeAnalysisContext _context;
         /// <summary>
         /// Initialize the QR with the given context and register all the syntax nodes
         /// to listen during the visit and provide a specific callback for each one
@@ -50,9 +49,9 @@ namespace CastDotNetExtension
             _dbDataReader = context.Compilation.GetTypeByMetadataName("System.Data.Common.DbDataReader") as INamedTypeSymbol;
         }
 
-        private bool IsRightResultFromQuery(ElementAccessExpressionSyntax eltAccess)
+        private bool IsRightResultFromQuery(SyntaxNodeAnalysisContext context, ElementAccessExpressionSyntax eltAccess)
         {
-            var expressionSymbolInfo = _context.SemanticModel.GetTypeInfo(eltAccess.Expression);
+            var expressionSymbolInfo = context.SemanticModel.GetTypeInfo(eltAccess.Expression);
             var expressionSymbol = expressionSymbolInfo.Type;
             if (expressionSymbol == null)
                 return false;
@@ -61,9 +60,9 @@ namespace CastDotNetExtension
             return false;
         }
 
-        private bool IsRightResultFromQuery(InvocationExpressionSyntax invoc)
+        private bool IsRightResultFromQuery(SyntaxNodeAnalysisContext context, InvocationExpressionSyntax invoc)
         {
-            var symbolInfo = _context.SemanticModel.GetSymbolInfo(invoc.Expression);
+            var symbolInfo = context.SemanticModel.GetSymbolInfo(invoc.Expression);
             var symb = symbolInfo.Symbol;
             if (symb == null)
                 return false;
@@ -73,9 +72,9 @@ namespace CastDotNetExtension
             return false;
         }
 
-        private bool IsRightResultFromQuery(IdentifierNameSyntax identifName)
+        private bool IsRightResultFromQuery(SyntaxNodeAnalysisContext context, IdentifierNameSyntax identifName)
         {
-            var symbol = _context.SemanticModel.GetSymbolInfo(identifName).Symbol;
+            var symbol = context.SemanticModel.GetSymbolInfo(identifName).Symbol;
             if (symbol == null)
                 return false;
             foreach (var syntaxRef in symbol.DeclaringSyntaxReferences)
@@ -93,15 +92,15 @@ namespace CastDotNetExtension
                 {
                     case SyntaxKind.ElementAccessExpression:
                         var eltAcc = initializer.Value as ElementAccessExpressionSyntax;
-                        isQueryRes = IsRightResultFromQuery(eltAcc);
+                        isQueryRes = IsRightResultFromQuery(context, eltAcc);
                         break;
                     case SyntaxKind.InvocationExpression:
                         var invoc = initializer.Value as InvocationExpressionSyntax;
-                        isQueryRes = IsRightResultFromQuery(invoc);
+                        isQueryRes = IsRightResultFromQuery(context, invoc);
                         break;
                     case SyntaxKind.IdentifierName:
                         var ident = initializer.Value as IdentifierNameSyntax;
-                        isQueryRes = IsRightResultFromQuery(ident);
+                        isQueryRes = IsRightResultFromQuery(context, ident);
                         break;
                     default:
                         break;
@@ -117,7 +116,6 @@ namespace CastDotNetExtension
         {
             try
             {
-                _context = context;
                 var node = context.Node as AssignmentExpressionSyntax;
                 if (node == null)
                     return;
@@ -153,15 +151,15 @@ namespace CastDotNetExtension
                 {
                     case SyntaxKind.ElementAccessExpression:
                         var eltAcc = node.Right as ElementAccessExpressionSyntax;
-                        isQueryResult = IsRightResultFromQuery(eltAcc);
+                        isQueryResult = IsRightResultFromQuery(context, eltAcc);
                         break;
                     case SyntaxKind.InvocationExpression:
                         var invoc = node.Right as InvocationExpressionSyntax;
-                        isQueryResult = IsRightResultFromQuery(invoc);
+                        isQueryResult = IsRightResultFromQuery(context, invoc);
                         break;
                     case SyntaxKind.IdentifierName:
                         var ident = node.Right as IdentifierNameSyntax;
-                        isQueryResult = IsRightResultFromQuery(ident);
+                        isQueryResult = IsRightResultFromQuery(context, ident);
                         break;
                     default:
                         break;
