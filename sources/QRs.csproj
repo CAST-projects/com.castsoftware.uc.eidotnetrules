@@ -97,11 +97,11 @@
     <Reference Include="log4net">
       <HintPath>Packages\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>Packages\4.2.0\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=4.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>Packages\4.7.0\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>Packages\4.2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <HintPath>Packages\4.7.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="netstandard" />
     <Reference Include="RoslynToolBox">
@@ -110,14 +110,14 @@
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Packages\4.2.0\System.Collections.Immutable.dll</HintPath>
+      <HintPath>Packages\4.7.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Reflection.Metadata">
-      <HintPath>Packages\4.2.0\System.Reflection.Metadata.dll</HintPath>
+      <HintPath>Packages\4.7.0\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>Packages\4.2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>Packages\4.7.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
