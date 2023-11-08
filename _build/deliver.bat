@@ -110,9 +110,9 @@ if not exist %PACKPATH% (
 )
 
 set GROOVYEXE=groovy
-%GROOVYEXE% --version 2>nul
+call %GROOVYEXE% --version 2>nul
 if errorlevel 1 set GROOVYEXE="%GROOVY_HOME%\bin\groovy"
-%GROOVYEXE% --version 2>nul
+call %GROOVYEXE% --version 2>nul
 if errorlevel 1 (
 	echo ERROR: no groovy executable available, need one!
 	goto endclean
