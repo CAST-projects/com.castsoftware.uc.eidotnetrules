@@ -39,7 +39,7 @@ namespace CastDotNetExtension {
             Context.SystemException = context.Compilation.GetTypeByMetadataName("System.Exception");
             Context.Interface_Exception = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices._Exception");
             if (null == Context.Interface_Exception) {
-               Log.WarnFormat(" Could not get type for System.Runtime.InteropServices._Exception while analyzing {0}.",
+               Log.DebugFormat(" Could not get type for System.Runtime.InteropServices._Exception while analyzing {0}.",
                   context.Compilation.AssemblyName);
             }
             if (null != Context.SystemException) {
@@ -59,20 +59,14 @@ namespace CastDotNetExtension {
       public override void HandleSemanticModelOps(SemanticModel semanticModel,
             IReadOnlyDictionary<OperationKind, IReadOnlyList<OperationDetails>> ops, bool lastBatch)
       {
-          //Log.InfoFormat("[TCR dbg] Run registered callback for rule: {0}", GetRuleName());
-          //Log.InfoFormat("[TCR dbg] begin HandleSemanticModelOps method");
          try {
             IReadOnlyList<OperationDetails> objCreationOps = ops[OperationKind.ObjectCreation];
-            //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem flag 1");
             if (objCreationOps.Any()) {
-                //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem flag 2");
                Context ctx = new Context(semanticModel.Compilation, semanticModel);
                ProcessObjectCreationOps(objCreationOps, ctx);
-               //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem flag 3");
                if (lastBatch) {
                   if (ctx.ExceptionVars.Any()) {
                      ctx.Throws = ops[OperationKind.Throw];
-                     //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem flag 4");
                      ProcessViolations(ctx);
                   }
                }
@@ -80,8 +74,6 @@ namespace CastDotNetExtension {
          } catch (Exception e) {
             Log.Warn(" Exception while processing operations for " + semanticModel.SyntaxTree.FilePath, e);
          }
-         //Log.InfoFormat("[TCR dbg] end HandleSemanticModelOps method");
-         //Log.InfoFormat("[TCR dbg] END Run registered callback for rule: {0}", GetRuleName());
       }
 
       private class Context
@@ -107,21 +99,20 @@ namespace CastDotNetExtension {
 
       private void ProcessViolations(Context ctx)
       {
-          //Log.InfoFormat("[TCR dbg] begin AvoidCreatingExceptionWithoutThrowingThem.Context.ProcessViolations method");
          foreach (var aThrowDetails in ctx.Throws) {
             var aThrow = aThrowDetails.Operation;
             if (!ctx.ExcludedThrows.Contains(aThrow) && 
-               1 == aThrow.Children.Count() && OperationKind.Conversion == aThrow.Children.ElementAt(0).Kind) {
-               if (1 == aThrow.Children.ElementAt(0).Children.Count()) {
+               1 == aThrow.ChildOperations.Count() && OperationKind.Conversion == aThrow.ChildOperations.First().Kind) {
+               if (1 == aThrow.ChildOperations.First().ChildOperations.Count()) {
                   ISymbol iSymbol = null;
-                  switch (aThrow.Children.ElementAt(0).Children.ElementAt(0).Kind) {
+                  switch (aThrow.ChildOperations.First().ChildOperations.First().Kind) {
                      case OperationKind.FieldReference: {
-                           var iFieldReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as IFieldReferenceOperation;
+                           var iFieldReference = aThrow.ChildOperations.First().ChildOperations.First() as IFieldReferenceOperation;
                            iSymbol = iFieldReference.Field;
                            break;
                         }
                      case OperationKind.LocalReference: {
-                           var iLocalReference = aThrow.Children.ElementAt(0).Children.ElementAt(0) as ILocalReferenceOperation;
+                           var iLocalReference = aThrow.ChildOperations.First().ChildOperations.First() as ILocalReferenceOperation;
                            iSymbol = iLocalReference.Local;
                            break;
                         }
@@ -133,25 +124,20 @@ namespace CastDotNetExtension {
                }
             }
          }
-         //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 5");
          foreach (var exceptionVar in ctx.ExceptionVars) {
             ISymbol violatingSymbol = exceptionVar is IFieldSymbol ? exceptionVar : exceptionVar.ContainingSymbol;
             var pos = exceptionVar.Locations.FirstOrDefault().GetMappedLineSpan();
             AddViolation(violatingSymbol, new[] { pos });
          }
-         //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 6");
          foreach (var iSymbol in ctx.Symbol2ViolatingNodes.Keys) {
             foreach (var pos in ctx.Symbol2ViolatingNodes[iSymbol]) {
                AddViolation(iSymbol, new[] { pos });
             }
          }
-         //Log.InfoFormat("[TCR dbg] end AvoidCreatingExceptionWithoutThrowingThem.Context.ProcessViolations method");
       }
 
       private static bool IsException(INamedTypeSymbol iTypeIn)
       {
-          //ILog Log = new LogWrapper("CAST.Analyzer.DotNet");
-          //Log.InfoFormat("[TCR dbg] begin AvoidCreatingExceptionWithoutThrowingThem.Context.IsException method");
          bool isException = false;
          if (SpecialType.None == iTypeIn.SpecialType) {
             isException = Context.SystemException == iTypeIn;
@@ -163,26 +149,22 @@ namespace CastDotNetExtension {
                   //Interlocked.Increment(ref Context.StoredCount);
                } else {
                   //little expensive => isException = ctx.Compilation.ClassifyConversion(iTypeIn, Context.SystemException).IsImplicit;
-                   //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 6");
                   //Interlocked.Increment(ref Context.ConversionCount);
                   var baseType = iTypeIn.BaseType;
                   while (null != baseType && Context.SystemException != baseType) {
                      baseType = baseType.BaseType;
-                     //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 7");
                   }
                   isException = null != baseType;
                   Context.TypeToIsException[iTypeIn] = isException;
                }
             }
          }
-         //Log.InfoFormat("[TCR dbg] end AvoidCreatingExceptionWithoutThrowingThem.Context.IsException method");
          return isException;
       }
 
       private static void ProcessObjectCreationOps(IReadOnlyList<OperationDetails> objCreationOps, Context ctx)
       {
           ILog Log = new LogWrapper("CAST.Analyzer.DotNet");
-          //Log.InfoFormat("[TCR dbg] begin AvoidCreatingExceptionWithoutThrowingThem.Context.ProcessObjectCreationOps method");
          foreach (var opDetail in objCreationOps) 
          {
              var objCreationOperation = opDetail.Operation;
@@ -197,7 +179,6 @@ namespace CastDotNetExtension {
              {
                  throwOp = objCreationOperation.Parent.Parent;
              }
-            //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 8");
             if (null == throwOp) {
                //var line = objCreationOperation.Syntax.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
                if (objCreationOperation.Type is INamedTypeSymbol) {
@@ -206,7 +187,6 @@ namespace CastDotNetExtension {
                         if (OperationKind.ExpressionStatement == objCreationOperation.Parent.Kind) {
                            var symbol = ctx.SemanticModel.GetEnclosingSymbol(objCreationOperation.Parent.Syntax.GetLocation().SourceSpan.Start);
                            if (null != symbol) {
-                               //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 9");
                               HashSet<FileLinePositionSpan> positions = null;
                               if (!ctx.Symbol2ViolatingNodes.TryGetValue(symbol, out positions)) {
                                  positions = new HashSet<FileLinePositionSpan>();
@@ -223,9 +203,7 @@ namespace CastDotNetExtension {
             } else {
                ctx.ExcludedThrows.Add(throwOp);
             }
-            //Log.InfoFormat("[TCR dbg] AvoidCreatingExceptionWithoutThrowingThem.Context flag 10");
          }
-         //Log.InfoFormat("[TCR dbg] end AvoidCreatingExceptionWithoutThrowingThem.Context.ProcessObjectCreationOps method");
       }
    }
 }
