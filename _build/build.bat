@@ -54,7 +54,7 @@ touch.exe %WKSP%\WorkspaceRootMarker
 if errorlevel 1 goto endclean
 
 @echo loading 64bits VC environment
-set FRAMEWORK=net6.0
+set FRAMEWORK=net8.0
 set VCVARSALL="C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvarsall.bat"
 if not exist %VCVARSALL% (
     @echo.
@@ -70,7 +70,7 @@ if errorlevel 1 goto endclean
 :: For Linux, we wait for 9 seconds in order to avoid nuget concurrence on the same file
 if not %RUNTIME%==win-x64 (TIMEOUT 9)
 
-set CMD=dotnet.exe publish %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR%  /p:PublishReadyToRun=true /p:Platform=x64 -nodeReuse:false
+set CMD=dotnet.exe publish %SRCDIR%\Sources\EICastQualityRules.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR%  /p:PublishReadyToRun=true /p:Platform=x64 --self-contained true
 @echo Executing %CMD%
 call %CMD%
 if errorlevel 1 goto endclean
@@ -158,7 +158,7 @@ popd
 :: ===================================================
 :: Build Tests packages
 :: ===================================================
-set CMD=dotnet.exe publish %SRCDIR%\UnitTests\UnitTests.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR% /p:PublishReadyToRun=true /p:Platform=x64 -nodeReuse:false
+set CMD=dotnet.exe publish %SRCDIR%\UnitTests\UnitTests.csproj --framework %FRAMEWORK% -c %TARGET% --runtime %RUNTIME% -o %BINDIR% /p:PublishReadyToRun=true /p:Platform=x64 --self-contained true
 @echo Executing %CMD%
 call %CMD%
 if errorlevel 1 goto endclean
